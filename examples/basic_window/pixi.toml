@@ -1,0 +1,15 @@
+[workspace]
+channels = [
+    "https://conda.modular.com/max",
+    "https://prefix.dev/conda-forge",
+]
+name = "basic-window"
+platforms = ["osx-arm64", "linux-64"]
+version = "0.1.0"
+preview = ["pixi-build"]
+
+[dependencies]
+mojo_raylib = { path = "../.." }
+
+[tasks.run]
+cmd = "mojo run main.mojo -Xlinker -lmojo_raylib_shim -Xlinker -lraylib"
