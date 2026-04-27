@@ -23,6 +23,8 @@
   </p>
 </div>
 
+Code generation is fully automated and provides 100% coverage, although not everything has been manually tested yet.
+
 ## Requirements
 
 - [Pixi](https://prefix.dev/) — installs everything else.
