@@ -12,4 +12,4 @@ preview = ["pixi-build"]
 mojo_raylib = { path = "../.." }
 
 [tasks.run]
-cmd = "mojo run main.mojo -Xlinker -lmojo_raylib_shim -Xlinker -lraylib"
+cmd = "mojo build main.mojo -Xlinker -L$CONDA_PREFIX/lib -Xlinker -lmojo_raylib_shim -Xlinker -lraylib -o .pixi/main && .pixi/main"

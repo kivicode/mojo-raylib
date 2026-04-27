@@ -14,3 +14,17 @@ channels = [
     "https://prefix.dev/pixi-build-backends",
     "https://prefix.dev/conda-forge",
 ]
+
+[package.build.config]
+# Limit rebuild detection to files this package actually depends on, so unrelated
+# repo edits don't re-trigger a full raylib + shim rebuild.
+# Only files listed here trigger a shim rebuild. Anything else in the repo
+# (mojo source, examples, READMEs) is irrelevant to the shim's output.
+extra-input-globs = [
+    "build.sh",
+    "recipe.yaml",
+    "../native/mojo_raylib_shim.c",
+    "../vendor/raylib/src/**",
+    "../vendor/raylib/CMakeLists.txt",
+    "../vendor/raylib/cmake/**",
+]

@@ -2,10 +2,15 @@ package:
   name: mojo-raylib-shim
   version: 0.1.0
 
-# Stage the whole repo so the build script can read native/, vendor/raylib.version,
-# etc. without copying. The recipe lives at shim/, so .. is the repo root.
+# Stage only what the shim needs. Staging the whole repo makes pixi re-copy
+# 1500+ files on every run; this version stays under ~1300 (raylib alone).
 source:
-  path: ..
+  - path: .
+  - path: ../native
+    target_directory: native
+  - path: ../vendor/raylib
+    target_directory: vendor/raylib
+    use_gitignore: false
 
 build:
   number: 0
