@@ -1,0 +1,16 @@
+[workspace]
+channels = ["https://prefix.dev/conda-forge"]
+platforms = ["osx-arm64", "linux-64"]
+preview = ["pixi-build"]
+
+[package]
+name = "mojo-raylib-shim"
+version = "0.1.0"
+
+[package.build.backend]
+name = "pixi-build-rattler-build"
+version = "0.*"
+channels = [
+    "https://prefix.dev/pixi-build-backends",
+    "https://prefix.dev/conda-forge",
+]

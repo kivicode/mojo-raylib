@@ -1,0 +1,23 @@
+package:
+  name: mojo-raylib-shim
+  version: 0.1.0
+
+# Stage the whole repo so the build script can read native/, vendor/raylib.version,
+# etc. without copying. The recipe lives at shim/, so .. is the repo root.
+source:
+  path: ..
+
+build:
+  number: 0
+  script:
+    interpreter: bash
+    file: build.sh
+
+requirements:
+  build:
+    - ${{ compiler('c') }}
+    - cmake
+    - ninja
+  host: []
+  run_exports:
+    - ${{ pin_subpackage('mojo-raylib-shim', upper_bound='x.x') }}
