@@ -4,6 +4,7 @@
 
 from std.ffi import CStringSlice, c_char, c_uchar, c_short, c_ushort, c_int, c_uint, c_long, c_ulong, c_float, c_double, external_call
 from std.memory.unsafe_pointer import UnsafePointer
+from std.memory import stack_allocation
 from std.collections import InlineArray
 
 

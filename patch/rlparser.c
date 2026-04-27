@@ -261,6 +261,7 @@ static void WriteMojoDocstring(FILE *outFile, const char *comment, int indentLev
 static void WriteMojoSignatureParams(FILE *outFile, const FunctionInfo *func, bool forCallbackParam);
 static void WriteMojoCallArgs(FILE *outFile, const FunctionInfo *func);
 static void WritePublicToRawArg(FILE *outFile, const char *cType, const char *expr);
+static void WritePublicToRawArgEx(FILE *outFile, const char *cType, const char *expr, bool exprIsPointer);
 static void WriteRawToPublicExpr(FILE *outFile, const char *cType, const char *expr);
 static void WritePublicTypeToRawExpr(FILE *outFile, const char *typeName, const char *expr);
 static void WriteRawTypeToPublicExpr(FILE *outFile, const char *typeName, const char *expr);
@@ -2131,6 +2132,7 @@ static void ExportMojoRawModule(const char *rootDir, const char *moduleName, con
         char returnType[256] = {0};
         char symbolName[128] = {0};
         bool useShim = IsRaymathApi() || NeedsShimWrapper(&funcs[i]);
+        bool returnsStruct = IsStructByValueParam(funcs[i].retType);
 
         if (IsUnsupportedFunction(&funcs[i]))
             continue;
@@ -2149,6 +2151,39 @@ static void ExportMojoRawModule(const char *rootDir, const char *moduleName, con
             fprintf(outFile, " -> %s", returnType);
         fprintf(outFile, ":\n");
         WriteMojoDocstring(outFile, funcs[i].desc, 4);
+
+        if (useShim && returnsStruct)
+        {
+            char pointee[256] = {0};
+            {
+                char retBase[128] = {0};
+                bool retIsConst = false;
+                int retPC = 0;
+                if (GetPointerBaseType(funcs[i].retType, retBase, sizeof(retBase), &retIsConst, &retPC))
+                    CopyTrimmed(pointee, retBase, sizeof(pointee));
+                else
+                    CopyTrimmed(pointee, funcs[i].retType, sizeof(pointee));
+            }
+            fprintf(outFile, "    var __out = stack_allocation[1, %s]()\n", pointee);
+            fprintf(outFile, "    external_call[\"%s\", NoneType](", symbolName);
+            for (int j = 0; j < funcs[i].paramCount; j++)
+            {
+                char escaped[64] = {0};
+                const char *pname = EscapeMojoKeyword(funcs[i].paramName[j], escaped, sizeof(escaped));
+                if (j > 0)
+                    fprintf(outFile, ", ");
+                if (IsStructByValueParam(funcs[i].paramType[j]))
+                    fprintf(outFile, "UnsafePointer(to=%s)", pname);
+                else
+                    fprintf(outFile, "%s", pname);
+            }
+            if (funcs[i].paramCount > 0)
+                fprintf(outFile, ", ");
+            fprintf(outFile, "__out)\n");
+            fprintf(outFile, "    return __out[]\n\n");
+            continue;
+        }
+
         fprintf(outFile, "    ");
         if (!IsVoidType(funcs[i].retType))
             fprintf(outFile, "return ");
@@ -2611,13 +2646,19 @@ static void ExportMojoPackageInit(const char *rootDir)
     fclose(outFile);
 }
 
-// Emit a "by-pointer" shim wrapper for a single function. Struct-by-value
-// params become `T *` (deref'd at the call site); other params pass through
-// unchanged. The wrapper is named `<prefix>_<funcName>` and invokes the
-// underlying C function `<funcName>`.
+// Emit a "by-pointer" shim wrapper for a single function:
+//   - struct-by-value params  →  `T *`, deref'd at the call site
+//   - struct-by-value return  →  void, written through an `__out` out-param
+//   - everything else passes through unchanged
 static void WriteShimWrapper(FILE *outFile, const FunctionInfo *func, const char *prefix)
 {
-    fprintf(outFile, "MOJO_RAYLIB_EXPORT %s %s_%s(", func->retType, prefix, func->name);
+    bool returnsStruct = IsStructByValueParam(func->retType);
+
+    if (returnsStruct)
+        fprintf(outFile, "MOJO_RAYLIB_EXPORT void %s_%s(", prefix, func->name);
+    else
+        fprintf(outFile, "MOJO_RAYLIB_EXPORT %s %s_%s(", func->retType, prefix, func->name);
+
     for (int j = 0; j < func->paramCount; j++)
     {
         bool byValStruct = IsStructByValueParam(func->paramType[j]);
@@ -2628,11 +2669,17 @@ static void WriteShimWrapper(FILE *outFile, const FunctionInfo *func, const char
         if (j < func->paramCount - 1)
             fprintf(outFile, ", ");
     }
+    if (returnsStruct)
+        fprintf(outFile, "%s%s *__out", (func->paramCount > 0) ? ", " : "", func->retType);
     fprintf(outFile, ")\n{\n");
-    if (!IsVoidType(func->retType))
+
+    if (returnsStruct)
+        fprintf(outFile, "    *__out = ");
+    else if (!IsVoidType(func->retType))
         fprintf(outFile, "    return ");
     else
         fprintf(outFile, "    ");
+
     fprintf(outFile, "%s(", func->name);
     for (int j = 0; j < func->paramCount; j++)
     {
@@ -3372,13 +3419,16 @@ static bool IsStructByValueParam(const char *cType)
     return IsKnownStructOrAlias(base);
 }
 
-// Mojo's external_call ABI for non-HFA aggregates >16 bytes (e.g. Camera2D)
-// silently corrupts arguments on arm64. Route any function that takes a
-// struct-by-value through a thin C shim that takes them by pointer.
+// Mojo's external_call ABI for non-HFA aggregates >16 bytes (e.g. Camera2D
+// in, RenderTexture2D out) either silently corrupts arguments or refuses to
+// compile. Route any function that takes or returns a struct-by-value through
+// a thin C shim that takes everything by pointer.
 static bool NeedsShimWrapper(const FunctionInfo *func)
 {
     if (IsUnsupportedFunction(func))
         return false;
+    if (IsStructByValueParam(func->retType))
+        return true;
     for (int i = 0; i < func->paramCount; i++)
     {
         if (IsStructByValueParam(func->paramType[i]))
@@ -3627,6 +3677,7 @@ static void WriteMojoCommonImports(FILE *outFile)
 {
     fprintf(outFile, "from std.ffi import CStringSlice, c_char, c_uchar, c_short, c_ushort, c_int, c_uint, c_long, c_ulong, c_float, c_double, external_call\n");
     fprintf(outFile, "from std.memory.unsafe_pointer import UnsafePointer\n");
+    fprintf(outFile, "from std.memory import stack_allocation\n");
     fprintf(outFile, "from std.collections import InlineArray\n\n");
 }
 
@@ -3701,6 +3752,17 @@ static void WriteMojoCallArgs(FILE *outFile, const FunctionInfo *func)
 
 static void WritePublicToRawArg(FILE *outFile, const char *cType, const char *expr)
 {
+    WritePublicToRawArgEx(outFile, cType, expr, false);
+}
+
+// `exprIsPointer` distinguishes the two contexts in which we convert a public
+// pointer-to-struct value into a raw pointer:
+//  - struct-field conversion (true): expr is already an UnsafePointer in Mojo,
+//    so we bitcast its pointee type directly.
+//  - mut/ref function-arg conversion (false): expr is a Mojo value bound by
+//    `mut`/`ref`; take its address first.
+static void WritePublicToRawArgEx(FILE *outFile, const char *cType, const char *expr, bool exprIsPointer)
+{
     char trimmed[128] = {0};
     char baseType[128] = {0};
     int pointerCount = 0;
@@ -3733,16 +3795,19 @@ static void WritePublicToRawArg(FILE *outFile, const char *cType, const char *ex
             fprintf(outFile, "CStringSlice(unsafe_from_ptr=%s.unsafe_ptr().bitcast[c_char]())", expr);
         else if (IsKnownStructOrAlias(trimmedBase))
         {
-            // For pointer aliases (e.g. ModelAnimPose = Transform*), keep the alias name
-            // so we cast to the same logical pointee. Resolving would lose a pointer level.
             char target[128] = {0};
             if (IsPointerAlias(trimmedBase))
                 CopyText(target, trimmedBase, sizeof(target));
             else
                 ResolveStructOrAliasName(trimmedBase, target, sizeof(target));
-            fprintf(outFile,
-                "UnsafePointer(to=%s).bitcast[raw_types.%s]().mut_cast[True]().as_any_origin()",
-                expr, target);
+            if (exprIsPointer)
+                fprintf(outFile,
+                    "%s.bitcast[raw_types.%s]().unsafe_mut_cast[True]().as_any_origin()",
+                    expr, target);
+            else
+                fprintf(outFile,
+                    "UnsafePointer(to=%s).bitcast[raw_types.%s]().unsafe_mut_cast[True]().as_any_origin()",
+                    expr, target);
         }
         else
             fprintf(outFile, "%s", expr);
@@ -3873,7 +3938,9 @@ static void WritePublicTypeToRawExpr(FILE *outFile, const char *typeName, const 
         fprintf(outFile, "%s.bitcast[raw_types.%s]()", expr, target);
         return;
     }
-    WritePublicToRawArg(outFile, typeName, expr);
+    // Struct-field conversion: expr is already a Mojo pointer/value matching
+    // the field's Mojo type, not a stand-in for a raw struct value.
+    WritePublicToRawArgEx(outFile, typeName, expr, true);
 }
 
 static void WriteRawTypeToPublicExpr(FILE *outFile, const char *typeName, const char *expr)
@@ -3897,7 +3964,7 @@ static void WriteSpanPointerToRawExpr(FILE *outFile, const char *pointerType, co
     char baseType[128] = {0};
     bool isConst = false;
     int pointerCount = 0;
-    const char *originSuffix = ".mut_cast[True]().as_any_origin()";
+    const char *originSuffix = ".unsafe_mut_cast[True]().as_any_origin()";
     (void)isConst;
 
     if (!GetPointerBaseType(pointerType, baseType, sizeof(baseType), &isConst, &pointerCount))
@@ -3907,7 +3974,7 @@ static void WriteSpanPointerToRawExpr(FILE *outFile, const char *pointerType, co
     }
 
     // Recompute origin suffix now that isConst is known.
-    originSuffix = ".mut_cast[True]().as_any_origin()";
+    originSuffix = ".unsafe_mut_cast[True]().as_any_origin()";
 
     if (IsKnownStructOrAlias(baseType))
     {

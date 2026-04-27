@@ -5,6 +5,7 @@
 from .types import *
 from std.ffi import CStringSlice, c_char, c_uchar, c_short, c_ushort, c_int, c_uint, c_long, c_ulong, c_float, c_double, external_call
 from std.memory.unsafe_pointer import UnsafePointer
+from std.memory import stack_allocation
 from std.collections import InlineArray
 
 
@@ -150,7 +151,9 @@ def GetCurrentMonitor() -> c_int:
 
 def GetMonitorPosition(monitor: c_int) -> Vector2:
     """Get specified monitor position"""
-    return external_call["GetMonitorPosition", Vector2](monitor)
+    var __out = stack_allocation[1, Vector2]()
+    external_call["mojo_raylib_GetMonitorPosition", NoneType](monitor, __out)
+    return __out[]
 
 def GetMonitorWidth(monitor: c_int) -> c_int:
     """Get specified monitor width (current video mode used by monitor)"""
@@ -174,11 +177,15 @@ def GetMonitorRefreshRate(monitor: c_int) -> c_int:
 
 def GetWindowPosition() -> Vector2:
     """Get window position XY on monitor"""
-    return external_call["GetWindowPosition", Vector2]()
+    var __out = stack_allocation[1, Vector2]()
+    external_call["mojo_raylib_GetWindowPosition", NoneType](__out)
+    return __out[]
 
 def GetWindowScaleDPI() -> Vector2:
     """Get window scale DPI factor"""
-    return external_call["GetWindowScaleDPI", Vector2]()
+    var __out = stack_allocation[1, Vector2]()
+    external_call["mojo_raylib_GetWindowScaleDPI", NoneType](__out)
+    return __out[]
 
 def GetMonitorName(monitor: c_int) -> UnsafePointer[c_char, MutAnyOrigin]:
     """Get the human-readable, UTF-8 encoded name of the specified monitor"""
@@ -194,7 +201,9 @@ def GetClipboardText() -> UnsafePointer[c_char, MutAnyOrigin]:
 
 def GetClipboardImage() -> Image:
     """Get clipboard image content"""
-    return external_call["GetClipboardImage", Image]()
+    var __out = stack_allocation[1, Image]()
+    external_call["mojo_raylib_GetClipboardImage", NoneType](__out)
+    return __out[]
 
 def EnableEventWaiting():
     """Enable waiting for events on EndDrawing(), no automatic event polling"""
@@ -298,7 +307,9 @@ def EndVrStereoMode():
 
 def LoadVrStereoConfig(device: VrDeviceInfo) -> VrStereoConfig:
     """Load VR stereo config for VR simulator device parameters"""
-    return external_call["mojo_raylib_LoadVrStereoConfig", VrStereoConfig](UnsafePointer(to=device))
+    var __out = stack_allocation[1, VrStereoConfig]()
+    external_call["mojo_raylib_LoadVrStereoConfig", NoneType](UnsafePointer(to=device), __out)
+    return __out[]
 
 def UnloadVrStereoConfig(config: VrStereoConfig):
     """Unload VR stereo config"""
@@ -306,11 +317,15 @@ def UnloadVrStereoConfig(config: VrStereoConfig):
 
 def LoadShader(vsFileName: CStringSlice, fsFileName: CStringSlice) -> Shader:
     """Load shader from files and bind default locations"""
-    return external_call["LoadShader", Shader](vsFileName, fsFileName)
+    var __out = stack_allocation[1, Shader]()
+    external_call["mojo_raylib_LoadShader", NoneType](vsFileName, fsFileName, __out)
+    return __out[]
 
 def LoadShaderFromMemory(vsCode: CStringSlice, fsCode: CStringSlice) -> Shader:
     """Load shader from code strings and bind default locations"""
-    return external_call["LoadShaderFromMemory", Shader](vsCode, fsCode)
+    var __out = stack_allocation[1, Shader]()
+    external_call["mojo_raylib_LoadShaderFromMemory", NoneType](vsCode, fsCode, __out)
+    return __out[]
 
 def IsShaderValid(shader: Shader) -> Bool:
     """Check if a shader is valid (loaded on GPU)"""
@@ -346,35 +361,51 @@ def UnloadShader(shader: Shader):
 
 def GetScreenToWorldRay(position: Vector2, camera: Camera) -> Ray:
     """Get a ray trace from screen position (i.e mouse)"""
-    return external_call["mojo_raylib_GetScreenToWorldRay", Ray](UnsafePointer(to=position), UnsafePointer(to=camera))
+    var __out = stack_allocation[1, Ray]()
+    external_call["mojo_raylib_GetScreenToWorldRay", NoneType](UnsafePointer(to=position), UnsafePointer(to=camera), __out)
+    return __out[]
 
 def GetScreenToWorldRayEx(position: Vector2, camera: Camera, width: c_int, height: c_int) -> Ray:
     """Get a ray trace from screen position (i.e mouse) in a viewport"""
-    return external_call["mojo_raylib_GetScreenToWorldRayEx", Ray](UnsafePointer(to=position), UnsafePointer(to=camera), width, height)
+    var __out = stack_allocation[1, Ray]()
+    external_call["mojo_raylib_GetScreenToWorldRayEx", NoneType](UnsafePointer(to=position), UnsafePointer(to=camera), width, height, __out)
+    return __out[]
 
 def GetWorldToScreen(position: Vector3, camera: Camera) -> Vector2:
     """Get the screen space position for a 3d world space position"""
-    return external_call["mojo_raylib_GetWorldToScreen", Vector2](UnsafePointer(to=position), UnsafePointer(to=camera))
+    var __out = stack_allocation[1, Vector2]()
+    external_call["mojo_raylib_GetWorldToScreen", NoneType](UnsafePointer(to=position), UnsafePointer(to=camera), __out)
+    return __out[]
 
 def GetWorldToScreenEx(position: Vector3, camera: Camera, width: c_int, height: c_int) -> Vector2:
     """Get size position for a 3d world space position"""
-    return external_call["mojo_raylib_GetWorldToScreenEx", Vector2](UnsafePointer(to=position), UnsafePointer(to=camera), width, height)
+    var __out = stack_allocation[1, Vector2]()
+    external_call["mojo_raylib_GetWorldToScreenEx", NoneType](UnsafePointer(to=position), UnsafePointer(to=camera), width, height, __out)
+    return __out[]
 
 def GetWorldToScreen2D(position: Vector2, camera: Camera2D) -> Vector2:
     """Get the screen space position for a 2d camera world space position"""
-    return external_call["mojo_raylib_GetWorldToScreen2D", Vector2](UnsafePointer(to=position), UnsafePointer(to=camera))
+    var __out = stack_allocation[1, Vector2]()
+    external_call["mojo_raylib_GetWorldToScreen2D", NoneType](UnsafePointer(to=position), UnsafePointer(to=camera), __out)
+    return __out[]
 
 def GetScreenToWorld2D(position: Vector2, camera: Camera2D) -> Vector2:
     """Get the world space position for a 2d camera screen space position"""
-    return external_call["mojo_raylib_GetScreenToWorld2D", Vector2](UnsafePointer(to=position), UnsafePointer(to=camera))
+    var __out = stack_allocation[1, Vector2]()
+    external_call["mojo_raylib_GetScreenToWorld2D", NoneType](UnsafePointer(to=position), UnsafePointer(to=camera), __out)
+    return __out[]
 
 def GetCameraMatrix(camera: Camera) -> Matrix:
     """Get camera transform matrix (view matrix)"""
-    return external_call["mojo_raylib_GetCameraMatrix", Matrix](UnsafePointer(to=camera))
+    var __out = stack_allocation[1, Matrix]()
+    external_call["mojo_raylib_GetCameraMatrix", NoneType](UnsafePointer(to=camera), __out)
+    return __out[]
 
 def GetCameraMatrix2D(camera: Camera2D) -> Matrix:
     """Get camera 2d transform matrix"""
-    return external_call["mojo_raylib_GetCameraMatrix2D", Matrix](UnsafePointer(to=camera))
+    var __out = stack_allocation[1, Matrix]()
+    external_call["mojo_raylib_GetCameraMatrix2D", NoneType](UnsafePointer(to=camera), __out)
+    return __out[]
 
 def SetTargetFPS(fps: c_int):
     """Set target FPS (maximum)"""
@@ -586,11 +617,15 @@ def IsFileNameValid(fileName: CStringSlice) -> Bool:
 
 def LoadDirectoryFiles(dirPath: CStringSlice) -> FilePathList:
     """Load directory filepaths, files and directories, no subdirs scan"""
-    return external_call["LoadDirectoryFiles", FilePathList](dirPath)
+    var __out = stack_allocation[1, FilePathList]()
+    external_call["mojo_raylib_LoadDirectoryFiles", NoneType](dirPath, __out)
+    return __out[]
 
 def LoadDirectoryFilesEx(basePath: CStringSlice, filter: CStringSlice, scanSubdirs: Bool) -> FilePathList:
     """Load directory filepaths with extension filtering and subdir scan; some filters available: '*.*', 'FILES*', 'DIRS*'"""
-    return external_call["LoadDirectoryFilesEx", FilePathList](basePath, filter, scanSubdirs)
+    var __out = stack_allocation[1, FilePathList]()
+    external_call["mojo_raylib_LoadDirectoryFilesEx", NoneType](basePath, filter, scanSubdirs, __out)
+    return __out[]
 
 def UnloadDirectoryFiles(files: FilePathList):
     """Unload filepaths"""
@@ -602,7 +637,9 @@ def IsFileDropped() -> Bool:
 
 def LoadDroppedFiles() -> FilePathList:
     """Load dropped filepaths"""
-    return external_call["LoadDroppedFiles", FilePathList]()
+    var __out = stack_allocation[1, FilePathList]()
+    external_call["mojo_raylib_LoadDroppedFiles", NoneType](__out)
+    return __out[]
 
 def UnloadDroppedFiles(files: FilePathList):
     """Unload dropped filepaths"""
@@ -650,7 +687,9 @@ def ComputeSHA256(data: UnsafePointer[c_uchar, MutAnyOrigin], dataSize: c_int) -
 
 def LoadAutomationEventList(fileName: CStringSlice) -> AutomationEventList:
     """Load automation events list from file, NULL for empty list, capacity = MAX_AUTOMATION_EVENTS"""
-    return external_call["LoadAutomationEventList", AutomationEventList](fileName)
+    var __out = stack_allocation[1, AutomationEventList]()
+    external_call["mojo_raylib_LoadAutomationEventList", NoneType](fileName, __out)
+    return __out[]
 
 def UnloadAutomationEventList(list: AutomationEventList):
     """Unload automation events list from file"""
@@ -786,11 +825,15 @@ def GetMouseY() -> c_int:
 
 def GetMousePosition() -> Vector2:
     """Get mouse position XY"""
-    return external_call["GetMousePosition", Vector2]()
+    var __out = stack_allocation[1, Vector2]()
+    external_call["mojo_raylib_GetMousePosition", NoneType](__out)
+    return __out[]
 
 def GetMouseDelta() -> Vector2:
     """Get mouse delta between frames"""
-    return external_call["GetMouseDelta", Vector2]()
+    var __out = stack_allocation[1, Vector2]()
+    external_call["mojo_raylib_GetMouseDelta", NoneType](__out)
+    return __out[]
 
 def SetMousePosition(x: c_int, y: c_int):
     """Set mouse position XY"""
@@ -810,7 +853,9 @@ def GetMouseWheelMove() -> c_float:
 
 def GetMouseWheelMoveV() -> Vector2:
     """Get mouse wheel movement for both X and Y"""
-    return external_call["GetMouseWheelMoveV", Vector2]()
+    var __out = stack_allocation[1, Vector2]()
+    external_call["mojo_raylib_GetMouseWheelMoveV", NoneType](__out)
+    return __out[]
 
 def SetMouseCursor(cursor: c_int):
     """Set mouse cursor"""
@@ -826,7 +871,9 @@ def GetTouchY() -> c_int:
 
 def GetTouchPosition(index: c_int) -> Vector2:
     """Get touch position XY for a touch point index (relative to screen size)"""
-    return external_call["GetTouchPosition", Vector2](index)
+    var __out = stack_allocation[1, Vector2]()
+    external_call["mojo_raylib_GetTouchPosition", NoneType](index, __out)
+    return __out[]
 
 def GetTouchPointId(index: c_int) -> c_int:
     """Get touch point identifier for given index"""
@@ -854,7 +901,9 @@ def GetGestureHoldDuration() -> c_float:
 
 def GetGestureDragVector() -> Vector2:
     """Get gesture drag vector"""
-    return external_call["GetGestureDragVector", Vector2]()
+    var __out = stack_allocation[1, Vector2]()
+    external_call["mojo_raylib_GetGestureDragVector", NoneType](__out)
+    return __out[]
 
 def GetGestureDragAngle() -> c_float:
     """Get gesture drag angle"""
@@ -862,7 +911,9 @@ def GetGestureDragAngle() -> c_float:
 
 def GetGesturePinchVector() -> Vector2:
     """Get gesture pinch delta"""
-    return external_call["GetGesturePinchVector", Vector2]()
+    var __out = stack_allocation[1, Vector2]()
+    external_call["mojo_raylib_GetGesturePinchVector", NoneType](__out)
+    return __out[]
 
 def GetGesturePinchAngle() -> c_float:
     """Get gesture pinch angle"""
@@ -882,11 +933,15 @@ def SetShapesTexture(texture: Texture2D, source: Rectangle):
 
 def GetShapesTexture() -> Texture2D:
     """Get texture that is used for shapes drawing"""
-    return external_call["GetShapesTexture", Texture2D]()
+    var __out = stack_allocation[1, Texture2D]()
+    external_call["mojo_raylib_GetShapesTexture", NoneType](__out)
+    return __out[]
 
 def GetShapesTextureRectangle() -> Rectangle:
     """Get texture source rectangle that is used for shapes drawing"""
-    return external_call["GetShapesTextureRectangle", Rectangle]()
+    var __out = stack_allocation[1, Rectangle]()
+    external_call["mojo_raylib_GetShapesTextureRectangle", NoneType](__out)
+    return __out[]
 
 def DrawPixel(posX: c_int, posY: c_int, color: Color):
     """Draw a pixel using geometry [Can be slow, use with care]"""
@@ -1090,23 +1145,33 @@ def DrawSplineSegmentBezierCubic(p1: Vector2, c2: Vector2, c3: Vector2, p4: Vect
 
 def GetSplinePointLinear(startPos: Vector2, endPos: Vector2, t: c_float) -> Vector2:
     """Get (evaluate) spline point: Linear"""
-    return external_call["mojo_raylib_GetSplinePointLinear", Vector2](UnsafePointer(to=startPos), UnsafePointer(to=endPos), t)
+    var __out = stack_allocation[1, Vector2]()
+    external_call["mojo_raylib_GetSplinePointLinear", NoneType](UnsafePointer(to=startPos), UnsafePointer(to=endPos), t, __out)
+    return __out[]
 
 def GetSplinePointBasis(p1: Vector2, p2: Vector2, p3: Vector2, p4: Vector2, t: c_float) -> Vector2:
     """Get (evaluate) spline point: B-Spline"""
-    return external_call["mojo_raylib_GetSplinePointBasis", Vector2](UnsafePointer(to=p1), UnsafePointer(to=p2), UnsafePointer(to=p3), UnsafePointer(to=p4), t)
+    var __out = stack_allocation[1, Vector2]()
+    external_call["mojo_raylib_GetSplinePointBasis", NoneType](UnsafePointer(to=p1), UnsafePointer(to=p2), UnsafePointer(to=p3), UnsafePointer(to=p4), t, __out)
+    return __out[]
 
 def GetSplinePointCatmullRom(p1: Vector2, p2: Vector2, p3: Vector2, p4: Vector2, t: c_float) -> Vector2:
     """Get (evaluate) spline point: Catmull-Rom"""
-    return external_call["mojo_raylib_GetSplinePointCatmullRom", Vector2](UnsafePointer(to=p1), UnsafePointer(to=p2), UnsafePointer(to=p3), UnsafePointer(to=p4), t)
+    var __out = stack_allocation[1, Vector2]()
+    external_call["mojo_raylib_GetSplinePointCatmullRom", NoneType](UnsafePointer(to=p1), UnsafePointer(to=p2), UnsafePointer(to=p3), UnsafePointer(to=p4), t, __out)
+    return __out[]
 
 def GetSplinePointBezierQuad(p1: Vector2, c2: Vector2, p3: Vector2, t: c_float) -> Vector2:
     """Get (evaluate) spline point: Quadratic Bezier"""
-    return external_call["mojo_raylib_GetSplinePointBezierQuad", Vector2](UnsafePointer(to=p1), UnsafePointer(to=c2), UnsafePointer(to=p3), t)
+    var __out = stack_allocation[1, Vector2]()
+    external_call["mojo_raylib_GetSplinePointBezierQuad", NoneType](UnsafePointer(to=p1), UnsafePointer(to=c2), UnsafePointer(to=p3), t, __out)
+    return __out[]
 
 def GetSplinePointBezierCubic(p1: Vector2, c2: Vector2, c3: Vector2, p4: Vector2, t: c_float) -> Vector2:
     """Get (evaluate) spline point: Cubic Bezier"""
-    return external_call["mojo_raylib_GetSplinePointBezierCubic", Vector2](UnsafePointer(to=p1), UnsafePointer(to=c2), UnsafePointer(to=c3), UnsafePointer(to=p4), t)
+    var __out = stack_allocation[1, Vector2]()
+    external_call["mojo_raylib_GetSplinePointBezierCubic", NoneType](UnsafePointer(to=p1), UnsafePointer(to=c2), UnsafePointer(to=c3), UnsafePointer(to=p4), t, __out)
+    return __out[]
 
 def CheckCollisionRecs(rec1: Rectangle, rec2: Rectangle) -> Bool:
     """Check collision between two rectangles"""
@@ -1150,35 +1215,51 @@ def CheckCollisionLines(startPos1: Vector2, endPos1: Vector2, startPos2: Vector2
 
 def GetCollisionRec(rec1: Rectangle, rec2: Rectangle) -> Rectangle:
     """Get collision rectangle for two rectangles collision"""
-    return external_call["mojo_raylib_GetCollisionRec", Rectangle](UnsafePointer(to=rec1), UnsafePointer(to=rec2))
+    var __out = stack_allocation[1, Rectangle]()
+    external_call["mojo_raylib_GetCollisionRec", NoneType](UnsafePointer(to=rec1), UnsafePointer(to=rec2), __out)
+    return __out[]
 
 def LoadImage(fileName: CStringSlice) -> Image:
     """Load image from file into CPU memory (RAM)"""
-    return external_call["LoadImage", Image](fileName)
+    var __out = stack_allocation[1, Image]()
+    external_call["mojo_raylib_LoadImage", NoneType](fileName, __out)
+    return __out[]
 
 def LoadImageRaw(fileName: CStringSlice, width: c_int, height: c_int, format: c_int, headerSize: c_int) -> Image:
     """Load image from RAW file data"""
-    return external_call["LoadImageRaw", Image](fileName, width, height, format, headerSize)
+    var __out = stack_allocation[1, Image]()
+    external_call["mojo_raylib_LoadImageRaw", NoneType](fileName, width, height, format, headerSize, __out)
+    return __out[]
 
 def LoadImageAnim(fileName: CStringSlice, frames: UnsafePointer[c_int, MutAnyOrigin]) -> Image:
     """Load image sequence from file (frames appended to image.data)"""
-    return external_call["LoadImageAnim", Image](fileName, frames)
+    var __out = stack_allocation[1, Image]()
+    external_call["mojo_raylib_LoadImageAnim", NoneType](fileName, frames, __out)
+    return __out[]
 
 def LoadImageAnimFromMemory(fileType: CStringSlice, fileData: UnsafePointer[c_uchar, MutAnyOrigin], dataSize: c_int, frames: UnsafePointer[c_int, MutAnyOrigin]) -> Image:
     """Load image sequence from memory buffer"""
-    return external_call["LoadImageAnimFromMemory", Image](fileType, fileData, dataSize, frames)
+    var __out = stack_allocation[1, Image]()
+    external_call["mojo_raylib_LoadImageAnimFromMemory", NoneType](fileType, fileData, dataSize, frames, __out)
+    return __out[]
 
 def LoadImageFromMemory(fileType: CStringSlice, fileData: UnsafePointer[c_uchar, MutAnyOrigin], dataSize: c_int) -> Image:
     """Load image from memory buffer, fileType refers to extension: i.e. '.png'"""
-    return external_call["LoadImageFromMemory", Image](fileType, fileData, dataSize)
+    var __out = stack_allocation[1, Image]()
+    external_call["mojo_raylib_LoadImageFromMemory", NoneType](fileType, fileData, dataSize, __out)
+    return __out[]
 
 def LoadImageFromTexture(texture: Texture2D) -> Image:
     """Load image from GPU texture data"""
-    return external_call["mojo_raylib_LoadImageFromTexture", Image](UnsafePointer(to=texture))
+    var __out = stack_allocation[1, Image]()
+    external_call["mojo_raylib_LoadImageFromTexture", NoneType](UnsafePointer(to=texture), __out)
+    return __out[]
 
 def LoadImageFromScreen() -> Image:
     """Load image from screen buffer and (screenshot)"""
-    return external_call["LoadImageFromScreen", Image]()
+    var __out = stack_allocation[1, Image]()
+    external_call["mojo_raylib_LoadImageFromScreen", NoneType](__out)
+    return __out[]
 
 def IsImageValid(image: Image) -> Bool:
     """Check if an image is valid (data and parameters)"""
@@ -1202,59 +1283,87 @@ def ExportImageAsCode(image: Image, fileName: CStringSlice) -> Bool:
 
 def GenImageColor(width: c_int, height: c_int, color: Color) -> Image:
     """Generate image: plain color"""
-    return external_call["mojo_raylib_GenImageColor", Image](width, height, UnsafePointer(to=color))
+    var __out = stack_allocation[1, Image]()
+    external_call["mojo_raylib_GenImageColor", NoneType](width, height, UnsafePointer(to=color), __out)
+    return __out[]
 
 def GenImageGradientLinear(width: c_int, height: c_int, direction: c_int, start: Color, end: Color) -> Image:
     """Generate image: linear gradient, direction in degrees [0..360], 0=Vertical gradient"""
-    return external_call["mojo_raylib_GenImageGradientLinear", Image](width, height, direction, UnsafePointer(to=start), UnsafePointer(to=end))
+    var __out = stack_allocation[1, Image]()
+    external_call["mojo_raylib_GenImageGradientLinear", NoneType](width, height, direction, UnsafePointer(to=start), UnsafePointer(to=end), __out)
+    return __out[]
 
 def GenImageGradientRadial(width: c_int, height: c_int, density: c_float, inner: Color, outer: Color) -> Image:
     """Generate image: radial gradient"""
-    return external_call["mojo_raylib_GenImageGradientRadial", Image](width, height, density, UnsafePointer(to=inner), UnsafePointer(to=outer))
+    var __out = stack_allocation[1, Image]()
+    external_call["mojo_raylib_GenImageGradientRadial", NoneType](width, height, density, UnsafePointer(to=inner), UnsafePointer(to=outer), __out)
+    return __out[]
 
 def GenImageGradientSquare(width: c_int, height: c_int, density: c_float, inner: Color, outer: Color) -> Image:
     """Generate image: square gradient"""
-    return external_call["mojo_raylib_GenImageGradientSquare", Image](width, height, density, UnsafePointer(to=inner), UnsafePointer(to=outer))
+    var __out = stack_allocation[1, Image]()
+    external_call["mojo_raylib_GenImageGradientSquare", NoneType](width, height, density, UnsafePointer(to=inner), UnsafePointer(to=outer), __out)
+    return __out[]
 
 def GenImageChecked(width: c_int, height: c_int, checksX: c_int, checksY: c_int, col1: Color, col2: Color) -> Image:
     """Generate image: checked"""
-    return external_call["mojo_raylib_GenImageChecked", Image](width, height, checksX, checksY, UnsafePointer(to=col1), UnsafePointer(to=col2))
+    var __out = stack_allocation[1, Image]()
+    external_call["mojo_raylib_GenImageChecked", NoneType](width, height, checksX, checksY, UnsafePointer(to=col1), UnsafePointer(to=col2), __out)
+    return __out[]
 
 def GenImageWhiteNoise(width: c_int, height: c_int, factor: c_float) -> Image:
     """Generate image: white noise"""
-    return external_call["GenImageWhiteNoise", Image](width, height, factor)
+    var __out = stack_allocation[1, Image]()
+    external_call["mojo_raylib_GenImageWhiteNoise", NoneType](width, height, factor, __out)
+    return __out[]
 
 def GenImagePerlinNoise(width: c_int, height: c_int, offsetX: c_int, offsetY: c_int, scale: c_float) -> Image:
     """Generate image: perlin noise"""
-    return external_call["GenImagePerlinNoise", Image](width, height, offsetX, offsetY, scale)
+    var __out = stack_allocation[1, Image]()
+    external_call["mojo_raylib_GenImagePerlinNoise", NoneType](width, height, offsetX, offsetY, scale, __out)
+    return __out[]
 
 def GenImageCellular(width: c_int, height: c_int, tileSize: c_int) -> Image:
     """Generate image: cellular algorithm, bigger tileSize means bigger cells"""
-    return external_call["GenImageCellular", Image](width, height, tileSize)
+    var __out = stack_allocation[1, Image]()
+    external_call["mojo_raylib_GenImageCellular", NoneType](width, height, tileSize, __out)
+    return __out[]
 
 def GenImageText(width: c_int, height: c_int, text: CStringSlice) -> Image:
     """Generate image: grayscale image from text data"""
-    return external_call["GenImageText", Image](width, height, text)
+    var __out = stack_allocation[1, Image]()
+    external_call["mojo_raylib_GenImageText", NoneType](width, height, text, __out)
+    return __out[]
 
 def ImageCopy(image: Image) -> Image:
     """Create an image duplicate (useful for transformations)"""
-    return external_call["mojo_raylib_ImageCopy", Image](UnsafePointer(to=image))
+    var __out = stack_allocation[1, Image]()
+    external_call["mojo_raylib_ImageCopy", NoneType](UnsafePointer(to=image), __out)
+    return __out[]
 
 def ImageFromImage(image: Image, rec: Rectangle) -> Image:
     """Create an image from another image piece"""
-    return external_call["mojo_raylib_ImageFromImage", Image](UnsafePointer(to=image), UnsafePointer(to=rec))
+    var __out = stack_allocation[1, Image]()
+    external_call["mojo_raylib_ImageFromImage", NoneType](UnsafePointer(to=image), UnsafePointer(to=rec), __out)
+    return __out[]
 
 def ImageFromChannel(image: Image, selectedChannel: c_int) -> Image:
     """Create an image from a selected channel of another image (GRAYSCALE)"""
-    return external_call["mojo_raylib_ImageFromChannel", Image](UnsafePointer(to=image), selectedChannel)
+    var __out = stack_allocation[1, Image]()
+    external_call["mojo_raylib_ImageFromChannel", NoneType](UnsafePointer(to=image), selectedChannel, __out)
+    return __out[]
 
 def ImageText(text: CStringSlice, fontSize: c_int, color: Color) -> Image:
     """Create an image from text (default font)"""
-    return external_call["mojo_raylib_ImageText", Image](text, fontSize, UnsafePointer(to=color))
+    var __out = stack_allocation[1, Image]()
+    external_call["mojo_raylib_ImageText", NoneType](text, fontSize, UnsafePointer(to=color), __out)
+    return __out[]
 
 def ImageTextEx(font: Font, text: CStringSlice, fontSize: c_float, spacing: c_float, tint: Color) -> Image:
     """Create an image from text (custom sprite font)"""
-    return external_call["mojo_raylib_ImageTextEx", Image](UnsafePointer(to=font), text, fontSize, spacing, UnsafePointer(to=tint))
+    var __out = stack_allocation[1, Image]()
+    external_call["mojo_raylib_ImageTextEx", NoneType](UnsafePointer(to=font), text, fontSize, spacing, UnsafePointer(to=tint), __out)
+    return __out[]
 
 def ImageFormat(image: UnsafePointer[Image, MutAnyOrigin], newFormat: c_int):
     """Convert image data to desired format"""
@@ -1374,11 +1483,15 @@ def UnloadImagePalette(colors: UnsafePointer[Color, MutAnyOrigin]):
 
 def GetImageAlphaBorder(image: Image, threshold: c_float) -> Rectangle:
     """Get image alpha border rectangle"""
-    return external_call["mojo_raylib_GetImageAlphaBorder", Rectangle](UnsafePointer(to=image), threshold)
+    var __out = stack_allocation[1, Rectangle]()
+    external_call["mojo_raylib_GetImageAlphaBorder", NoneType](UnsafePointer(to=image), threshold, __out)
+    return __out[]
 
 def GetImageColor(image: Image, x: c_int, y: c_int) -> Color:
     """Get image pixel color at (x, y) position"""
-    return external_call["mojo_raylib_GetImageColor", Color](UnsafePointer(to=image), x, y)
+    var __out = stack_allocation[1, Color]()
+    external_call["mojo_raylib_GetImageColor", NoneType](UnsafePointer(to=image), x, y, __out)
+    return __out[]
 
 def ImageClearBackground(dst: UnsafePointer[Image, MutAnyOrigin], color: Color):
     """Clear image background with given color"""
@@ -1470,19 +1583,27 @@ def ImageDrawTextEx(dst: UnsafePointer[Image, MutAnyOrigin], font: Font, text: C
 
 def LoadTexture(fileName: CStringSlice) -> Texture2D:
     """Load texture from file into GPU memory (VRAM)"""
-    return external_call["LoadTexture", Texture2D](fileName)
+    var __out = stack_allocation[1, Texture2D]()
+    external_call["mojo_raylib_LoadTexture", NoneType](fileName, __out)
+    return __out[]
 
 def LoadTextureFromImage(image: Image) -> Texture2D:
     """Load texture from image data"""
-    return external_call["mojo_raylib_LoadTextureFromImage", Texture2D](UnsafePointer(to=image))
+    var __out = stack_allocation[1, Texture2D]()
+    external_call["mojo_raylib_LoadTextureFromImage", NoneType](UnsafePointer(to=image), __out)
+    return __out[]
 
 def LoadTextureCubemap(image: Image, layout: c_int) -> TextureCubemap:
     """Load cubemap from image, multiple image cubemap layouts supported"""
-    return external_call["mojo_raylib_LoadTextureCubemap", TextureCubemap](UnsafePointer(to=image), layout)
+    var __out = stack_allocation[1, TextureCubemap]()
+    external_call["mojo_raylib_LoadTextureCubemap", NoneType](UnsafePointer(to=image), layout, __out)
+    return __out[]
 
 def LoadRenderTexture(width: c_int, height: c_int) -> RenderTexture2D:
     """Load texture for rendering (framebuffer)"""
-    return external_call["LoadRenderTexture", RenderTexture2D](width, height)
+    var __out = stack_allocation[1, RenderTexture2D]()
+    external_call["mojo_raylib_LoadRenderTexture", NoneType](width, height, __out)
+    return __out[]
 
 def IsTextureValid(texture: Texture2D) -> Bool:
     """Check if a texture is valid (loaded in GPU)"""
@@ -1550,7 +1671,9 @@ def ColorIsEqual(col1: Color, col2: Color) -> Bool:
 
 def Fade(color: Color, alpha: c_float) -> Color:
     """Get color with alpha applied, alpha goes from 0.0f to 1.0f"""
-    return external_call["mojo_raylib_Fade", Color](UnsafePointer(to=color), alpha)
+    var __out = stack_allocation[1, Color]()
+    external_call["mojo_raylib_Fade", NoneType](UnsafePointer(to=color), alpha, __out)
+    return __out[]
 
 def ColorToInt(color: Color) -> c_int:
     """Get hexadecimal value for a Color (0xRRGGBBAA)"""
@@ -1558,51 +1681,75 @@ def ColorToInt(color: Color) -> c_int:
 
 def ColorNormalize(color: Color) -> Vector4:
     """Get Color normalized as float [0..1]"""
-    return external_call["mojo_raylib_ColorNormalize", Vector4](UnsafePointer(to=color))
+    var __out = stack_allocation[1, Vector4]()
+    external_call["mojo_raylib_ColorNormalize", NoneType](UnsafePointer(to=color), __out)
+    return __out[]
 
 def ColorFromNormalized(normalized: Vector4) -> Color:
     """Get Color from normalized values [0..1]"""
-    return external_call["mojo_raylib_ColorFromNormalized", Color](UnsafePointer(to=normalized))
+    var __out = stack_allocation[1, Color]()
+    external_call["mojo_raylib_ColorFromNormalized", NoneType](UnsafePointer(to=normalized), __out)
+    return __out[]
 
 def ColorToHSV(color: Color) -> Vector3:
     """Get HSV values for a Color, hue [0..360], saturation/value [0..1]"""
-    return external_call["mojo_raylib_ColorToHSV", Vector3](UnsafePointer(to=color))
+    var __out = stack_allocation[1, Vector3]()
+    external_call["mojo_raylib_ColorToHSV", NoneType](UnsafePointer(to=color), __out)
+    return __out[]
 
 def ColorFromHSV(hue: c_float, saturation: c_float, value: c_float) -> Color:
     """Get a Color from HSV values, hue [0..360], saturation/value [0..1]"""
-    return external_call["ColorFromHSV", Color](hue, saturation, value)
+    var __out = stack_allocation[1, Color]()
+    external_call["mojo_raylib_ColorFromHSV", NoneType](hue, saturation, value, __out)
+    return __out[]
 
 def ColorTint(color: Color, tint: Color) -> Color:
     """Get color multiplied with another color"""
-    return external_call["mojo_raylib_ColorTint", Color](UnsafePointer(to=color), UnsafePointer(to=tint))
+    var __out = stack_allocation[1, Color]()
+    external_call["mojo_raylib_ColorTint", NoneType](UnsafePointer(to=color), UnsafePointer(to=tint), __out)
+    return __out[]
 
 def ColorBrightness(color: Color, factor: c_float) -> Color:
     """Get color with brightness correction, brightness factor goes from -1.0f to 1.0f"""
-    return external_call["mojo_raylib_ColorBrightness", Color](UnsafePointer(to=color), factor)
+    var __out = stack_allocation[1, Color]()
+    external_call["mojo_raylib_ColorBrightness", NoneType](UnsafePointer(to=color), factor, __out)
+    return __out[]
 
 def ColorContrast(color: Color, contrast: c_float) -> Color:
     """Get color with contrast correction, contrast values between -1.0f and 1.0f"""
-    return external_call["mojo_raylib_ColorContrast", Color](UnsafePointer(to=color), contrast)
+    var __out = stack_allocation[1, Color]()
+    external_call["mojo_raylib_ColorContrast", NoneType](UnsafePointer(to=color), contrast, __out)
+    return __out[]
 
 def ColorAlpha(color: Color, alpha: c_float) -> Color:
     """Get color with alpha applied, alpha goes from 0.0f to 1.0f"""
-    return external_call["mojo_raylib_ColorAlpha", Color](UnsafePointer(to=color), alpha)
+    var __out = stack_allocation[1, Color]()
+    external_call["mojo_raylib_ColorAlpha", NoneType](UnsafePointer(to=color), alpha, __out)
+    return __out[]
 
 def ColorAlphaBlend(dst: Color, src: Color, tint: Color) -> Color:
     """Get src alpha-blended into dst color with tint"""
-    return external_call["mojo_raylib_ColorAlphaBlend", Color](UnsafePointer(to=dst), UnsafePointer(to=src), UnsafePointer(to=tint))
+    var __out = stack_allocation[1, Color]()
+    external_call["mojo_raylib_ColorAlphaBlend", NoneType](UnsafePointer(to=dst), UnsafePointer(to=src), UnsafePointer(to=tint), __out)
+    return __out[]
 
 def ColorLerp(color1: Color, color2: Color, factor: c_float) -> Color:
     """Get color lerp interpolation between two colors, factor [0.0f..1.0f]"""
-    return external_call["mojo_raylib_ColorLerp", Color](UnsafePointer(to=color1), UnsafePointer(to=color2), factor)
+    var __out = stack_allocation[1, Color]()
+    external_call["mojo_raylib_ColorLerp", NoneType](UnsafePointer(to=color1), UnsafePointer(to=color2), factor, __out)
+    return __out[]
 
 def GetColor(hexValue: c_uint) -> Color:
     """Get Color structure from hexadecimal value"""
-    return external_call["GetColor", Color](hexValue)
+    var __out = stack_allocation[1, Color]()
+    external_call["mojo_raylib_GetColor", NoneType](hexValue, __out)
+    return __out[]
 
 def GetPixelColor(srcPtr: UnsafePointer[NoneType, MutAnyOrigin], format: c_int) -> Color:
     """Get Color from a source pixel pointer of certain format"""
-    return external_call["GetPixelColor", Color](srcPtr, format)
+    var __out = stack_allocation[1, Color]()
+    external_call["mojo_raylib_GetPixelColor", NoneType](srcPtr, format, __out)
+    return __out[]
 
 def SetPixelColor(dstPtr: UnsafePointer[NoneType, MutAnyOrigin], color: Color, format: c_int):
     """Set color formatted into destination pixel pointer"""
@@ -1614,23 +1761,33 @@ def GetPixelDataSize(width: c_int, height: c_int, format: c_int) -> c_int:
 
 def GetFontDefault() -> Font:
     """Get the default Font"""
-    return external_call["GetFontDefault", Font]()
+    var __out = stack_allocation[1, Font]()
+    external_call["mojo_raylib_GetFontDefault", NoneType](__out)
+    return __out[]
 
 def LoadFont(fileName: CStringSlice) -> Font:
     """Load font from file into GPU memory (VRAM)"""
-    return external_call["LoadFont", Font](fileName)
+    var __out = stack_allocation[1, Font]()
+    external_call["mojo_raylib_LoadFont", NoneType](fileName, __out)
+    return __out[]
 
 def LoadFontEx(fileName: CStringSlice, fontSize: c_int, codepoints: UnsafePointer[c_int, MutAnyOrigin], codepointCount: c_int) -> Font:
     """Load font from file with extended parameters, use NULL for codepoints and 0 for codepointCount to load the default character set, font size is provided in pixels height"""
-    return external_call["LoadFontEx", Font](fileName, fontSize, codepoints, codepointCount)
+    var __out = stack_allocation[1, Font]()
+    external_call["mojo_raylib_LoadFontEx", NoneType](fileName, fontSize, codepoints, codepointCount, __out)
+    return __out[]
 
 def LoadFontFromImage(image: Image, key: Color, firstChar: c_int) -> Font:
     """Load font from Image (XNA style)"""
-    return external_call["mojo_raylib_LoadFontFromImage", Font](UnsafePointer(to=image), UnsafePointer(to=key), firstChar)
+    var __out = stack_allocation[1, Font]()
+    external_call["mojo_raylib_LoadFontFromImage", NoneType](UnsafePointer(to=image), UnsafePointer(to=key), firstChar, __out)
+    return __out[]
 
 def LoadFontFromMemory(fileType: CStringSlice, fileData: UnsafePointer[c_uchar, MutAnyOrigin], dataSize: c_int, fontSize: c_int, codepoints: UnsafePointer[c_int, MutAnyOrigin], codepointCount: c_int) -> Font:
     """Load font from memory buffer, fileType refers to extension: i.e. '.ttf'"""
-    return external_call["LoadFontFromMemory", Font](fileType, fileData, dataSize, fontSize, codepoints, codepointCount)
+    var __out = stack_allocation[1, Font]()
+    external_call["mojo_raylib_LoadFontFromMemory", NoneType](fileType, fileData, dataSize, fontSize, codepoints, codepointCount, __out)
+    return __out[]
 
 def IsFontValid(font: Font) -> Bool:
     """Check if a font is valid (font data loaded, WARNING: GPU texture not checked)"""
@@ -1642,7 +1799,9 @@ def LoadFontData(fileData: UnsafePointer[c_uchar, MutAnyOrigin], dataSize: c_int
 
 def GenImageFontAtlas(glyphs: UnsafePointer[GlyphInfo, MutAnyOrigin], glyphRecs: UnsafePointer[Rectangle, MutAnyOrigin], glyphCount: c_int, fontSize: c_int, padding: c_int, packMethod: c_int) -> Image:
     """Generate image font atlas using chars info"""
-    return external_call["GenImageFontAtlas", Image](glyphs, glyphRecs, glyphCount, fontSize, padding, packMethod)
+    var __out = stack_allocation[1, Image]()
+    external_call["mojo_raylib_GenImageFontAtlas", NoneType](glyphs, glyphRecs, glyphCount, fontSize, padding, packMethod, __out)
+    return __out[]
 
 def UnloadFontData(glyphs: UnsafePointer[GlyphInfo, MutAnyOrigin], glyphCount: c_int):
     """Unload font chars info data (RAM)"""
@@ -1690,11 +1849,15 @@ def MeasureText(text: CStringSlice, fontSize: c_int) -> c_int:
 
 def MeasureTextEx(font: Font, text: CStringSlice, fontSize: c_float, spacing: c_float) -> Vector2:
     """Measure string size for Font"""
-    return external_call["mojo_raylib_MeasureTextEx", Vector2](UnsafePointer(to=font), text, fontSize, spacing)
+    var __out = stack_allocation[1, Vector2]()
+    external_call["mojo_raylib_MeasureTextEx", NoneType](UnsafePointer(to=font), text, fontSize, spacing, __out)
+    return __out[]
 
 def MeasureTextCodepoints(font: Font, codepoints: UnsafePointer[c_int, MutAnyOrigin], length: c_int, fontSize: c_float, spacing: c_float) -> Vector2:
     """Measure string size for an existing array of codepoints for Font"""
-    return external_call["mojo_raylib_MeasureTextCodepoints", Vector2](UnsafePointer(to=font), codepoints, length, fontSize, spacing)
+    var __out = stack_allocation[1, Vector2]()
+    external_call["mojo_raylib_MeasureTextCodepoints", NoneType](UnsafePointer(to=font), codepoints, length, fontSize, spacing, __out)
+    return __out[]
 
 def GetGlyphIndex(font: Font, codepoint: c_int) -> c_int:
     """Get glyph index position in font for a codepoint (unicode character), fallback to '?' if not found"""
@@ -1702,11 +1865,15 @@ def GetGlyphIndex(font: Font, codepoint: c_int) -> c_int:
 
 def GetGlyphInfo(font: Font, codepoint: c_int) -> GlyphInfo:
     """Get glyph font info data for a codepoint (unicode character), fallback to '?' if not found"""
-    return external_call["mojo_raylib_GetGlyphInfo", GlyphInfo](UnsafePointer(to=font), codepoint)
+    var __out = stack_allocation[1, GlyphInfo]()
+    external_call["mojo_raylib_GetGlyphInfo", NoneType](UnsafePointer(to=font), codepoint, __out)
+    return __out[]
 
 def GetGlyphAtlasRec(font: Font, codepoint: c_int) -> Rectangle:
     """Get glyph rectangle in font atlas for a codepoint (unicode character), fallback to '?' if not found"""
-    return external_call["mojo_raylib_GetGlyphAtlasRec", Rectangle](UnsafePointer(to=font), codepoint)
+    var __out = stack_allocation[1, Rectangle]()
+    external_call["mojo_raylib_GetGlyphAtlasRec", NoneType](UnsafePointer(to=font), codepoint, __out)
+    return __out[]
 
 def LoadUTF8(codepoints: UnsafePointer[c_int, MutAnyOrigin], length: c_int) -> UnsafePointer[c_char, MutAnyOrigin]:
     """Load UTF-8 text encoded from codepoints array"""
@@ -1930,11 +2097,15 @@ def DrawGrid(slices: c_int, spacing: c_float):
 
 def LoadModel(fileName: CStringSlice) -> Model:
     """Load model from files (meshes and materials)"""
-    return external_call["LoadModel", Model](fileName)
+    var __out = stack_allocation[1, Model]()
+    external_call["mojo_raylib_LoadModel", NoneType](fileName, __out)
+    return __out[]
 
 def LoadModelFromMesh(mesh: Mesh) -> Model:
     """Load model from generated mesh (default material)"""
-    return external_call["mojo_raylib_LoadModelFromMesh", Model](UnsafePointer(to=mesh))
+    var __out = stack_allocation[1, Model]()
+    external_call["mojo_raylib_LoadModelFromMesh", NoneType](UnsafePointer(to=mesh), __out)
+    return __out[]
 
 def IsModelValid(model: Model) -> Bool:
     """Check if a model is valid (loaded in GPU, VAO/VBOs)"""
@@ -1946,7 +2117,9 @@ def UnloadModel(model: Model):
 
 def GetModelBoundingBox(model: Model) -> BoundingBox:
     """Compute model bounding box limits (considers all meshes)"""
-    return external_call["mojo_raylib_GetModelBoundingBox", BoundingBox](UnsafePointer(to=model))
+    var __out = stack_allocation[1, BoundingBox]()
+    external_call["mojo_raylib_GetModelBoundingBox", NoneType](UnsafePointer(to=model), __out)
+    return __out[]
 
 def DrawModel(model: Model, position: Vector3, scale: c_float, tint: Color):
     """Draw a model (with texture if set)"""
@@ -2002,7 +2175,9 @@ def DrawMeshInstanced(mesh: Mesh, material: Material, transforms: UnsafePointer[
 
 def GetMeshBoundingBox(mesh: Mesh) -> BoundingBox:
     """Compute mesh bounding box limits"""
-    return external_call["mojo_raylib_GetMeshBoundingBox", BoundingBox](UnsafePointer(to=mesh))
+    var __out = stack_allocation[1, BoundingBox]()
+    external_call["mojo_raylib_GetMeshBoundingBox", NoneType](UnsafePointer(to=mesh), __out)
+    return __out[]
 
 def GenMeshTangents(mesh: UnsafePointer[Mesh, MutAnyOrigin]):
     """Compute mesh tangents"""
@@ -2018,47 +2193,69 @@ def ExportMeshAsCode(mesh: Mesh, fileName: CStringSlice) -> Bool:
 
 def GenMeshPoly(sides: c_int, radius: c_float) -> Mesh:
     """Generate polygonal mesh"""
-    return external_call["GenMeshPoly", Mesh](sides, radius)
+    var __out = stack_allocation[1, Mesh]()
+    external_call["mojo_raylib_GenMeshPoly", NoneType](sides, radius, __out)
+    return __out[]
 
 def GenMeshPlane(width: c_float, length: c_float, resX: c_int, resZ: c_int) -> Mesh:
     """Generate plane mesh (with subdivisions)"""
-    return external_call["GenMeshPlane", Mesh](width, length, resX, resZ)
+    var __out = stack_allocation[1, Mesh]()
+    external_call["mojo_raylib_GenMeshPlane", NoneType](width, length, resX, resZ, __out)
+    return __out[]
 
 def GenMeshCube(width: c_float, height: c_float, length: c_float) -> Mesh:
     """Generate cuboid mesh"""
-    return external_call["GenMeshCube", Mesh](width, height, length)
+    var __out = stack_allocation[1, Mesh]()
+    external_call["mojo_raylib_GenMeshCube", NoneType](width, height, length, __out)
+    return __out[]
 
 def GenMeshSphere(radius: c_float, rings: c_int, slices: c_int) -> Mesh:
     """Generate sphere mesh (standard sphere)"""
-    return external_call["GenMeshSphere", Mesh](radius, rings, slices)
+    var __out = stack_allocation[1, Mesh]()
+    external_call["mojo_raylib_GenMeshSphere", NoneType](radius, rings, slices, __out)
+    return __out[]
 
 def GenMeshHemiSphere(radius: c_float, rings: c_int, slices: c_int) -> Mesh:
     """Generate half-sphere mesh (no bottom cap)"""
-    return external_call["GenMeshHemiSphere", Mesh](radius, rings, slices)
+    var __out = stack_allocation[1, Mesh]()
+    external_call["mojo_raylib_GenMeshHemiSphere", NoneType](radius, rings, slices, __out)
+    return __out[]
 
 def GenMeshCylinder(radius: c_float, height: c_float, slices: c_int) -> Mesh:
     """Generate cylinder mesh"""
-    return external_call["GenMeshCylinder", Mesh](radius, height, slices)
+    var __out = stack_allocation[1, Mesh]()
+    external_call["mojo_raylib_GenMeshCylinder", NoneType](radius, height, slices, __out)
+    return __out[]
 
 def GenMeshCone(radius: c_float, height: c_float, slices: c_int) -> Mesh:
     """Generate cone/pyramid mesh"""
-    return external_call["GenMeshCone", Mesh](radius, height, slices)
+    var __out = stack_allocation[1, Mesh]()
+    external_call["mojo_raylib_GenMeshCone", NoneType](radius, height, slices, __out)
+    return __out[]
 
 def GenMeshTorus(radius: c_float, size: c_float, radSeg: c_int, sides: c_int) -> Mesh:
     """Generate torus mesh"""
-    return external_call["GenMeshTorus", Mesh](radius, size, radSeg, sides)
+    var __out = stack_allocation[1, Mesh]()
+    external_call["mojo_raylib_GenMeshTorus", NoneType](radius, size, radSeg, sides, __out)
+    return __out[]
 
 def GenMeshKnot(radius: c_float, size: c_float, radSeg: c_int, sides: c_int) -> Mesh:
     """Generate trefoil knot mesh"""
-    return external_call["GenMeshKnot", Mesh](radius, size, radSeg, sides)
+    var __out = stack_allocation[1, Mesh]()
+    external_call["mojo_raylib_GenMeshKnot", NoneType](radius, size, radSeg, sides, __out)
+    return __out[]
 
 def GenMeshHeightmap(heightmap: Image, size: Vector3) -> Mesh:
     """Generate heightmap mesh from image data"""
-    return external_call["mojo_raylib_GenMeshHeightmap", Mesh](UnsafePointer(to=heightmap), UnsafePointer(to=size))
+    var __out = stack_allocation[1, Mesh]()
+    external_call["mojo_raylib_GenMeshHeightmap", NoneType](UnsafePointer(to=heightmap), UnsafePointer(to=size), __out)
+    return __out[]
 
 def GenMeshCubicmap(cubicmap: Image, cubeSize: Vector3) -> Mesh:
     """Generate cubes-based map mesh from image data"""
-    return external_call["mojo_raylib_GenMeshCubicmap", Mesh](UnsafePointer(to=cubicmap), UnsafePointer(to=cubeSize))
+    var __out = stack_allocation[1, Mesh]()
+    external_call["mojo_raylib_GenMeshCubicmap", NoneType](UnsafePointer(to=cubicmap), UnsafePointer(to=cubeSize), __out)
+    return __out[]
 
 def LoadMaterials(fileName: CStringSlice, materialCount: UnsafePointer[c_int, MutAnyOrigin]) -> UnsafePointer[Material, MutAnyOrigin]:
     """Load materials from model file"""
@@ -2066,7 +2263,9 @@ def LoadMaterials(fileName: CStringSlice, materialCount: UnsafePointer[c_int, Mu
 
 def LoadMaterialDefault() -> Material:
     """Load default material (Supports: DIFFUSE, SPECULAR, NORMAL maps)"""
-    return external_call["LoadMaterialDefault", Material]()
+    var __out = stack_allocation[1, Material]()
+    external_call["mojo_raylib_LoadMaterialDefault", NoneType](__out)
+    return __out[]
 
 def IsMaterialValid(material: Material) -> Bool:
     """Check if a material is valid (shader assigned, map textures loaded in GPU)"""
@@ -2118,23 +2317,33 @@ def CheckCollisionBoxSphere(box: BoundingBox, center: Vector3, radius: c_float) 
 
 def GetRayCollisionSphere(ray: Ray, center: Vector3, radius: c_float) -> RayCollision:
     """Get collision info between ray and sphere"""
-    return external_call["mojo_raylib_GetRayCollisionSphere", RayCollision](UnsafePointer(to=ray), UnsafePointer(to=center), radius)
+    var __out = stack_allocation[1, RayCollision]()
+    external_call["mojo_raylib_GetRayCollisionSphere", NoneType](UnsafePointer(to=ray), UnsafePointer(to=center), radius, __out)
+    return __out[]
 
 def GetRayCollisionBox(ray: Ray, box: BoundingBox) -> RayCollision:
     """Get collision info between ray and box"""
-    return external_call["mojo_raylib_GetRayCollisionBox", RayCollision](UnsafePointer(to=ray), UnsafePointer(to=box))
+    var __out = stack_allocation[1, RayCollision]()
+    external_call["mojo_raylib_GetRayCollisionBox", NoneType](UnsafePointer(to=ray), UnsafePointer(to=box), __out)
+    return __out[]
 
 def GetRayCollisionMesh(ray: Ray, mesh: Mesh, transform: Matrix) -> RayCollision:
     """Get collision info between ray and mesh"""
-    return external_call["mojo_raylib_GetRayCollisionMesh", RayCollision](UnsafePointer(to=ray), UnsafePointer(to=mesh), UnsafePointer(to=transform))
+    var __out = stack_allocation[1, RayCollision]()
+    external_call["mojo_raylib_GetRayCollisionMesh", NoneType](UnsafePointer(to=ray), UnsafePointer(to=mesh), UnsafePointer(to=transform), __out)
+    return __out[]
 
 def GetRayCollisionTriangle(ray: Ray, p1: Vector3, p2: Vector3, p3: Vector3) -> RayCollision:
     """Get collision info between ray and triangle"""
-    return external_call["mojo_raylib_GetRayCollisionTriangle", RayCollision](UnsafePointer(to=ray), UnsafePointer(to=p1), UnsafePointer(to=p2), UnsafePointer(to=p3))
+    var __out = stack_allocation[1, RayCollision]()
+    external_call["mojo_raylib_GetRayCollisionTriangle", NoneType](UnsafePointer(to=ray), UnsafePointer(to=p1), UnsafePointer(to=p2), UnsafePointer(to=p3), __out)
+    return __out[]
 
 def GetRayCollisionQuad(ray: Ray, p1: Vector3, p2: Vector3, p3: Vector3, p4: Vector3) -> RayCollision:
     """Get collision info between ray and quad"""
-    return external_call["mojo_raylib_GetRayCollisionQuad", RayCollision](UnsafePointer(to=ray), UnsafePointer(to=p1), UnsafePointer(to=p2), UnsafePointer(to=p3), UnsafePointer(to=p4))
+    var __out = stack_allocation[1, RayCollision]()
+    external_call["mojo_raylib_GetRayCollisionQuad", NoneType](UnsafePointer(to=ray), UnsafePointer(to=p1), UnsafePointer(to=p2), UnsafePointer(to=p3), UnsafePointer(to=p4), __out)
+    return __out[]
 
 def InitAudioDevice():
     """Initialize audio device and context"""
@@ -2158,11 +2367,15 @@ def GetMasterVolume() -> c_float:
 
 def LoadWave(fileName: CStringSlice) -> Wave:
     """Load wave data from file"""
-    return external_call["LoadWave", Wave](fileName)
+    var __out = stack_allocation[1, Wave]()
+    external_call["mojo_raylib_LoadWave", NoneType](fileName, __out)
+    return __out[]
 
 def LoadWaveFromMemory(fileType: CStringSlice, fileData: UnsafePointer[c_uchar, MutAnyOrigin], dataSize: c_int) -> Wave:
     """Load wave from memory buffer, fileType refers to extension: i.e. '.wav'"""
-    return external_call["LoadWaveFromMemory", Wave](fileType, fileData, dataSize)
+    var __out = stack_allocation[1, Wave]()
+    external_call["mojo_raylib_LoadWaveFromMemory", NoneType](fileType, fileData, dataSize, __out)
+    return __out[]
 
 def IsWaveValid(wave: Wave) -> Bool:
     """Checks if wave data is valid (data loaded and parameters)"""
@@ -2170,15 +2383,21 @@ def IsWaveValid(wave: Wave) -> Bool:
 
 def LoadSound(fileName: CStringSlice) -> Sound:
     """Load sound from file"""
-    return external_call["LoadSound", Sound](fileName)
+    var __out = stack_allocation[1, Sound]()
+    external_call["mojo_raylib_LoadSound", NoneType](fileName, __out)
+    return __out[]
 
 def LoadSoundFromWave(wave: Wave) -> Sound:
     """Load sound from wave data"""
-    return external_call["mojo_raylib_LoadSoundFromWave", Sound](UnsafePointer(to=wave))
+    var __out = stack_allocation[1, Sound]()
+    external_call["mojo_raylib_LoadSoundFromWave", NoneType](UnsafePointer(to=wave), __out)
+    return __out[]
 
 def LoadSoundAlias(source: Sound) -> Sound:
     """Create a new sound that shares the same sample data as the source sound, does not own the sound data"""
-    return external_call["mojo_raylib_LoadSoundAlias", Sound](UnsafePointer(to=source))
+    var __out = stack_allocation[1, Sound]()
+    external_call["mojo_raylib_LoadSoundAlias", NoneType](UnsafePointer(to=source), __out)
+    return __out[]
 
 def IsSoundValid(sound: Sound) -> Bool:
     """Checks if a sound is valid (data loaded and buffers initialized)"""
@@ -2242,7 +2461,9 @@ def SetSoundPan(sound: Sound, pan: c_float):
 
 def WaveCopy(wave: Wave) -> Wave:
     """Copy a wave to a new wave"""
-    return external_call["mojo_raylib_WaveCopy", Wave](UnsafePointer(to=wave))
+    var __out = stack_allocation[1, Wave]()
+    external_call["mojo_raylib_WaveCopy", NoneType](UnsafePointer(to=wave), __out)
+    return __out[]
 
 def WaveCrop(wave: UnsafePointer[Wave, MutAnyOrigin], initFrame: c_int, finalFrame: c_int):
     """Crop a wave to defined frames range"""
@@ -2262,11 +2483,15 @@ def UnloadWaveSamples(samples: UnsafePointer[c_float, MutAnyOrigin]):
 
 def LoadMusicStream(fileName: CStringSlice) -> Music:
     """Load music stream from file"""
-    return external_call["LoadMusicStream", Music](fileName)
+    var __out = stack_allocation[1, Music]()
+    external_call["mojo_raylib_LoadMusicStream", NoneType](fileName, __out)
+    return __out[]
 
 def LoadMusicStreamFromMemory(fileType: CStringSlice, data: UnsafePointer[c_uchar, MutAnyOrigin], dataSize: c_int) -> Music:
     """Load music stream from data"""
-    return external_call["LoadMusicStreamFromMemory", Music](fileType, data, dataSize)
+    var __out = stack_allocation[1, Music]()
+    external_call["mojo_raylib_LoadMusicStreamFromMemory", NoneType](fileType, data, dataSize, __out)
+    return __out[]
 
 def IsMusicValid(music: Music) -> Bool:
     """Checks if a music stream is valid (context and buffers initialized)"""
@@ -2326,7 +2551,9 @@ def GetMusicTimePlayed(music: Music) -> c_float:
 
 def LoadAudioStream(sampleRate: c_uint, sampleSize: c_uint, channels: c_uint) -> AudioStream:
     """Load audio stream (to stream raw audio pcm data)"""
-    return external_call["LoadAudioStream", AudioStream](sampleRate, sampleSize, channels)
+    var __out = stack_allocation[1, AudioStream]()
+    external_call["mojo_raylib_LoadAudioStream", NoneType](sampleRate, sampleSize, channels, __out)
+    return __out[]
 
 def IsAudioStreamValid(stream: AudioStream) -> Bool:
     """Checks if an audio stream is valid (buffers initialized)"""

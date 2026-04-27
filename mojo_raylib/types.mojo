@@ -519,7 +519,7 @@ struct Font(TrivialRegisterPassable):
 
     @always_inline
     def to_raw(self) -> raw_types.Font:
-        return raw_types.Font(c_int(self.baseSize), c_int(self.glyphCount), c_int(self.glyphPadding), public_types._to_raw_texture_2d(self.texture), UnsafePointer(to=self.recs).bitcast[raw_types.Rectangle]().mut_cast[True]().as_any_origin(), UnsafePointer(to=self.glyphs).bitcast[raw_types.GlyphInfo]().mut_cast[True]().as_any_origin())
+        return raw_types.Font(c_int(self.baseSize), c_int(self.glyphCount), c_int(self.glyphPadding), public_types._to_raw_texture_2d(self.texture), self.recs.bitcast[raw_types.Rectangle]().unsafe_mut_cast[True]().as_any_origin(), self.glyphs.bitcast[raw_types.GlyphInfo]().unsafe_mut_cast[True]().as_any_origin())
 
 @always_inline
 def _to_raw_font(value: Font) -> raw_types.Font:
@@ -750,7 +750,7 @@ struct Material(TrivialRegisterPassable):
 
     @always_inline
     def to_raw(self) -> raw_types.Material:
-        return raw_types.Material(public_types._to_raw_shader(self.shader), UnsafePointer(to=self.maps).bitcast[raw_types.MaterialMap]().mut_cast[True]().as_any_origin(), self.params)
+        return raw_types.Material(public_types._to_raw_shader(self.shader), self.maps.bitcast[raw_types.MaterialMap]().unsafe_mut_cast[True]().as_any_origin(), self.params)
 
 @always_inline
 def _to_raw_material(value: Material) -> raw_types.Material:
@@ -840,7 +840,7 @@ struct ModelSkeleton(TrivialRegisterPassable):
 
     @always_inline
     def to_raw(self) -> raw_types.ModelSkeleton:
-        return raw_types.ModelSkeleton(c_int(self.boneCount), UnsafePointer(to=self.bones).bitcast[raw_types.BoneInfo]().mut_cast[True]().as_any_origin(), self.bindPose.bitcast[raw_types.Transform]())
+        return raw_types.ModelSkeleton(c_int(self.boneCount), self.bones.bitcast[raw_types.BoneInfo]().unsafe_mut_cast[True]().as_any_origin(), self.bindPose.bitcast[raw_types.Transform]())
 
 @always_inline
 def _to_raw_model_skeleton(value: ModelSkeleton) -> raw_types.ModelSkeleton:
@@ -889,7 +889,7 @@ struct Model(TrivialRegisterPassable):
 
     @always_inline
     def to_raw(self) -> raw_types.Model:
-        return raw_types.Model(public_types._to_raw_matrix(self.transform), c_int(self.meshCount), c_int(self.materialCount), UnsafePointer(to=self.meshes).bitcast[raw_types.Mesh]().mut_cast[True]().as_any_origin(), UnsafePointer(to=self.materials).bitcast[raw_types.Material]().mut_cast[True]().as_any_origin(), self.meshMaterial, public_types._to_raw_model_skeleton(self.skeleton), self.currentPose.bitcast[raw_types.Transform](), UnsafePointer(to=self.boneMatrices).bitcast[raw_types.Matrix]().mut_cast[True]().as_any_origin())
+        return raw_types.Model(public_types._to_raw_matrix(self.transform), c_int(self.meshCount), c_int(self.materialCount), self.meshes.bitcast[raw_types.Mesh]().unsafe_mut_cast[True]().as_any_origin(), self.materials.bitcast[raw_types.Material]().unsafe_mut_cast[True]().as_any_origin(), self.meshMaterial, public_types._to_raw_model_skeleton(self.skeleton), self.currentPose.bitcast[raw_types.Transform](), self.boneMatrices.bitcast[raw_types.Matrix]().unsafe_mut_cast[True]().as_any_origin())
 
 @always_inline
 def _to_raw_model(value: Model) -> raw_types.Model:
@@ -923,7 +923,7 @@ struct ModelAnimation(TrivialRegisterPassable):
 
     @always_inline
     def to_raw(self) -> raw_types.ModelAnimation:
-        return raw_types.ModelAnimation(self.name, c_int(self.boneCount), c_int(self.keyframeCount), UnsafePointer(to=self.keyframePoses).bitcast[raw_types.ModelAnimPose]().mut_cast[True]().as_any_origin())
+        return raw_types.ModelAnimation(self.name, c_int(self.boneCount), c_int(self.keyframeCount), self.keyframePoses.bitcast[raw_types.ModelAnimPose]().unsafe_mut_cast[True]().as_any_origin())
 
 @always_inline
 def _to_raw_model_animation(value: ModelAnimation) -> raw_types.ModelAnimation:
@@ -1087,7 +1087,7 @@ struct AudioStream(TrivialRegisterPassable):
 
     @always_inline
     def to_raw(self) -> raw_types.AudioStream:
-        return raw_types.AudioStream(UnsafePointer(to=self.buffer).bitcast[raw_types.rAudioBuffer]().mut_cast[True]().as_any_origin(), UnsafePointer(to=self.processor).bitcast[raw_types.rAudioProcessor]().mut_cast[True]().as_any_origin(), c_uint(self.sampleRate), c_uint(self.sampleSize), c_uint(self.channels))
+        return raw_types.AudioStream(self.buffer.bitcast[raw_types.rAudioBuffer]().unsafe_mut_cast[True]().as_any_origin(), self.processor.bitcast[raw_types.rAudioProcessor]().unsafe_mut_cast[True]().as_any_origin(), c_uint(self.sampleRate), c_uint(self.sampleSize), c_uint(self.channels))
 
 @always_inline
 def _to_raw_audio_stream(value: AudioStream) -> raw_types.AudioStream:
@@ -1341,7 +1341,7 @@ struct AutomationEventList(TrivialRegisterPassable):
 
     @always_inline
     def to_raw(self) -> raw_types.AutomationEventList:
-        return raw_types.AutomationEventList(c_uint(self.capacity), c_uint(self.count), UnsafePointer(to=self.events).bitcast[raw_types.AutomationEvent]().mut_cast[True]().as_any_origin())
+        return raw_types.AutomationEventList(c_uint(self.capacity), c_uint(self.count), self.events.bitcast[raw_types.AutomationEvent]().unsafe_mut_cast[True]().as_any_origin())
 
 @always_inline
 def _to_raw_automation_event_list(value: AutomationEventList) -> raw_types.AutomationEventList:

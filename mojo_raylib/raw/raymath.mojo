@@ -5,6 +5,7 @@
 from .types import *
 from std.ffi import CStringSlice, c_char, c_uchar, c_short, c_ushort, c_int, c_uint, c_long, c_ulong, c_float, c_double, external_call
 from std.memory.unsafe_pointer import UnsafePointer
+from std.memory import stack_allocation
 from std.collections import InlineArray
 
 
@@ -29,22 +30,34 @@ def FloatEquals(x: c_float, y: c_float) -> c_int:
     return external_call["mojo_raymath_FloatEquals", c_int](x, y)
 
 def Vector2Zero() -> Vector2:
-    return external_call["mojo_raymath_Vector2Zero", Vector2]()
+    var __out = stack_allocation[1, Vector2]()
+    external_call["mojo_raymath_Vector2Zero", NoneType](__out)
+    return __out[]
 
 def Vector2One() -> Vector2:
-    return external_call["mojo_raymath_Vector2One", Vector2]()
+    var __out = stack_allocation[1, Vector2]()
+    external_call["mojo_raymath_Vector2One", NoneType](__out)
+    return __out[]
 
 def Vector2Add(v1: Vector2, v2: Vector2) -> Vector2:
-    return external_call["mojo_raymath_Vector2Add", Vector2](UnsafePointer(to=v1), UnsafePointer(to=v2))
+    var __out = stack_allocation[1, Vector2]()
+    external_call["mojo_raymath_Vector2Add", NoneType](UnsafePointer(to=v1), UnsafePointer(to=v2), __out)
+    return __out[]
 
 def Vector2AddValue(v: Vector2, add: c_float) -> Vector2:
-    return external_call["mojo_raymath_Vector2AddValue", Vector2](UnsafePointer(to=v), add)
+    var __out = stack_allocation[1, Vector2]()
+    external_call["mojo_raymath_Vector2AddValue", NoneType](UnsafePointer(to=v), add, __out)
+    return __out[]
 
 def Vector2Subtract(v1: Vector2, v2: Vector2) -> Vector2:
-    return external_call["mojo_raymath_Vector2Subtract", Vector2](UnsafePointer(to=v1), UnsafePointer(to=v2))
+    var __out = stack_allocation[1, Vector2]()
+    external_call["mojo_raymath_Vector2Subtract", NoneType](UnsafePointer(to=v1), UnsafePointer(to=v2), __out)
+    return __out[]
 
 def Vector2SubtractValue(v: Vector2, sub: c_float) -> Vector2:
-    return external_call["mojo_raymath_Vector2SubtractValue", Vector2](UnsafePointer(to=v), sub)
+    var __out = stack_allocation[1, Vector2]()
+    external_call["mojo_raymath_Vector2SubtractValue", NoneType](UnsafePointer(to=v), sub, __out)
+    return __out[]
 
 def Vector2Length(v: Vector2) -> c_float:
     return external_call["mojo_raymath_Vector2Length", c_float](UnsafePointer(to=v))
@@ -71,85 +84,137 @@ def Vector2LineAngle(start: Vector2, end: Vector2) -> c_float:
     return external_call["mojo_raymath_Vector2LineAngle", c_float](UnsafePointer(to=start), UnsafePointer(to=end))
 
 def Vector2Scale(v: Vector2, scale: c_float) -> Vector2:
-    return external_call["mojo_raymath_Vector2Scale", Vector2](UnsafePointer(to=v), scale)
+    var __out = stack_allocation[1, Vector2]()
+    external_call["mojo_raymath_Vector2Scale", NoneType](UnsafePointer(to=v), scale, __out)
+    return __out[]
 
 def Vector2Multiply(v1: Vector2, v2: Vector2) -> Vector2:
-    return external_call["mojo_raymath_Vector2Multiply", Vector2](UnsafePointer(to=v1), UnsafePointer(to=v2))
+    var __out = stack_allocation[1, Vector2]()
+    external_call["mojo_raymath_Vector2Multiply", NoneType](UnsafePointer(to=v1), UnsafePointer(to=v2), __out)
+    return __out[]
 
 def Vector2Negate(v: Vector2) -> Vector2:
-    return external_call["mojo_raymath_Vector2Negate", Vector2](UnsafePointer(to=v))
+    var __out = stack_allocation[1, Vector2]()
+    external_call["mojo_raymath_Vector2Negate", NoneType](UnsafePointer(to=v), __out)
+    return __out[]
 
 def Vector2Divide(v1: Vector2, v2: Vector2) -> Vector2:
-    return external_call["mojo_raymath_Vector2Divide", Vector2](UnsafePointer(to=v1), UnsafePointer(to=v2))
+    var __out = stack_allocation[1, Vector2]()
+    external_call["mojo_raymath_Vector2Divide", NoneType](UnsafePointer(to=v1), UnsafePointer(to=v2), __out)
+    return __out[]
 
 def Vector2Normalize(v: Vector2) -> Vector2:
-    return external_call["mojo_raymath_Vector2Normalize", Vector2](UnsafePointer(to=v))
+    var __out = stack_allocation[1, Vector2]()
+    external_call["mojo_raymath_Vector2Normalize", NoneType](UnsafePointer(to=v), __out)
+    return __out[]
 
 def Vector2Transform(v: Vector2, mat: Matrix) -> Vector2:
-    return external_call["mojo_raymath_Vector2Transform", Vector2](UnsafePointer(to=v), UnsafePointer(to=mat))
+    var __out = stack_allocation[1, Vector2]()
+    external_call["mojo_raymath_Vector2Transform", NoneType](UnsafePointer(to=v), UnsafePointer(to=mat), __out)
+    return __out[]
 
 def Vector2Lerp(v1: Vector2, v2: Vector2, amount: c_float) -> Vector2:
-    return external_call["mojo_raymath_Vector2Lerp", Vector2](UnsafePointer(to=v1), UnsafePointer(to=v2), amount)
+    var __out = stack_allocation[1, Vector2]()
+    external_call["mojo_raymath_Vector2Lerp", NoneType](UnsafePointer(to=v1), UnsafePointer(to=v2), amount, __out)
+    return __out[]
 
 def Vector2Reflect(v: Vector2, normal: Vector2) -> Vector2:
-    return external_call["mojo_raymath_Vector2Reflect", Vector2](UnsafePointer(to=v), UnsafePointer(to=normal))
+    var __out = stack_allocation[1, Vector2]()
+    external_call["mojo_raymath_Vector2Reflect", NoneType](UnsafePointer(to=v), UnsafePointer(to=normal), __out)
+    return __out[]
 
 def Vector2Min(v1: Vector2, v2: Vector2) -> Vector2:
-    return external_call["mojo_raymath_Vector2Min", Vector2](UnsafePointer(to=v1), UnsafePointer(to=v2))
+    var __out = stack_allocation[1, Vector2]()
+    external_call["mojo_raymath_Vector2Min", NoneType](UnsafePointer(to=v1), UnsafePointer(to=v2), __out)
+    return __out[]
 
 def Vector2Max(v1: Vector2, v2: Vector2) -> Vector2:
-    return external_call["mojo_raymath_Vector2Max", Vector2](UnsafePointer(to=v1), UnsafePointer(to=v2))
+    var __out = stack_allocation[1, Vector2]()
+    external_call["mojo_raymath_Vector2Max", NoneType](UnsafePointer(to=v1), UnsafePointer(to=v2), __out)
+    return __out[]
 
 def Vector2Rotate(v: Vector2, angle: c_float) -> Vector2:
-    return external_call["mojo_raymath_Vector2Rotate", Vector2](UnsafePointer(to=v), angle)
+    var __out = stack_allocation[1, Vector2]()
+    external_call["mojo_raymath_Vector2Rotate", NoneType](UnsafePointer(to=v), angle, __out)
+    return __out[]
 
 def Vector2MoveTowards(v: Vector2, target: Vector2, maxDistance: c_float) -> Vector2:
-    return external_call["mojo_raymath_Vector2MoveTowards", Vector2](UnsafePointer(to=v), UnsafePointer(to=target), maxDistance)
+    var __out = stack_allocation[1, Vector2]()
+    external_call["mojo_raymath_Vector2MoveTowards", NoneType](UnsafePointer(to=v), UnsafePointer(to=target), maxDistance, __out)
+    return __out[]
 
 def Vector2Invert(v: Vector2) -> Vector2:
-    return external_call["mojo_raymath_Vector2Invert", Vector2](UnsafePointer(to=v))
+    var __out = stack_allocation[1, Vector2]()
+    external_call["mojo_raymath_Vector2Invert", NoneType](UnsafePointer(to=v), __out)
+    return __out[]
 
 def Vector2Clamp(v: Vector2, min: Vector2, max: Vector2) -> Vector2:
-    return external_call["mojo_raymath_Vector2Clamp", Vector2](UnsafePointer(to=v), UnsafePointer(to=min), UnsafePointer(to=max))
+    var __out = stack_allocation[1, Vector2]()
+    external_call["mojo_raymath_Vector2Clamp", NoneType](UnsafePointer(to=v), UnsafePointer(to=min), UnsafePointer(to=max), __out)
+    return __out[]
 
 def Vector2ClampValue(v: Vector2, min: c_float, max: c_float) -> Vector2:
-    return external_call["mojo_raymath_Vector2ClampValue", Vector2](UnsafePointer(to=v), min, max)
+    var __out = stack_allocation[1, Vector2]()
+    external_call["mojo_raymath_Vector2ClampValue", NoneType](UnsafePointer(to=v), min, max, __out)
+    return __out[]
 
 def Vector2Equals(p: Vector2, q: Vector2) -> c_int:
     return external_call["mojo_raymath_Vector2Equals", c_int](UnsafePointer(to=p), UnsafePointer(to=q))
 
 def Vector2Refract(v: Vector2, n: Vector2, r: c_float) -> Vector2:
-    return external_call["mojo_raymath_Vector2Refract", Vector2](UnsafePointer(to=v), UnsafePointer(to=n), r)
+    var __out = stack_allocation[1, Vector2]()
+    external_call["mojo_raymath_Vector2Refract", NoneType](UnsafePointer(to=v), UnsafePointer(to=n), r, __out)
+    return __out[]
 
 def Vector3Zero() -> Vector3:
-    return external_call["mojo_raymath_Vector3Zero", Vector3]()
+    var __out = stack_allocation[1, Vector3]()
+    external_call["mojo_raymath_Vector3Zero", NoneType](__out)
+    return __out[]
 
 def Vector3One() -> Vector3:
-    return external_call["mojo_raymath_Vector3One", Vector3]()
+    var __out = stack_allocation[1, Vector3]()
+    external_call["mojo_raymath_Vector3One", NoneType](__out)
+    return __out[]
 
 def Vector3Add(v1: Vector3, v2: Vector3) -> Vector3:
-    return external_call["mojo_raymath_Vector3Add", Vector3](UnsafePointer(to=v1), UnsafePointer(to=v2))
+    var __out = stack_allocation[1, Vector3]()
+    external_call["mojo_raymath_Vector3Add", NoneType](UnsafePointer(to=v1), UnsafePointer(to=v2), __out)
+    return __out[]
 
 def Vector3AddValue(v: Vector3, add: c_float) -> Vector3:
-    return external_call["mojo_raymath_Vector3AddValue", Vector3](UnsafePointer(to=v), add)
+    var __out = stack_allocation[1, Vector3]()
+    external_call["mojo_raymath_Vector3AddValue", NoneType](UnsafePointer(to=v), add, __out)
+    return __out[]
 
 def Vector3Subtract(v1: Vector3, v2: Vector3) -> Vector3:
-    return external_call["mojo_raymath_Vector3Subtract", Vector3](UnsafePointer(to=v1), UnsafePointer(to=v2))
+    var __out = stack_allocation[1, Vector3]()
+    external_call["mojo_raymath_Vector3Subtract", NoneType](UnsafePointer(to=v1), UnsafePointer(to=v2), __out)
+    return __out[]
 
 def Vector3SubtractValue(v: Vector3, sub: c_float) -> Vector3:
-    return external_call["mojo_raymath_Vector3SubtractValue", Vector3](UnsafePointer(to=v), sub)
+    var __out = stack_allocation[1, Vector3]()
+    external_call["mojo_raymath_Vector3SubtractValue", NoneType](UnsafePointer(to=v), sub, __out)
+    return __out[]
 
 def Vector3Scale(v: Vector3, scalar: c_float) -> Vector3:
-    return external_call["mojo_raymath_Vector3Scale", Vector3](UnsafePointer(to=v), scalar)
+    var __out = stack_allocation[1, Vector3]()
+    external_call["mojo_raymath_Vector3Scale", NoneType](UnsafePointer(to=v), scalar, __out)
+    return __out[]
 
 def Vector3Multiply(v1: Vector3, v2: Vector3) -> Vector3:
-    return external_call["mojo_raymath_Vector3Multiply", Vector3](UnsafePointer(to=v1), UnsafePointer(to=v2))
+    var __out = stack_allocation[1, Vector3]()
+    external_call["mojo_raymath_Vector3Multiply", NoneType](UnsafePointer(to=v1), UnsafePointer(to=v2), __out)
+    return __out[]
 
 def Vector3CrossProduct(v1: Vector3, v2: Vector3) -> Vector3:
-    return external_call["mojo_raymath_Vector3CrossProduct", Vector3](UnsafePointer(to=v1), UnsafePointer(to=v2))
+    var __out = stack_allocation[1, Vector3]()
+    external_call["mojo_raymath_Vector3CrossProduct", NoneType](UnsafePointer(to=v1), UnsafePointer(to=v2), __out)
+    return __out[]
 
 def Vector3Perpendicular(v: Vector3) -> Vector3:
-    return external_call["mojo_raymath_Vector3Perpendicular", Vector3](UnsafePointer(to=v))
+    var __out = stack_allocation[1, Vector3]()
+    external_call["mojo_raymath_Vector3Perpendicular", NoneType](UnsafePointer(to=v), __out)
+    return __out[]
 
 def Vector3Length(v: Vector3) -> c_float:
     return external_call["mojo_raymath_Vector3Length", c_float](v)
@@ -170,91 +235,145 @@ def Vector3Angle(v1: Vector3, v2: Vector3) -> c_float:
     return external_call["mojo_raymath_Vector3Angle", c_float](UnsafePointer(to=v1), UnsafePointer(to=v2))
 
 def Vector3Negate(v: Vector3) -> Vector3:
-    return external_call["mojo_raymath_Vector3Negate", Vector3](UnsafePointer(to=v))
+    var __out = stack_allocation[1, Vector3]()
+    external_call["mojo_raymath_Vector3Negate", NoneType](UnsafePointer(to=v), __out)
+    return __out[]
 
 def Vector3Divide(v1: Vector3, v2: Vector3) -> Vector3:
-    return external_call["mojo_raymath_Vector3Divide", Vector3](UnsafePointer(to=v1), UnsafePointer(to=v2))
+    var __out = stack_allocation[1, Vector3]()
+    external_call["mojo_raymath_Vector3Divide", NoneType](UnsafePointer(to=v1), UnsafePointer(to=v2), __out)
+    return __out[]
 
 def Vector3Normalize(v: Vector3) -> Vector3:
-    return external_call["mojo_raymath_Vector3Normalize", Vector3](UnsafePointer(to=v))
+    var __out = stack_allocation[1, Vector3]()
+    external_call["mojo_raymath_Vector3Normalize", NoneType](UnsafePointer(to=v), __out)
+    return __out[]
 
 def Vector3Project(v1: Vector3, v2: Vector3) -> Vector3:
-    return external_call["mojo_raymath_Vector3Project", Vector3](UnsafePointer(to=v1), UnsafePointer(to=v2))
+    var __out = stack_allocation[1, Vector3]()
+    external_call["mojo_raymath_Vector3Project", NoneType](UnsafePointer(to=v1), UnsafePointer(to=v2), __out)
+    return __out[]
 
 def Vector3Reject(v1: Vector3, v2: Vector3) -> Vector3:
-    return external_call["mojo_raymath_Vector3Reject", Vector3](UnsafePointer(to=v1), UnsafePointer(to=v2))
+    var __out = stack_allocation[1, Vector3]()
+    external_call["mojo_raymath_Vector3Reject", NoneType](UnsafePointer(to=v1), UnsafePointer(to=v2), __out)
+    return __out[]
 
 def Vector3OrthoNormalize(v1: UnsafePointer[Vector3, MutAnyOrigin], v2: UnsafePointer[Vector3, MutAnyOrigin]):
     external_call["mojo_raymath_Vector3OrthoNormalize", NoneType](v1, v2)
 
 def Vector3Transform(v: Vector3, mat: Matrix) -> Vector3:
-    return external_call["mojo_raymath_Vector3Transform", Vector3](UnsafePointer(to=v), UnsafePointer(to=mat))
+    var __out = stack_allocation[1, Vector3]()
+    external_call["mojo_raymath_Vector3Transform", NoneType](UnsafePointer(to=v), UnsafePointer(to=mat), __out)
+    return __out[]
 
 def Vector3RotateByQuaternion(v: Vector3, q: Quaternion) -> Vector3:
-    return external_call["mojo_raymath_Vector3RotateByQuaternion", Vector3](UnsafePointer(to=v), UnsafePointer(to=q))
+    var __out = stack_allocation[1, Vector3]()
+    external_call["mojo_raymath_Vector3RotateByQuaternion", NoneType](UnsafePointer(to=v), UnsafePointer(to=q), __out)
+    return __out[]
 
 def Vector3RotateByAxisAngle(v: Vector3, axis: Vector3, angle: c_float) -> Vector3:
-    return external_call["mojo_raymath_Vector3RotateByAxisAngle", Vector3](UnsafePointer(to=v), UnsafePointer(to=axis), angle)
+    var __out = stack_allocation[1, Vector3]()
+    external_call["mojo_raymath_Vector3RotateByAxisAngle", NoneType](UnsafePointer(to=v), UnsafePointer(to=axis), angle, __out)
+    return __out[]
 
 def Vector3MoveTowards(v: Vector3, target: Vector3, maxDistance: c_float) -> Vector3:
-    return external_call["mojo_raymath_Vector3MoveTowards", Vector3](UnsafePointer(to=v), UnsafePointer(to=target), maxDistance)
+    var __out = stack_allocation[1, Vector3]()
+    external_call["mojo_raymath_Vector3MoveTowards", NoneType](UnsafePointer(to=v), UnsafePointer(to=target), maxDistance, __out)
+    return __out[]
 
 def Vector3Lerp(v1: Vector3, v2: Vector3, amount: c_float) -> Vector3:
-    return external_call["mojo_raymath_Vector3Lerp", Vector3](UnsafePointer(to=v1), UnsafePointer(to=v2), amount)
+    var __out = stack_allocation[1, Vector3]()
+    external_call["mojo_raymath_Vector3Lerp", NoneType](UnsafePointer(to=v1), UnsafePointer(to=v2), amount, __out)
+    return __out[]
 
 def Vector3CubicHermite(v1: Vector3, tangent1: Vector3, v2: Vector3, tangent2: Vector3, amount: c_float) -> Vector3:
-    return external_call["mojo_raymath_Vector3CubicHermite", Vector3](UnsafePointer(to=v1), UnsafePointer(to=tangent1), UnsafePointer(to=v2), UnsafePointer(to=tangent2), amount)
+    var __out = stack_allocation[1, Vector3]()
+    external_call["mojo_raymath_Vector3CubicHermite", NoneType](UnsafePointer(to=v1), UnsafePointer(to=tangent1), UnsafePointer(to=v2), UnsafePointer(to=tangent2), amount, __out)
+    return __out[]
 
 def Vector3Reflect(v: Vector3, normal: Vector3) -> Vector3:
-    return external_call["mojo_raymath_Vector3Reflect", Vector3](UnsafePointer(to=v), UnsafePointer(to=normal))
+    var __out = stack_allocation[1, Vector3]()
+    external_call["mojo_raymath_Vector3Reflect", NoneType](UnsafePointer(to=v), UnsafePointer(to=normal), __out)
+    return __out[]
 
 def Vector3Min(v1: Vector3, v2: Vector3) -> Vector3:
-    return external_call["mojo_raymath_Vector3Min", Vector3](UnsafePointer(to=v1), UnsafePointer(to=v2))
+    var __out = stack_allocation[1, Vector3]()
+    external_call["mojo_raymath_Vector3Min", NoneType](UnsafePointer(to=v1), UnsafePointer(to=v2), __out)
+    return __out[]
 
 def Vector3Max(v1: Vector3, v2: Vector3) -> Vector3:
-    return external_call["mojo_raymath_Vector3Max", Vector3](UnsafePointer(to=v1), UnsafePointer(to=v2))
+    var __out = stack_allocation[1, Vector3]()
+    external_call["mojo_raymath_Vector3Max", NoneType](UnsafePointer(to=v1), UnsafePointer(to=v2), __out)
+    return __out[]
 
 def Vector3Barycenter(p: Vector3, a: Vector3, b: Vector3, c: Vector3) -> Vector3:
-    return external_call["mojo_raymath_Vector3Barycenter", Vector3](UnsafePointer(to=p), UnsafePointer(to=a), UnsafePointer(to=b), UnsafePointer(to=c))
+    var __out = stack_allocation[1, Vector3]()
+    external_call["mojo_raymath_Vector3Barycenter", NoneType](UnsafePointer(to=p), UnsafePointer(to=a), UnsafePointer(to=b), UnsafePointer(to=c), __out)
+    return __out[]
 
 def Vector3Unproject(source: Vector3, projection: Matrix, view: Matrix) -> Vector3:
-    return external_call["mojo_raymath_Vector3Unproject", Vector3](UnsafePointer(to=source), UnsafePointer(to=projection), UnsafePointer(to=view))
+    var __out = stack_allocation[1, Vector3]()
+    external_call["mojo_raymath_Vector3Unproject", NoneType](UnsafePointer(to=source), UnsafePointer(to=projection), UnsafePointer(to=view), __out)
+    return __out[]
 
 def Vector3ToFloatV(v: Vector3) -> float3:
-    return external_call["mojo_raymath_Vector3ToFloatV", float3](UnsafePointer(to=v))
+    var __out = stack_allocation[1, float3]()
+    external_call["mojo_raymath_Vector3ToFloatV", NoneType](UnsafePointer(to=v), __out)
+    return __out[]
 
 def Vector3Invert(v: Vector3) -> Vector3:
-    return external_call["mojo_raymath_Vector3Invert", Vector3](UnsafePointer(to=v))
+    var __out = stack_allocation[1, Vector3]()
+    external_call["mojo_raymath_Vector3Invert", NoneType](UnsafePointer(to=v), __out)
+    return __out[]
 
 def Vector3Clamp(v: Vector3, min: Vector3, max: Vector3) -> Vector3:
-    return external_call["mojo_raymath_Vector3Clamp", Vector3](UnsafePointer(to=v), UnsafePointer(to=min), UnsafePointer(to=max))
+    var __out = stack_allocation[1, Vector3]()
+    external_call["mojo_raymath_Vector3Clamp", NoneType](UnsafePointer(to=v), UnsafePointer(to=min), UnsafePointer(to=max), __out)
+    return __out[]
 
 def Vector3ClampValue(v: Vector3, min: c_float, max: c_float) -> Vector3:
-    return external_call["mojo_raymath_Vector3ClampValue", Vector3](UnsafePointer(to=v), min, max)
+    var __out = stack_allocation[1, Vector3]()
+    external_call["mojo_raymath_Vector3ClampValue", NoneType](UnsafePointer(to=v), min, max, __out)
+    return __out[]
 
 def Vector3Equals(p: Vector3, q: Vector3) -> c_int:
     return external_call["mojo_raymath_Vector3Equals", c_int](UnsafePointer(to=p), UnsafePointer(to=q))
 
 def Vector3Refract(v: Vector3, n: Vector3, r: c_float) -> Vector3:
-    return external_call["mojo_raymath_Vector3Refract", Vector3](UnsafePointer(to=v), UnsafePointer(to=n), r)
+    var __out = stack_allocation[1, Vector3]()
+    external_call["mojo_raymath_Vector3Refract", NoneType](UnsafePointer(to=v), UnsafePointer(to=n), r, __out)
+    return __out[]
 
 def Vector4Zero() -> Vector4:
-    return external_call["mojo_raymath_Vector4Zero", Vector4]()
+    var __out = stack_allocation[1, Vector4]()
+    external_call["mojo_raymath_Vector4Zero", NoneType](__out)
+    return __out[]
 
 def Vector4One() -> Vector4:
-    return external_call["mojo_raymath_Vector4One", Vector4]()
+    var __out = stack_allocation[1, Vector4]()
+    external_call["mojo_raymath_Vector4One", NoneType](__out)
+    return __out[]
 
 def Vector4Add(v1: Vector4, v2: Vector4) -> Vector4:
-    return external_call["mojo_raymath_Vector4Add", Vector4](UnsafePointer(to=v1), UnsafePointer(to=v2))
+    var __out = stack_allocation[1, Vector4]()
+    external_call["mojo_raymath_Vector4Add", NoneType](UnsafePointer(to=v1), UnsafePointer(to=v2), __out)
+    return __out[]
 
 def Vector4AddValue(v: Vector4, add: c_float) -> Vector4:
-    return external_call["mojo_raymath_Vector4AddValue", Vector4](UnsafePointer(to=v), add)
+    var __out = stack_allocation[1, Vector4]()
+    external_call["mojo_raymath_Vector4AddValue", NoneType](UnsafePointer(to=v), add, __out)
+    return __out[]
 
 def Vector4Subtract(v1: Vector4, v2: Vector4) -> Vector4:
-    return external_call["mojo_raymath_Vector4Subtract", Vector4](UnsafePointer(to=v1), UnsafePointer(to=v2))
+    var __out = stack_allocation[1, Vector4]()
+    external_call["mojo_raymath_Vector4Subtract", NoneType](UnsafePointer(to=v1), UnsafePointer(to=v2), __out)
+    return __out[]
 
 def Vector4SubtractValue(v: Vector4, add: c_float) -> Vector4:
-    return external_call["mojo_raymath_Vector4SubtractValue", Vector4](UnsafePointer(to=v), add)
+    var __out = stack_allocation[1, Vector4]()
+    external_call["mojo_raymath_Vector4SubtractValue", NoneType](UnsafePointer(to=v), add, __out)
+    return __out[]
 
 def Vector4Length(v: Vector4) -> c_float:
     return external_call["mojo_raymath_Vector4Length", c_float](UnsafePointer(to=v))
@@ -272,34 +391,54 @@ def Vector4DistanceSqr(v1: Vector4, v2: Vector4) -> c_float:
     return external_call["mojo_raymath_Vector4DistanceSqr", c_float](UnsafePointer(to=v1), UnsafePointer(to=v2))
 
 def Vector4Scale(v: Vector4, scale: c_float) -> Vector4:
-    return external_call["mojo_raymath_Vector4Scale", Vector4](UnsafePointer(to=v), scale)
+    var __out = stack_allocation[1, Vector4]()
+    external_call["mojo_raymath_Vector4Scale", NoneType](UnsafePointer(to=v), scale, __out)
+    return __out[]
 
 def Vector4Multiply(v1: Vector4, v2: Vector4) -> Vector4:
-    return external_call["mojo_raymath_Vector4Multiply", Vector4](UnsafePointer(to=v1), UnsafePointer(to=v2))
+    var __out = stack_allocation[1, Vector4]()
+    external_call["mojo_raymath_Vector4Multiply", NoneType](UnsafePointer(to=v1), UnsafePointer(to=v2), __out)
+    return __out[]
 
 def Vector4Negate(v: Vector4) -> Vector4:
-    return external_call["mojo_raymath_Vector4Negate", Vector4](UnsafePointer(to=v))
+    var __out = stack_allocation[1, Vector4]()
+    external_call["mojo_raymath_Vector4Negate", NoneType](UnsafePointer(to=v), __out)
+    return __out[]
 
 def Vector4Divide(v1: Vector4, v2: Vector4) -> Vector4:
-    return external_call["mojo_raymath_Vector4Divide", Vector4](UnsafePointer(to=v1), UnsafePointer(to=v2))
+    var __out = stack_allocation[1, Vector4]()
+    external_call["mojo_raymath_Vector4Divide", NoneType](UnsafePointer(to=v1), UnsafePointer(to=v2), __out)
+    return __out[]
 
 def Vector4Normalize(v: Vector4) -> Vector4:
-    return external_call["mojo_raymath_Vector4Normalize", Vector4](UnsafePointer(to=v))
+    var __out = stack_allocation[1, Vector4]()
+    external_call["mojo_raymath_Vector4Normalize", NoneType](UnsafePointer(to=v), __out)
+    return __out[]
 
 def Vector4Min(v1: Vector4, v2: Vector4) -> Vector4:
-    return external_call["mojo_raymath_Vector4Min", Vector4](UnsafePointer(to=v1), UnsafePointer(to=v2))
+    var __out = stack_allocation[1, Vector4]()
+    external_call["mojo_raymath_Vector4Min", NoneType](UnsafePointer(to=v1), UnsafePointer(to=v2), __out)
+    return __out[]
 
 def Vector4Max(v1: Vector4, v2: Vector4) -> Vector4:
-    return external_call["mojo_raymath_Vector4Max", Vector4](UnsafePointer(to=v1), UnsafePointer(to=v2))
+    var __out = stack_allocation[1, Vector4]()
+    external_call["mojo_raymath_Vector4Max", NoneType](UnsafePointer(to=v1), UnsafePointer(to=v2), __out)
+    return __out[]
 
 def Vector4Lerp(v1: Vector4, v2: Vector4, amount: c_float) -> Vector4:
-    return external_call["mojo_raymath_Vector4Lerp", Vector4](UnsafePointer(to=v1), UnsafePointer(to=v2), amount)
+    var __out = stack_allocation[1, Vector4]()
+    external_call["mojo_raymath_Vector4Lerp", NoneType](UnsafePointer(to=v1), UnsafePointer(to=v2), amount, __out)
+    return __out[]
 
 def Vector4MoveTowards(v: Vector4, target: Vector4, maxDistance: c_float) -> Vector4:
-    return external_call["mojo_raymath_Vector4MoveTowards", Vector4](UnsafePointer(to=v), UnsafePointer(to=target), maxDistance)
+    var __out = stack_allocation[1, Vector4]()
+    external_call["mojo_raymath_Vector4MoveTowards", NoneType](UnsafePointer(to=v), UnsafePointer(to=target), maxDistance, __out)
+    return __out[]
 
 def Vector4Invert(v: Vector4) -> Vector4:
-    return external_call["mojo_raymath_Vector4Invert", Vector4](UnsafePointer(to=v))
+    var __out = stack_allocation[1, Vector4]()
+    external_call["mojo_raymath_Vector4Invert", NoneType](UnsafePointer(to=v), __out)
+    return __out[]
 
 def Vector4Equals(p: Vector4, q: Vector4) -> c_int:
     return external_call["mojo_raymath_Vector4Equals", c_int](UnsafePointer(to=p), UnsafePointer(to=q))
@@ -311,139 +450,223 @@ def MatrixTrace(mat: Matrix) -> c_float:
     return external_call["mojo_raymath_MatrixTrace", c_float](UnsafePointer(to=mat))
 
 def MatrixTranspose(mat: Matrix) -> Matrix:
-    return external_call["mojo_raymath_MatrixTranspose", Matrix](UnsafePointer(to=mat))
+    var __out = stack_allocation[1, Matrix]()
+    external_call["mojo_raymath_MatrixTranspose", NoneType](UnsafePointer(to=mat), __out)
+    return __out[]
 
 def MatrixInvert(mat: Matrix) -> Matrix:
-    return external_call["mojo_raymath_MatrixInvert", Matrix](UnsafePointer(to=mat))
+    var __out = stack_allocation[1, Matrix]()
+    external_call["mojo_raymath_MatrixInvert", NoneType](UnsafePointer(to=mat), __out)
+    return __out[]
 
 def MatrixIdentity() -> Matrix:
-    return external_call["mojo_raymath_MatrixIdentity", Matrix]()
+    var __out = stack_allocation[1, Matrix]()
+    external_call["mojo_raymath_MatrixIdentity", NoneType](__out)
+    return __out[]
 
 def MatrixAdd(left: Matrix, right: Matrix) -> Matrix:
-    return external_call["mojo_raymath_MatrixAdd", Matrix](UnsafePointer(to=left), UnsafePointer(to=right))
+    var __out = stack_allocation[1, Matrix]()
+    external_call["mojo_raymath_MatrixAdd", NoneType](UnsafePointer(to=left), UnsafePointer(to=right), __out)
+    return __out[]
 
 def MatrixSubtract(left: Matrix, right: Matrix) -> Matrix:
-    return external_call["mojo_raymath_MatrixSubtract", Matrix](UnsafePointer(to=left), UnsafePointer(to=right))
+    var __out = stack_allocation[1, Matrix]()
+    external_call["mojo_raymath_MatrixSubtract", NoneType](UnsafePointer(to=left), UnsafePointer(to=right), __out)
+    return __out[]
 
 def MatrixMultiply(left: Matrix, right: Matrix) -> Matrix:
-    return external_call["mojo_raymath_MatrixMultiply", Matrix](UnsafePointer(to=left), UnsafePointer(to=right))
+    var __out = stack_allocation[1, Matrix]()
+    external_call["mojo_raymath_MatrixMultiply", NoneType](UnsafePointer(to=left), UnsafePointer(to=right), __out)
+    return __out[]
 
 def MatrixMultiplyValue(left: Matrix, value: c_float) -> Matrix:
-    return external_call["mojo_raymath_MatrixMultiplyValue", Matrix](UnsafePointer(to=left), value)
+    var __out = stack_allocation[1, Matrix]()
+    external_call["mojo_raymath_MatrixMultiplyValue", NoneType](UnsafePointer(to=left), value, __out)
+    return __out[]
 
 def MatrixTranslate(x: c_float, y: c_float, z: c_float) -> Matrix:
-    return external_call["mojo_raymath_MatrixTranslate", Matrix](x, y, z)
+    var __out = stack_allocation[1, Matrix]()
+    external_call["mojo_raymath_MatrixTranslate", NoneType](x, y, z, __out)
+    return __out[]
 
 def MatrixRotate(axis: Vector3, angle: c_float) -> Matrix:
-    return external_call["mojo_raymath_MatrixRotate", Matrix](UnsafePointer(to=axis), angle)
+    var __out = stack_allocation[1, Matrix]()
+    external_call["mojo_raymath_MatrixRotate", NoneType](UnsafePointer(to=axis), angle, __out)
+    return __out[]
 
 def MatrixRotateX(angle: c_float) -> Matrix:
-    return external_call["mojo_raymath_MatrixRotateX", Matrix](angle)
+    var __out = stack_allocation[1, Matrix]()
+    external_call["mojo_raymath_MatrixRotateX", NoneType](angle, __out)
+    return __out[]
 
 def MatrixRotateY(angle: c_float) -> Matrix:
-    return external_call["mojo_raymath_MatrixRotateY", Matrix](angle)
+    var __out = stack_allocation[1, Matrix]()
+    external_call["mojo_raymath_MatrixRotateY", NoneType](angle, __out)
+    return __out[]
 
 def MatrixRotateZ(angle: c_float) -> Matrix:
-    return external_call["mojo_raymath_MatrixRotateZ", Matrix](angle)
+    var __out = stack_allocation[1, Matrix]()
+    external_call["mojo_raymath_MatrixRotateZ", NoneType](angle, __out)
+    return __out[]
 
 def MatrixRotateXYZ(angle: Vector3) -> Matrix:
-    return external_call["mojo_raymath_MatrixRotateXYZ", Matrix](UnsafePointer(to=angle))
+    var __out = stack_allocation[1, Matrix]()
+    external_call["mojo_raymath_MatrixRotateXYZ", NoneType](UnsafePointer(to=angle), __out)
+    return __out[]
 
 def MatrixRotateZYX(angle: Vector3) -> Matrix:
-    return external_call["mojo_raymath_MatrixRotateZYX", Matrix](UnsafePointer(to=angle))
+    var __out = stack_allocation[1, Matrix]()
+    external_call["mojo_raymath_MatrixRotateZYX", NoneType](UnsafePointer(to=angle), __out)
+    return __out[]
 
 def MatrixScale(x: c_float, y: c_float, z: c_float) -> Matrix:
-    return external_call["mojo_raymath_MatrixScale", Matrix](x, y, z)
+    var __out = stack_allocation[1, Matrix]()
+    external_call["mojo_raymath_MatrixScale", NoneType](x, y, z, __out)
+    return __out[]
 
 def MatrixFrustum(left: c_double, right: c_double, bottom: c_double, top: c_double, nearPlane: c_double, farPlane: c_double) -> Matrix:
-    return external_call["mojo_raymath_MatrixFrustum", Matrix](left, right, bottom, top, nearPlane, farPlane)
+    var __out = stack_allocation[1, Matrix]()
+    external_call["mojo_raymath_MatrixFrustum", NoneType](left, right, bottom, top, nearPlane, farPlane, __out)
+    return __out[]
 
 def MatrixPerspective(fovY: c_double, aspect: c_double, nearPlane: c_double, farPlane: c_double) -> Matrix:
-    return external_call["mojo_raymath_MatrixPerspective", Matrix](fovY, aspect, nearPlane, farPlane)
+    var __out = stack_allocation[1, Matrix]()
+    external_call["mojo_raymath_MatrixPerspective", NoneType](fovY, aspect, nearPlane, farPlane, __out)
+    return __out[]
 
 def MatrixOrtho(left: c_double, right: c_double, bottom: c_double, top: c_double, nearPlane: c_double, farPlane: c_double) -> Matrix:
-    return external_call["mojo_raymath_MatrixOrtho", Matrix](left, right, bottom, top, nearPlane, farPlane)
+    var __out = stack_allocation[1, Matrix]()
+    external_call["mojo_raymath_MatrixOrtho", NoneType](left, right, bottom, top, nearPlane, farPlane, __out)
+    return __out[]
 
 def MatrixLookAt(eye: Vector3, target: Vector3, up: Vector3) -> Matrix:
-    return external_call["mojo_raymath_MatrixLookAt", Matrix](UnsafePointer(to=eye), UnsafePointer(to=target), UnsafePointer(to=up))
+    var __out = stack_allocation[1, Matrix]()
+    external_call["mojo_raymath_MatrixLookAt", NoneType](UnsafePointer(to=eye), UnsafePointer(to=target), UnsafePointer(to=up), __out)
+    return __out[]
 
 def MatrixToFloatV(mat: Matrix) -> float16:
-    return external_call["mojo_raymath_MatrixToFloatV", float16](UnsafePointer(to=mat))
+    var __out = stack_allocation[1, float16]()
+    external_call["mojo_raymath_MatrixToFloatV", NoneType](UnsafePointer(to=mat), __out)
+    return __out[]
 
 def QuaternionAdd(q1: Quaternion, q2: Quaternion) -> Quaternion:
-    return external_call["mojo_raymath_QuaternionAdd", Quaternion](UnsafePointer(to=q1), UnsafePointer(to=q2))
+    var __out = stack_allocation[1, Quaternion]()
+    external_call["mojo_raymath_QuaternionAdd", NoneType](UnsafePointer(to=q1), UnsafePointer(to=q2), __out)
+    return __out[]
 
 def QuaternionAddValue(q: Quaternion, add: c_float) -> Quaternion:
-    return external_call["mojo_raymath_QuaternionAddValue", Quaternion](UnsafePointer(to=q), add)
+    var __out = stack_allocation[1, Quaternion]()
+    external_call["mojo_raymath_QuaternionAddValue", NoneType](UnsafePointer(to=q), add, __out)
+    return __out[]
 
 def QuaternionSubtract(q1: Quaternion, q2: Quaternion) -> Quaternion:
-    return external_call["mojo_raymath_QuaternionSubtract", Quaternion](UnsafePointer(to=q1), UnsafePointer(to=q2))
+    var __out = stack_allocation[1, Quaternion]()
+    external_call["mojo_raymath_QuaternionSubtract", NoneType](UnsafePointer(to=q1), UnsafePointer(to=q2), __out)
+    return __out[]
 
 def QuaternionSubtractValue(q: Quaternion, sub: c_float) -> Quaternion:
-    return external_call["mojo_raymath_QuaternionSubtractValue", Quaternion](UnsafePointer(to=q), sub)
+    var __out = stack_allocation[1, Quaternion]()
+    external_call["mojo_raymath_QuaternionSubtractValue", NoneType](UnsafePointer(to=q), sub, __out)
+    return __out[]
 
 def QuaternionIdentity() -> Quaternion:
-    return external_call["mojo_raymath_QuaternionIdentity", Quaternion]()
+    var __out = stack_allocation[1, Quaternion]()
+    external_call["mojo_raymath_QuaternionIdentity", NoneType](__out)
+    return __out[]
 
 def QuaternionLength(q: Quaternion) -> c_float:
     return external_call["mojo_raymath_QuaternionLength", c_float](UnsafePointer(to=q))
 
 def QuaternionNormalize(q: Quaternion) -> Quaternion:
-    return external_call["mojo_raymath_QuaternionNormalize", Quaternion](UnsafePointer(to=q))
+    var __out = stack_allocation[1, Quaternion]()
+    external_call["mojo_raymath_QuaternionNormalize", NoneType](UnsafePointer(to=q), __out)
+    return __out[]
 
 def QuaternionInvert(q: Quaternion) -> Quaternion:
-    return external_call["mojo_raymath_QuaternionInvert", Quaternion](UnsafePointer(to=q))
+    var __out = stack_allocation[1, Quaternion]()
+    external_call["mojo_raymath_QuaternionInvert", NoneType](UnsafePointer(to=q), __out)
+    return __out[]
 
 def QuaternionMultiply(q1: Quaternion, q2: Quaternion) -> Quaternion:
-    return external_call["mojo_raymath_QuaternionMultiply", Quaternion](UnsafePointer(to=q1), UnsafePointer(to=q2))
+    var __out = stack_allocation[1, Quaternion]()
+    external_call["mojo_raymath_QuaternionMultiply", NoneType](UnsafePointer(to=q1), UnsafePointer(to=q2), __out)
+    return __out[]
 
 def QuaternionScale(q: Quaternion, mul: c_float) -> Quaternion:
-    return external_call["mojo_raymath_QuaternionScale", Quaternion](UnsafePointer(to=q), mul)
+    var __out = stack_allocation[1, Quaternion]()
+    external_call["mojo_raymath_QuaternionScale", NoneType](UnsafePointer(to=q), mul, __out)
+    return __out[]
 
 def QuaternionDivide(q1: Quaternion, q2: Quaternion) -> Quaternion:
-    return external_call["mojo_raymath_QuaternionDivide", Quaternion](UnsafePointer(to=q1), UnsafePointer(to=q2))
+    var __out = stack_allocation[1, Quaternion]()
+    external_call["mojo_raymath_QuaternionDivide", NoneType](UnsafePointer(to=q1), UnsafePointer(to=q2), __out)
+    return __out[]
 
 def QuaternionLerp(q1: Quaternion, q2: Quaternion, amount: c_float) -> Quaternion:
-    return external_call["mojo_raymath_QuaternionLerp", Quaternion](UnsafePointer(to=q1), UnsafePointer(to=q2), amount)
+    var __out = stack_allocation[1, Quaternion]()
+    external_call["mojo_raymath_QuaternionLerp", NoneType](UnsafePointer(to=q1), UnsafePointer(to=q2), amount, __out)
+    return __out[]
 
 def QuaternionNlerp(q1: Quaternion, q2: Quaternion, amount: c_float) -> Quaternion:
-    return external_call["mojo_raymath_QuaternionNlerp", Quaternion](UnsafePointer(to=q1), UnsafePointer(to=q2), amount)
+    var __out = stack_allocation[1, Quaternion]()
+    external_call["mojo_raymath_QuaternionNlerp", NoneType](UnsafePointer(to=q1), UnsafePointer(to=q2), amount, __out)
+    return __out[]
 
 def QuaternionSlerp(q1: Quaternion, q2: Quaternion, amount: c_float) -> Quaternion:
-    return external_call["mojo_raymath_QuaternionSlerp", Quaternion](UnsafePointer(to=q1), UnsafePointer(to=q2), amount)
+    var __out = stack_allocation[1, Quaternion]()
+    external_call["mojo_raymath_QuaternionSlerp", NoneType](UnsafePointer(to=q1), UnsafePointer(to=q2), amount, __out)
+    return __out[]
 
 def QuaternionCubicHermiteSpline(q1: Quaternion, outTangent1: Quaternion, q2: Quaternion, inTangent2: Quaternion, t: c_float) -> Quaternion:
-    return external_call["mojo_raymath_QuaternionCubicHermiteSpline", Quaternion](UnsafePointer(to=q1), UnsafePointer(to=outTangent1), UnsafePointer(to=q2), UnsafePointer(to=inTangent2), t)
+    var __out = stack_allocation[1, Quaternion]()
+    external_call["mojo_raymath_QuaternionCubicHermiteSpline", NoneType](UnsafePointer(to=q1), UnsafePointer(to=outTangent1), UnsafePointer(to=q2), UnsafePointer(to=inTangent2), t, __out)
+    return __out[]
 
 def QuaternionFromVector3ToVector3(from_: Vector3, to: Vector3) -> Quaternion:
-    return external_call["mojo_raymath_QuaternionFromVector3ToVector3", Quaternion](UnsafePointer(to=from_), UnsafePointer(to=to))
+    var __out = stack_allocation[1, Quaternion]()
+    external_call["mojo_raymath_QuaternionFromVector3ToVector3", NoneType](UnsafePointer(to=from_), UnsafePointer(to=to), __out)
+    return __out[]
 
 def QuaternionFromMatrix(mat: Matrix) -> Quaternion:
-    return external_call["mojo_raymath_QuaternionFromMatrix", Quaternion](UnsafePointer(to=mat))
+    var __out = stack_allocation[1, Quaternion]()
+    external_call["mojo_raymath_QuaternionFromMatrix", NoneType](UnsafePointer(to=mat), __out)
+    return __out[]
 
 def QuaternionToMatrix(q: Quaternion) -> Matrix:
-    return external_call["mojo_raymath_QuaternionToMatrix", Matrix](UnsafePointer(to=q))
+    var __out = stack_allocation[1, Matrix]()
+    external_call["mojo_raymath_QuaternionToMatrix", NoneType](UnsafePointer(to=q), __out)
+    return __out[]
 
 def QuaternionFromAxisAngle(axis: Vector3, angle: c_float) -> Quaternion:
-    return external_call["mojo_raymath_QuaternionFromAxisAngle", Quaternion](UnsafePointer(to=axis), angle)
+    var __out = stack_allocation[1, Quaternion]()
+    external_call["mojo_raymath_QuaternionFromAxisAngle", NoneType](UnsafePointer(to=axis), angle, __out)
+    return __out[]
 
 def QuaternionToAxisAngle(q: Quaternion, outAxis: UnsafePointer[Vector3, MutAnyOrigin], outAngle: UnsafePointer[c_float, MutAnyOrigin]):
     external_call["mojo_raymath_QuaternionToAxisAngle", NoneType](UnsafePointer(to=q), outAxis, outAngle)
 
 def QuaternionFromEuler(pitch: c_float, yaw: c_float, roll: c_float) -> Quaternion:
-    return external_call["mojo_raymath_QuaternionFromEuler", Quaternion](pitch, yaw, roll)
+    var __out = stack_allocation[1, Quaternion]()
+    external_call["mojo_raymath_QuaternionFromEuler", NoneType](pitch, yaw, roll, __out)
+    return __out[]
 
 def QuaternionToEuler(q: Quaternion) -> Vector3:
-    return external_call["mojo_raymath_QuaternionToEuler", Vector3](UnsafePointer(to=q))
+    var __out = stack_allocation[1, Vector3]()
+    external_call["mojo_raymath_QuaternionToEuler", NoneType](UnsafePointer(to=q), __out)
+    return __out[]
 
 def QuaternionTransform(q: Quaternion, mat: Matrix) -> Quaternion:
-    return external_call["mojo_raymath_QuaternionTransform", Quaternion](UnsafePointer(to=q), UnsafePointer(to=mat))
+    var __out = stack_allocation[1, Quaternion]()
+    external_call["mojo_raymath_QuaternionTransform", NoneType](UnsafePointer(to=q), UnsafePointer(to=mat), __out)
+    return __out[]
 
 def QuaternionEquals(p: Quaternion, q: Quaternion) -> c_int:
     return external_call["mojo_raymath_QuaternionEquals", c_int](UnsafePointer(to=p), UnsafePointer(to=q))
 
 def MatrixCompose(translation: Vector3, rotation: Quaternion, scale: Vector3) -> Matrix:
-    return external_call["mojo_raymath_MatrixCompose", Matrix](UnsafePointer(to=translation), UnsafePointer(to=rotation), UnsafePointer(to=scale))
+    var __out = stack_allocation[1, Matrix]()
+    external_call["mojo_raymath_MatrixCompose", NoneType](UnsafePointer(to=translation), UnsafePointer(to=rotation), UnsafePointer(to=scale), __out)
+    return __out[]
 
 def MatrixDecompose(mat: Matrix, translation: UnsafePointer[Vector3, MutAnyOrigin], rotation: UnsafePointer[Quaternion, MutAnyOrigin], scale: UnsafePointer[Vector3, MutAnyOrigin]):
     external_call["mojo_raymath_MatrixDecompose", NoneType](UnsafePointer(to=mat), translation, rotation, scale)

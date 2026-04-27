@@ -359,7 +359,7 @@ def vector3_reject(v1: Vector3, v2: Vector3) -> Vector3:
 
 @always_inline
 def vector3_ortho_normalize(mut v1: Vector3, mut v2: Vector3):
-    raw.Vector3OrthoNormalize(UnsafePointer(to=v1).bitcast[raw_types.Vector3]().mut_cast[True]().as_any_origin(), UnsafePointer(to=v2).bitcast[raw_types.Vector3]().mut_cast[True]().as_any_origin())
+    raw.Vector3OrthoNormalize(UnsafePointer(to=v1).bitcast[raw_types.Vector3]().unsafe_mut_cast[True]().as_any_origin(), UnsafePointer(to=v2).bitcast[raw_types.Vector3]().unsafe_mut_cast[True]().as_any_origin())
 
 @always_inline
 def vector3_transform(v: Vector3, mat: Matrix) -> Vector3:
@@ -843,7 +843,7 @@ def quaternion_from_axis_angle(axis: Vector3, angle: Float32) -> Quaternion:
 
 @always_inline
 def quaternion_to_axis_angle(q: Quaternion, mut out_axis: Vector3, out_angle: UnsafePointer[c_float, MutAnyOrigin]):
-    raw.QuaternionToAxisAngle(public_types._to_raw_quaternion(q), UnsafePointer(to=out_axis).bitcast[raw_types.Vector3]().mut_cast[True]().as_any_origin(), out_angle)
+    raw.QuaternionToAxisAngle(public_types._to_raw_quaternion(q), UnsafePointer(to=out_axis).bitcast[raw_types.Vector3]().unsafe_mut_cast[True]().as_any_origin(), out_angle)
 
 @always_inline
 def quaternion_from_euler(pitch: Float32, yaw: Float32, roll: Float32) -> Quaternion:
@@ -877,5 +877,5 @@ def matrix_compose(translation: Vector3, rotation: Quaternion, scale: Vector3) -
 
 @always_inline
 def matrix_decompose(mat: Matrix, mut translation: Vector3, mut rotation: Quaternion, mut scale: Vector3):
-    raw.MatrixDecompose(public_types._to_raw_matrix(mat), UnsafePointer(to=translation).bitcast[raw_types.Vector3]().mut_cast[True]().as_any_origin(), UnsafePointer(to=rotation).bitcast[raw_types.Vector4]().mut_cast[True]().as_any_origin(), UnsafePointer(to=scale).bitcast[raw_types.Vector3]().mut_cast[True]().as_any_origin())
+    raw.MatrixDecompose(public_types._to_raw_matrix(mat), UnsafePointer(to=translation).bitcast[raw_types.Vector3]().unsafe_mut_cast[True]().as_any_origin(), UnsafePointer(to=rotation).bitcast[raw_types.Vector4]().unsafe_mut_cast[True]().as_any_origin(), UnsafePointer(to=scale).bitcast[raw_types.Vector3]().unsafe_mut_cast[True]().as_any_origin())
 

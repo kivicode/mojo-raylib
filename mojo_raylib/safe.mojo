@@ -242,7 +242,7 @@ def set_window_icon(image: Image):
 @always_inline
 def set_window_icons(images: Span[Image, _]):
     """Set icon for window (multiple images, RGBA 32bit)"""
-    raw.SetWindowIcons(images.unsafe_ptr().bitcast[raw_types.Image]().mut_cast[True]().as_any_origin(), c_int(len(images)))
+    raw.SetWindowIcons(images.unsafe_ptr().bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(images)))
 
 @always_inline
 def set_window_title(title: String):
@@ -762,7 +762,7 @@ def save_file_data(file_name: String, data: UnsafePointer[NoneType, MutAnyOrigin
 @always_inline
 def export_data_as_code(data: Span[UInt8, _], file_name: String) -> Bool:
     """Export data to code (.h), returns true on success"""
-    var result = raw.ExportDataAsCode(data.unsafe_ptr().bitcast[c_uchar]().mut_cast[True]().as_any_origin(), c_int(len(data)), CStringSlice(unsafe_from_ptr=file_name.unsafe_ptr().bitcast[c_char]()))
+    var result = raw.ExportDataAsCode(data.unsafe_ptr().bitcast[c_uchar]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(data)), CStringSlice(unsafe_from_ptr=file_name.unsafe_ptr().bitcast[c_char]()))
     return result
 
 @always_inline
@@ -984,21 +984,21 @@ def get_directory_file_count_ex(base_path: String, filter: String, scan_subdirs:
 def compress_data(data: Span[UInt8, _]) -> OwnedCompressData:
     """Compress data (DEFLATE algorithm), memory must be MemFree()"""
     var count: c_int = 0
-    var _owned = raw.CompressData(data.unsafe_ptr().bitcast[c_uchar]().mut_cast[True]().as_any_origin(), c_int(len(data)), UnsafePointer(to=count))
+    var _owned = raw.CompressData(data.unsafe_ptr().bitcast[c_uchar]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(data)), UnsafePointer(to=count))
     return OwnedCompressData(_owned, Int(count))
 
 @always_inline
 def decompress_data(comp_data: Span[UInt8, _]) -> OwnedDecompressData:
     """Decompress data (DEFLATE algorithm), memory must be MemFree()"""
     var count: c_int = 0
-    var _owned = raw.DecompressData(comp_data.unsafe_ptr().bitcast[c_uchar]().mut_cast[True]().as_any_origin(), c_int(len(comp_data)), UnsafePointer(to=count))
+    var _owned = raw.DecompressData(comp_data.unsafe_ptr().bitcast[c_uchar]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(comp_data)), UnsafePointer(to=count))
     return OwnedDecompressData(_owned, Int(count))
 
 @always_inline
 def encode_data_base64(data: Span[UInt8, _]) -> OwnedEncodeDataBase64:
     """Encode data to Base64 string (includes NULL terminator), memory must be MemFree()"""
     var count: c_int = 0
-    var _owned = raw.EncodeDataBase64(data.unsafe_ptr().bitcast[c_uchar]().mut_cast[True]().as_any_origin(), c_int(len(data)), UnsafePointer(to=count))
+    var _owned = raw.EncodeDataBase64(data.unsafe_ptr().bitcast[c_uchar]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(data)), UnsafePointer(to=count))
     return OwnedEncodeDataBase64(_owned, Int(count))
 
 @always_inline
@@ -1011,25 +1011,25 @@ def decode_data_base64(text: String) -> OwnedDecodeDataBase64:
 @always_inline
 def compute_crc32(data: Span[UInt8, _]) -> UInt:
     """Compute CRC32 hash code"""
-    var result = raw.ComputeCRC32(data.unsafe_ptr().bitcast[c_uchar]().mut_cast[True]().as_any_origin(), c_int(len(data)))
+    var result = raw.ComputeCRC32(data.unsafe_ptr().bitcast[c_uchar]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(data)))
     return UInt(result)
 
 @always_inline
 def compute_md5(data: Span[UInt8, _]) -> UnsafePointer[c_uint, MutAnyOrigin]:
     """Compute MD5 hash code, returns static int[4] (16 bytes)"""
-    var result = raw.ComputeMD5(data.unsafe_ptr().bitcast[c_uchar]().mut_cast[True]().as_any_origin(), c_int(len(data)))
+    var result = raw.ComputeMD5(data.unsafe_ptr().bitcast[c_uchar]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(data)))
     return result
 
 @always_inline
 def compute_sha1(data: Span[UInt8, _]) -> UnsafePointer[c_uint, MutAnyOrigin]:
     """Compute SHA1 hash code, returns static int[5] (20 bytes)"""
-    var result = raw.ComputeSHA1(data.unsafe_ptr().bitcast[c_uchar]().mut_cast[True]().as_any_origin(), c_int(len(data)))
+    var result = raw.ComputeSHA1(data.unsafe_ptr().bitcast[c_uchar]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(data)))
     return result
 
 @always_inline
 def compute_sha256(data: Span[UInt8, _]) -> UnsafePointer[c_uint, MutAnyOrigin]:
     """Compute SHA256 hash code, returns static int[8] (32 bytes)"""
-    var result = raw.ComputeSHA256(data.unsafe_ptr().bitcast[c_uchar]().mut_cast[True]().as_any_origin(), c_int(len(data)))
+    var result = raw.ComputeSHA256(data.unsafe_ptr().bitcast[c_uchar]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(data)))
     return result
 
 @always_inline
@@ -1052,7 +1052,7 @@ def export_automation_event_list(list: AutomationEventList, file_name: String) -
 @always_inline
 def set_automation_event_list(mut list: AutomationEventList):
     """Set automation event list to record to"""
-    raw.SetAutomationEventList(UnsafePointer(to=list).bitcast[raw_types.AutomationEventList]().mut_cast[True]().as_any_origin())
+    raw.SetAutomationEventList(UnsafePointer(to=list).bitcast[raw_types.AutomationEventList]().unsafe_mut_cast[True]().as_any_origin())
 
 @always_inline
 def set_automation_event_base_frame(frame: Int):
@@ -1352,12 +1352,12 @@ def get_gesture_pinch_angle() -> Float32:
 @always_inline
 def update_camera(mut camera: Camera, mode: Int):
     """Update camera position for selected mode"""
-    raw.UpdateCamera(UnsafePointer(to=camera).bitcast[raw_types.Camera3D]().mut_cast[True]().as_any_origin(), c_int(mode))
+    raw.UpdateCamera(UnsafePointer(to=camera).bitcast[raw_types.Camera3D]().unsafe_mut_cast[True]().as_any_origin(), c_int(mode))
 
 @always_inline
 def update_camera_pro(mut camera: Camera, movement: Vector3, rotation: Vector3, zoom: Float32):
     """Update camera movement/rotation"""
-    raw.UpdateCameraPro(UnsafePointer(to=camera).bitcast[raw_types.Camera3D]().mut_cast[True]().as_any_origin(), public_types._to_raw_vector3(movement), public_types._to_raw_vector3(rotation), c_float(zoom))
+    raw.UpdateCameraPro(UnsafePointer(to=camera).bitcast[raw_types.Camera3D]().unsafe_mut_cast[True]().as_any_origin(), public_types._to_raw_vector3(movement), public_types._to_raw_vector3(rotation), c_float(zoom))
 
 @always_inline
 def set_shapes_texture(texture: Texture2D, source: Rectangle):
@@ -1404,7 +1404,7 @@ def draw_line_ex(start_pos: Vector2, end_pos: Vector2, thick: Float32, color: Co
 @always_inline
 def draw_line_strip(points: Span[Vector2, _], color: Color):
     """Draw lines sequence (using gl lines)"""
-    raw.DrawLineStrip(points.unsafe_ptr().bitcast[raw_types.Vector2]().mut_cast[True]().as_any_origin(), c_int(len(points)), public_types._to_raw_color(color))
+    raw.DrawLineStrip(points.unsafe_ptr().bitcast[raw_types.Vector2]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(points)), public_types._to_raw_color(color))
 
 @always_inline
 def draw_line_bezier(start_pos: Vector2, end_pos: Vector2, thick: Float32, color: Color):
@@ -1554,12 +1554,12 @@ def draw_triangle_lines(v1: Vector2, v2: Vector2, v3: Vector2, color: Color):
 @always_inline
 def draw_triangle_fan(points: Span[Vector2, _], color: Color):
     """Draw a triangle fan defined by points (first vertex is the center)"""
-    raw.DrawTriangleFan(points.unsafe_ptr().bitcast[raw_types.Vector2]().mut_cast[True]().as_any_origin(), c_int(len(points)), public_types._to_raw_color(color))
+    raw.DrawTriangleFan(points.unsafe_ptr().bitcast[raw_types.Vector2]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(points)), public_types._to_raw_color(color))
 
 @always_inline
 def draw_triangle_strip(points: Span[Vector2, _], color: Color):
     """Draw a triangle strip defined by points"""
-    raw.DrawTriangleStrip(points.unsafe_ptr().bitcast[raw_types.Vector2]().mut_cast[True]().as_any_origin(), c_int(len(points)), public_types._to_raw_color(color))
+    raw.DrawTriangleStrip(points.unsafe_ptr().bitcast[raw_types.Vector2]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(points)), public_types._to_raw_color(color))
 
 @always_inline
 def draw_poly(center: Vector2, sides: Int, radius: Float32, rotation: Float32, color: Color):
@@ -1579,27 +1579,27 @@ def draw_poly_lines_ex(center: Vector2, sides: Int, radius: Float32, rotation: F
 @always_inline
 def draw_spline_linear(points: Span[Vector2, _], thick: Float32, color: Color):
     """Draw spline: Linear, minimum 2 points"""
-    raw.DrawSplineLinear(points.unsafe_ptr().bitcast[raw_types.Vector2]().mut_cast[True]().as_any_origin(), c_int(len(points)), c_float(thick), public_types._to_raw_color(color))
+    raw.DrawSplineLinear(points.unsafe_ptr().bitcast[raw_types.Vector2]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(points)), c_float(thick), public_types._to_raw_color(color))
 
 @always_inline
 def draw_spline_basis(points: Span[Vector2, _], thick: Float32, color: Color):
     """Draw spline: B-Spline, minimum 4 points"""
-    raw.DrawSplineBasis(points.unsafe_ptr().bitcast[raw_types.Vector2]().mut_cast[True]().as_any_origin(), c_int(len(points)), c_float(thick), public_types._to_raw_color(color))
+    raw.DrawSplineBasis(points.unsafe_ptr().bitcast[raw_types.Vector2]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(points)), c_float(thick), public_types._to_raw_color(color))
 
 @always_inline
 def draw_spline_catmull_rom(points: Span[Vector2, _], thick: Float32, color: Color):
     """Draw spline: Catmull-Rom, minimum 4 points"""
-    raw.DrawSplineCatmullRom(points.unsafe_ptr().bitcast[raw_types.Vector2]().mut_cast[True]().as_any_origin(), c_int(len(points)), c_float(thick), public_types._to_raw_color(color))
+    raw.DrawSplineCatmullRom(points.unsafe_ptr().bitcast[raw_types.Vector2]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(points)), c_float(thick), public_types._to_raw_color(color))
 
 @always_inline
 def draw_spline_bezier_quadratic(points: Span[Vector2, _], thick: Float32, color: Color):
     """Draw spline: Quadratic Bezier, minimum 3 points (1 control point): [p1, c2, p3, c4...]"""
-    raw.DrawSplineBezierQuadratic(points.unsafe_ptr().bitcast[raw_types.Vector2]().mut_cast[True]().as_any_origin(), c_int(len(points)), c_float(thick), public_types._to_raw_color(color))
+    raw.DrawSplineBezierQuadratic(points.unsafe_ptr().bitcast[raw_types.Vector2]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(points)), c_float(thick), public_types._to_raw_color(color))
 
 @always_inline
 def draw_spline_bezier_cubic(points: Span[Vector2, _], thick: Float32, color: Color):
     """Draw spline: Cubic Bezier, minimum 4 points (2 control points): [p1, c2, c3, p4, c5, c6...]"""
-    raw.DrawSplineBezierCubic(points.unsafe_ptr().bitcast[raw_types.Vector2]().mut_cast[True]().as_any_origin(), c_int(len(points)), c_float(thick), public_types._to_raw_color(color))
+    raw.DrawSplineBezierCubic(points.unsafe_ptr().bitcast[raw_types.Vector2]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(points)), c_float(thick), public_types._to_raw_color(color))
 
 @always_inline
 def draw_spline_segment_linear(p1: Vector2, p2: Vector2, thick: Float32, color: Color):
@@ -1707,13 +1707,13 @@ def check_collision_point_line(point: Vector2, p1: Vector2, p2: Vector2, thresho
 @always_inline
 def check_collision_point_poly(point: Vector2, points: Span[Vector2, _]) -> Bool:
     """Check if point is within a polygon described by array of vertices"""
-    var result = raw.CheckCollisionPointPoly(public_types._to_raw_vector2(point), points.unsafe_ptr().bitcast[raw_types.Vector2]().mut_cast[True]().as_any_origin(), c_int(len(points)))
+    var result = raw.CheckCollisionPointPoly(public_types._to_raw_vector2(point), points.unsafe_ptr().bitcast[raw_types.Vector2]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(points)))
     return result
 
 @always_inline
 def check_collision_lines(start_pos1: Vector2, end_pos1: Vector2, start_pos2: Vector2, end_pos2: Vector2, mut collision_point: Vector2) -> Bool:
     """Check the collision between two lines defined by two points each, returns collision point by reference"""
-    var result = raw.CheckCollisionLines(public_types._to_raw_vector2(start_pos1), public_types._to_raw_vector2(end_pos1), public_types._to_raw_vector2(start_pos2), public_types._to_raw_vector2(end_pos2), UnsafePointer(to=collision_point).bitcast[raw_types.Vector2]().mut_cast[True]().as_any_origin())
+    var result = raw.CheckCollisionLines(public_types._to_raw_vector2(start_pos1), public_types._to_raw_vector2(end_pos1), public_types._to_raw_vector2(start_pos2), public_types._to_raw_vector2(end_pos2), UnsafePointer(to=collision_point).bitcast[raw_types.Vector2]().unsafe_mut_cast[True]().as_any_origin())
     return result
 
 @always_inline
@@ -1745,13 +1745,13 @@ def load_image_anim(file_name: String) -> Image:
 def load_image_anim_from_memory(file_type: String, file_data: Span[UInt8, _]) -> Image:
     """Load image sequence from memory buffer"""
     var count: c_int = 0
-    var result = raw.LoadImageAnimFromMemory(CStringSlice(unsafe_from_ptr=file_type.unsafe_ptr().bitcast[c_char]()), file_data.unsafe_ptr().bitcast[c_uchar]().mut_cast[True]().as_any_origin(), c_int(len(file_data)), UnsafePointer(to=count))
+    var result = raw.LoadImageAnimFromMemory(CStringSlice(unsafe_from_ptr=file_type.unsafe_ptr().bitcast[c_char]()), file_data.unsafe_ptr().bitcast[c_uchar]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(file_data)), UnsafePointer(to=count))
     return public_types._from_raw_image(result)
 
 @always_inline
 def load_image_from_memory(file_type: String, file_data: Span[UInt8, _]) -> Image:
     """Load image from memory buffer, fileType refers to extension: i.e. '.png'"""
-    var result = raw.LoadImageFromMemory(CStringSlice(unsafe_from_ptr=file_type.unsafe_ptr().bitcast[c_char]()), file_data.unsafe_ptr().bitcast[c_uchar]().mut_cast[True]().as_any_origin(), c_int(len(file_data)))
+    var result = raw.LoadImageFromMemory(CStringSlice(unsafe_from_ptr=file_type.unsafe_ptr().bitcast[c_char]()), file_data.unsafe_ptr().bitcast[c_uchar]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(file_data)))
     return public_types._from_raw_image(result)
 
 @always_inline
@@ -1883,127 +1883,127 @@ def image_text_ex(font: Font, text: String, font_size: Float32, spacing: Float32
 @always_inline
 def image_format(mut image: Image, new_format: Int):
     """Convert image data to desired format"""
-    raw.ImageFormat(UnsafePointer(to=image).bitcast[raw_types.Image]().mut_cast[True]().as_any_origin(), c_int(new_format))
+    raw.ImageFormat(UnsafePointer(to=image).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), c_int(new_format))
 
 @always_inline
 def image_to_pot(mut image: Image, fill: Color):
     """Convert image to POT (power-of-two)"""
-    raw.ImageToPOT(UnsafePointer(to=image).bitcast[raw_types.Image]().mut_cast[True]().as_any_origin(), public_types._to_raw_color(fill))
+    raw.ImageToPOT(UnsafePointer(to=image).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), public_types._to_raw_color(fill))
 
 @always_inline
 def image_crop(mut image: Image, crop: Rectangle):
     """Crop an image to a defined rectangle"""
-    raw.ImageCrop(UnsafePointer(to=image).bitcast[raw_types.Image]().mut_cast[True]().as_any_origin(), public_types._to_raw_rectangle(crop))
+    raw.ImageCrop(UnsafePointer(to=image).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), public_types._to_raw_rectangle(crop))
 
 @always_inline
 def image_alpha_crop(mut image: Image, threshold: Float32):
     """Crop image depending on alpha value"""
-    raw.ImageAlphaCrop(UnsafePointer(to=image).bitcast[raw_types.Image]().mut_cast[True]().as_any_origin(), c_float(threshold))
+    raw.ImageAlphaCrop(UnsafePointer(to=image).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), c_float(threshold))
 
 @always_inline
 def image_alpha_clear(mut image: Image, color: Color, threshold: Float32):
     """Clear alpha channel to desired color"""
-    raw.ImageAlphaClear(UnsafePointer(to=image).bitcast[raw_types.Image]().mut_cast[True]().as_any_origin(), public_types._to_raw_color(color), c_float(threshold))
+    raw.ImageAlphaClear(UnsafePointer(to=image).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), public_types._to_raw_color(color), c_float(threshold))
 
 @always_inline
 def image_alpha_mask(mut image: Image, alpha_mask: Image):
     """Apply alpha mask to image"""
-    raw.ImageAlphaMask(UnsafePointer(to=image).bitcast[raw_types.Image]().mut_cast[True]().as_any_origin(), public_types._to_raw_image(alpha_mask))
+    raw.ImageAlphaMask(UnsafePointer(to=image).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), public_types._to_raw_image(alpha_mask))
 
 @always_inline
 def image_alpha_premultiply(mut image: Image):
     """Premultiply alpha channel"""
-    raw.ImageAlphaPremultiply(UnsafePointer(to=image).bitcast[raw_types.Image]().mut_cast[True]().as_any_origin())
+    raw.ImageAlphaPremultiply(UnsafePointer(to=image).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin())
 
 @always_inline
 def image_blur_gaussian(image: Span[Image, _]):
     """Apply Gaussian blur using a box blur approximation"""
-    raw.ImageBlurGaussian(image.unsafe_ptr().bitcast[raw_types.Image]().mut_cast[True]().as_any_origin(), c_int(len(image)))
+    raw.ImageBlurGaussian(image.unsafe_ptr().bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(image)))
 
 @always_inline
 def image_kernel_convolution(mut image: Image, kernel: Span[Float32, _]):
     """Apply custom square convolution kernel to image"""
-    raw.ImageKernelConvolution(UnsafePointer(to=image).bitcast[raw_types.Image]().mut_cast[True]().as_any_origin(), kernel.unsafe_ptr().bitcast[c_float]().mut_cast[True]().as_any_origin(), c_int(len(kernel)))
+    raw.ImageKernelConvolution(UnsafePointer(to=image).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), kernel.unsafe_ptr().bitcast[c_float]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(kernel)))
 
 @always_inline
 def image_resize(mut image: Image, new_width: Int, new_height: Int):
     """Resize image (Bicubic scaling algorithm)"""
-    raw.ImageResize(UnsafePointer(to=image).bitcast[raw_types.Image]().mut_cast[True]().as_any_origin(), c_int(new_width), c_int(new_height))
+    raw.ImageResize(UnsafePointer(to=image).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), c_int(new_width), c_int(new_height))
 
 @always_inline
 def image_resize_nn(mut image: Image, new_width: Int, new_height: Int):
     """Resize image (Nearest-Neighbor scaling algorithm)"""
-    raw.ImageResizeNN(UnsafePointer(to=image).bitcast[raw_types.Image]().mut_cast[True]().as_any_origin(), c_int(new_width), c_int(new_height))
+    raw.ImageResizeNN(UnsafePointer(to=image).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), c_int(new_width), c_int(new_height))
 
 @always_inline
 def image_resize_canvas(mut image: Image, new_width: Int, new_height: Int, offset_x: Int, offset_y: Int, fill: Color):
     """Resize canvas and fill with color"""
-    raw.ImageResizeCanvas(UnsafePointer(to=image).bitcast[raw_types.Image]().mut_cast[True]().as_any_origin(), c_int(new_width), c_int(new_height), c_int(offset_x), c_int(offset_y), public_types._to_raw_color(fill))
+    raw.ImageResizeCanvas(UnsafePointer(to=image).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), c_int(new_width), c_int(new_height), c_int(offset_x), c_int(offset_y), public_types._to_raw_color(fill))
 
 @always_inline
 def image_mipmaps(mut image: Image):
     """Compute all mipmap levels for a provided image"""
-    raw.ImageMipmaps(UnsafePointer(to=image).bitcast[raw_types.Image]().mut_cast[True]().as_any_origin())
+    raw.ImageMipmaps(UnsafePointer(to=image).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin())
 
 @always_inline
 def image_dither(mut image: Image, r_bpp: Int, g_bpp: Int, b_bpp: Int, a_bpp: Int):
     """Dither image data to 16bpp or lower (Floyd-Steinberg dithering)"""
-    raw.ImageDither(UnsafePointer(to=image).bitcast[raw_types.Image]().mut_cast[True]().as_any_origin(), c_int(r_bpp), c_int(g_bpp), c_int(b_bpp), c_int(a_bpp))
+    raw.ImageDither(UnsafePointer(to=image).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), c_int(r_bpp), c_int(g_bpp), c_int(b_bpp), c_int(a_bpp))
 
 @always_inline
 def image_flip_vertical(mut image: Image):
     """Flip image vertically"""
-    raw.ImageFlipVertical(UnsafePointer(to=image).bitcast[raw_types.Image]().mut_cast[True]().as_any_origin())
+    raw.ImageFlipVertical(UnsafePointer(to=image).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin())
 
 @always_inline
 def image_flip_horizontal(mut image: Image):
     """Flip image horizontally"""
-    raw.ImageFlipHorizontal(UnsafePointer(to=image).bitcast[raw_types.Image]().mut_cast[True]().as_any_origin())
+    raw.ImageFlipHorizontal(UnsafePointer(to=image).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin())
 
 @always_inline
 def image_rotate(mut image: Image, degrees: Int):
     """Rotate image by input angle in degrees (-359 to 359)"""
-    raw.ImageRotate(UnsafePointer(to=image).bitcast[raw_types.Image]().mut_cast[True]().as_any_origin(), c_int(degrees))
+    raw.ImageRotate(UnsafePointer(to=image).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), c_int(degrees))
 
 @always_inline
 def image_rotate_cw(mut image: Image):
     """Rotate image clockwise 90deg"""
-    raw.ImageRotateCW(UnsafePointer(to=image).bitcast[raw_types.Image]().mut_cast[True]().as_any_origin())
+    raw.ImageRotateCW(UnsafePointer(to=image).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin())
 
 @always_inline
 def image_rotate_ccw(mut image: Image):
     """Rotate image counter-clockwise 90deg"""
-    raw.ImageRotateCCW(UnsafePointer(to=image).bitcast[raw_types.Image]().mut_cast[True]().as_any_origin())
+    raw.ImageRotateCCW(UnsafePointer(to=image).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin())
 
 @always_inline
 def image_color_tint(mut image: Image, color: Color):
     """Modify image color: tint"""
-    raw.ImageColorTint(UnsafePointer(to=image).bitcast[raw_types.Image]().mut_cast[True]().as_any_origin(), public_types._to_raw_color(color))
+    raw.ImageColorTint(UnsafePointer(to=image).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), public_types._to_raw_color(color))
 
 @always_inline
 def image_color_invert(mut image: Image):
     """Modify image color: invert"""
-    raw.ImageColorInvert(UnsafePointer(to=image).bitcast[raw_types.Image]().mut_cast[True]().as_any_origin())
+    raw.ImageColorInvert(UnsafePointer(to=image).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin())
 
 @always_inline
 def image_color_grayscale(mut image: Image):
     """Modify image color: grayscale"""
-    raw.ImageColorGrayscale(UnsafePointer(to=image).bitcast[raw_types.Image]().mut_cast[True]().as_any_origin())
+    raw.ImageColorGrayscale(UnsafePointer(to=image).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin())
 
 @always_inline
 def image_color_contrast(mut image: Image, contrast: Float32):
     """Modify image color: contrast (-100 to 100)"""
-    raw.ImageColorContrast(UnsafePointer(to=image).bitcast[raw_types.Image]().mut_cast[True]().as_any_origin(), c_float(contrast))
+    raw.ImageColorContrast(UnsafePointer(to=image).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), c_float(contrast))
 
 @always_inline
 def image_color_brightness(mut image: Image, brightness: Int):
     """Modify image color: brightness (-255 to 255)"""
-    raw.ImageColorBrightness(UnsafePointer(to=image).bitcast[raw_types.Image]().mut_cast[True]().as_any_origin(), c_int(brightness))
+    raw.ImageColorBrightness(UnsafePointer(to=image).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), c_int(brightness))
 
 @always_inline
 def image_color_replace(mut image: Image, color: Color, replace: Color):
     """Modify image color: replace color"""
-    raw.ImageColorReplace(UnsafePointer(to=image).bitcast[raw_types.Image]().mut_cast[True]().as_any_origin(), public_types._to_raw_color(color), public_types._to_raw_color(replace))
+    raw.ImageColorReplace(UnsafePointer(to=image).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), public_types._to_raw_color(color), public_types._to_raw_color(replace))
 
 @always_inline
 def load_image_colors(image: Image) -> OwnedImageColors:
@@ -2021,12 +2021,12 @@ def load_image_palette(image: Image, max_palette_size: Int) -> OwnedImagePalette
 @always_inline
 def unload_image_colors(mut colors: Color):
     """Unload color data loaded with LoadImageColors()"""
-    raw.UnloadImageColors(UnsafePointer(to=colors).bitcast[raw_types.Color]().mut_cast[True]().as_any_origin())
+    raw.UnloadImageColors(UnsafePointer(to=colors).bitcast[raw_types.Color]().unsafe_mut_cast[True]().as_any_origin())
 
 @always_inline
 def unload_image_palette(mut colors: Color):
     """Unload colors palette loaded with LoadImagePalette()"""
-    raw.UnloadImagePalette(UnsafePointer(to=colors).bitcast[raw_types.Color]().mut_cast[True]().as_any_origin())
+    raw.UnloadImagePalette(UnsafePointer(to=colors).bitcast[raw_types.Color]().unsafe_mut_cast[True]().as_any_origin())
 
 @always_inline
 def get_image_alpha_border(image: Image, threshold: Float32) -> Rectangle:
@@ -2043,112 +2043,112 @@ def get_image_color(image: Image, x: Int, y: Int) -> Color:
 @always_inline
 def image_clear_background(mut dst: Image, color: Color):
     """Clear image background with given color"""
-    raw.ImageClearBackground(UnsafePointer(to=dst).bitcast[raw_types.Image]().mut_cast[True]().as_any_origin(), public_types._to_raw_color(color))
+    raw.ImageClearBackground(UnsafePointer(to=dst).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), public_types._to_raw_color(color))
 
 @always_inline
 def image_draw_pixel(mut dst: Image, pos_x: Int, pos_y: Int, color: Color):
     """Draw pixel within an image"""
-    raw.ImageDrawPixel(UnsafePointer(to=dst).bitcast[raw_types.Image]().mut_cast[True]().as_any_origin(), c_int(pos_x), c_int(pos_y), public_types._to_raw_color(color))
+    raw.ImageDrawPixel(UnsafePointer(to=dst).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), c_int(pos_x), c_int(pos_y), public_types._to_raw_color(color))
 
 @always_inline
 def image_draw_pixel_v(mut dst: Image, position: Vector2, color: Color):
     """Draw pixel within an image (Vector version)"""
-    raw.ImageDrawPixelV(UnsafePointer(to=dst).bitcast[raw_types.Image]().mut_cast[True]().as_any_origin(), public_types._to_raw_vector2(position), public_types._to_raw_color(color))
+    raw.ImageDrawPixelV(UnsafePointer(to=dst).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), public_types._to_raw_vector2(position), public_types._to_raw_color(color))
 
 @always_inline
 def image_draw_line(mut dst: Image, start_pos_x: Int, start_pos_y: Int, end_pos_x: Int, end_pos_y: Int, color: Color):
     """Draw line within an image"""
-    raw.ImageDrawLine(UnsafePointer(to=dst).bitcast[raw_types.Image]().mut_cast[True]().as_any_origin(), c_int(start_pos_x), c_int(start_pos_y), c_int(end_pos_x), c_int(end_pos_y), public_types._to_raw_color(color))
+    raw.ImageDrawLine(UnsafePointer(to=dst).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), c_int(start_pos_x), c_int(start_pos_y), c_int(end_pos_x), c_int(end_pos_y), public_types._to_raw_color(color))
 
 @always_inline
 def image_draw_line_v(mut dst: Image, start: Vector2, end: Vector2, color: Color):
     """Draw line within an image (Vector version)"""
-    raw.ImageDrawLineV(UnsafePointer(to=dst).bitcast[raw_types.Image]().mut_cast[True]().as_any_origin(), public_types._to_raw_vector2(start), public_types._to_raw_vector2(end), public_types._to_raw_color(color))
+    raw.ImageDrawLineV(UnsafePointer(to=dst).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), public_types._to_raw_vector2(start), public_types._to_raw_vector2(end), public_types._to_raw_color(color))
 
 @always_inline
 def image_draw_line_ex(mut dst: Image, start: Vector2, end: Vector2, thick: Int, color: Color):
     """Draw a line defining thickness within an image"""
-    raw.ImageDrawLineEx(UnsafePointer(to=dst).bitcast[raw_types.Image]().mut_cast[True]().as_any_origin(), public_types._to_raw_vector2(start), public_types._to_raw_vector2(end), c_int(thick), public_types._to_raw_color(color))
+    raw.ImageDrawLineEx(UnsafePointer(to=dst).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), public_types._to_raw_vector2(start), public_types._to_raw_vector2(end), c_int(thick), public_types._to_raw_color(color))
 
 @always_inline
 def image_draw_circle(mut dst: Image, center_x: Int, center_y: Int, radius: Int, color: Color):
     """Draw a filled circle within an image"""
-    raw.ImageDrawCircle(UnsafePointer(to=dst).bitcast[raw_types.Image]().mut_cast[True]().as_any_origin(), c_int(center_x), c_int(center_y), c_int(radius), public_types._to_raw_color(color))
+    raw.ImageDrawCircle(UnsafePointer(to=dst).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), c_int(center_x), c_int(center_y), c_int(radius), public_types._to_raw_color(color))
 
 @always_inline
 def image_draw_circle_v(mut dst: Image, center: Vector2, radius: Int, color: Color):
     """Draw a filled circle within an image (Vector version)"""
-    raw.ImageDrawCircleV(UnsafePointer(to=dst).bitcast[raw_types.Image]().mut_cast[True]().as_any_origin(), public_types._to_raw_vector2(center), c_int(radius), public_types._to_raw_color(color))
+    raw.ImageDrawCircleV(UnsafePointer(to=dst).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), public_types._to_raw_vector2(center), c_int(radius), public_types._to_raw_color(color))
 
 @always_inline
 def image_draw_circle_lines(mut dst: Image, center_x: Int, center_y: Int, radius: Int, color: Color):
     """Draw circle outline within an image"""
-    raw.ImageDrawCircleLines(UnsafePointer(to=dst).bitcast[raw_types.Image]().mut_cast[True]().as_any_origin(), c_int(center_x), c_int(center_y), c_int(radius), public_types._to_raw_color(color))
+    raw.ImageDrawCircleLines(UnsafePointer(to=dst).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), c_int(center_x), c_int(center_y), c_int(radius), public_types._to_raw_color(color))
 
 @always_inline
 def image_draw_circle_lines_v(mut dst: Image, center: Vector2, radius: Int, color: Color):
     """Draw circle outline within an image (Vector version)"""
-    raw.ImageDrawCircleLinesV(UnsafePointer(to=dst).bitcast[raw_types.Image]().mut_cast[True]().as_any_origin(), public_types._to_raw_vector2(center), c_int(radius), public_types._to_raw_color(color))
+    raw.ImageDrawCircleLinesV(UnsafePointer(to=dst).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), public_types._to_raw_vector2(center), c_int(radius), public_types._to_raw_color(color))
 
 @always_inline
 def image_draw_rectangle(mut dst: Image, pos_x: Int, pos_y: Int, width: Int, height: Int, color: Color):
     """Draw rectangle within an image"""
-    raw.ImageDrawRectangle(UnsafePointer(to=dst).bitcast[raw_types.Image]().mut_cast[True]().as_any_origin(), c_int(pos_x), c_int(pos_y), c_int(width), c_int(height), public_types._to_raw_color(color))
+    raw.ImageDrawRectangle(UnsafePointer(to=dst).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), c_int(pos_x), c_int(pos_y), c_int(width), c_int(height), public_types._to_raw_color(color))
 
 @always_inline
 def image_draw_rectangle_v(mut dst: Image, position: Vector2, size: Vector2, color: Color):
     """Draw rectangle within an image (Vector version)"""
-    raw.ImageDrawRectangleV(UnsafePointer(to=dst).bitcast[raw_types.Image]().mut_cast[True]().as_any_origin(), public_types._to_raw_vector2(position), public_types._to_raw_vector2(size), public_types._to_raw_color(color))
+    raw.ImageDrawRectangleV(UnsafePointer(to=dst).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), public_types._to_raw_vector2(position), public_types._to_raw_vector2(size), public_types._to_raw_color(color))
 
 @always_inline
 def image_draw_rectangle_rec(mut dst: Image, rec: Rectangle, color: Color):
     """Draw rectangle within an image"""
-    raw.ImageDrawRectangleRec(UnsafePointer(to=dst).bitcast[raw_types.Image]().mut_cast[True]().as_any_origin(), public_types._to_raw_rectangle(rec), public_types._to_raw_color(color))
+    raw.ImageDrawRectangleRec(UnsafePointer(to=dst).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), public_types._to_raw_rectangle(rec), public_types._to_raw_color(color))
 
 @always_inline
 def image_draw_rectangle_lines(mut dst: Image, rec: Rectangle, thick: Int, color: Color):
     """Draw rectangle lines within an image"""
-    raw.ImageDrawRectangleLines(UnsafePointer(to=dst).bitcast[raw_types.Image]().mut_cast[True]().as_any_origin(), public_types._to_raw_rectangle(rec), c_int(thick), public_types._to_raw_color(color))
+    raw.ImageDrawRectangleLines(UnsafePointer(to=dst).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), public_types._to_raw_rectangle(rec), c_int(thick), public_types._to_raw_color(color))
 
 @always_inline
 def image_draw_triangle(mut dst: Image, v1: Vector2, v2: Vector2, v3: Vector2, color: Color):
     """Draw triangle within an image"""
-    raw.ImageDrawTriangle(UnsafePointer(to=dst).bitcast[raw_types.Image]().mut_cast[True]().as_any_origin(), public_types._to_raw_vector2(v1), public_types._to_raw_vector2(v2), public_types._to_raw_vector2(v3), public_types._to_raw_color(color))
+    raw.ImageDrawTriangle(UnsafePointer(to=dst).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), public_types._to_raw_vector2(v1), public_types._to_raw_vector2(v2), public_types._to_raw_vector2(v3), public_types._to_raw_color(color))
 
 @always_inline
 def image_draw_triangle_ex(mut dst: Image, v1: Vector2, v2: Vector2, v3: Vector2, c1: Color, c2: Color, c3: Color):
     """Draw triangle with interpolated colors within an image"""
-    raw.ImageDrawTriangleEx(UnsafePointer(to=dst).bitcast[raw_types.Image]().mut_cast[True]().as_any_origin(), public_types._to_raw_vector2(v1), public_types._to_raw_vector2(v2), public_types._to_raw_vector2(v3), public_types._to_raw_color(c1), public_types._to_raw_color(c2), public_types._to_raw_color(c3))
+    raw.ImageDrawTriangleEx(UnsafePointer(to=dst).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), public_types._to_raw_vector2(v1), public_types._to_raw_vector2(v2), public_types._to_raw_vector2(v3), public_types._to_raw_color(c1), public_types._to_raw_color(c2), public_types._to_raw_color(c3))
 
 @always_inline
 def image_draw_triangle_lines(mut dst: Image, v1: Vector2, v2: Vector2, v3: Vector2, color: Color):
     """Draw triangle outline within an image"""
-    raw.ImageDrawTriangleLines(UnsafePointer(to=dst).bitcast[raw_types.Image]().mut_cast[True]().as_any_origin(), public_types._to_raw_vector2(v1), public_types._to_raw_vector2(v2), public_types._to_raw_vector2(v3), public_types._to_raw_color(color))
+    raw.ImageDrawTriangleLines(UnsafePointer(to=dst).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), public_types._to_raw_vector2(v1), public_types._to_raw_vector2(v2), public_types._to_raw_vector2(v3), public_types._to_raw_color(color))
 
 @always_inline
 def image_draw_triangle_fan(mut dst: Image, points: Span[Vector2, _], color: Color):
     """Draw a triangle fan defined by points within an image (first vertex is the center)"""
-    raw.ImageDrawTriangleFan(UnsafePointer(to=dst).bitcast[raw_types.Image]().mut_cast[True]().as_any_origin(), points.unsafe_ptr().bitcast[raw_types.Vector2]().mut_cast[True]().as_any_origin(), c_int(len(points)), public_types._to_raw_color(color))
+    raw.ImageDrawTriangleFan(UnsafePointer(to=dst).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), points.unsafe_ptr().bitcast[raw_types.Vector2]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(points)), public_types._to_raw_color(color))
 
 @always_inline
 def image_draw_triangle_strip(mut dst: Image, points: Span[Vector2, _], color: Color):
     """Draw a triangle strip defined by points within an image"""
-    raw.ImageDrawTriangleStrip(UnsafePointer(to=dst).bitcast[raw_types.Image]().mut_cast[True]().as_any_origin(), points.unsafe_ptr().bitcast[raw_types.Vector2]().mut_cast[True]().as_any_origin(), c_int(len(points)), public_types._to_raw_color(color))
+    raw.ImageDrawTriangleStrip(UnsafePointer(to=dst).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), points.unsafe_ptr().bitcast[raw_types.Vector2]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(points)), public_types._to_raw_color(color))
 
 @always_inline
 def image_draw(mut dst: Image, src: Image, src_rec: Rectangle, dst_rec: Rectangle, tint: Color):
     """Draw a source image within a destination image (tint applied to source)"""
-    raw.ImageDraw(UnsafePointer(to=dst).bitcast[raw_types.Image]().mut_cast[True]().as_any_origin(), public_types._to_raw_image(src), public_types._to_raw_rectangle(src_rec), public_types._to_raw_rectangle(dst_rec), public_types._to_raw_color(tint))
+    raw.ImageDraw(UnsafePointer(to=dst).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), public_types._to_raw_image(src), public_types._to_raw_rectangle(src_rec), public_types._to_raw_rectangle(dst_rec), public_types._to_raw_color(tint))
 
 @always_inline
 def image_draw_text(mut dst: Image, text: String, pos_x: Int, pos_y: Int, font_size: Int, color: Color):
     """Draw text (using default font) within an image (destination)"""
-    raw.ImageDrawText(UnsafePointer(to=dst).bitcast[raw_types.Image]().mut_cast[True]().as_any_origin(), CStringSlice(unsafe_from_ptr=text.unsafe_ptr().bitcast[c_char]()), c_int(pos_x), c_int(pos_y), c_int(font_size), public_types._to_raw_color(color))
+    raw.ImageDrawText(UnsafePointer(to=dst).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), CStringSlice(unsafe_from_ptr=text.unsafe_ptr().bitcast[c_char]()), c_int(pos_x), c_int(pos_y), c_int(font_size), public_types._to_raw_color(color))
 
 @always_inline
 def image_draw_text_ex(mut dst: Image, font: Font, text: String, position: Vector2, font_size: Float32, spacing: Float32, tint: Color):
     """Draw text (custom sprite font) within an image (destination)"""
-    raw.ImageDrawTextEx(UnsafePointer(to=dst).bitcast[raw_types.Image]().mut_cast[True]().as_any_origin(), public_types._to_raw_font(font), CStringSlice(unsafe_from_ptr=text.unsafe_ptr().bitcast[c_char]()), public_types._to_raw_vector2(position), c_float(font_size), c_float(spacing), public_types._to_raw_color(tint))
+    raw.ImageDrawTextEx(UnsafePointer(to=dst).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), public_types._to_raw_font(font), CStringSlice(unsafe_from_ptr=text.unsafe_ptr().bitcast[c_char]()), public_types._to_raw_vector2(position), c_float(font_size), c_float(spacing), public_types._to_raw_color(tint))
 
 @always_inline
 def load_texture(file_name: String) -> Texture2D:
@@ -2209,7 +2209,7 @@ def update_texture_rec(texture: Texture2D, rec: Rectangle, pixels: UnsafePointer
 @always_inline
 def gen_texture_mipmaps(mut texture: Texture2D):
     """Generate GPU mipmaps for a texture"""
-    raw.GenTextureMipmaps(UnsafePointer(to=texture).bitcast[raw_types.Texture]().mut_cast[True]().as_any_origin())
+    raw.GenTextureMipmaps(UnsafePointer(to=texture).bitcast[raw_types.Texture]().unsafe_mut_cast[True]().as_any_origin())
 
 @always_inline
 def set_texture_filter(texture: Texture2D, filter: Int):
@@ -2367,7 +2367,7 @@ def load_font(file_name: String) -> Font:
 @always_inline
 def load_font_ex(file_name: String, font_size: Int, codepoints: Span[Int, _]) -> Font:
     """Load font from file with extended parameters, use NULL for codepoints and 0 for codepointCount to load the default character set, font size is provided in pixels height"""
-    var result = raw.LoadFontEx(CStringSlice(unsafe_from_ptr=file_name.unsafe_ptr().bitcast[c_char]()), c_int(font_size), codepoints.unsafe_ptr().bitcast[c_int]().mut_cast[True]().as_any_origin(), c_int(len(codepoints)))
+    var result = raw.LoadFontEx(CStringSlice(unsafe_from_ptr=file_name.unsafe_ptr().bitcast[c_char]()), c_int(font_size), codepoints.unsafe_ptr().bitcast[c_int]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(codepoints)))
     return public_types._from_raw_font(result)
 
 @always_inline
@@ -2379,7 +2379,7 @@ def load_font_from_image(image: Image, key: Color, first_char: Int) -> Font:
 @always_inline
 def load_font_from_memory(file_type: String, file_data: Span[UInt8, _], font_size: Int, codepoints: Span[Int, _]) -> Font:
     """Load font from memory buffer, fileType refers to extension: i.e. '.ttf'"""
-    var result = raw.LoadFontFromMemory(CStringSlice(unsafe_from_ptr=file_type.unsafe_ptr().bitcast[c_char]()), file_data.unsafe_ptr().bitcast[c_uchar]().mut_cast[True]().as_any_origin(), c_int(len(file_data)), c_int(font_size), codepoints.unsafe_ptr().bitcast[c_int]().mut_cast[True]().as_any_origin(), c_int(len(codepoints)))
+    var result = raw.LoadFontFromMemory(CStringSlice(unsafe_from_ptr=file_type.unsafe_ptr().bitcast[c_char]()), file_data.unsafe_ptr().bitcast[c_uchar]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(file_data)), c_int(font_size), codepoints.unsafe_ptr().bitcast[c_int]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(codepoints)))
     return public_types._from_raw_font(result)
 
 @always_inline
@@ -2392,19 +2392,19 @@ def is_font_valid(font: Font) -> Bool:
 def load_font_data(file_data: Span[UInt8, _], font_size: Int, codepoints: Span[Int, _], type_: Int) -> OwnedFontData:
     """Load font data for further use"""
     var count: c_int = 0
-    var _owned = raw.LoadFontData(file_data.unsafe_ptr().bitcast[c_uchar]().mut_cast[True]().as_any_origin(), c_int(len(file_data)), c_int(font_size), codepoints.unsafe_ptr().bitcast[c_int]().mut_cast[True]().as_any_origin(), c_int(len(codepoints)), c_int(type_), UnsafePointer(to=count))
+    var _owned = raw.LoadFontData(file_data.unsafe_ptr().bitcast[c_uchar]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(file_data)), c_int(font_size), codepoints.unsafe_ptr().bitcast[c_int]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(codepoints)), c_int(type_), UnsafePointer(to=count))
     return OwnedFontData(_owned, Int(count))
 
 @always_inline
 def gen_image_font_atlas(ref glyphs: GlyphInfo, glyph_recs: UnsafePointer[Rectangle, MutAnyOrigin], glyph_count: Int, font_size: Int, padding: Int, pack_method: Int) -> Image:
     """Generate image font atlas using chars info"""
-    var result = raw.GenImageFontAtlas(UnsafePointer(to=glyphs).bitcast[raw_types.GlyphInfo]().mut_cast[True]().as_any_origin(), UnsafePointer(to=glyph_recs).bitcast[raw_types.Rectangle]().mut_cast[True]().as_any_origin(), c_int(glyph_count), c_int(font_size), c_int(padding), c_int(pack_method))
+    var result = raw.GenImageFontAtlas(UnsafePointer(to=glyphs).bitcast[raw_types.GlyphInfo]().unsafe_mut_cast[True]().as_any_origin(), UnsafePointer(to=glyph_recs).bitcast[raw_types.Rectangle]().unsafe_mut_cast[True]().as_any_origin(), c_int(glyph_count), c_int(font_size), c_int(padding), c_int(pack_method))
     return public_types._from_raw_image(result)
 
 @always_inline
 def unload_font_data(glyphs: Span[GlyphInfo, _]):
     """Unload font chars info data (RAM)"""
-    raw.UnloadFontData(glyphs.unsafe_ptr().bitcast[raw_types.GlyphInfo]().mut_cast[True]().as_any_origin(), c_int(len(glyphs)))
+    raw.UnloadFontData(glyphs.unsafe_ptr().bitcast[raw_types.GlyphInfo]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(glyphs)))
 
 @always_inline
 def unload_font(font: Font):
@@ -2445,7 +2445,7 @@ def draw_text_codepoint(font: Font, codepoint: Int, position: Vector2, font_size
 @always_inline
 def draw_text_codepoints(font: Font, codepoints: Span[Int, _], position: Vector2, font_size: Float32, spacing: Float32, tint: Color):
     """Draw multiple character (codepoint)"""
-    raw.DrawTextCodepoints(public_types._to_raw_font(font), codepoints.unsafe_ptr().bitcast[c_int]().mut_cast[True]().as_any_origin(), c_int(len(codepoints)), public_types._to_raw_vector2(position), c_float(font_size), c_float(spacing), public_types._to_raw_color(tint))
+    raw.DrawTextCodepoints(public_types._to_raw_font(font), codepoints.unsafe_ptr().bitcast[c_int]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(codepoints)), public_types._to_raw_vector2(position), c_float(font_size), c_float(spacing), public_types._to_raw_color(tint))
 
 @always_inline
 def set_text_line_spacing(spacing: Int):
@@ -2467,7 +2467,7 @@ def measure_text_ex(font: Font, text: String, font_size: Float32, spacing: Float
 @always_inline
 def measure_text_codepoints(font: Font, codepoints: Span[Int, _], font_size: Float32, spacing: Float32) -> Vector2:
     """Measure string size for an existing array of codepoints for Font"""
-    var result = raw.MeasureTextCodepoints(public_types._to_raw_font(font), codepoints.unsafe_ptr().bitcast[c_int]().mut_cast[True]().as_any_origin(), c_int(len(codepoints)), c_float(font_size), c_float(spacing))
+    var result = raw.MeasureTextCodepoints(public_types._to_raw_font(font), codepoints.unsafe_ptr().bitcast[c_int]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(codepoints)), c_float(font_size), c_float(spacing))
     return public_types._from_raw_vector2(result)
 
 @always_inline
@@ -2491,7 +2491,7 @@ def get_glyph_atlas_rec(font: Font, codepoint: Int) -> Rectangle:
 @always_inline
 def load_utf8(codepoints: Span[Int, _]) -> OwnedUTF8:
     """Load UTF-8 text encoded from codepoints array"""
-    var _owned = raw.LoadUTF8(codepoints.unsafe_ptr().bitcast[c_int]().mut_cast[True]().as_any_origin(), c_int(len(codepoints)))
+    var _owned = raw.LoadUTF8(codepoints.unsafe_ptr().bitcast[c_int]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(codepoints)))
     return OwnedUTF8(_owned)
 
 @always_inline
@@ -2720,7 +2720,7 @@ def draw_triangle_3d(v1: Vector3, v2: Vector3, v3: Vector3, color: Color):
 @always_inline
 def draw_triangle_strip_3d(points: Span[Vector3, _], color: Color):
     """Draw a triangle strip defined by points"""
-    raw.DrawTriangleStrip3D(points.unsafe_ptr().bitcast[raw_types.Vector3]().mut_cast[True]().as_any_origin(), c_int(len(points)), public_types._to_raw_color(color))
+    raw.DrawTriangleStrip3D(points.unsafe_ptr().bitcast[raw_types.Vector3]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(points)), public_types._to_raw_color(color))
 
 @always_inline
 def draw_cube(position: Vector3, width: Float32, height: Float32, length: Float32, color: Color):
@@ -2874,7 +2874,7 @@ def draw_billboard_pro(camera: Camera, texture: Texture2D, source: Rectangle, po
 @always_inline
 def upload_mesh(mut mesh: Mesh, dynamic: Bool):
     """Upload mesh vertex data in GPU and provide VAO/VBO ids"""
-    raw.UploadMesh(UnsafePointer(to=mesh).bitcast[raw_types.Mesh]().mut_cast[True]().as_any_origin(), dynamic)
+    raw.UploadMesh(UnsafePointer(to=mesh).bitcast[raw_types.Mesh]().unsafe_mut_cast[True]().as_any_origin(), dynamic)
 
 @always_inline
 def update_mesh_buffer(mesh: Mesh, index: Int, data: UnsafePointer[NoneType, MutAnyOrigin], data_size: Int, offset: Int):
@@ -2894,7 +2894,7 @@ def draw_mesh(mesh: Mesh, material: Material, transform: Matrix):
 @always_inline
 def draw_mesh_instanced(mesh: Mesh, material: Material, ref transforms: Matrix, instances: Int):
     """Draw multiple mesh instances with material and different transforms"""
-    raw.DrawMeshInstanced(public_types._to_raw_mesh(mesh), public_types._to_raw_material(material), UnsafePointer(to=transforms).bitcast[raw_types.Matrix]().mut_cast[True]().as_any_origin(), c_int(instances))
+    raw.DrawMeshInstanced(public_types._to_raw_mesh(mesh), public_types._to_raw_material(material), UnsafePointer(to=transforms).bitcast[raw_types.Matrix]().unsafe_mut_cast[True]().as_any_origin(), c_int(instances))
 
 @always_inline
 def get_mesh_bounding_box(mesh: Mesh) -> BoundingBox:
@@ -2905,7 +2905,7 @@ def get_mesh_bounding_box(mesh: Mesh) -> BoundingBox:
 @always_inline
 def gen_mesh_tangents(mut mesh: Mesh):
     """Compute mesh tangents"""
-    raw.GenMeshTangents(UnsafePointer(to=mesh).bitcast[raw_types.Mesh]().mut_cast[True]().as_any_origin())
+    raw.GenMeshTangents(UnsafePointer(to=mesh).bitcast[raw_types.Mesh]().unsafe_mut_cast[True]().as_any_origin())
 
 @always_inline
 def export_mesh(mesh: Mesh, file_name: String) -> Bool:
@@ -3012,12 +3012,12 @@ def unload_material(material: Material):
 @always_inline
 def set_material_texture(mut material: Material, map_type: Int, texture: Texture2D):
     """Set texture for a material map type (MATERIAL_MAP_DIFFUSE, MATERIAL_MAP_SPECULAR...)"""
-    raw.SetMaterialTexture(UnsafePointer(to=material).bitcast[raw_types.Material]().mut_cast[True]().as_any_origin(), c_int(map_type), public_types._to_raw_texture_2d(texture))
+    raw.SetMaterialTexture(UnsafePointer(to=material).bitcast[raw_types.Material]().unsafe_mut_cast[True]().as_any_origin(), c_int(map_type), public_types._to_raw_texture_2d(texture))
 
 @always_inline
 def set_model_mesh_material(mut model: Model, mesh_id: Int, material_id: Int):
     """Set material for a mesh"""
-    raw.SetModelMeshMaterial(UnsafePointer(to=model).bitcast[raw_types.Model]().mut_cast[True]().as_any_origin(), c_int(mesh_id), c_int(material_id))
+    raw.SetModelMeshMaterial(UnsafePointer(to=model).bitcast[raw_types.Model]().unsafe_mut_cast[True]().as_any_origin(), c_int(mesh_id), c_int(material_id))
 
 @always_inline
 def load_model_animations(file_name: String) -> OwnedModelAnimations:
@@ -3039,7 +3039,7 @@ def update_model_animation_ex(model: Model, anim_a: ModelAnimation, frame_a: Flo
 @always_inline
 def unload_model_animations(animations: Span[ModelAnimation, _]):
     """Unload animation array data"""
-    raw.UnloadModelAnimations(animations.unsafe_ptr().bitcast[raw_types.ModelAnimation]().mut_cast[True]().as_any_origin(), c_int(len(animations)))
+    raw.UnloadModelAnimations(animations.unsafe_ptr().bitcast[raw_types.ModelAnimation]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(animations)))
 
 @always_inline
 def is_model_animation_valid(model: Model, anim: ModelAnimation) -> Bool:
@@ -3131,7 +3131,7 @@ def load_wave(file_name: String) -> Wave:
 @always_inline
 def load_wave_from_memory(file_type: String, file_data: Span[UInt8, _]) -> Wave:
     """Load wave from memory buffer, fileType refers to extension: i.e. '.wav'"""
-    var result = raw.LoadWaveFromMemory(CStringSlice(unsafe_from_ptr=file_type.unsafe_ptr().bitcast[c_char]()), file_data.unsafe_ptr().bitcast[c_uchar]().mut_cast[True]().as_any_origin(), c_int(len(file_data)))
+    var result = raw.LoadWaveFromMemory(CStringSlice(unsafe_from_ptr=file_type.unsafe_ptr().bitcast[c_char]()), file_data.unsafe_ptr().bitcast[c_uchar]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(file_data)))
     return public_types._from_raw_wave(result)
 
 @always_inline
@@ -3246,12 +3246,12 @@ def wave_copy(wave: Wave) -> Wave:
 @always_inline
 def wave_crop(mut wave: Wave, init_frame: Int, final_frame: Int):
     """Crop a wave to defined frames range"""
-    raw.WaveCrop(UnsafePointer(to=wave).bitcast[raw_types.Wave]().mut_cast[True]().as_any_origin(), c_int(init_frame), c_int(final_frame))
+    raw.WaveCrop(UnsafePointer(to=wave).bitcast[raw_types.Wave]().unsafe_mut_cast[True]().as_any_origin(), c_int(init_frame), c_int(final_frame))
 
 @always_inline
 def wave_format(mut wave: Wave, sample_rate: Int, sample_size: Int, channels: Int):
     """Convert wave data to desired format"""
-    raw.WaveFormat(UnsafePointer(to=wave).bitcast[raw_types.Wave]().mut_cast[True]().as_any_origin(), c_int(sample_rate), c_int(sample_size), c_int(channels))
+    raw.WaveFormat(UnsafePointer(to=wave).bitcast[raw_types.Wave]().unsafe_mut_cast[True]().as_any_origin(), c_int(sample_rate), c_int(sample_size), c_int(channels))
 
 @always_inline
 def load_wave_samples(wave: Wave) -> OwnedWaveSamples:
@@ -3273,7 +3273,7 @@ def load_music_stream(file_name: String) -> Music:
 @always_inline
 def load_music_stream_from_memory(file_type: String, data: Span[UInt8, _]) -> Music:
     """Load music stream from data"""
-    var result = raw.LoadMusicStreamFromMemory(CStringSlice(unsafe_from_ptr=file_type.unsafe_ptr().bitcast[c_char]()), data.unsafe_ptr().bitcast[c_uchar]().mut_cast[True]().as_any_origin(), c_int(len(data)))
+    var result = raw.LoadMusicStreamFromMemory(CStringSlice(unsafe_from_ptr=file_type.unsafe_ptr().bitcast[c_char]()), data.unsafe_ptr().bitcast[c_uchar]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(data)))
     return public_types._from_raw_music(result)
 
 @always_inline
