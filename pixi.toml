@@ -1,0 +1,66 @@
+[workspace]
+authors = ["KiviCode <kivicode@yandex.com>"]
+channels = [
+    "https://conda.modular.com/max",
+    "https://prefix.dev/conda-forge",
+]
+name = "mojo-raylib"
+platforms = ["osx-arm64", "linux-64"]
+version = "0.1.0"
+preview = ["pixi-build"]
+
+[package]
+name = "mojo_raylib"
+version = "0.1.0"
+
+[package.build.backend]
+name = "pixi-build-mojo"
+version = "0.*"
+channels = [
+    "https://prefix.dev/pixi-build-backends",
+    "https://prefix.dev/conda-forge",
+]
+
+[package.host-dependencies]
+max = "*"
+mojo-raylib-shim = { path = "./shim" }
+
+[package.run-dependencies]
+max = "*"
+mojo-raylib-shim = { path = "./shim" }
+
+# Codegen / dev workflow tasks live in a separate `codegen` feature so they
+# don't pull in the mojo_raylib package (which they help generate).
+[feature.codegen.dependencies]
+clang = "*"
+clangxx = "*"
+cmake = "*"
+diffutils = "*"
+git = "*"
+make = "*"
+ninja = "*"
+pkg-config = "*"
+
+[feature.codegen.tasks.sync-raylib]
+cmd = "bash scripts/sync-raylib.sh"
+
+[feature.codegen.tasks.build-rlparser]
+cmd = "bash scripts/build-rlparser.sh"
+depends-on = ["sync-raylib"]
+
+[feature.codegen.tasks.generate]
+cmd = "bash scripts/generate-bindings.sh"
+depends-on = ["build-rlparser"]
+
+[feature.codegen.tasks.regen-check]
+cmd = "bash scripts/regen-check.sh"
+depends-on = ["build-rlparser"]
+
+[environments]
+default = { features = [], solve-group = "default" }
+codegen = { features = ["codegen"], no-default-feature = true }
+
+[dependencies]
+# Default env consumes the package itself, so `pixi run mojo ...` from the root
+# sees mojo_raylib (and transitively the shim).
+mojo_raylib = { path = "." }
