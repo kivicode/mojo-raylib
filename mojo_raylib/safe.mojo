@@ -2365,7 +2365,7 @@ def load_font(file_name: String) -> Font:
     return public_types._from_raw_font(result)
 
 @always_inline
-def load_font_ex(file_name: String, font_size: Int, codepoints: Span[Int, _]) -> Font:
+def load_font_ex(file_name: String, font_size: Int, codepoints: Span[Int32, _]) -> Font:
     """Load font from file with extended parameters, use NULL for codepoints and 0 for codepointCount to load the default character set, font size is provided in pixels height"""
     var result = raw.LoadFontEx(CStringSlice(unsafe_from_ptr=file_name.unsafe_ptr().bitcast[c_char]()), c_int(font_size), codepoints.unsafe_ptr().bitcast[c_int]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(codepoints)))
     return public_types._from_raw_font(result)
@@ -2377,7 +2377,7 @@ def load_font_from_image(image: Image, key: Color, first_char: Int) -> Font:
     return public_types._from_raw_font(result)
 
 @always_inline
-def load_font_from_memory(file_type: String, file_data: Span[UInt8, _], font_size: Int, codepoints: Span[Int, _]) -> Font:
+def load_font_from_memory(file_type: String, file_data: Span[UInt8, _], font_size: Int, codepoints: Span[Int32, _]) -> Font:
     """Load font from memory buffer, fileType refers to extension: i.e. '.ttf'"""
     var result = raw.LoadFontFromMemory(CStringSlice(unsafe_from_ptr=file_type.unsafe_ptr().bitcast[c_char]()), file_data.unsafe_ptr().bitcast[c_uchar]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(file_data)), c_int(font_size), codepoints.unsafe_ptr().bitcast[c_int]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(codepoints)))
     return public_types._from_raw_font(result)
@@ -2389,7 +2389,7 @@ def is_font_valid(font: Font) -> Bool:
     return result
 
 @always_inline
-def load_font_data(file_data: Span[UInt8, _], font_size: Int, codepoints: Span[Int, _], type_: Int) -> OwnedFontData:
+def load_font_data(file_data: Span[UInt8, _], font_size: Int, codepoints: Span[Int32, _], type_: Int) -> OwnedFontData:
     """Load font data for further use"""
     var count: c_int = 0
     var _owned = raw.LoadFontData(file_data.unsafe_ptr().bitcast[c_uchar]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(file_data)), c_int(font_size), codepoints.unsafe_ptr().bitcast[c_int]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(codepoints)), c_int(type_), UnsafePointer(to=count))
@@ -2443,7 +2443,7 @@ def draw_text_codepoint(font: Font, codepoint: Int, position: Vector2, font_size
     raw.DrawTextCodepoint(public_types._to_raw_font(font), c_int(codepoint), public_types._to_raw_vector2(position), c_float(font_size), public_types._to_raw_color(tint))
 
 @always_inline
-def draw_text_codepoints(font: Font, codepoints: Span[Int, _], position: Vector2, font_size: Float32, spacing: Float32, tint: Color):
+def draw_text_codepoints(font: Font, codepoints: Span[Int32, _], position: Vector2, font_size: Float32, spacing: Float32, tint: Color):
     """Draw multiple character (codepoint)"""
     raw.DrawTextCodepoints(public_types._to_raw_font(font), codepoints.unsafe_ptr().bitcast[c_int]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(codepoints)), public_types._to_raw_vector2(position), c_float(font_size), c_float(spacing), public_types._to_raw_color(tint))
 
@@ -2465,7 +2465,7 @@ def measure_text_ex(font: Font, text: String, font_size: Float32, spacing: Float
     return public_types._from_raw_vector2(result)
 
 @always_inline
-def measure_text_codepoints(font: Font, codepoints: Span[Int, _], font_size: Float32, spacing: Float32) -> Vector2:
+def measure_text_codepoints(font: Font, codepoints: Span[Int32, _], font_size: Float32, spacing: Float32) -> Vector2:
     """Measure string size for an existing array of codepoints for Font"""
     var result = raw.MeasureTextCodepoints(public_types._to_raw_font(font), codepoints.unsafe_ptr().bitcast[c_int]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(codepoints)), c_float(font_size), c_float(spacing))
     return public_types._from_raw_vector2(result)
@@ -2489,7 +2489,7 @@ def get_glyph_atlas_rec(font: Font, codepoint: Int) -> Rectangle:
     return public_types._from_raw_rectangle(result)
 
 @always_inline
-def load_utf8(codepoints: Span[Int, _]) -> OwnedUTF8:
+def load_utf8(codepoints: Span[Int32, _]) -> OwnedUTF8:
     """Load UTF-8 text encoded from codepoints array"""
     var _owned = raw.LoadUTF8(codepoints.unsafe_ptr().bitcast[c_int]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(codepoints)))
     return OwnedUTF8(_owned)

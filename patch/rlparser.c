@@ -263,6 +263,7 @@ static void WriteMojoCallArgs(FILE *outFile, const FunctionInfo *func);
 static void WritePublicToRawArg(FILE *outFile, const char *cType, const char *expr);
 static void WritePublicToRawArgEx(FILE *outFile, const char *cType, const char *expr, bool exprIsPointer);
 static void WriteRawToPublicExpr(FILE *outFile, const char *cType, const char *expr);
+static void WriteRawToPublicExprEx(FILE *outFile, const char *cType, const char *expr, bool useLayoutWidths);
 static void WritePublicTypeToRawExpr(FILE *outFile, const char *typeName, const char *expr);
 static void WriteRawTypeToPublicExpr(FILE *outFile, const char *typeName, const char *expr);
 static void WriteSpanPointerToRawExpr(FILE *outFile, const char *pointerType, const char *expr);
@@ -3359,14 +3360,17 @@ static void GetMojoLayoutType(const char *cType, char *outType, int outTypeSize)
         CopyText(outType, "Int16", outTypeSize);
     else if (IsTextEqual(baseType, "unsigned short", 15))
         CopyText(outType, "UInt16", outTypeSize);
+    // Public struct fields must match the C-side widths so a public-→raw
+    // bitcast (used for `mut Image`-style mutating wrappers) preserves field
+    // offsets. Mojo `Int` is 8 bytes — that would shift width/height/etc.
     else if (IsTextEqual(baseType, "int", 4))
-        CopyText(outType, "Int", outTypeSize);
+        CopyText(outType, "Int32", outTypeSize);
     else if (IsTextEqual(baseType, "unsigned int", 13))
-        CopyText(outType, "UInt", outTypeSize);
+        CopyText(outType, "UInt32", outTypeSize);
     else if (IsTextEqual(baseType, "long", 5))
-        CopyText(outType, "Int", outTypeSize);
+        CopyText(outType, "Int64", outTypeSize);
     else if (IsTextEqual(baseType, "unsigned long", 14))
-        CopyText(outType, "UInt", outTypeSize);
+        CopyText(outType, "UInt64", outTypeSize);
     else if (IsTextEqual(baseType, "float", 6))
         CopyText(outType, "Float32", outTypeSize);
     else if (IsTextEqual(baseType, "double", 7))
@@ -3848,6 +3852,14 @@ static void WritePublicToRawArgEx(FILE *outFile, const char *cType, const char *
 
 static void WriteRawToPublicExpr(FILE *outFile, const char *cType, const char *expr)
 {
+    WriteRawToPublicExprEx(outFile, cType, expr, false);
+}
+
+// `useLayoutWidths`: in struct-field conversion contexts the destination is
+// the layout type (Int32 for c_int) so the cast must be width-exact;
+// elsewhere (function returns) we want the user-facing Int.
+static void WriteRawToPublicExprEx(FILE *outFile, const char *cType, const char *expr, bool useLayoutWidths)
+{
     char trimmed[128] = {0};
     char baseType[128] = {0};
     int pointerCount = 0;
@@ -3880,7 +3892,6 @@ static void WriteRawToPublicExpr(FILE *outFile, const char *cType, const char *e
             fprintf(outFile, "String(CStringSlice(unsafe_from_ptr=%s))", expr);
         else if (IsKnownStructOrAlias(trimmedBase))
         {
-            // Same pointer-alias caveat as WritePublicToRawArg.
             char target[128] = {0};
             if (IsPointerAlias(trimmedBase))
                 CopyText(target, trimmedBase, sizeof(target));
@@ -3910,13 +3921,13 @@ static void WriteRawToPublicExpr(FILE *outFile, const char *cType, const char *e
     else if (IsTextEqual(baseType, "unsigned short", 15))
         fprintf(outFile, "UInt16(%s)", expr);
     else if (IsTextEqual(baseType, "int", 4))
-        fprintf(outFile, "Int(%s)", expr);
+        fprintf(outFile, "%s(%s)", useLayoutWidths ? "Int32" : "Int", expr);
     else if (IsTextEqual(baseType, "unsigned int", 13))
-        fprintf(outFile, "UInt(%s)", expr);
+        fprintf(outFile, "%s(%s)", useLayoutWidths ? "UInt32" : "UInt", expr);
     else if (IsTextEqual(baseType, "long", 5))
-        fprintf(outFile, "Int(%s)", expr);
+        fprintf(outFile, "%s(%s)", useLayoutWidths ? "Int64" : "Int", expr);
     else if (IsTextEqual(baseType, "unsigned long", 14))
-        fprintf(outFile, "UInt(%s)", expr);
+        fprintf(outFile, "%s(%s)", useLayoutWidths ? "UInt64" : "UInt", expr);
     else if (IsTextEqual(baseType, "float", 6))
         fprintf(outFile, "Float32(%s)", expr);
     else if (IsTextEqual(baseType, "double", 7))
@@ -3943,6 +3954,9 @@ static void WritePublicTypeToRawExpr(FILE *outFile, const char *typeName, const 
     WritePublicToRawArgEx(outFile, typeName, expr, true);
 }
 
+// Struct-field context: layout types must match the field declaration exactly
+// (Int32 for c_int, etc.) so the cast inside a fieldwise from_raw doesn't
+// trip Mojo's strict width checks.
 static void WriteRawTypeToPublicExpr(FILE *outFile, const char *typeName, const char *expr)
 {
     char trimmed[128] = {0};
@@ -3956,7 +3970,7 @@ static void WriteRawTypeToPublicExpr(FILE *outFile, const char *typeName, const 
     }
     char resolvedName[128] = {0};
     ResolveStructOrAliasName(typeName, resolvedName, sizeof(resolvedName));
-    WriteRawToPublicExpr(outFile, resolvedName, expr);
+    WriteRawToPublicExprEx(outFile, resolvedName, expr, true);
 }
 
 static void WriteSpanPointerToRawExpr(FILE *outFile, const char *pointerType, const char *expr)
