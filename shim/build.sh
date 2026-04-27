@@ -19,7 +19,10 @@ BUILD_RAYLIB_DIR="${HOME}/.cache/mojo-raylib/raylib-${RAYLIB_REV}-$(uname -m)-$(
 mkdir -p "$BUILD_RAYLIB_DIR"
 
 if [ ! -f "$BUILD_RAYLIB_DIR/CMakeCache.txt" ]; then
+  # ${CMAKE_ARGS:-} carries conda-build's -DCMAKE_PREFIX_PATH=$PREFIX etc.,
+  # which is what makes cmake's FindX11 look inside the host env.
   cmake -S vendor/raylib -B "$BUILD_RAYLIB_DIR" \
+    ${CMAKE_ARGS:-} \
     -G Ninja \
     -DBUILD_SHARED_LIBS=ON \
     -DBUILD_EXAMPLES=OFF \
