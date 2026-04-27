@@ -2598,7 +2598,8 @@ static void ExportMojoPackageInit(const char *rootDir)
     WriteGeneratedHeader(outFile, "Public package exports", inFileName);
     fprintf(outFile, "from .types import *\n");
     fprintf(outFile, "from .safe import *\n");
-    fprintf(outFile, "from .raymath_safe import *\n\n");
+    fprintf(outFile, "from .raymath_safe import *\n");
+    fprintf(outFile, "from .utils import *\n\n");
 
     // Re-export every comptime constant from .raw.types (enum names + values,
     // numeric #defines, callback typedefs) so users can write `KEY_RIGHT` etc.
