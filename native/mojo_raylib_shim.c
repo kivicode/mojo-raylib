@@ -39,6 +39,1476 @@ MOJO_RAYLIB_EXPORT const char *mojo_raylib_TextFormatLiteral(const char *text)
     return TextFormat("%s", text);
 }
 
+MOJO_RAYLIB_EXPORT void mojo_raylib_SetWindowIcon(Image *image)
+{
+    SetWindowIcon(*image);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_ClearBackground(Color *color)
+{
+    ClearBackground(*color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_BeginMode2D(Camera2D *camera)
+{
+    BeginMode2D(*camera);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_BeginMode3D(Camera3D *camera)
+{
+    BeginMode3D(*camera);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_BeginTextureMode(RenderTexture2D *target)
+{
+    BeginTextureMode(*target);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_BeginShaderMode(Shader *shader)
+{
+    BeginShaderMode(*shader);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_BeginVrStereoMode(VrStereoConfig *config)
+{
+    BeginVrStereoMode(*config);
+}
+
+MOJO_RAYLIB_EXPORT VrStereoConfig mojo_raylib_LoadVrStereoConfig(VrDeviceInfo *device)
+{
+    return LoadVrStereoConfig(*device);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_UnloadVrStereoConfig(VrStereoConfig *config)
+{
+    UnloadVrStereoConfig(*config);
+}
+
+MOJO_RAYLIB_EXPORT bool mojo_raylib_IsShaderValid(Shader *shader)
+{
+    return IsShaderValid(*shader);
+}
+
+MOJO_RAYLIB_EXPORT int mojo_raylib_GetShaderLocation(Shader *shader, const char * uniformName)
+{
+    return GetShaderLocation(*shader, uniformName);
+}
+
+MOJO_RAYLIB_EXPORT int mojo_raylib_GetShaderLocationAttrib(Shader *shader, const char * attribName)
+{
+    return GetShaderLocationAttrib(*shader, attribName);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_SetShaderValue(Shader *shader, int locIndex, const void * value, int uniformType)
+{
+    SetShaderValue(*shader, locIndex, value, uniformType);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_SetShaderValueV(Shader *shader, int locIndex, const void * value, int uniformType, int count)
+{
+    SetShaderValueV(*shader, locIndex, value, uniformType, count);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_SetShaderValueMatrix(Shader *shader, int locIndex, Matrix *mat)
+{
+    SetShaderValueMatrix(*shader, locIndex, *mat);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_SetShaderValueTexture(Shader *shader, int locIndex, Texture2D *texture)
+{
+    SetShaderValueTexture(*shader, locIndex, *texture);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_UnloadShader(Shader *shader)
+{
+    UnloadShader(*shader);
+}
+
+MOJO_RAYLIB_EXPORT Ray mojo_raylib_GetScreenToWorldRay(Vector2 *position, Camera *camera)
+{
+    return GetScreenToWorldRay(*position, *camera);
+}
+
+MOJO_RAYLIB_EXPORT Ray mojo_raylib_GetScreenToWorldRayEx(Vector2 *position, Camera *camera, int width, int height)
+{
+    return GetScreenToWorldRayEx(*position, *camera, width, height);
+}
+
+MOJO_RAYLIB_EXPORT Vector2 mojo_raylib_GetWorldToScreen(Vector3 *position, Camera *camera)
+{
+    return GetWorldToScreen(*position, *camera);
+}
+
+MOJO_RAYLIB_EXPORT Vector2 mojo_raylib_GetWorldToScreenEx(Vector3 *position, Camera *camera, int width, int height)
+{
+    return GetWorldToScreenEx(*position, *camera, width, height);
+}
+
+MOJO_RAYLIB_EXPORT Vector2 mojo_raylib_GetWorldToScreen2D(Vector2 *position, Camera2D *camera)
+{
+    return GetWorldToScreen2D(*position, *camera);
+}
+
+MOJO_RAYLIB_EXPORT Vector2 mojo_raylib_GetScreenToWorld2D(Vector2 *position, Camera2D *camera)
+{
+    return GetScreenToWorld2D(*position, *camera);
+}
+
+MOJO_RAYLIB_EXPORT Matrix mojo_raylib_GetCameraMatrix(Camera *camera)
+{
+    return GetCameraMatrix(*camera);
+}
+
+MOJO_RAYLIB_EXPORT Matrix mojo_raylib_GetCameraMatrix2D(Camera2D *camera)
+{
+    return GetCameraMatrix2D(*camera);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_UnloadDirectoryFiles(FilePathList *files)
+{
+    UnloadDirectoryFiles(*files);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_UnloadDroppedFiles(FilePathList *files)
+{
+    UnloadDroppedFiles(*files);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_UnloadAutomationEventList(AutomationEventList *list)
+{
+    UnloadAutomationEventList(*list);
+}
+
+MOJO_RAYLIB_EXPORT bool mojo_raylib_ExportAutomationEventList(AutomationEventList *list, const char * fileName)
+{
+    return ExportAutomationEventList(*list, fileName);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_PlayAutomationEvent(AutomationEvent *event)
+{
+    PlayAutomationEvent(*event);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_UpdateCameraPro(Camera * camera, Vector3 *movement, Vector3 *rotation, float zoom)
+{
+    UpdateCameraPro(camera, *movement, *rotation, zoom);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_SetShapesTexture(Texture2D *texture, Rectangle *source)
+{
+    SetShapesTexture(*texture, *source);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawPixel(int posX, int posY, Color *color)
+{
+    DrawPixel(posX, posY, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawPixelV(Vector2 *position, Color *color)
+{
+    DrawPixelV(*position, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawLine(int startPosX, int startPosY, int endPosX, int endPosY, Color *color)
+{
+    DrawLine(startPosX, startPosY, endPosX, endPosY, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawLineV(Vector2 *startPos, Vector2 *endPos, Color *color)
+{
+    DrawLineV(*startPos, *endPos, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawLineEx(Vector2 *startPos, Vector2 *endPos, float thick, Color *color)
+{
+    DrawLineEx(*startPos, *endPos, thick, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawLineStrip(const Vector2 * points, int pointCount, Color *color)
+{
+    DrawLineStrip(points, pointCount, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawLineBezier(Vector2 *startPos, Vector2 *endPos, float thick, Color *color)
+{
+    DrawLineBezier(*startPos, *endPos, thick, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawLineDashed(Vector2 *startPos, Vector2 *endPos, int dashSize, int spaceSize, Color *color)
+{
+    DrawLineDashed(*startPos, *endPos, dashSize, spaceSize, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawCircle(int centerX, int centerY, float radius, Color *color)
+{
+    DrawCircle(centerX, centerY, radius, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawCircleV(Vector2 *center, float radius, Color *color)
+{
+    DrawCircleV(*center, radius, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawCircleGradient(Vector2 *center, float radius, Color *inner, Color *outer)
+{
+    DrawCircleGradient(*center, radius, *inner, *outer);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawCircleSector(Vector2 *center, float radius, float startAngle, float endAngle, int segments, Color *color)
+{
+    DrawCircleSector(*center, radius, startAngle, endAngle, segments, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawCircleSectorLines(Vector2 *center, float radius, float startAngle, float endAngle, int segments, Color *color)
+{
+    DrawCircleSectorLines(*center, radius, startAngle, endAngle, segments, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawCircleLines(int centerX, int centerY, float radius, Color *color)
+{
+    DrawCircleLines(centerX, centerY, radius, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawCircleLinesV(Vector2 *center, float radius, Color *color)
+{
+    DrawCircleLinesV(*center, radius, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawEllipse(int centerX, int centerY, float radiusH, float radiusV, Color *color)
+{
+    DrawEllipse(centerX, centerY, radiusH, radiusV, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawEllipseV(Vector2 *center, float radiusH, float radiusV, Color *color)
+{
+    DrawEllipseV(*center, radiusH, radiusV, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawEllipseLines(int centerX, int centerY, float radiusH, float radiusV, Color *color)
+{
+    DrawEllipseLines(centerX, centerY, radiusH, radiusV, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawEllipseLinesV(Vector2 *center, float radiusH, float radiusV, Color *color)
+{
+    DrawEllipseLinesV(*center, radiusH, radiusV, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawRing(Vector2 *center, float innerRadius, float outerRadius, float startAngle, float endAngle, int segments, Color *color)
+{
+    DrawRing(*center, innerRadius, outerRadius, startAngle, endAngle, segments, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawRingLines(Vector2 *center, float innerRadius, float outerRadius, float startAngle, float endAngle, int segments, Color *color)
+{
+    DrawRingLines(*center, innerRadius, outerRadius, startAngle, endAngle, segments, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawRectangle(int posX, int posY, int width, int height, Color *color)
+{
+    DrawRectangle(posX, posY, width, height, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawRectangleV(Vector2 *position, Vector2 *size, Color *color)
+{
+    DrawRectangleV(*position, *size, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawRectangleRec(Rectangle *rec, Color *color)
+{
+    DrawRectangleRec(*rec, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawRectanglePro(Rectangle *rec, Vector2 *origin, float rotation, Color *color)
+{
+    DrawRectanglePro(*rec, *origin, rotation, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawRectangleGradientV(int posX, int posY, int width, int height, Color *top, Color *bottom)
+{
+    DrawRectangleGradientV(posX, posY, width, height, *top, *bottom);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawRectangleGradientH(int posX, int posY, int width, int height, Color *left, Color *right)
+{
+    DrawRectangleGradientH(posX, posY, width, height, *left, *right);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawRectangleGradientEx(Rectangle *rec, Color *topLeft, Color *bottomLeft, Color *bottomRight, Color *topRight)
+{
+    DrawRectangleGradientEx(*rec, *topLeft, *bottomLeft, *bottomRight, *topRight);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawRectangleLines(int posX, int posY, int width, int height, Color *color)
+{
+    DrawRectangleLines(posX, posY, width, height, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawRectangleLinesEx(Rectangle *rec, float lineThick, Color *color)
+{
+    DrawRectangleLinesEx(*rec, lineThick, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawRectangleRounded(Rectangle *rec, float roundness, int segments, Color *color)
+{
+    DrawRectangleRounded(*rec, roundness, segments, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawRectangleRoundedLines(Rectangle *rec, float roundness, int segments, Color *color)
+{
+    DrawRectangleRoundedLines(*rec, roundness, segments, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawRectangleRoundedLinesEx(Rectangle *rec, float roundness, int segments, float lineThick, Color *color)
+{
+    DrawRectangleRoundedLinesEx(*rec, roundness, segments, lineThick, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawTriangle(Vector2 *v1, Vector2 *v2, Vector2 *v3, Color *color)
+{
+    DrawTriangle(*v1, *v2, *v3, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawTriangleLines(Vector2 *v1, Vector2 *v2, Vector2 *v3, Color *color)
+{
+    DrawTriangleLines(*v1, *v2, *v3, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawTriangleFan(const Vector2 * points, int pointCount, Color *color)
+{
+    DrawTriangleFan(points, pointCount, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawTriangleStrip(const Vector2 * points, int pointCount, Color *color)
+{
+    DrawTriangleStrip(points, pointCount, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawPoly(Vector2 *center, int sides, float radius, float rotation, Color *color)
+{
+    DrawPoly(*center, sides, radius, rotation, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawPolyLines(Vector2 *center, int sides, float radius, float rotation, Color *color)
+{
+    DrawPolyLines(*center, sides, radius, rotation, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawPolyLinesEx(Vector2 *center, int sides, float radius, float rotation, float lineThick, Color *color)
+{
+    DrawPolyLinesEx(*center, sides, radius, rotation, lineThick, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawSplineLinear(const Vector2 * points, int pointCount, float thick, Color *color)
+{
+    DrawSplineLinear(points, pointCount, thick, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawSplineBasis(const Vector2 * points, int pointCount, float thick, Color *color)
+{
+    DrawSplineBasis(points, pointCount, thick, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawSplineCatmullRom(const Vector2 * points, int pointCount, float thick, Color *color)
+{
+    DrawSplineCatmullRom(points, pointCount, thick, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawSplineBezierQuadratic(const Vector2 * points, int pointCount, float thick, Color *color)
+{
+    DrawSplineBezierQuadratic(points, pointCount, thick, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawSplineBezierCubic(const Vector2 * points, int pointCount, float thick, Color *color)
+{
+    DrawSplineBezierCubic(points, pointCount, thick, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawSplineSegmentLinear(Vector2 *p1, Vector2 *p2, float thick, Color *color)
+{
+    DrawSplineSegmentLinear(*p1, *p2, thick, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawSplineSegmentBasis(Vector2 *p1, Vector2 *p2, Vector2 *p3, Vector2 *p4, float thick, Color *color)
+{
+    DrawSplineSegmentBasis(*p1, *p2, *p3, *p4, thick, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawSplineSegmentCatmullRom(Vector2 *p1, Vector2 *p2, Vector2 *p3, Vector2 *p4, float thick, Color *color)
+{
+    DrawSplineSegmentCatmullRom(*p1, *p2, *p3, *p4, thick, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawSplineSegmentBezierQuadratic(Vector2 *p1, Vector2 *c2, Vector2 *p3, float thick, Color *color)
+{
+    DrawSplineSegmentBezierQuadratic(*p1, *c2, *p3, thick, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawSplineSegmentBezierCubic(Vector2 *p1, Vector2 *c2, Vector2 *c3, Vector2 *p4, float thick, Color *color)
+{
+    DrawSplineSegmentBezierCubic(*p1, *c2, *c3, *p4, thick, *color);
+}
+
+MOJO_RAYLIB_EXPORT Vector2 mojo_raylib_GetSplinePointLinear(Vector2 *startPos, Vector2 *endPos, float t)
+{
+    return GetSplinePointLinear(*startPos, *endPos, t);
+}
+
+MOJO_RAYLIB_EXPORT Vector2 mojo_raylib_GetSplinePointBasis(Vector2 *p1, Vector2 *p2, Vector2 *p3, Vector2 *p4, float t)
+{
+    return GetSplinePointBasis(*p1, *p2, *p3, *p4, t);
+}
+
+MOJO_RAYLIB_EXPORT Vector2 mojo_raylib_GetSplinePointCatmullRom(Vector2 *p1, Vector2 *p2, Vector2 *p3, Vector2 *p4, float t)
+{
+    return GetSplinePointCatmullRom(*p1, *p2, *p3, *p4, t);
+}
+
+MOJO_RAYLIB_EXPORT Vector2 mojo_raylib_GetSplinePointBezierQuad(Vector2 *p1, Vector2 *c2, Vector2 *p3, float t)
+{
+    return GetSplinePointBezierQuad(*p1, *c2, *p3, t);
+}
+
+MOJO_RAYLIB_EXPORT Vector2 mojo_raylib_GetSplinePointBezierCubic(Vector2 *p1, Vector2 *c2, Vector2 *c3, Vector2 *p4, float t)
+{
+    return GetSplinePointBezierCubic(*p1, *c2, *c3, *p4, t);
+}
+
+MOJO_RAYLIB_EXPORT bool mojo_raylib_CheckCollisionRecs(Rectangle *rec1, Rectangle *rec2)
+{
+    return CheckCollisionRecs(*rec1, *rec2);
+}
+
+MOJO_RAYLIB_EXPORT bool mojo_raylib_CheckCollisionCircles(Vector2 *center1, float radius1, Vector2 *center2, float radius2)
+{
+    return CheckCollisionCircles(*center1, radius1, *center2, radius2);
+}
+
+MOJO_RAYLIB_EXPORT bool mojo_raylib_CheckCollisionCircleRec(Vector2 *center, float radius, Rectangle *rec)
+{
+    return CheckCollisionCircleRec(*center, radius, *rec);
+}
+
+MOJO_RAYLIB_EXPORT bool mojo_raylib_CheckCollisionCircleLine(Vector2 *center, float radius, Vector2 *p1, Vector2 *p2)
+{
+    return CheckCollisionCircleLine(*center, radius, *p1, *p2);
+}
+
+MOJO_RAYLIB_EXPORT bool mojo_raylib_CheckCollisionPointRec(Vector2 *point, Rectangle *rec)
+{
+    return CheckCollisionPointRec(*point, *rec);
+}
+
+MOJO_RAYLIB_EXPORT bool mojo_raylib_CheckCollisionPointCircle(Vector2 *point, Vector2 *center, float radius)
+{
+    return CheckCollisionPointCircle(*point, *center, radius);
+}
+
+MOJO_RAYLIB_EXPORT bool mojo_raylib_CheckCollisionPointTriangle(Vector2 *point, Vector2 *p1, Vector2 *p2, Vector2 *p3)
+{
+    return CheckCollisionPointTriangle(*point, *p1, *p2, *p3);
+}
+
+MOJO_RAYLIB_EXPORT bool mojo_raylib_CheckCollisionPointLine(Vector2 *point, Vector2 *p1, Vector2 *p2, int threshold)
+{
+    return CheckCollisionPointLine(*point, *p1, *p2, threshold);
+}
+
+MOJO_RAYLIB_EXPORT bool mojo_raylib_CheckCollisionPointPoly(Vector2 *point, const Vector2 * points, int pointCount)
+{
+    return CheckCollisionPointPoly(*point, points, pointCount);
+}
+
+MOJO_RAYLIB_EXPORT bool mojo_raylib_CheckCollisionLines(Vector2 *startPos1, Vector2 *endPos1, Vector2 *startPos2, Vector2 *endPos2, Vector2 * collisionPoint)
+{
+    return CheckCollisionLines(*startPos1, *endPos1, *startPos2, *endPos2, collisionPoint);
+}
+
+MOJO_RAYLIB_EXPORT Rectangle mojo_raylib_GetCollisionRec(Rectangle *rec1, Rectangle *rec2)
+{
+    return GetCollisionRec(*rec1, *rec2);
+}
+
+MOJO_RAYLIB_EXPORT Image mojo_raylib_LoadImageFromTexture(Texture2D *texture)
+{
+    return LoadImageFromTexture(*texture);
+}
+
+MOJO_RAYLIB_EXPORT bool mojo_raylib_IsImageValid(Image *image)
+{
+    return IsImageValid(*image);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_UnloadImage(Image *image)
+{
+    UnloadImage(*image);
+}
+
+MOJO_RAYLIB_EXPORT bool mojo_raylib_ExportImage(Image *image, const char * fileName)
+{
+    return ExportImage(*image, fileName);
+}
+
+MOJO_RAYLIB_EXPORT unsigned char * mojo_raylib_ExportImageToMemory(Image *image, const char * fileType, int * fileSize)
+{
+    return ExportImageToMemory(*image, fileType, fileSize);
+}
+
+MOJO_RAYLIB_EXPORT bool mojo_raylib_ExportImageAsCode(Image *image, const char * fileName)
+{
+    return ExportImageAsCode(*image, fileName);
+}
+
+MOJO_RAYLIB_EXPORT Image mojo_raylib_GenImageColor(int width, int height, Color *color)
+{
+    return GenImageColor(width, height, *color);
+}
+
+MOJO_RAYLIB_EXPORT Image mojo_raylib_GenImageGradientLinear(int width, int height, int direction, Color *start, Color *end)
+{
+    return GenImageGradientLinear(width, height, direction, *start, *end);
+}
+
+MOJO_RAYLIB_EXPORT Image mojo_raylib_GenImageGradientRadial(int width, int height, float density, Color *inner, Color *outer)
+{
+    return GenImageGradientRadial(width, height, density, *inner, *outer);
+}
+
+MOJO_RAYLIB_EXPORT Image mojo_raylib_GenImageGradientSquare(int width, int height, float density, Color *inner, Color *outer)
+{
+    return GenImageGradientSquare(width, height, density, *inner, *outer);
+}
+
+MOJO_RAYLIB_EXPORT Image mojo_raylib_GenImageChecked(int width, int height, int checksX, int checksY, Color *col1, Color *col2)
+{
+    return GenImageChecked(width, height, checksX, checksY, *col1, *col2);
+}
+
+MOJO_RAYLIB_EXPORT Image mojo_raylib_ImageCopy(Image *image)
+{
+    return ImageCopy(*image);
+}
+
+MOJO_RAYLIB_EXPORT Image mojo_raylib_ImageFromImage(Image *image, Rectangle *rec)
+{
+    return ImageFromImage(*image, *rec);
+}
+
+MOJO_RAYLIB_EXPORT Image mojo_raylib_ImageFromChannel(Image *image, int selectedChannel)
+{
+    return ImageFromChannel(*image, selectedChannel);
+}
+
+MOJO_RAYLIB_EXPORT Image mojo_raylib_ImageText(const char * text, int fontSize, Color *color)
+{
+    return ImageText(text, fontSize, *color);
+}
+
+MOJO_RAYLIB_EXPORT Image mojo_raylib_ImageTextEx(Font *font, const char * text, float fontSize, float spacing, Color *tint)
+{
+    return ImageTextEx(*font, text, fontSize, spacing, *tint);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_ImageToPOT(Image * image, Color *fill)
+{
+    ImageToPOT(image, *fill);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_ImageCrop(Image * image, Rectangle *crop)
+{
+    ImageCrop(image, *crop);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_ImageAlphaClear(Image * image, Color *color, float threshold)
+{
+    ImageAlphaClear(image, *color, threshold);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_ImageAlphaMask(Image * image, Image *alphaMask)
+{
+    ImageAlphaMask(image, *alphaMask);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_ImageResizeCanvas(Image * image, int newWidth, int newHeight, int offsetX, int offsetY, Color *fill)
+{
+    ImageResizeCanvas(image, newWidth, newHeight, offsetX, offsetY, *fill);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_ImageColorTint(Image * image, Color *color)
+{
+    ImageColorTint(image, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_ImageColorReplace(Image * image, Color *color, Color *replace)
+{
+    ImageColorReplace(image, *color, *replace);
+}
+
+MOJO_RAYLIB_EXPORT Color * mojo_raylib_LoadImageColors(Image *image)
+{
+    return LoadImageColors(*image);
+}
+
+MOJO_RAYLIB_EXPORT Color * mojo_raylib_LoadImagePalette(Image *image, int maxPaletteSize, int * colorCount)
+{
+    return LoadImagePalette(*image, maxPaletteSize, colorCount);
+}
+
+MOJO_RAYLIB_EXPORT Rectangle mojo_raylib_GetImageAlphaBorder(Image *image, float threshold)
+{
+    return GetImageAlphaBorder(*image, threshold);
+}
+
+MOJO_RAYLIB_EXPORT Color mojo_raylib_GetImageColor(Image *image, int x, int y)
+{
+    return GetImageColor(*image, x, y);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_ImageClearBackground(Image * dst, Color *color)
+{
+    ImageClearBackground(dst, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_ImageDrawPixel(Image * dst, int posX, int posY, Color *color)
+{
+    ImageDrawPixel(dst, posX, posY, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_ImageDrawPixelV(Image * dst, Vector2 *position, Color *color)
+{
+    ImageDrawPixelV(dst, *position, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_ImageDrawLine(Image * dst, int startPosX, int startPosY, int endPosX, int endPosY, Color *color)
+{
+    ImageDrawLine(dst, startPosX, startPosY, endPosX, endPosY, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_ImageDrawLineV(Image * dst, Vector2 *start, Vector2 *end, Color *color)
+{
+    ImageDrawLineV(dst, *start, *end, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_ImageDrawLineEx(Image * dst, Vector2 *start, Vector2 *end, int thick, Color *color)
+{
+    ImageDrawLineEx(dst, *start, *end, thick, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_ImageDrawCircle(Image * dst, int centerX, int centerY, int radius, Color *color)
+{
+    ImageDrawCircle(dst, centerX, centerY, radius, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_ImageDrawCircleV(Image * dst, Vector2 *center, int radius, Color *color)
+{
+    ImageDrawCircleV(dst, *center, radius, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_ImageDrawCircleLines(Image * dst, int centerX, int centerY, int radius, Color *color)
+{
+    ImageDrawCircleLines(dst, centerX, centerY, radius, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_ImageDrawCircleLinesV(Image * dst, Vector2 *center, int radius, Color *color)
+{
+    ImageDrawCircleLinesV(dst, *center, radius, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_ImageDrawRectangle(Image * dst, int posX, int posY, int width, int height, Color *color)
+{
+    ImageDrawRectangle(dst, posX, posY, width, height, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_ImageDrawRectangleV(Image * dst, Vector2 *position, Vector2 *size, Color *color)
+{
+    ImageDrawRectangleV(dst, *position, *size, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_ImageDrawRectangleRec(Image * dst, Rectangle *rec, Color *color)
+{
+    ImageDrawRectangleRec(dst, *rec, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_ImageDrawRectangleLines(Image * dst, Rectangle *rec, int thick, Color *color)
+{
+    ImageDrawRectangleLines(dst, *rec, thick, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_ImageDrawTriangle(Image * dst, Vector2 *v1, Vector2 *v2, Vector2 *v3, Color *color)
+{
+    ImageDrawTriangle(dst, *v1, *v2, *v3, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_ImageDrawTriangleEx(Image * dst, Vector2 *v1, Vector2 *v2, Vector2 *v3, Color *c1, Color *c2, Color *c3)
+{
+    ImageDrawTriangleEx(dst, *v1, *v2, *v3, *c1, *c2, *c3);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_ImageDrawTriangleLines(Image * dst, Vector2 *v1, Vector2 *v2, Vector2 *v3, Color *color)
+{
+    ImageDrawTriangleLines(dst, *v1, *v2, *v3, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_ImageDrawTriangleFan(Image * dst, const Vector2 * points, int pointCount, Color *color)
+{
+    ImageDrawTriangleFan(dst, points, pointCount, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_ImageDrawTriangleStrip(Image * dst, const Vector2 * points, int pointCount, Color *color)
+{
+    ImageDrawTriangleStrip(dst, points, pointCount, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_ImageDraw(Image * dst, Image *src, Rectangle *srcRec, Rectangle *dstRec, Color *tint)
+{
+    ImageDraw(dst, *src, *srcRec, *dstRec, *tint);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_ImageDrawText(Image * dst, const char * text, int posX, int posY, int fontSize, Color *color)
+{
+    ImageDrawText(dst, text, posX, posY, fontSize, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_ImageDrawTextEx(Image * dst, Font *font, const char * text, Vector2 *position, float fontSize, float spacing, Color *tint)
+{
+    ImageDrawTextEx(dst, *font, text, *position, fontSize, spacing, *tint);
+}
+
+MOJO_RAYLIB_EXPORT Texture2D mojo_raylib_LoadTextureFromImage(Image *image)
+{
+    return LoadTextureFromImage(*image);
+}
+
+MOJO_RAYLIB_EXPORT TextureCubemap mojo_raylib_LoadTextureCubemap(Image *image, int layout)
+{
+    return LoadTextureCubemap(*image, layout);
+}
+
+MOJO_RAYLIB_EXPORT bool mojo_raylib_IsTextureValid(Texture2D *texture)
+{
+    return IsTextureValid(*texture);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_UnloadTexture(Texture2D *texture)
+{
+    UnloadTexture(*texture);
+}
+
+MOJO_RAYLIB_EXPORT bool mojo_raylib_IsRenderTextureValid(RenderTexture2D *target)
+{
+    return IsRenderTextureValid(*target);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_UnloadRenderTexture(RenderTexture2D *target)
+{
+    UnloadRenderTexture(*target);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_UpdateTexture(Texture2D *texture, const void * pixels)
+{
+    UpdateTexture(*texture, pixels);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_UpdateTextureRec(Texture2D *texture, Rectangle *rec, const void * pixels)
+{
+    UpdateTextureRec(*texture, *rec, pixels);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_SetTextureFilter(Texture2D *texture, int filter)
+{
+    SetTextureFilter(*texture, filter);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_SetTextureWrap(Texture2D *texture, int wrap)
+{
+    SetTextureWrap(*texture, wrap);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawTexture(Texture2D *texture, int posX, int posY, Color *tint)
+{
+    DrawTexture(*texture, posX, posY, *tint);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawTextureV(Texture2D *texture, Vector2 *position, Color *tint)
+{
+    DrawTextureV(*texture, *position, *tint);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawTextureEx(Texture2D *texture, Vector2 *position, float rotation, float scale, Color *tint)
+{
+    DrawTextureEx(*texture, *position, rotation, scale, *tint);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawTextureRec(Texture2D *texture, Rectangle *source, Vector2 *position, Color *tint)
+{
+    DrawTextureRec(*texture, *source, *position, *tint);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawTexturePro(Texture2D *texture, Rectangle *source, Rectangle *dest, Vector2 *origin, float rotation, Color *tint)
+{
+    DrawTexturePro(*texture, *source, *dest, *origin, rotation, *tint);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawTextureNPatch(Texture2D *texture, NPatchInfo *nPatchInfo, Rectangle *dest, Vector2 *origin, float rotation, Color *tint)
+{
+    DrawTextureNPatch(*texture, *nPatchInfo, *dest, *origin, rotation, *tint);
+}
+
+MOJO_RAYLIB_EXPORT bool mojo_raylib_ColorIsEqual(Color *col1, Color *col2)
+{
+    return ColorIsEqual(*col1, *col2);
+}
+
+MOJO_RAYLIB_EXPORT Color mojo_raylib_Fade(Color *color, float alpha)
+{
+    return Fade(*color, alpha);
+}
+
+MOJO_RAYLIB_EXPORT int mojo_raylib_ColorToInt(Color *color)
+{
+    return ColorToInt(*color);
+}
+
+MOJO_RAYLIB_EXPORT Vector4 mojo_raylib_ColorNormalize(Color *color)
+{
+    return ColorNormalize(*color);
+}
+
+MOJO_RAYLIB_EXPORT Color mojo_raylib_ColorFromNormalized(Vector4 *normalized)
+{
+    return ColorFromNormalized(*normalized);
+}
+
+MOJO_RAYLIB_EXPORT Vector3 mojo_raylib_ColorToHSV(Color *color)
+{
+    return ColorToHSV(*color);
+}
+
+MOJO_RAYLIB_EXPORT Color mojo_raylib_ColorTint(Color *color, Color *tint)
+{
+    return ColorTint(*color, *tint);
+}
+
+MOJO_RAYLIB_EXPORT Color mojo_raylib_ColorBrightness(Color *color, float factor)
+{
+    return ColorBrightness(*color, factor);
+}
+
+MOJO_RAYLIB_EXPORT Color mojo_raylib_ColorContrast(Color *color, float contrast)
+{
+    return ColorContrast(*color, contrast);
+}
+
+MOJO_RAYLIB_EXPORT Color mojo_raylib_ColorAlpha(Color *color, float alpha)
+{
+    return ColorAlpha(*color, alpha);
+}
+
+MOJO_RAYLIB_EXPORT Color mojo_raylib_ColorAlphaBlend(Color *dst, Color *src, Color *tint)
+{
+    return ColorAlphaBlend(*dst, *src, *tint);
+}
+
+MOJO_RAYLIB_EXPORT Color mojo_raylib_ColorLerp(Color *color1, Color *color2, float factor)
+{
+    return ColorLerp(*color1, *color2, factor);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_SetPixelColor(void * dstPtr, Color *color, int format)
+{
+    SetPixelColor(dstPtr, *color, format);
+}
+
+MOJO_RAYLIB_EXPORT Font mojo_raylib_LoadFontFromImage(Image *image, Color *key, int firstChar)
+{
+    return LoadFontFromImage(*image, *key, firstChar);
+}
+
+MOJO_RAYLIB_EXPORT bool mojo_raylib_IsFontValid(Font *font)
+{
+    return IsFontValid(*font);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_UnloadFont(Font *font)
+{
+    UnloadFont(*font);
+}
+
+MOJO_RAYLIB_EXPORT bool mojo_raylib_ExportFontAsCode(Font *font, const char * fileName)
+{
+    return ExportFontAsCode(*font, fileName);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawText(const char * text, int posX, int posY, int fontSize, Color *color)
+{
+    DrawText(text, posX, posY, fontSize, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawTextEx(Font *font, const char * text, Vector2 *position, float fontSize, float spacing, Color *tint)
+{
+    DrawTextEx(*font, text, *position, fontSize, spacing, *tint);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawTextPro(Font *font, const char * text, Vector2 *position, Vector2 *origin, float rotation, float fontSize, float spacing, Color *tint)
+{
+    DrawTextPro(*font, text, *position, *origin, rotation, fontSize, spacing, *tint);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawTextCodepoint(Font *font, int codepoint, Vector2 *position, float fontSize, Color *tint)
+{
+    DrawTextCodepoint(*font, codepoint, *position, fontSize, *tint);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawTextCodepoints(Font *font, const int * codepoints, int codepointCount, Vector2 *position, float fontSize, float spacing, Color *tint)
+{
+    DrawTextCodepoints(*font, codepoints, codepointCount, *position, fontSize, spacing, *tint);
+}
+
+MOJO_RAYLIB_EXPORT Vector2 mojo_raylib_MeasureTextEx(Font *font, const char * text, float fontSize, float spacing)
+{
+    return MeasureTextEx(*font, text, fontSize, spacing);
+}
+
+MOJO_RAYLIB_EXPORT Vector2 mojo_raylib_MeasureTextCodepoints(Font *font, const int * codepoints, int length, float fontSize, float spacing)
+{
+    return MeasureTextCodepoints(*font, codepoints, length, fontSize, spacing);
+}
+
+MOJO_RAYLIB_EXPORT int mojo_raylib_GetGlyphIndex(Font *font, int codepoint)
+{
+    return GetGlyphIndex(*font, codepoint);
+}
+
+MOJO_RAYLIB_EXPORT GlyphInfo mojo_raylib_GetGlyphInfo(Font *font, int codepoint)
+{
+    return GetGlyphInfo(*font, codepoint);
+}
+
+MOJO_RAYLIB_EXPORT Rectangle mojo_raylib_GetGlyphAtlasRec(Font *font, int codepoint)
+{
+    return GetGlyphAtlasRec(*font, codepoint);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawLine3D(Vector3 *startPos, Vector3 *endPos, Color *color)
+{
+    DrawLine3D(*startPos, *endPos, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawPoint3D(Vector3 *position, Color *color)
+{
+    DrawPoint3D(*position, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawCircle3D(Vector3 *center, float radius, Vector3 *rotationAxis, float rotationAngle, Color *color)
+{
+    DrawCircle3D(*center, radius, *rotationAxis, rotationAngle, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawTriangle3D(Vector3 *v1, Vector3 *v2, Vector3 *v3, Color *color)
+{
+    DrawTriangle3D(*v1, *v2, *v3, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawTriangleStrip3D(const Vector3 * points, int pointCount, Color *color)
+{
+    DrawTriangleStrip3D(points, pointCount, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawCube(Vector3 *position, float width, float height, float length, Color *color)
+{
+    DrawCube(*position, width, height, length, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawCubeV(Vector3 *position, Vector3 *size, Color *color)
+{
+    DrawCubeV(*position, *size, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawCubeWires(Vector3 *position, float width, float height, float length, Color *color)
+{
+    DrawCubeWires(*position, width, height, length, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawCubeWiresV(Vector3 *position, Vector3 *size, Color *color)
+{
+    DrawCubeWiresV(*position, *size, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawSphere(Vector3 *centerPos, float radius, Color *color)
+{
+    DrawSphere(*centerPos, radius, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawSphereEx(Vector3 *centerPos, float radius, int rings, int slices, Color *color)
+{
+    DrawSphereEx(*centerPos, radius, rings, slices, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawSphereWires(Vector3 *centerPos, float radius, int rings, int slices, Color *color)
+{
+    DrawSphereWires(*centerPos, radius, rings, slices, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawCylinder(Vector3 *position, float radiusTop, float radiusBottom, float height, int slices, Color *color)
+{
+    DrawCylinder(*position, radiusTop, radiusBottom, height, slices, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawCylinderEx(Vector3 *startPos, Vector3 *endPos, float startRadius, float endRadius, int sides, Color *color)
+{
+    DrawCylinderEx(*startPos, *endPos, startRadius, endRadius, sides, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawCylinderWires(Vector3 *position, float radiusTop, float radiusBottom, float height, int slices, Color *color)
+{
+    DrawCylinderWires(*position, radiusTop, radiusBottom, height, slices, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawCylinderWiresEx(Vector3 *startPos, Vector3 *endPos, float startRadius, float endRadius, int sides, Color *color)
+{
+    DrawCylinderWiresEx(*startPos, *endPos, startRadius, endRadius, sides, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawCapsule(Vector3 *startPos, Vector3 *endPos, float radius, int slices, int rings, Color *color)
+{
+    DrawCapsule(*startPos, *endPos, radius, slices, rings, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawCapsuleWires(Vector3 *startPos, Vector3 *endPos, float radius, int slices, int rings, Color *color)
+{
+    DrawCapsuleWires(*startPos, *endPos, radius, slices, rings, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawPlane(Vector3 *centerPos, Vector2 *size, Color *color)
+{
+    DrawPlane(*centerPos, *size, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawRay(Ray *ray, Color *color)
+{
+    DrawRay(*ray, *color);
+}
+
+MOJO_RAYLIB_EXPORT Model mojo_raylib_LoadModelFromMesh(Mesh *mesh)
+{
+    return LoadModelFromMesh(*mesh);
+}
+
+MOJO_RAYLIB_EXPORT bool mojo_raylib_IsModelValid(Model *model)
+{
+    return IsModelValid(*model);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_UnloadModel(Model *model)
+{
+    UnloadModel(*model);
+}
+
+MOJO_RAYLIB_EXPORT BoundingBox mojo_raylib_GetModelBoundingBox(Model *model)
+{
+    return GetModelBoundingBox(*model);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawModel(Model *model, Vector3 *position, float scale, Color *tint)
+{
+    DrawModel(*model, *position, scale, *tint);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawModelEx(Model *model, Vector3 *position, Vector3 *rotationAxis, float rotationAngle, Vector3 *scale, Color *tint)
+{
+    DrawModelEx(*model, *position, *rotationAxis, rotationAngle, *scale, *tint);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawModelWires(Model *model, Vector3 *position, float scale, Color *tint)
+{
+    DrawModelWires(*model, *position, scale, *tint);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawModelWiresEx(Model *model, Vector3 *position, Vector3 *rotationAxis, float rotationAngle, Vector3 *scale, Color *tint)
+{
+    DrawModelWiresEx(*model, *position, *rotationAxis, rotationAngle, *scale, *tint);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawBoundingBox(BoundingBox *box, Color *color)
+{
+    DrawBoundingBox(*box, *color);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawBillboard(Camera *camera, Texture2D *texture, Vector3 *position, float scale, Color *tint)
+{
+    DrawBillboard(*camera, *texture, *position, scale, *tint);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawBillboardRec(Camera *camera, Texture2D *texture, Rectangle *source, Vector3 *position, Vector2 *size, Color *tint)
+{
+    DrawBillboardRec(*camera, *texture, *source, *position, *size, *tint);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawBillboardPro(Camera *camera, Texture2D *texture, Rectangle *source, Vector3 *position, Vector3 *up, Vector2 *size, Vector2 *origin, float rotation, Color *tint)
+{
+    DrawBillboardPro(*camera, *texture, *source, *position, *up, *size, *origin, rotation, *tint);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_UpdateMeshBuffer(Mesh *mesh, int index, const void * data, int dataSize, int offset)
+{
+    UpdateMeshBuffer(*mesh, index, data, dataSize, offset);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_UnloadMesh(Mesh *mesh)
+{
+    UnloadMesh(*mesh);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawMesh(Mesh *mesh, Material *material, Matrix *transform)
+{
+    DrawMesh(*mesh, *material, *transform);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DrawMeshInstanced(Mesh *mesh, Material *material, const Matrix * transforms, int instances)
+{
+    DrawMeshInstanced(*mesh, *material, transforms, instances);
+}
+
+MOJO_RAYLIB_EXPORT BoundingBox mojo_raylib_GetMeshBoundingBox(Mesh *mesh)
+{
+    return GetMeshBoundingBox(*mesh);
+}
+
+MOJO_RAYLIB_EXPORT bool mojo_raylib_ExportMesh(Mesh *mesh, const char * fileName)
+{
+    return ExportMesh(*mesh, fileName);
+}
+
+MOJO_RAYLIB_EXPORT bool mojo_raylib_ExportMeshAsCode(Mesh *mesh, const char * fileName)
+{
+    return ExportMeshAsCode(*mesh, fileName);
+}
+
+MOJO_RAYLIB_EXPORT Mesh mojo_raylib_GenMeshHeightmap(Image *heightmap, Vector3 *size)
+{
+    return GenMeshHeightmap(*heightmap, *size);
+}
+
+MOJO_RAYLIB_EXPORT Mesh mojo_raylib_GenMeshCubicmap(Image *cubicmap, Vector3 *cubeSize)
+{
+    return GenMeshCubicmap(*cubicmap, *cubeSize);
+}
+
+MOJO_RAYLIB_EXPORT bool mojo_raylib_IsMaterialValid(Material *material)
+{
+    return IsMaterialValid(*material);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_UnloadMaterial(Material *material)
+{
+    UnloadMaterial(*material);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_SetMaterialTexture(Material * material, int mapType, Texture2D *texture)
+{
+    SetMaterialTexture(material, mapType, *texture);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_UpdateModelAnimation(Model *model, ModelAnimation *anim, float frame)
+{
+    UpdateModelAnimation(*model, *anim, frame);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_UpdateModelAnimationEx(Model *model, ModelAnimation *animA, float frameA, ModelAnimation *animB, float frameB, float blend)
+{
+    UpdateModelAnimationEx(*model, *animA, frameA, *animB, frameB, blend);
+}
+
+MOJO_RAYLIB_EXPORT bool mojo_raylib_IsModelAnimationValid(Model *model, ModelAnimation *anim)
+{
+    return IsModelAnimationValid(*model, *anim);
+}
+
+MOJO_RAYLIB_EXPORT bool mojo_raylib_CheckCollisionSpheres(Vector3 *center1, float radius1, Vector3 *center2, float radius2)
+{
+    return CheckCollisionSpheres(*center1, radius1, *center2, radius2);
+}
+
+MOJO_RAYLIB_EXPORT bool mojo_raylib_CheckCollisionBoxes(BoundingBox *box1, BoundingBox *box2)
+{
+    return CheckCollisionBoxes(*box1, *box2);
+}
+
+MOJO_RAYLIB_EXPORT bool mojo_raylib_CheckCollisionBoxSphere(BoundingBox *box, Vector3 *center, float radius)
+{
+    return CheckCollisionBoxSphere(*box, *center, radius);
+}
+
+MOJO_RAYLIB_EXPORT RayCollision mojo_raylib_GetRayCollisionSphere(Ray *ray, Vector3 *center, float radius)
+{
+    return GetRayCollisionSphere(*ray, *center, radius);
+}
+
+MOJO_RAYLIB_EXPORT RayCollision mojo_raylib_GetRayCollisionBox(Ray *ray, BoundingBox *box)
+{
+    return GetRayCollisionBox(*ray, *box);
+}
+
+MOJO_RAYLIB_EXPORT RayCollision mojo_raylib_GetRayCollisionMesh(Ray *ray, Mesh *mesh, Matrix *transform)
+{
+    return GetRayCollisionMesh(*ray, *mesh, *transform);
+}
+
+MOJO_RAYLIB_EXPORT RayCollision mojo_raylib_GetRayCollisionTriangle(Ray *ray, Vector3 *p1, Vector3 *p2, Vector3 *p3)
+{
+    return GetRayCollisionTriangle(*ray, *p1, *p2, *p3);
+}
+
+MOJO_RAYLIB_EXPORT RayCollision mojo_raylib_GetRayCollisionQuad(Ray *ray, Vector3 *p1, Vector3 *p2, Vector3 *p3, Vector3 *p4)
+{
+    return GetRayCollisionQuad(*ray, *p1, *p2, *p3, *p4);
+}
+
+MOJO_RAYLIB_EXPORT bool mojo_raylib_IsWaveValid(Wave *wave)
+{
+    return IsWaveValid(*wave);
+}
+
+MOJO_RAYLIB_EXPORT Sound mojo_raylib_LoadSoundFromWave(Wave *wave)
+{
+    return LoadSoundFromWave(*wave);
+}
+
+MOJO_RAYLIB_EXPORT Sound mojo_raylib_LoadSoundAlias(Sound *source)
+{
+    return LoadSoundAlias(*source);
+}
+
+MOJO_RAYLIB_EXPORT bool mojo_raylib_IsSoundValid(Sound *sound)
+{
+    return IsSoundValid(*sound);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_UpdateSound(Sound *sound, const void * data, int sampleCount)
+{
+    UpdateSound(*sound, data, sampleCount);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_UnloadWave(Wave *wave)
+{
+    UnloadWave(*wave);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_UnloadSound(Sound *sound)
+{
+    UnloadSound(*sound);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_UnloadSoundAlias(Sound *alias)
+{
+    UnloadSoundAlias(*alias);
+}
+
+MOJO_RAYLIB_EXPORT bool mojo_raylib_ExportWave(Wave *wave, const char * fileName)
+{
+    return ExportWave(*wave, fileName);
+}
+
+MOJO_RAYLIB_EXPORT bool mojo_raylib_ExportWaveAsCode(Wave *wave, const char * fileName)
+{
+    return ExportWaveAsCode(*wave, fileName);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_PlaySound(Sound *sound)
+{
+    PlaySound(*sound);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_StopSound(Sound *sound)
+{
+    StopSound(*sound);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_PauseSound(Sound *sound)
+{
+    PauseSound(*sound);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_ResumeSound(Sound *sound)
+{
+    ResumeSound(*sound);
+}
+
+MOJO_RAYLIB_EXPORT bool mojo_raylib_IsSoundPlaying(Sound *sound)
+{
+    return IsSoundPlaying(*sound);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_SetSoundVolume(Sound *sound, float volume)
+{
+    SetSoundVolume(*sound, volume);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_SetSoundPitch(Sound *sound, float pitch)
+{
+    SetSoundPitch(*sound, pitch);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_SetSoundPan(Sound *sound, float pan)
+{
+    SetSoundPan(*sound, pan);
+}
+
+MOJO_RAYLIB_EXPORT Wave mojo_raylib_WaveCopy(Wave *wave)
+{
+    return WaveCopy(*wave);
+}
+
+MOJO_RAYLIB_EXPORT float * mojo_raylib_LoadWaveSamples(Wave *wave)
+{
+    return LoadWaveSamples(*wave);
+}
+
+MOJO_RAYLIB_EXPORT bool mojo_raylib_IsMusicValid(Music *music)
+{
+    return IsMusicValid(*music);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_UnloadMusicStream(Music *music)
+{
+    UnloadMusicStream(*music);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_PlayMusicStream(Music *music)
+{
+    PlayMusicStream(*music);
+}
+
+MOJO_RAYLIB_EXPORT bool mojo_raylib_IsMusicStreamPlaying(Music *music)
+{
+    return IsMusicStreamPlaying(*music);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_UpdateMusicStream(Music *music)
+{
+    UpdateMusicStream(*music);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_StopMusicStream(Music *music)
+{
+    StopMusicStream(*music);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_PauseMusicStream(Music *music)
+{
+    PauseMusicStream(*music);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_ResumeMusicStream(Music *music)
+{
+    ResumeMusicStream(*music);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_SeekMusicStream(Music *music, float position)
+{
+    SeekMusicStream(*music, position);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_SetMusicVolume(Music *music, float volume)
+{
+    SetMusicVolume(*music, volume);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_SetMusicPitch(Music *music, float pitch)
+{
+    SetMusicPitch(*music, pitch);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_SetMusicPan(Music *music, float pan)
+{
+    SetMusicPan(*music, pan);
+}
+
+MOJO_RAYLIB_EXPORT float mojo_raylib_GetMusicTimeLength(Music *music)
+{
+    return GetMusicTimeLength(*music);
+}
+
+MOJO_RAYLIB_EXPORT float mojo_raylib_GetMusicTimePlayed(Music *music)
+{
+    return GetMusicTimePlayed(*music);
+}
+
+MOJO_RAYLIB_EXPORT bool mojo_raylib_IsAudioStreamValid(AudioStream *stream)
+{
+    return IsAudioStreamValid(*stream);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_UnloadAudioStream(AudioStream *stream)
+{
+    UnloadAudioStream(*stream);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_UpdateAudioStream(AudioStream *stream, const void * data, int frameCount)
+{
+    UpdateAudioStream(*stream, data, frameCount);
+}
+
+MOJO_RAYLIB_EXPORT bool mojo_raylib_IsAudioStreamProcessed(AudioStream *stream)
+{
+    return IsAudioStreamProcessed(*stream);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_PlayAudioStream(AudioStream *stream)
+{
+    PlayAudioStream(*stream);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_PauseAudioStream(AudioStream *stream)
+{
+    PauseAudioStream(*stream);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_ResumeAudioStream(AudioStream *stream)
+{
+    ResumeAudioStream(*stream);
+}
+
+MOJO_RAYLIB_EXPORT bool mojo_raylib_IsAudioStreamPlaying(AudioStream *stream)
+{
+    return IsAudioStreamPlaying(*stream);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_StopAudioStream(AudioStream *stream)
+{
+    StopAudioStream(*stream);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_SetAudioStreamVolume(AudioStream *stream, float volume)
+{
+    SetAudioStreamVolume(*stream, volume);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_SetAudioStreamPitch(AudioStream *stream, float pitch)
+{
+    SetAudioStreamPitch(*stream, pitch);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_SetAudioStreamPan(AudioStream *stream, float pan)
+{
+    SetAudioStreamPan(*stream, pan);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_SetAudioStreamCallback(AudioStream *stream, AudioCallback callback)
+{
+    SetAudioStreamCallback(*stream, callback);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_AttachAudioStreamProcessor(AudioStream *stream, AudioCallback processor)
+{
+    AttachAudioStreamProcessor(*stream, processor);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raylib_DetachAudioStreamProcessor(AudioStream *stream, AudioCallback processor)
+{
+    DetachAudioStreamProcessor(*stream, processor);
+}
+
 MOJO_RAYLIB_EXPORT float mojo_raymath_Clamp(float value, float min, float max)
 {
     return Clamp(value, min, max);
@@ -79,149 +1549,149 @@ MOJO_RAYLIB_EXPORT Vector2 mojo_raymath_Vector2One()
     return Vector2One();
 }
 
-MOJO_RAYLIB_EXPORT Vector2 mojo_raymath_Vector2Add(Vector2 v1, Vector2 v2)
+MOJO_RAYLIB_EXPORT Vector2 mojo_raymath_Vector2Add(Vector2 *v1, Vector2 *v2)
 {
-    return Vector2Add(v1, v2);
+    return Vector2Add(*v1, *v2);
 }
 
-MOJO_RAYLIB_EXPORT Vector2 mojo_raymath_Vector2AddValue(Vector2 v, float add)
+MOJO_RAYLIB_EXPORT Vector2 mojo_raymath_Vector2AddValue(Vector2 *v, float add)
 {
-    return Vector2AddValue(v, add);
+    return Vector2AddValue(*v, add);
 }
 
-MOJO_RAYLIB_EXPORT Vector2 mojo_raymath_Vector2Subtract(Vector2 v1, Vector2 v2)
+MOJO_RAYLIB_EXPORT Vector2 mojo_raymath_Vector2Subtract(Vector2 *v1, Vector2 *v2)
 {
-    return Vector2Subtract(v1, v2);
+    return Vector2Subtract(*v1, *v2);
 }
 
-MOJO_RAYLIB_EXPORT Vector2 mojo_raymath_Vector2SubtractValue(Vector2 v, float sub)
+MOJO_RAYLIB_EXPORT Vector2 mojo_raymath_Vector2SubtractValue(Vector2 *v, float sub)
 {
-    return Vector2SubtractValue(v, sub);
+    return Vector2SubtractValue(*v, sub);
 }
 
-MOJO_RAYLIB_EXPORT float mojo_raymath_Vector2Length(Vector2 v)
+MOJO_RAYLIB_EXPORT float mojo_raymath_Vector2Length(Vector2 *v)
 {
-    return Vector2Length(v);
+    return Vector2Length(*v);
 }
 
-MOJO_RAYLIB_EXPORT float mojo_raymath_Vector2LengthSqr(Vector2 v)
+MOJO_RAYLIB_EXPORT float mojo_raymath_Vector2LengthSqr(Vector2 *v)
 {
-    return Vector2LengthSqr(v);
+    return Vector2LengthSqr(*v);
 }
 
-MOJO_RAYLIB_EXPORT float mojo_raymath_Vector2DotProduct(Vector2 v1, Vector2 v2)
+MOJO_RAYLIB_EXPORT float mojo_raymath_Vector2DotProduct(Vector2 *v1, Vector2 *v2)
 {
-    return Vector2DotProduct(v1, v2);
+    return Vector2DotProduct(*v1, *v2);
 }
 
-MOJO_RAYLIB_EXPORT float mojo_raymath_Vector2CrossProduct(Vector2 v1, Vector2 v2)
+MOJO_RAYLIB_EXPORT float mojo_raymath_Vector2CrossProduct(Vector2 *v1, Vector2 *v2)
 {
-    return Vector2CrossProduct(v1, v2);
+    return Vector2CrossProduct(*v1, *v2);
 }
 
-MOJO_RAYLIB_EXPORT float mojo_raymath_Vector2Distance(Vector2 v1, Vector2 v2)
+MOJO_RAYLIB_EXPORT float mojo_raymath_Vector2Distance(Vector2 *v1, Vector2 *v2)
 {
-    return Vector2Distance(v1, v2);
+    return Vector2Distance(*v1, *v2);
 }
 
-MOJO_RAYLIB_EXPORT float mojo_raymath_Vector2DistanceSqr(Vector2 v1, Vector2 v2)
+MOJO_RAYLIB_EXPORT float mojo_raymath_Vector2DistanceSqr(Vector2 *v1, Vector2 *v2)
 {
-    return Vector2DistanceSqr(v1, v2);
+    return Vector2DistanceSqr(*v1, *v2);
 }
 
-MOJO_RAYLIB_EXPORT float mojo_raymath_Vector2Angle(Vector2 v1, Vector2 v2)
+MOJO_RAYLIB_EXPORT float mojo_raymath_Vector2Angle(Vector2 *v1, Vector2 *v2)
 {
-    return Vector2Angle(v1, v2);
+    return Vector2Angle(*v1, *v2);
 }
 
-MOJO_RAYLIB_EXPORT float mojo_raymath_Vector2LineAngle(Vector2 start, Vector2 end)
+MOJO_RAYLIB_EXPORT float mojo_raymath_Vector2LineAngle(Vector2 *start, Vector2 *end)
 {
-    return Vector2LineAngle(start, end);
+    return Vector2LineAngle(*start, *end);
 }
 
-MOJO_RAYLIB_EXPORT Vector2 mojo_raymath_Vector2Scale(Vector2 v, float scale)
+MOJO_RAYLIB_EXPORT Vector2 mojo_raymath_Vector2Scale(Vector2 *v, float scale)
 {
-    return Vector2Scale(v, scale);
+    return Vector2Scale(*v, scale);
 }
 
-MOJO_RAYLIB_EXPORT Vector2 mojo_raymath_Vector2Multiply(Vector2 v1, Vector2 v2)
+MOJO_RAYLIB_EXPORT Vector2 mojo_raymath_Vector2Multiply(Vector2 *v1, Vector2 *v2)
 {
-    return Vector2Multiply(v1, v2);
+    return Vector2Multiply(*v1, *v2);
 }
 
-MOJO_RAYLIB_EXPORT Vector2 mojo_raymath_Vector2Negate(Vector2 v)
+MOJO_RAYLIB_EXPORT Vector2 mojo_raymath_Vector2Negate(Vector2 *v)
 {
-    return Vector2Negate(v);
+    return Vector2Negate(*v);
 }
 
-MOJO_RAYLIB_EXPORT Vector2 mojo_raymath_Vector2Divide(Vector2 v1, Vector2 v2)
+MOJO_RAYLIB_EXPORT Vector2 mojo_raymath_Vector2Divide(Vector2 *v1, Vector2 *v2)
 {
-    return Vector2Divide(v1, v2);
+    return Vector2Divide(*v1, *v2);
 }
 
-MOJO_RAYLIB_EXPORT Vector2 mojo_raymath_Vector2Normalize(Vector2 v)
+MOJO_RAYLIB_EXPORT Vector2 mojo_raymath_Vector2Normalize(Vector2 *v)
 {
-    return Vector2Normalize(v);
+    return Vector2Normalize(*v);
 }
 
-MOJO_RAYLIB_EXPORT Vector2 mojo_raymath_Vector2Transform(Vector2 v, Matrix mat)
+MOJO_RAYLIB_EXPORT Vector2 mojo_raymath_Vector2Transform(Vector2 *v, Matrix *mat)
 {
-    return Vector2Transform(v, mat);
+    return Vector2Transform(*v, *mat);
 }
 
-MOJO_RAYLIB_EXPORT Vector2 mojo_raymath_Vector2Lerp(Vector2 v1, Vector2 v2, float amount)
+MOJO_RAYLIB_EXPORT Vector2 mojo_raymath_Vector2Lerp(Vector2 *v1, Vector2 *v2, float amount)
 {
-    return Vector2Lerp(v1, v2, amount);
+    return Vector2Lerp(*v1, *v2, amount);
 }
 
-MOJO_RAYLIB_EXPORT Vector2 mojo_raymath_Vector2Reflect(Vector2 v, Vector2 normal)
+MOJO_RAYLIB_EXPORT Vector2 mojo_raymath_Vector2Reflect(Vector2 *v, Vector2 *normal)
 {
-    return Vector2Reflect(v, normal);
+    return Vector2Reflect(*v, *normal);
 }
 
-MOJO_RAYLIB_EXPORT Vector2 mojo_raymath_Vector2Min(Vector2 v1, Vector2 v2)
+MOJO_RAYLIB_EXPORT Vector2 mojo_raymath_Vector2Min(Vector2 *v1, Vector2 *v2)
 {
-    return Vector2Min(v1, v2);
+    return Vector2Min(*v1, *v2);
 }
 
-MOJO_RAYLIB_EXPORT Vector2 mojo_raymath_Vector2Max(Vector2 v1, Vector2 v2)
+MOJO_RAYLIB_EXPORT Vector2 mojo_raymath_Vector2Max(Vector2 *v1, Vector2 *v2)
 {
-    return Vector2Max(v1, v2);
+    return Vector2Max(*v1, *v2);
 }
 
-MOJO_RAYLIB_EXPORT Vector2 mojo_raymath_Vector2Rotate(Vector2 v, float angle)
+MOJO_RAYLIB_EXPORT Vector2 mojo_raymath_Vector2Rotate(Vector2 *v, float angle)
 {
-    return Vector2Rotate(v, angle);
+    return Vector2Rotate(*v, angle);
 }
 
-MOJO_RAYLIB_EXPORT Vector2 mojo_raymath_Vector2MoveTowards(Vector2 v, Vector2 target, float maxDistance)
+MOJO_RAYLIB_EXPORT Vector2 mojo_raymath_Vector2MoveTowards(Vector2 *v, Vector2 *target, float maxDistance)
 {
-    return Vector2MoveTowards(v, target, maxDistance);
+    return Vector2MoveTowards(*v, *target, maxDistance);
 }
 
-MOJO_RAYLIB_EXPORT Vector2 mojo_raymath_Vector2Invert(Vector2 v)
+MOJO_RAYLIB_EXPORT Vector2 mojo_raymath_Vector2Invert(Vector2 *v)
 {
-    return Vector2Invert(v);
+    return Vector2Invert(*v);
 }
 
-MOJO_RAYLIB_EXPORT Vector2 mojo_raymath_Vector2Clamp(Vector2 v, Vector2 min, Vector2 max)
+MOJO_RAYLIB_EXPORT Vector2 mojo_raymath_Vector2Clamp(Vector2 *v, Vector2 *min, Vector2 *max)
 {
-    return Vector2Clamp(v, min, max);
+    return Vector2Clamp(*v, *min, *max);
 }
 
-MOJO_RAYLIB_EXPORT Vector2 mojo_raymath_Vector2ClampValue(Vector2 v, float min, float max)
+MOJO_RAYLIB_EXPORT Vector2 mojo_raymath_Vector2ClampValue(Vector2 *v, float min, float max)
 {
-    return Vector2ClampValue(v, min, max);
+    return Vector2ClampValue(*v, min, max);
 }
 
-MOJO_RAYLIB_EXPORT int mojo_raymath_Vector2Equals(Vector2 p, Vector2 q)
+MOJO_RAYLIB_EXPORT int mojo_raymath_Vector2Equals(Vector2 *p, Vector2 *q)
 {
-    return Vector2Equals(p, q);
+    return Vector2Equals(*p, *q);
 }
 
-MOJO_RAYLIB_EXPORT Vector2 mojo_raymath_Vector2Refract(Vector2 v, Vector2 n, float r)
+MOJO_RAYLIB_EXPORT Vector2 mojo_raymath_Vector2Refract(Vector2 *v, Vector2 *n, float r)
 {
-    return Vector2Refract(v, n, r);
+    return Vector2Refract(*v, *n, r);
 }
 
 MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3Zero()
@@ -234,44 +1704,44 @@ MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3One()
     return Vector3One();
 }
 
-MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3Add(Vector3 v1, Vector3 v2)
+MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3Add(Vector3 *v1, Vector3 *v2)
 {
-    return Vector3Add(v1, v2);
+    return Vector3Add(*v1, *v2);
 }
 
-MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3AddValue(Vector3 v, float add)
+MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3AddValue(Vector3 *v, float add)
 {
-    return Vector3AddValue(v, add);
+    return Vector3AddValue(*v, add);
 }
 
-MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3Subtract(Vector3 v1, Vector3 v2)
+MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3Subtract(Vector3 *v1, Vector3 *v2)
 {
-    return Vector3Subtract(v1, v2);
+    return Vector3Subtract(*v1, *v2);
 }
 
-MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3SubtractValue(Vector3 v, float sub)
+MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3SubtractValue(Vector3 *v, float sub)
 {
-    return Vector3SubtractValue(v, sub);
+    return Vector3SubtractValue(*v, sub);
 }
 
-MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3Scale(Vector3 v, float scalar)
+MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3Scale(Vector3 *v, float scalar)
 {
-    return Vector3Scale(v, scalar);
+    return Vector3Scale(*v, scalar);
 }
 
-MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3Multiply(Vector3 v1, Vector3 v2)
+MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3Multiply(Vector3 *v1, Vector3 *v2)
 {
-    return Vector3Multiply(v1, v2);
+    return Vector3Multiply(*v1, *v2);
 }
 
-MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3CrossProduct(Vector3 v1, Vector3 v2)
+MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3CrossProduct(Vector3 *v1, Vector3 *v2)
 {
-    return Vector3CrossProduct(v1, v2);
+    return Vector3CrossProduct(*v1, *v2);
 }
 
-MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3Perpendicular(Vector3 v)
+MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3Perpendicular(Vector3 *v)
 {
-    return Vector3Perpendicular(v);
+    return Vector3Perpendicular(*v);
 }
 
 MOJO_RAYLIB_EXPORT float mojo_raymath_Vector3Length(const Vector3 v)
@@ -284,49 +1754,49 @@ MOJO_RAYLIB_EXPORT float mojo_raymath_Vector3LengthSqr(const Vector3 v)
     return Vector3LengthSqr(v);
 }
 
-MOJO_RAYLIB_EXPORT float mojo_raymath_Vector3DotProduct(Vector3 v1, Vector3 v2)
+MOJO_RAYLIB_EXPORT float mojo_raymath_Vector3DotProduct(Vector3 *v1, Vector3 *v2)
 {
-    return Vector3DotProduct(v1, v2);
+    return Vector3DotProduct(*v1, *v2);
 }
 
-MOJO_RAYLIB_EXPORT float mojo_raymath_Vector3Distance(Vector3 v1, Vector3 v2)
+MOJO_RAYLIB_EXPORT float mojo_raymath_Vector3Distance(Vector3 *v1, Vector3 *v2)
 {
-    return Vector3Distance(v1, v2);
+    return Vector3Distance(*v1, *v2);
 }
 
-MOJO_RAYLIB_EXPORT float mojo_raymath_Vector3DistanceSqr(Vector3 v1, Vector3 v2)
+MOJO_RAYLIB_EXPORT float mojo_raymath_Vector3DistanceSqr(Vector3 *v1, Vector3 *v2)
 {
-    return Vector3DistanceSqr(v1, v2);
+    return Vector3DistanceSqr(*v1, *v2);
 }
 
-MOJO_RAYLIB_EXPORT float mojo_raymath_Vector3Angle(Vector3 v1, Vector3 v2)
+MOJO_RAYLIB_EXPORT float mojo_raymath_Vector3Angle(Vector3 *v1, Vector3 *v2)
 {
-    return Vector3Angle(v1, v2);
+    return Vector3Angle(*v1, *v2);
 }
 
-MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3Negate(Vector3 v)
+MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3Negate(Vector3 *v)
 {
-    return Vector3Negate(v);
+    return Vector3Negate(*v);
 }
 
-MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3Divide(Vector3 v1, Vector3 v2)
+MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3Divide(Vector3 *v1, Vector3 *v2)
 {
-    return Vector3Divide(v1, v2);
+    return Vector3Divide(*v1, *v2);
 }
 
-MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3Normalize(Vector3 v)
+MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3Normalize(Vector3 *v)
 {
-    return Vector3Normalize(v);
+    return Vector3Normalize(*v);
 }
 
-MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3Project(Vector3 v1, Vector3 v2)
+MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3Project(Vector3 *v1, Vector3 *v2)
 {
-    return Vector3Project(v1, v2);
+    return Vector3Project(*v1, *v2);
 }
 
-MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3Reject(Vector3 v1, Vector3 v2)
+MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3Reject(Vector3 *v1, Vector3 *v2)
 {
-    return Vector3Reject(v1, v2);
+    return Vector3Reject(*v1, *v2);
 }
 
 MOJO_RAYLIB_EXPORT void mojo_raymath_Vector3OrthoNormalize(Vector3 * v1, Vector3 * v2)
@@ -334,89 +1804,89 @@ MOJO_RAYLIB_EXPORT void mojo_raymath_Vector3OrthoNormalize(Vector3 * v1, Vector3
     Vector3OrthoNormalize(v1, v2);
 }
 
-MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3Transform(Vector3 v, Matrix mat)
+MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3Transform(Vector3 *v, Matrix *mat)
 {
-    return Vector3Transform(v, mat);
+    return Vector3Transform(*v, *mat);
 }
 
-MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3RotateByQuaternion(Vector3 v, Quaternion q)
+MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3RotateByQuaternion(Vector3 *v, Quaternion *q)
 {
-    return Vector3RotateByQuaternion(v, q);
+    return Vector3RotateByQuaternion(*v, *q);
 }
 
-MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3RotateByAxisAngle(Vector3 v, Vector3 axis, float angle)
+MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3RotateByAxisAngle(Vector3 *v, Vector3 *axis, float angle)
 {
-    return Vector3RotateByAxisAngle(v, axis, angle);
+    return Vector3RotateByAxisAngle(*v, *axis, angle);
 }
 
-MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3MoveTowards(Vector3 v, Vector3 target, float maxDistance)
+MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3MoveTowards(Vector3 *v, Vector3 *target, float maxDistance)
 {
-    return Vector3MoveTowards(v, target, maxDistance);
+    return Vector3MoveTowards(*v, *target, maxDistance);
 }
 
-MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3Lerp(Vector3 v1, Vector3 v2, float amount)
+MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3Lerp(Vector3 *v1, Vector3 *v2, float amount)
 {
-    return Vector3Lerp(v1, v2, amount);
+    return Vector3Lerp(*v1, *v2, amount);
 }
 
-MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3CubicHermite(Vector3 v1, Vector3 tangent1, Vector3 v2, Vector3 tangent2, float amount)
+MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3CubicHermite(Vector3 *v1, Vector3 *tangent1, Vector3 *v2, Vector3 *tangent2, float amount)
 {
-    return Vector3CubicHermite(v1, tangent1, v2, tangent2, amount);
+    return Vector3CubicHermite(*v1, *tangent1, *v2, *tangent2, amount);
 }
 
-MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3Reflect(Vector3 v, Vector3 normal)
+MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3Reflect(Vector3 *v, Vector3 *normal)
 {
-    return Vector3Reflect(v, normal);
+    return Vector3Reflect(*v, *normal);
 }
 
-MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3Min(Vector3 v1, Vector3 v2)
+MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3Min(Vector3 *v1, Vector3 *v2)
 {
-    return Vector3Min(v1, v2);
+    return Vector3Min(*v1, *v2);
 }
 
-MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3Max(Vector3 v1, Vector3 v2)
+MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3Max(Vector3 *v1, Vector3 *v2)
 {
-    return Vector3Max(v1, v2);
+    return Vector3Max(*v1, *v2);
 }
 
-MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3Barycenter(Vector3 p, Vector3 a, Vector3 b, Vector3 c)
+MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3Barycenter(Vector3 *p, Vector3 *a, Vector3 *b, Vector3 *c)
 {
-    return Vector3Barycenter(p, a, b, c);
+    return Vector3Barycenter(*p, *a, *b, *c);
 }
 
-MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3Unproject(Vector3 source, Matrix projection, Matrix view)
+MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3Unproject(Vector3 *source, Matrix *projection, Matrix *view)
 {
-    return Vector3Unproject(source, projection, view);
+    return Vector3Unproject(*source, *projection, *view);
 }
 
-MOJO_RAYLIB_EXPORT float3 mojo_raymath_Vector3ToFloatV(Vector3 v)
+MOJO_RAYLIB_EXPORT float3 mojo_raymath_Vector3ToFloatV(Vector3 *v)
 {
-    return Vector3ToFloatV(v);
+    return Vector3ToFloatV(*v);
 }
 
-MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3Invert(Vector3 v)
+MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3Invert(Vector3 *v)
 {
-    return Vector3Invert(v);
+    return Vector3Invert(*v);
 }
 
-MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3Clamp(Vector3 v, Vector3 min, Vector3 max)
+MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3Clamp(Vector3 *v, Vector3 *min, Vector3 *max)
 {
-    return Vector3Clamp(v, min, max);
+    return Vector3Clamp(*v, *min, *max);
 }
 
-MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3ClampValue(Vector3 v, float min, float max)
+MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3ClampValue(Vector3 *v, float min, float max)
 {
-    return Vector3ClampValue(v, min, max);
+    return Vector3ClampValue(*v, min, max);
 }
 
-MOJO_RAYLIB_EXPORT int mojo_raymath_Vector3Equals(Vector3 p, Vector3 q)
+MOJO_RAYLIB_EXPORT int mojo_raymath_Vector3Equals(Vector3 *p, Vector3 *q)
 {
-    return Vector3Equals(p, q);
+    return Vector3Equals(*p, *q);
 }
 
-MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3Refract(Vector3 v, Vector3 n, float r)
+MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3Refract(Vector3 *v, Vector3 *n, float r)
 {
-    return Vector3Refract(v, n, r);
+    return Vector3Refract(*v, *n, r);
 }
 
 MOJO_RAYLIB_EXPORT Vector4 mojo_raymath_Vector4Zero()
@@ -429,124 +1899,124 @@ MOJO_RAYLIB_EXPORT Vector4 mojo_raymath_Vector4One()
     return Vector4One();
 }
 
-MOJO_RAYLIB_EXPORT Vector4 mojo_raymath_Vector4Add(Vector4 v1, Vector4 v2)
+MOJO_RAYLIB_EXPORT Vector4 mojo_raymath_Vector4Add(Vector4 *v1, Vector4 *v2)
 {
-    return Vector4Add(v1, v2);
+    return Vector4Add(*v1, *v2);
 }
 
-MOJO_RAYLIB_EXPORT Vector4 mojo_raymath_Vector4AddValue(Vector4 v, float add)
+MOJO_RAYLIB_EXPORT Vector4 mojo_raymath_Vector4AddValue(Vector4 *v, float add)
 {
-    return Vector4AddValue(v, add);
+    return Vector4AddValue(*v, add);
 }
 
-MOJO_RAYLIB_EXPORT Vector4 mojo_raymath_Vector4Subtract(Vector4 v1, Vector4 v2)
+MOJO_RAYLIB_EXPORT Vector4 mojo_raymath_Vector4Subtract(Vector4 *v1, Vector4 *v2)
 {
-    return Vector4Subtract(v1, v2);
+    return Vector4Subtract(*v1, *v2);
 }
 
-MOJO_RAYLIB_EXPORT Vector4 mojo_raymath_Vector4SubtractValue(Vector4 v, float add)
+MOJO_RAYLIB_EXPORT Vector4 mojo_raymath_Vector4SubtractValue(Vector4 *v, float add)
 {
-    return Vector4SubtractValue(v, add);
+    return Vector4SubtractValue(*v, add);
 }
 
-MOJO_RAYLIB_EXPORT float mojo_raymath_Vector4Length(Vector4 v)
+MOJO_RAYLIB_EXPORT float mojo_raymath_Vector4Length(Vector4 *v)
 {
-    return Vector4Length(v);
+    return Vector4Length(*v);
 }
 
-MOJO_RAYLIB_EXPORT float mojo_raymath_Vector4LengthSqr(Vector4 v)
+MOJO_RAYLIB_EXPORT float mojo_raymath_Vector4LengthSqr(Vector4 *v)
 {
-    return Vector4LengthSqr(v);
+    return Vector4LengthSqr(*v);
 }
 
-MOJO_RAYLIB_EXPORT float mojo_raymath_Vector4DotProduct(Vector4 v1, Vector4 v2)
+MOJO_RAYLIB_EXPORT float mojo_raymath_Vector4DotProduct(Vector4 *v1, Vector4 *v2)
 {
-    return Vector4DotProduct(v1, v2);
+    return Vector4DotProduct(*v1, *v2);
 }
 
-MOJO_RAYLIB_EXPORT float mojo_raymath_Vector4Distance(Vector4 v1, Vector4 v2)
+MOJO_RAYLIB_EXPORT float mojo_raymath_Vector4Distance(Vector4 *v1, Vector4 *v2)
 {
-    return Vector4Distance(v1, v2);
+    return Vector4Distance(*v1, *v2);
 }
 
-MOJO_RAYLIB_EXPORT float mojo_raymath_Vector4DistanceSqr(Vector4 v1, Vector4 v2)
+MOJO_RAYLIB_EXPORT float mojo_raymath_Vector4DistanceSqr(Vector4 *v1, Vector4 *v2)
 {
-    return Vector4DistanceSqr(v1, v2);
+    return Vector4DistanceSqr(*v1, *v2);
 }
 
-MOJO_RAYLIB_EXPORT Vector4 mojo_raymath_Vector4Scale(Vector4 v, float scale)
+MOJO_RAYLIB_EXPORT Vector4 mojo_raymath_Vector4Scale(Vector4 *v, float scale)
 {
-    return Vector4Scale(v, scale);
+    return Vector4Scale(*v, scale);
 }
 
-MOJO_RAYLIB_EXPORT Vector4 mojo_raymath_Vector4Multiply(Vector4 v1, Vector4 v2)
+MOJO_RAYLIB_EXPORT Vector4 mojo_raymath_Vector4Multiply(Vector4 *v1, Vector4 *v2)
 {
-    return Vector4Multiply(v1, v2);
+    return Vector4Multiply(*v1, *v2);
 }
 
-MOJO_RAYLIB_EXPORT Vector4 mojo_raymath_Vector4Negate(Vector4 v)
+MOJO_RAYLIB_EXPORT Vector4 mojo_raymath_Vector4Negate(Vector4 *v)
 {
-    return Vector4Negate(v);
+    return Vector4Negate(*v);
 }
 
-MOJO_RAYLIB_EXPORT Vector4 mojo_raymath_Vector4Divide(Vector4 v1, Vector4 v2)
+MOJO_RAYLIB_EXPORT Vector4 mojo_raymath_Vector4Divide(Vector4 *v1, Vector4 *v2)
 {
-    return Vector4Divide(v1, v2);
+    return Vector4Divide(*v1, *v2);
 }
 
-MOJO_RAYLIB_EXPORT Vector4 mojo_raymath_Vector4Normalize(Vector4 v)
+MOJO_RAYLIB_EXPORT Vector4 mojo_raymath_Vector4Normalize(Vector4 *v)
 {
-    return Vector4Normalize(v);
+    return Vector4Normalize(*v);
 }
 
-MOJO_RAYLIB_EXPORT Vector4 mojo_raymath_Vector4Min(Vector4 v1, Vector4 v2)
+MOJO_RAYLIB_EXPORT Vector4 mojo_raymath_Vector4Min(Vector4 *v1, Vector4 *v2)
 {
-    return Vector4Min(v1, v2);
+    return Vector4Min(*v1, *v2);
 }
 
-MOJO_RAYLIB_EXPORT Vector4 mojo_raymath_Vector4Max(Vector4 v1, Vector4 v2)
+MOJO_RAYLIB_EXPORT Vector4 mojo_raymath_Vector4Max(Vector4 *v1, Vector4 *v2)
 {
-    return Vector4Max(v1, v2);
+    return Vector4Max(*v1, *v2);
 }
 
-MOJO_RAYLIB_EXPORT Vector4 mojo_raymath_Vector4Lerp(Vector4 v1, Vector4 v2, float amount)
+MOJO_RAYLIB_EXPORT Vector4 mojo_raymath_Vector4Lerp(Vector4 *v1, Vector4 *v2, float amount)
 {
-    return Vector4Lerp(v1, v2, amount);
+    return Vector4Lerp(*v1, *v2, amount);
 }
 
-MOJO_RAYLIB_EXPORT Vector4 mojo_raymath_Vector4MoveTowards(Vector4 v, Vector4 target, float maxDistance)
+MOJO_RAYLIB_EXPORT Vector4 mojo_raymath_Vector4MoveTowards(Vector4 *v, Vector4 *target, float maxDistance)
 {
-    return Vector4MoveTowards(v, target, maxDistance);
+    return Vector4MoveTowards(*v, *target, maxDistance);
 }
 
-MOJO_RAYLIB_EXPORT Vector4 mojo_raymath_Vector4Invert(Vector4 v)
+MOJO_RAYLIB_EXPORT Vector4 mojo_raymath_Vector4Invert(Vector4 *v)
 {
-    return Vector4Invert(v);
+    return Vector4Invert(*v);
 }
 
-MOJO_RAYLIB_EXPORT int mojo_raymath_Vector4Equals(Vector4 p, Vector4 q)
+MOJO_RAYLIB_EXPORT int mojo_raymath_Vector4Equals(Vector4 *p, Vector4 *q)
 {
-    return Vector4Equals(p, q);
+    return Vector4Equals(*p, *q);
 }
 
-MOJO_RAYLIB_EXPORT float mojo_raymath_MatrixDeterminant(Matrix mat)
+MOJO_RAYLIB_EXPORT float mojo_raymath_MatrixDeterminant(Matrix *mat)
 {
-    return MatrixDeterminant(mat);
+    return MatrixDeterminant(*mat);
 }
 
-MOJO_RAYLIB_EXPORT float mojo_raymath_MatrixTrace(Matrix mat)
+MOJO_RAYLIB_EXPORT float mojo_raymath_MatrixTrace(Matrix *mat)
 {
-    return MatrixTrace(mat);
+    return MatrixTrace(*mat);
 }
 
-MOJO_RAYLIB_EXPORT Matrix mojo_raymath_MatrixTranspose(Matrix mat)
+MOJO_RAYLIB_EXPORT Matrix mojo_raymath_MatrixTranspose(Matrix *mat)
 {
-    return MatrixTranspose(mat);
+    return MatrixTranspose(*mat);
 }
 
-MOJO_RAYLIB_EXPORT Matrix mojo_raymath_MatrixInvert(Matrix mat)
+MOJO_RAYLIB_EXPORT Matrix mojo_raymath_MatrixInvert(Matrix *mat)
 {
-    return MatrixInvert(mat);
+    return MatrixInvert(*mat);
 }
 
 MOJO_RAYLIB_EXPORT Matrix mojo_raymath_MatrixIdentity()
@@ -554,24 +2024,24 @@ MOJO_RAYLIB_EXPORT Matrix mojo_raymath_MatrixIdentity()
     return MatrixIdentity();
 }
 
-MOJO_RAYLIB_EXPORT Matrix mojo_raymath_MatrixAdd(Matrix left, Matrix right)
+MOJO_RAYLIB_EXPORT Matrix mojo_raymath_MatrixAdd(Matrix *left, Matrix *right)
 {
-    return MatrixAdd(left, right);
+    return MatrixAdd(*left, *right);
 }
 
-MOJO_RAYLIB_EXPORT Matrix mojo_raymath_MatrixSubtract(Matrix left, Matrix right)
+MOJO_RAYLIB_EXPORT Matrix mojo_raymath_MatrixSubtract(Matrix *left, Matrix *right)
 {
-    return MatrixSubtract(left, right);
+    return MatrixSubtract(*left, *right);
 }
 
-MOJO_RAYLIB_EXPORT Matrix mojo_raymath_MatrixMultiply(Matrix left, Matrix right)
+MOJO_RAYLIB_EXPORT Matrix mojo_raymath_MatrixMultiply(Matrix *left, Matrix *right)
 {
-    return MatrixMultiply(left, right);
+    return MatrixMultiply(*left, *right);
 }
 
-MOJO_RAYLIB_EXPORT Matrix mojo_raymath_MatrixMultiplyValue(Matrix left, float value)
+MOJO_RAYLIB_EXPORT Matrix mojo_raymath_MatrixMultiplyValue(Matrix *left, float value)
 {
-    return MatrixMultiplyValue(left, value);
+    return MatrixMultiplyValue(*left, value);
 }
 
 MOJO_RAYLIB_EXPORT Matrix mojo_raymath_MatrixTranslate(float x, float y, float z)
@@ -579,9 +2049,9 @@ MOJO_RAYLIB_EXPORT Matrix mojo_raymath_MatrixTranslate(float x, float y, float z
     return MatrixTranslate(x, y, z);
 }
 
-MOJO_RAYLIB_EXPORT Matrix mojo_raymath_MatrixRotate(Vector3 axis, float angle)
+MOJO_RAYLIB_EXPORT Matrix mojo_raymath_MatrixRotate(Vector3 *axis, float angle)
 {
-    return MatrixRotate(axis, angle);
+    return MatrixRotate(*axis, angle);
 }
 
 MOJO_RAYLIB_EXPORT Matrix mojo_raymath_MatrixRotateX(float angle)
@@ -599,14 +2069,14 @@ MOJO_RAYLIB_EXPORT Matrix mojo_raymath_MatrixRotateZ(float angle)
     return MatrixRotateZ(angle);
 }
 
-MOJO_RAYLIB_EXPORT Matrix mojo_raymath_MatrixRotateXYZ(Vector3 angle)
+MOJO_RAYLIB_EXPORT Matrix mojo_raymath_MatrixRotateXYZ(Vector3 *angle)
 {
-    return MatrixRotateXYZ(angle);
+    return MatrixRotateXYZ(*angle);
 }
 
-MOJO_RAYLIB_EXPORT Matrix mojo_raymath_MatrixRotateZYX(Vector3 angle)
+MOJO_RAYLIB_EXPORT Matrix mojo_raymath_MatrixRotateZYX(Vector3 *angle)
 {
-    return MatrixRotateZYX(angle);
+    return MatrixRotateZYX(*angle);
 }
 
 MOJO_RAYLIB_EXPORT Matrix mojo_raymath_MatrixScale(float x, float y, float z)
@@ -629,34 +2099,34 @@ MOJO_RAYLIB_EXPORT Matrix mojo_raymath_MatrixOrtho(double left, double right, do
     return MatrixOrtho(left, right, bottom, top, nearPlane, farPlane);
 }
 
-MOJO_RAYLIB_EXPORT Matrix mojo_raymath_MatrixLookAt(Vector3 eye, Vector3 target, Vector3 up)
+MOJO_RAYLIB_EXPORT Matrix mojo_raymath_MatrixLookAt(Vector3 *eye, Vector3 *target, Vector3 *up)
 {
-    return MatrixLookAt(eye, target, up);
+    return MatrixLookAt(*eye, *target, *up);
 }
 
-MOJO_RAYLIB_EXPORT float16 mojo_raymath_MatrixToFloatV(Matrix mat)
+MOJO_RAYLIB_EXPORT float16 mojo_raymath_MatrixToFloatV(Matrix *mat)
 {
-    return MatrixToFloatV(mat);
+    return MatrixToFloatV(*mat);
 }
 
-MOJO_RAYLIB_EXPORT Quaternion mojo_raymath_QuaternionAdd(Quaternion q1, Quaternion q2)
+MOJO_RAYLIB_EXPORT Quaternion mojo_raymath_QuaternionAdd(Quaternion *q1, Quaternion *q2)
 {
-    return QuaternionAdd(q1, q2);
+    return QuaternionAdd(*q1, *q2);
 }
 
-MOJO_RAYLIB_EXPORT Quaternion mojo_raymath_QuaternionAddValue(Quaternion q, float add)
+MOJO_RAYLIB_EXPORT Quaternion mojo_raymath_QuaternionAddValue(Quaternion *q, float add)
 {
-    return QuaternionAddValue(q, add);
+    return QuaternionAddValue(*q, add);
 }
 
-MOJO_RAYLIB_EXPORT Quaternion mojo_raymath_QuaternionSubtract(Quaternion q1, Quaternion q2)
+MOJO_RAYLIB_EXPORT Quaternion mojo_raymath_QuaternionSubtract(Quaternion *q1, Quaternion *q2)
 {
-    return QuaternionSubtract(q1, q2);
+    return QuaternionSubtract(*q1, *q2);
 }
 
-MOJO_RAYLIB_EXPORT Quaternion mojo_raymath_QuaternionSubtractValue(Quaternion q, float sub)
+MOJO_RAYLIB_EXPORT Quaternion mojo_raymath_QuaternionSubtractValue(Quaternion *q, float sub)
 {
-    return QuaternionSubtractValue(q, sub);
+    return QuaternionSubtractValue(*q, sub);
 }
 
 MOJO_RAYLIB_EXPORT Quaternion mojo_raymath_QuaternionIdentity()
@@ -664,79 +2134,79 @@ MOJO_RAYLIB_EXPORT Quaternion mojo_raymath_QuaternionIdentity()
     return QuaternionIdentity();
 }
 
-MOJO_RAYLIB_EXPORT float mojo_raymath_QuaternionLength(Quaternion q)
+MOJO_RAYLIB_EXPORT float mojo_raymath_QuaternionLength(Quaternion *q)
 {
-    return QuaternionLength(q);
+    return QuaternionLength(*q);
 }
 
-MOJO_RAYLIB_EXPORT Quaternion mojo_raymath_QuaternionNormalize(Quaternion q)
+MOJO_RAYLIB_EXPORT Quaternion mojo_raymath_QuaternionNormalize(Quaternion *q)
 {
-    return QuaternionNormalize(q);
+    return QuaternionNormalize(*q);
 }
 
-MOJO_RAYLIB_EXPORT Quaternion mojo_raymath_QuaternionInvert(Quaternion q)
+MOJO_RAYLIB_EXPORT Quaternion mojo_raymath_QuaternionInvert(Quaternion *q)
 {
-    return QuaternionInvert(q);
+    return QuaternionInvert(*q);
 }
 
-MOJO_RAYLIB_EXPORT Quaternion mojo_raymath_QuaternionMultiply(Quaternion q1, Quaternion q2)
+MOJO_RAYLIB_EXPORT Quaternion mojo_raymath_QuaternionMultiply(Quaternion *q1, Quaternion *q2)
 {
-    return QuaternionMultiply(q1, q2);
+    return QuaternionMultiply(*q1, *q2);
 }
 
-MOJO_RAYLIB_EXPORT Quaternion mojo_raymath_QuaternionScale(Quaternion q, float mul)
+MOJO_RAYLIB_EXPORT Quaternion mojo_raymath_QuaternionScale(Quaternion *q, float mul)
 {
-    return QuaternionScale(q, mul);
+    return QuaternionScale(*q, mul);
 }
 
-MOJO_RAYLIB_EXPORT Quaternion mojo_raymath_QuaternionDivide(Quaternion q1, Quaternion q2)
+MOJO_RAYLIB_EXPORT Quaternion mojo_raymath_QuaternionDivide(Quaternion *q1, Quaternion *q2)
 {
-    return QuaternionDivide(q1, q2);
+    return QuaternionDivide(*q1, *q2);
 }
 
-MOJO_RAYLIB_EXPORT Quaternion mojo_raymath_QuaternionLerp(Quaternion q1, Quaternion q2, float amount)
+MOJO_RAYLIB_EXPORT Quaternion mojo_raymath_QuaternionLerp(Quaternion *q1, Quaternion *q2, float amount)
 {
-    return QuaternionLerp(q1, q2, amount);
+    return QuaternionLerp(*q1, *q2, amount);
 }
 
-MOJO_RAYLIB_EXPORT Quaternion mojo_raymath_QuaternionNlerp(Quaternion q1, Quaternion q2, float amount)
+MOJO_RAYLIB_EXPORT Quaternion mojo_raymath_QuaternionNlerp(Quaternion *q1, Quaternion *q2, float amount)
 {
-    return QuaternionNlerp(q1, q2, amount);
+    return QuaternionNlerp(*q1, *q2, amount);
 }
 
-MOJO_RAYLIB_EXPORT Quaternion mojo_raymath_QuaternionSlerp(Quaternion q1, Quaternion q2, float amount)
+MOJO_RAYLIB_EXPORT Quaternion mojo_raymath_QuaternionSlerp(Quaternion *q1, Quaternion *q2, float amount)
 {
-    return QuaternionSlerp(q1, q2, amount);
+    return QuaternionSlerp(*q1, *q2, amount);
 }
 
-MOJO_RAYLIB_EXPORT Quaternion mojo_raymath_QuaternionCubicHermiteSpline(Quaternion q1, Quaternion outTangent1, Quaternion q2, Quaternion inTangent2, float t)
+MOJO_RAYLIB_EXPORT Quaternion mojo_raymath_QuaternionCubicHermiteSpline(Quaternion *q1, Quaternion *outTangent1, Quaternion *q2, Quaternion *inTangent2, float t)
 {
-    return QuaternionCubicHermiteSpline(q1, outTangent1, q2, inTangent2, t);
+    return QuaternionCubicHermiteSpline(*q1, *outTangent1, *q2, *inTangent2, t);
 }
 
-MOJO_RAYLIB_EXPORT Quaternion mojo_raymath_QuaternionFromVector3ToVector3(Vector3 from, Vector3 to)
+MOJO_RAYLIB_EXPORT Quaternion mojo_raymath_QuaternionFromVector3ToVector3(Vector3 *from, Vector3 *to)
 {
-    return QuaternionFromVector3ToVector3(from, to);
+    return QuaternionFromVector3ToVector3(*from, *to);
 }
 
-MOJO_RAYLIB_EXPORT Quaternion mojo_raymath_QuaternionFromMatrix(Matrix mat)
+MOJO_RAYLIB_EXPORT Quaternion mojo_raymath_QuaternionFromMatrix(Matrix *mat)
 {
-    return QuaternionFromMatrix(mat);
+    return QuaternionFromMatrix(*mat);
 }
 
-MOJO_RAYLIB_EXPORT Matrix mojo_raymath_QuaternionToMatrix(Quaternion q)
+MOJO_RAYLIB_EXPORT Matrix mojo_raymath_QuaternionToMatrix(Quaternion *q)
 {
-    return QuaternionToMatrix(q);
+    return QuaternionToMatrix(*q);
 }
 
-MOJO_RAYLIB_EXPORT Quaternion mojo_raymath_QuaternionFromAxisAngle(Vector3 axis, float angle)
+MOJO_RAYLIB_EXPORT Quaternion mojo_raymath_QuaternionFromAxisAngle(Vector3 *axis, float angle)
 {
-    return QuaternionFromAxisAngle(axis, angle);
+    return QuaternionFromAxisAngle(*axis, angle);
 }
 
-MOJO_RAYLIB_EXPORT void mojo_raymath_QuaternionToAxisAngle(Quaternion q, Vector3 * outAxis, float * outAngle)
+MOJO_RAYLIB_EXPORT void mojo_raymath_QuaternionToAxisAngle(Quaternion *q, Vector3 * outAxis, float * outAngle)
 {
-    QuaternionToAxisAngle(q, outAxis, outAngle);
+    QuaternionToAxisAngle(*q, outAxis, outAngle);
 }
 
 MOJO_RAYLIB_EXPORT Quaternion mojo_raymath_QuaternionFromEuler(float pitch, float yaw, float roll)
@@ -744,28 +2214,28 @@ MOJO_RAYLIB_EXPORT Quaternion mojo_raymath_QuaternionFromEuler(float pitch, floa
     return QuaternionFromEuler(pitch, yaw, roll);
 }
 
-MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_QuaternionToEuler(Quaternion q)
+MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_QuaternionToEuler(Quaternion *q)
 {
-    return QuaternionToEuler(q);
+    return QuaternionToEuler(*q);
 }
 
-MOJO_RAYLIB_EXPORT Quaternion mojo_raymath_QuaternionTransform(Quaternion q, Matrix mat)
+MOJO_RAYLIB_EXPORT Quaternion mojo_raymath_QuaternionTransform(Quaternion *q, Matrix *mat)
 {
-    return QuaternionTransform(q, mat);
+    return QuaternionTransform(*q, *mat);
 }
 
-MOJO_RAYLIB_EXPORT int mojo_raymath_QuaternionEquals(Quaternion p, Quaternion q)
+MOJO_RAYLIB_EXPORT int mojo_raymath_QuaternionEquals(Quaternion *p, Quaternion *q)
 {
-    return QuaternionEquals(p, q);
+    return QuaternionEquals(*p, *q);
 }
 
-MOJO_RAYLIB_EXPORT Matrix mojo_raymath_MatrixCompose(Vector3 translation, Quaternion rotation, Vector3 scale)
+MOJO_RAYLIB_EXPORT Matrix mojo_raymath_MatrixCompose(Vector3 *translation, Quaternion *rotation, Vector3 *scale)
 {
-    return MatrixCompose(translation, rotation, scale);
+    return MatrixCompose(*translation, *rotation, *scale);
 }
 
-MOJO_RAYLIB_EXPORT void mojo_raymath_MatrixDecompose(Matrix mat, Vector3 * translation, Quaternion * rotation, Vector3 * scale)
+MOJO_RAYLIB_EXPORT void mojo_raymath_MatrixDecompose(Matrix *mat, Vector3 * translation, Quaternion * rotation, Vector3 * scale)
 {
-    MatrixDecompose(mat, translation, rotation, scale);
+    MatrixDecompose(*mat, translation, rotation, scale);
 }
 

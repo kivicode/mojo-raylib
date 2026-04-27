@@ -245,6 +245,9 @@ static bool GetPointerBaseType(const char *typeName, char *baseType, int baseTyp
 static void ResolveStructOrAliasName(const char *typeName, char *outTypeName, int outTypeNameSize);
 static bool IsPointerAlias(const char *typeName);
 static bool IsArrayOfKnownStruct(const char *fieldType, char *elementName, int elementNameSize, int *arraySize);
+static bool IsStructByValueParam(const char *cType);
+static bool NeedsShimWrapper(const FunctionInfo *func);
+static const char *EscapeMojoKeyword(const char *name, char *buffer, int bufferSize);
 static bool GetSpanCompanionIndex(const FunctionInfo *func, int paramIndex, int *countIndex);
 static bool ShouldUseMutValueParam(const FunctionInfo *func, int paramIndex, char *pointeeType, int pointeeTypeSize);
 static bool ShouldUseRefValueParam(const FunctionInfo *func, int paramIndex, char *pointeeType, int pointeeTypeSize);
@@ -1681,6 +1684,7 @@ static void ExportCodeBundle(const char *rootDir)
     {
         ExportMojoTypes(rootDir);
         ExportMojoPublicTypes(rootDir);
+        ExportNativeShim(rootDir);
         ExportMojoRawModule(rootDir, "raylib", "raylib");
         ExportMojoRawInit(rootDir);
         ExportMojoSafe(rootDir);
@@ -2126,12 +2130,14 @@ static void ExportMojoRawModule(const char *rootDir, const char *moduleName, con
     {
         char returnType[256] = {0};
         char symbolName[128] = {0};
+        bool useShim = IsRaymathApi() || NeedsShimWrapper(&funcs[i]);
 
         if (IsUnsupportedFunction(&funcs[i]))
             continue;
 
-        if (IsRaymathApi())
-            snprintf(symbolName, sizeof(symbolName), "%s_%s", prefix, funcs[i].name);
+        if (useShim)
+            snprintf(symbolName, sizeof(symbolName), "%s_%s",
+                IsRaymathApi() ? prefix : "mojo_raylib", funcs[i].name);
         else
             CopyText(symbolName, funcs[i].name, sizeof(symbolName));
 
@@ -2147,7 +2153,26 @@ static void ExportMojoRawModule(const char *rootDir, const char *moduleName, con
         if (!IsVoidType(funcs[i].retType))
             fprintf(outFile, "return ");
         fprintf(outFile, "external_call[\"%s\", %s](", symbolName, returnType);
-        WriteMojoCallArgs(outFile, &funcs[i]);
+        // When dispatching through the shim wrapper, struct-by-value params
+        // need to be passed as pointers; everything else passes through.
+        if (useShim)
+        {
+            for (int j = 0; j < funcs[i].paramCount; j++)
+            {
+                char escaped[64] = {0};
+                const char *pname = EscapeMojoKeyword(funcs[i].paramName[j], escaped, sizeof(escaped));
+                if (j > 0)
+                    fprintf(outFile, ", ");
+                if (IsStructByValueParam(funcs[i].paramType[j]))
+                    fprintf(outFile, "UnsafePointer(to=%s)", pname);
+                else
+                    fprintf(outFile, "%s", pname);
+            }
+        }
+        else
+        {
+            WriteMojoCallArgs(outFile, &funcs[i]);
+        }
         fprintf(outFile, ")\n\n");
     }
 
@@ -2586,79 +2611,113 @@ static void ExportMojoPackageInit(const char *rootDir)
     fclose(outFile);
 }
 
+// Emit a "by-pointer" shim wrapper for a single function. Struct-by-value
+// params become `T *` (deref'd at the call site); other params pass through
+// unchanged. The wrapper is named `<prefix>_<funcName>` and invokes the
+// underlying C function `<funcName>`.
+static void WriteShimWrapper(FILE *outFile, const FunctionInfo *func, const char *prefix)
+{
+    fprintf(outFile, "MOJO_RAYLIB_EXPORT %s %s_%s(", func->retType, prefix, func->name);
+    for (int j = 0; j < func->paramCount; j++)
+    {
+        bool byValStruct = IsStructByValueParam(func->paramType[j]);
+        if (byValStruct)
+            fprintf(outFile, "%s *%s", func->paramType[j], func->paramName[j]);
+        else
+            fprintf(outFile, "%s %s", func->paramType[j], func->paramName[j]);
+        if (j < func->paramCount - 1)
+            fprintf(outFile, ", ");
+    }
+    fprintf(outFile, ")\n{\n");
+    if (!IsVoidType(func->retType))
+        fprintf(outFile, "    return ");
+    else
+        fprintf(outFile, "    ");
+    fprintf(outFile, "%s(", func->name);
+    for (int j = 0; j < func->paramCount; j++)
+    {
+        bool byValStruct = IsStructByValueParam(func->paramType[j]);
+        if (byValStruct)
+            fprintf(outFile, "*%s", func->paramName[j]);
+        else
+            fprintf(outFile, "%s", func->paramName[j]);
+        if (j < func->paramCount - 1)
+            fprintf(outFile, ", ");
+    }
+    fprintf(outFile, ");\n}\n\n");
+}
+
 static void ExportNativeShim(const char *rootDir)
 {
     char fileName[1024] = {0};
     JoinPath(rootDir, "native/mojo_raylib_shim.c", fileName, sizeof(fileName));
 
-    FILE *outFile = fopen(fileName, "wt");
+    // raylib pass writes the file fresh; raymath pass (which runs after) just
+    // appends its wrappers so both halves share one shim object.
+    bool isRaymath = IsRaymathApi();
+    FILE *outFile = fopen(fileName, isRaymath ? "at" : "wt");
     if (outFile == NULL)
         return;
 
-    fprintf(outFile, "/* Auto-generated by rlparser CODE mode. */\n");
-    fprintf(outFile, "#include <stdarg.h>\n");
-    fprintf(outFile, "#include <stdio.h>\n");
-    fprintf(outFile, "#include <stdbool.h>\n");
-    fprintf(outFile, "#include \"../vendor/raylib/src/raylib.h\"\n");
-    fprintf(outFile, "#define RAYMATH_STATIC_INLINE\n");
-    fprintf(outFile, "#include \"../vendor/raylib/src/raymath.h\"\n\n");
-    fprintf(outFile, "#if defined(_WIN32)\n");
-    fprintf(outFile, "#define MOJO_RAYLIB_EXPORT __declspec(dllexport)\n");
-    fprintf(outFile, "#else\n");
-    fprintf(outFile, "#define MOJO_RAYLIB_EXPORT __attribute__((visibility(\"default\")))\n");
-    fprintf(outFile, "#endif\n\n");
-
-    fprintf(outFile, "typedef void (*mojo_trace_log_callback_simple)(int logLevel, const char *text);\n");
-    fprintf(outFile, "static mojo_trace_log_callback_simple g_mojo_trace_log_callback = NULL;\n\n");
-    fprintf(outFile, "static void mojo_trace_log_bridge(int logLevel, const char *text, va_list args)\n");
-    fprintf(outFile, "{\n");
-    fprintf(outFile, "    if (g_mojo_trace_log_callback == NULL) return;\n");
-    fprintf(outFile, "    char buffer[2048] = { 0 };\n");
-    fprintf(outFile, "    vsnprintf(buffer, sizeof(buffer), text, args);\n");
-    fprintf(outFile, "    g_mojo_trace_log_callback(logLevel, buffer);\n");
-    fprintf(outFile, "}\n\n");
-
-    fprintf(outFile, "MOJO_RAYLIB_EXPORT void mojo_raylib_SetTraceLogCallback(mojo_trace_log_callback_simple callback)\n");
-    fprintf(outFile, "{\n");
-    fprintf(outFile, "    g_mojo_trace_log_callback = callback;\n");
-    fprintf(outFile, "    SetTraceLogCallback((callback != NULL)? mojo_trace_log_bridge : NULL);\n");
-    fprintf(outFile, "}\n\n");
-
-    fprintf(outFile, "MOJO_RAYLIB_EXPORT void mojo_raylib_TraceLogLiteral(int logLevel, const char *text)\n");
-    fprintf(outFile, "{\n");
-    fprintf(outFile, "    TraceLog(logLevel, \"%%s\", text);\n");
-    fprintf(outFile, "}\n\n");
-
-    fprintf(outFile, "MOJO_RAYLIB_EXPORT const char *mojo_raylib_TextFormatLiteral(const char *text)\n");
-    fprintf(outFile, "{\n");
-    fprintf(outFile, "    return TextFormat(\"%%s\", text);\n");
-    fprintf(outFile, "}\n\n");
-
-    for (int i = 0; i < funcCount; i++)
+    if (!isRaymath)
     {
-        if (IsUnsupportedFunction(&funcs[i]))
-            continue;
+        fprintf(outFile, "/* Auto-generated by rlparser CODE mode. */\n");
+        fprintf(outFile, "#include <stdarg.h>\n");
+        fprintf(outFile, "#include <stdio.h>\n");
+        fprintf(outFile, "#include <stdbool.h>\n");
+        fprintf(outFile, "#include \"../vendor/raylib/src/raylib.h\"\n");
+        fprintf(outFile, "#define RAYMATH_STATIC_INLINE\n");
+        fprintf(outFile, "#include \"../vendor/raylib/src/raymath.h\"\n\n");
+        fprintf(outFile, "#if defined(_WIN32)\n");
+        fprintf(outFile, "#define MOJO_RAYLIB_EXPORT __declspec(dllexport)\n");
+        fprintf(outFile, "#else\n");
+        fprintf(outFile, "#define MOJO_RAYLIB_EXPORT __attribute__((visibility(\"default\")))\n");
+        fprintf(outFile, "#endif\n\n");
 
-        fprintf(outFile, "MOJO_RAYLIB_EXPORT %s mojo_raymath_%s(", funcs[i].retType, funcs[i].name);
-        for (int j = 0; j < funcs[i].paramCount; j++)
+        fprintf(outFile, "typedef void (*mojo_trace_log_callback_simple)(int logLevel, const char *text);\n");
+        fprintf(outFile, "static mojo_trace_log_callback_simple g_mojo_trace_log_callback = NULL;\n\n");
+        fprintf(outFile, "static void mojo_trace_log_bridge(int logLevel, const char *text, va_list args)\n");
+        fprintf(outFile, "{\n");
+        fprintf(outFile, "    if (g_mojo_trace_log_callback == NULL) return;\n");
+        fprintf(outFile, "    char buffer[2048] = { 0 };\n");
+        fprintf(outFile, "    vsnprintf(buffer, sizeof(buffer), text, args);\n");
+        fprintf(outFile, "    g_mojo_trace_log_callback(logLevel, buffer);\n");
+        fprintf(outFile, "}\n\n");
+
+        fprintf(outFile, "MOJO_RAYLIB_EXPORT void mojo_raylib_SetTraceLogCallback(mojo_trace_log_callback_simple callback)\n");
+        fprintf(outFile, "{\n");
+        fprintf(outFile, "    g_mojo_trace_log_callback = callback;\n");
+        fprintf(outFile, "    SetTraceLogCallback((callback != NULL)? mojo_trace_log_bridge : NULL);\n");
+        fprintf(outFile, "}\n\n");
+
+        fprintf(outFile, "MOJO_RAYLIB_EXPORT void mojo_raylib_TraceLogLiteral(int logLevel, const char *text)\n");
+        fprintf(outFile, "{\n");
+        fprintf(outFile, "    TraceLog(logLevel, \"%%s\", text);\n");
+        fprintf(outFile, "}\n\n");
+
+        fprintf(outFile, "MOJO_RAYLIB_EXPORT const char *mojo_raylib_TextFormatLiteral(const char *text)\n");
+        fprintf(outFile, "{\n");
+        fprintf(outFile, "    return TextFormat(\"%%s\", text);\n");
+        fprintf(outFile, "}\n\n");
+
+        // raylib functions taking struct-by-value get a by-pointer wrapper.
+        for (int i = 0; i < funcCount; i++)
         {
-            fprintf(outFile, "%s %s", funcs[i].paramType[j], funcs[i].paramName[j]);
-            if (j < funcs[i].paramCount - 1)
-                fprintf(outFile, ", ");
+            if (!NeedsShimWrapper(&funcs[i]))
+                continue;
+            WriteShimWrapper(outFile, &funcs[i], "mojo_raylib");
         }
-        fprintf(outFile, ")\n{\n");
-        if (!IsVoidType(funcs[i].retType))
-            fprintf(outFile, "    return ");
-        else
-            fprintf(outFile, "    ");
-        fprintf(outFile, "%s(", funcs[i].name);
-        for (int j = 0; j < funcs[i].paramCount; j++)
+    }
+    else
+    {
+        // raymath header is `static inline`; every function needs a wrapper
+        // to be reachable as a real symbol from Mojo.
+        for (int i = 0; i < funcCount; i++)
         {
-            fprintf(outFile, "%s", funcs[i].paramName[j]);
-            if (j < funcs[i].paramCount - 1)
-                fprintf(outFile, ", ");
+            if (IsUnsupportedFunction(&funcs[i]))
+                continue;
+            WriteShimWrapper(outFile, &funcs[i], "mojo_raymath");
         }
-        fprintf(outFile, ");\n}\n\n");
     }
 
     fclose(outFile);
@@ -3281,6 +3340,49 @@ static bool IsPointerAlias(const char *typeName)
             if (IsTextEqual(alias, typeName, TextLength(alias) + 1))
                 return true;
         }
+    }
+    return false;
+}
+
+// True if cType is a struct/alias passed by value (no `*`, no array, not a
+// callback, and not a pointer-typedef alias).
+static bool IsStructByValueParam(const char *cType)
+{
+    char trimmed[128] = {0};
+    char base[128] = {0};
+    bool isConst = false;
+    int pointerCount = 0;
+
+    CopyTrimmed(trimmed, cType, sizeof(trimmed));
+    if (TextFindIndex(trimmed, "[") > -1)
+        return false;
+    if (GetPointerBaseType(trimmed, base, sizeof(base), &isConst, &pointerCount))
+    {
+        if (pointerCount > 0)
+            return false;
+    }
+    else
+    {
+        CopyTrimmed(base, trimmed, sizeof(base));
+    }
+    if (IsKnownCallback(base))
+        return false;
+    if (IsPointerAlias(base))
+        return false;
+    return IsKnownStructOrAlias(base);
+}
+
+// Mojo's external_call ABI for non-HFA aggregates >16 bytes (e.g. Camera2D)
+// silently corrupts arguments on arm64. Route any function that takes a
+// struct-by-value through a thin C shim that takes them by pointer.
+static bool NeedsShimWrapper(const FunctionInfo *func)
+{
+    if (IsUnsupportedFunction(func))
+        return false;
+    for (int i = 0; i < func->paramCount; i++)
+    {
+        if (IsStructByValueParam(func->paramType[i]))
+            return true;
     }
     return false;
 }

@@ -82,7 +82,7 @@ def RestoreWindow():
 
 def SetWindowIcon(image: Image):
     """Set icon for window (single image, RGBA 32bit)"""
-    external_call["SetWindowIcon", NoneType](image)
+    external_call["mojo_raylib_SetWindowIcon", NoneType](UnsafePointer(to=image))
 
 def SetWindowIcons(images: UnsafePointer[Image, MutAnyOrigin], count: c_int):
     """Set icon for window (multiple images, RGBA 32bit)"""
@@ -230,7 +230,7 @@ def IsCursorOnScreen() -> Bool:
 
 def ClearBackground(color: Color):
     """Set background color (framebuffer clear color)"""
-    external_call["ClearBackground", NoneType](color)
+    external_call["mojo_raylib_ClearBackground", NoneType](UnsafePointer(to=color))
 
 def BeginDrawing():
     """Setup canvas (framebuffer) to start drawing"""
@@ -242,7 +242,7 @@ def EndDrawing():
 
 def BeginMode2D(camera: Camera2D):
     """Begin 2D mode with custom camera (2D)"""
-    external_call["BeginMode2D", NoneType](camera)
+    external_call["mojo_raylib_BeginMode2D", NoneType](UnsafePointer(to=camera))
 
 def EndMode2D():
     """Ends 2D mode with custom camera"""
@@ -250,7 +250,7 @@ def EndMode2D():
 
 def BeginMode3D(camera: Camera3D):
     """Begin 3D mode with custom camera (3D)"""
-    external_call["BeginMode3D", NoneType](camera)
+    external_call["mojo_raylib_BeginMode3D", NoneType](UnsafePointer(to=camera))
 
 def EndMode3D():
     """Ends 3D mode and returns to default 2D orthographic mode"""
@@ -258,7 +258,7 @@ def EndMode3D():
 
 def BeginTextureMode(target: RenderTexture2D):
     """Begin drawing to render texture"""
-    external_call["BeginTextureMode", NoneType](target)
+    external_call["mojo_raylib_BeginTextureMode", NoneType](UnsafePointer(to=target))
 
 def EndTextureMode():
     """Ends drawing to render texture"""
@@ -266,7 +266,7 @@ def EndTextureMode():
 
 def BeginShaderMode(shader: Shader):
     """Begin custom shader drawing"""
-    external_call["BeginShaderMode", NoneType](shader)
+    external_call["mojo_raylib_BeginShaderMode", NoneType](UnsafePointer(to=shader))
 
 def EndShaderMode():
     """End custom shader drawing (use default shader)"""
@@ -290,7 +290,7 @@ def EndScissorMode():
 
 def BeginVrStereoMode(config: VrStereoConfig):
     """Begin stereo rendering (requires VR simulator)"""
-    external_call["BeginVrStereoMode", NoneType](config)
+    external_call["mojo_raylib_BeginVrStereoMode", NoneType](UnsafePointer(to=config))
 
 def EndVrStereoMode():
     """End stereo rendering (requires VR simulator)"""
@@ -298,11 +298,11 @@ def EndVrStereoMode():
 
 def LoadVrStereoConfig(device: VrDeviceInfo) -> VrStereoConfig:
     """Load VR stereo config for VR simulator device parameters"""
-    return external_call["LoadVrStereoConfig", VrStereoConfig](device)
+    return external_call["mojo_raylib_LoadVrStereoConfig", VrStereoConfig](UnsafePointer(to=device))
 
 def UnloadVrStereoConfig(config: VrStereoConfig):
     """Unload VR stereo config"""
-    external_call["UnloadVrStereoConfig", NoneType](config)
+    external_call["mojo_raylib_UnloadVrStereoConfig", NoneType](UnsafePointer(to=config))
 
 def LoadShader(vsFileName: CStringSlice, fsFileName: CStringSlice) -> Shader:
     """Load shader from files and bind default locations"""
@@ -314,67 +314,67 @@ def LoadShaderFromMemory(vsCode: CStringSlice, fsCode: CStringSlice) -> Shader:
 
 def IsShaderValid(shader: Shader) -> Bool:
     """Check if a shader is valid (loaded on GPU)"""
-    return external_call["IsShaderValid", Bool](shader)
+    return external_call["mojo_raylib_IsShaderValid", Bool](UnsafePointer(to=shader))
 
 def GetShaderLocation(shader: Shader, uniformName: CStringSlice) -> c_int:
     """Get shader uniform location"""
-    return external_call["GetShaderLocation", c_int](shader, uniformName)
+    return external_call["mojo_raylib_GetShaderLocation", c_int](UnsafePointer(to=shader), uniformName)
 
 def GetShaderLocationAttrib(shader: Shader, attribName: CStringSlice) -> c_int:
     """Get shader attribute location"""
-    return external_call["GetShaderLocationAttrib", c_int](shader, attribName)
+    return external_call["mojo_raylib_GetShaderLocationAttrib", c_int](UnsafePointer(to=shader), attribName)
 
 def SetShaderValue(shader: Shader, locIndex: c_int, value: UnsafePointer[NoneType, MutAnyOrigin], uniformType: c_int):
     """Set shader uniform value"""
-    external_call["SetShaderValue", NoneType](shader, locIndex, value, uniformType)
+    external_call["mojo_raylib_SetShaderValue", NoneType](UnsafePointer(to=shader), locIndex, value, uniformType)
 
 def SetShaderValueV(shader: Shader, locIndex: c_int, value: UnsafePointer[NoneType, MutAnyOrigin], uniformType: c_int, count: c_int):
     """Set shader uniform value vector"""
-    external_call["SetShaderValueV", NoneType](shader, locIndex, value, uniformType, count)
+    external_call["mojo_raylib_SetShaderValueV", NoneType](UnsafePointer(to=shader), locIndex, value, uniformType, count)
 
 def SetShaderValueMatrix(shader: Shader, locIndex: c_int, mat: Matrix):
     """Set shader uniform value (matrix 4x4)"""
-    external_call["SetShaderValueMatrix", NoneType](shader, locIndex, mat)
+    external_call["mojo_raylib_SetShaderValueMatrix", NoneType](UnsafePointer(to=shader), locIndex, UnsafePointer(to=mat))
 
 def SetShaderValueTexture(shader: Shader, locIndex: c_int, texture: Texture2D):
     """Set shader uniform value and bind the texture (sampler2d)"""
-    external_call["SetShaderValueTexture", NoneType](shader, locIndex, texture)
+    external_call["mojo_raylib_SetShaderValueTexture", NoneType](UnsafePointer(to=shader), locIndex, UnsafePointer(to=texture))
 
 def UnloadShader(shader: Shader):
     """Unload shader from GPU memory (VRAM)"""
-    external_call["UnloadShader", NoneType](shader)
+    external_call["mojo_raylib_UnloadShader", NoneType](UnsafePointer(to=shader))
 
 def GetScreenToWorldRay(position: Vector2, camera: Camera) -> Ray:
     """Get a ray trace from screen position (i.e mouse)"""
-    return external_call["GetScreenToWorldRay", Ray](position, camera)
+    return external_call["mojo_raylib_GetScreenToWorldRay", Ray](UnsafePointer(to=position), UnsafePointer(to=camera))
 
 def GetScreenToWorldRayEx(position: Vector2, camera: Camera, width: c_int, height: c_int) -> Ray:
     """Get a ray trace from screen position (i.e mouse) in a viewport"""
-    return external_call["GetScreenToWorldRayEx", Ray](position, camera, width, height)
+    return external_call["mojo_raylib_GetScreenToWorldRayEx", Ray](UnsafePointer(to=position), UnsafePointer(to=camera), width, height)
 
 def GetWorldToScreen(position: Vector3, camera: Camera) -> Vector2:
     """Get the screen space position for a 3d world space position"""
-    return external_call["GetWorldToScreen", Vector2](position, camera)
+    return external_call["mojo_raylib_GetWorldToScreen", Vector2](UnsafePointer(to=position), UnsafePointer(to=camera))
 
 def GetWorldToScreenEx(position: Vector3, camera: Camera, width: c_int, height: c_int) -> Vector2:
     """Get size position for a 3d world space position"""
-    return external_call["GetWorldToScreenEx", Vector2](position, camera, width, height)
+    return external_call["mojo_raylib_GetWorldToScreenEx", Vector2](UnsafePointer(to=position), UnsafePointer(to=camera), width, height)
 
 def GetWorldToScreen2D(position: Vector2, camera: Camera2D) -> Vector2:
     """Get the screen space position for a 2d camera world space position"""
-    return external_call["GetWorldToScreen2D", Vector2](position, camera)
+    return external_call["mojo_raylib_GetWorldToScreen2D", Vector2](UnsafePointer(to=position), UnsafePointer(to=camera))
 
 def GetScreenToWorld2D(position: Vector2, camera: Camera2D) -> Vector2:
     """Get the world space position for a 2d camera screen space position"""
-    return external_call["GetScreenToWorld2D", Vector2](position, camera)
+    return external_call["mojo_raylib_GetScreenToWorld2D", Vector2](UnsafePointer(to=position), UnsafePointer(to=camera))
 
 def GetCameraMatrix(camera: Camera) -> Matrix:
     """Get camera transform matrix (view matrix)"""
-    return external_call["GetCameraMatrix", Matrix](camera)
+    return external_call["mojo_raylib_GetCameraMatrix", Matrix](UnsafePointer(to=camera))
 
 def GetCameraMatrix2D(camera: Camera2D) -> Matrix:
     """Get camera 2d transform matrix"""
-    return external_call["GetCameraMatrix2D", Matrix](camera)
+    return external_call["mojo_raylib_GetCameraMatrix2D", Matrix](UnsafePointer(to=camera))
 
 def SetTargetFPS(fps: c_int):
     """Set target FPS (maximum)"""
@@ -594,7 +594,7 @@ def LoadDirectoryFilesEx(basePath: CStringSlice, filter: CStringSlice, scanSubdi
 
 def UnloadDirectoryFiles(files: FilePathList):
     """Unload filepaths"""
-    external_call["UnloadDirectoryFiles", NoneType](files)
+    external_call["mojo_raylib_UnloadDirectoryFiles", NoneType](UnsafePointer(to=files))
 
 def IsFileDropped() -> Bool:
     """Check if a file has been dropped into window"""
@@ -606,7 +606,7 @@ def LoadDroppedFiles() -> FilePathList:
 
 def UnloadDroppedFiles(files: FilePathList):
     """Unload dropped filepaths"""
-    external_call["UnloadDroppedFiles", NoneType](files)
+    external_call["mojo_raylib_UnloadDroppedFiles", NoneType](UnsafePointer(to=files))
 
 def GetDirectoryFileCount(dirPath: CStringSlice) -> c_uint:
     """Get the file count in a directory"""
@@ -654,11 +654,11 @@ def LoadAutomationEventList(fileName: CStringSlice) -> AutomationEventList:
 
 def UnloadAutomationEventList(list: AutomationEventList):
     """Unload automation events list from file"""
-    external_call["UnloadAutomationEventList", NoneType](list)
+    external_call["mojo_raylib_UnloadAutomationEventList", NoneType](UnsafePointer(to=list))
 
 def ExportAutomationEventList(list: AutomationEventList, fileName: CStringSlice) -> Bool:
     """Export automation events list as text file"""
-    return external_call["ExportAutomationEventList", Bool](list, fileName)
+    return external_call["mojo_raylib_ExportAutomationEventList", Bool](UnsafePointer(to=list), fileName)
 
 def SetAutomationEventList(list: UnsafePointer[AutomationEventList, MutAnyOrigin]):
     """Set automation event list to record to"""
@@ -678,7 +678,7 @@ def StopAutomationEventRecording():
 
 def PlayAutomationEvent(event: AutomationEvent):
     """Play a recorded automation event"""
-    external_call["PlayAutomationEvent", NoneType](event)
+    external_call["mojo_raylib_PlayAutomationEvent", NoneType](UnsafePointer(to=event))
 
 def IsKeyPressed(key: c_int) -> Bool:
     """Check if a key has been pressed once"""
@@ -874,11 +874,11 @@ def UpdateCamera(camera: UnsafePointer[Camera, MutAnyOrigin], mode: c_int):
 
 def UpdateCameraPro(camera: UnsafePointer[Camera, MutAnyOrigin], movement: Vector3, rotation: Vector3, zoom: c_float):
     """Update camera movement/rotation"""
-    external_call["UpdateCameraPro", NoneType](camera, movement, rotation, zoom)
+    external_call["mojo_raylib_UpdateCameraPro", NoneType](camera, UnsafePointer(to=movement), UnsafePointer(to=rotation), zoom)
 
 def SetShapesTexture(texture: Texture2D, source: Rectangle):
     """Set texture and rectangle to be used on shapes drawing"""
-    external_call["SetShapesTexture", NoneType](texture, source)
+    external_call["mojo_raylib_SetShapesTexture", NoneType](UnsafePointer(to=texture), UnsafePointer(to=source))
 
 def GetShapesTexture() -> Texture2D:
     """Get texture that is used for shapes drawing"""
@@ -890,267 +890,267 @@ def GetShapesTextureRectangle() -> Rectangle:
 
 def DrawPixel(posX: c_int, posY: c_int, color: Color):
     """Draw a pixel using geometry [Can be slow, use with care]"""
-    external_call["DrawPixel", NoneType](posX, posY, color)
+    external_call["mojo_raylib_DrawPixel", NoneType](posX, posY, UnsafePointer(to=color))
 
 def DrawPixelV(position: Vector2, color: Color):
     """Draw a pixel using geometry (Vector version) [Can be slow, use with care]"""
-    external_call["DrawPixelV", NoneType](position, color)
+    external_call["mojo_raylib_DrawPixelV", NoneType](UnsafePointer(to=position), UnsafePointer(to=color))
 
 def DrawLine(startPosX: c_int, startPosY: c_int, endPosX: c_int, endPosY: c_int, color: Color):
     """Draw a line"""
-    external_call["DrawLine", NoneType](startPosX, startPosY, endPosX, endPosY, color)
+    external_call["mojo_raylib_DrawLine", NoneType](startPosX, startPosY, endPosX, endPosY, UnsafePointer(to=color))
 
 def DrawLineV(startPos: Vector2, endPos: Vector2, color: Color):
     """Draw a line (using gl lines)"""
-    external_call["DrawLineV", NoneType](startPos, endPos, color)
+    external_call["mojo_raylib_DrawLineV", NoneType](UnsafePointer(to=startPos), UnsafePointer(to=endPos), UnsafePointer(to=color))
 
 def DrawLineEx(startPos: Vector2, endPos: Vector2, thick: c_float, color: Color):
     """Draw a line (using triangles/quads)"""
-    external_call["DrawLineEx", NoneType](startPos, endPos, thick, color)
+    external_call["mojo_raylib_DrawLineEx", NoneType](UnsafePointer(to=startPos), UnsafePointer(to=endPos), thick, UnsafePointer(to=color))
 
 def DrawLineStrip(points: UnsafePointer[Vector2, MutAnyOrigin], pointCount: c_int, color: Color):
     """Draw lines sequence (using gl lines)"""
-    external_call["DrawLineStrip", NoneType](points, pointCount, color)
+    external_call["mojo_raylib_DrawLineStrip", NoneType](points, pointCount, UnsafePointer(to=color))
 
 def DrawLineBezier(startPos: Vector2, endPos: Vector2, thick: c_float, color: Color):
     """Draw line segment cubic-bezier in-out interpolation"""
-    external_call["DrawLineBezier", NoneType](startPos, endPos, thick, color)
+    external_call["mojo_raylib_DrawLineBezier", NoneType](UnsafePointer(to=startPos), UnsafePointer(to=endPos), thick, UnsafePointer(to=color))
 
 def DrawLineDashed(startPos: Vector2, endPos: Vector2, dashSize: c_int, spaceSize: c_int, color: Color):
     """Draw a dashed line"""
-    external_call["DrawLineDashed", NoneType](startPos, endPos, dashSize, spaceSize, color)
+    external_call["mojo_raylib_DrawLineDashed", NoneType](UnsafePointer(to=startPos), UnsafePointer(to=endPos), dashSize, spaceSize, UnsafePointer(to=color))
 
 def DrawCircle(centerX: c_int, centerY: c_int, radius: c_float, color: Color):
     """Draw a color-filled circle"""
-    external_call["DrawCircle", NoneType](centerX, centerY, radius, color)
+    external_call["mojo_raylib_DrawCircle", NoneType](centerX, centerY, radius, UnsafePointer(to=color))
 
 def DrawCircleV(center: Vector2, radius: c_float, color: Color):
     """Draw a color-filled circle (Vector version)"""
-    external_call["DrawCircleV", NoneType](center, radius, color)
+    external_call["mojo_raylib_DrawCircleV", NoneType](UnsafePointer(to=center), radius, UnsafePointer(to=color))
 
 def DrawCircleGradient(center: Vector2, radius: c_float, inner: Color, outer: Color):
     """Draw a gradient-filled circle"""
-    external_call["DrawCircleGradient", NoneType](center, radius, inner, outer)
+    external_call["mojo_raylib_DrawCircleGradient", NoneType](UnsafePointer(to=center), radius, UnsafePointer(to=inner), UnsafePointer(to=outer))
 
 def DrawCircleSector(center: Vector2, radius: c_float, startAngle: c_float, endAngle: c_float, segments: c_int, color: Color):
     """Draw a piece of a circle"""
-    external_call["DrawCircleSector", NoneType](center, radius, startAngle, endAngle, segments, color)
+    external_call["mojo_raylib_DrawCircleSector", NoneType](UnsafePointer(to=center), radius, startAngle, endAngle, segments, UnsafePointer(to=color))
 
 def DrawCircleSectorLines(center: Vector2, radius: c_float, startAngle: c_float, endAngle: c_float, segments: c_int, color: Color):
     """Draw circle sector outline"""
-    external_call["DrawCircleSectorLines", NoneType](center, radius, startAngle, endAngle, segments, color)
+    external_call["mojo_raylib_DrawCircleSectorLines", NoneType](UnsafePointer(to=center), radius, startAngle, endAngle, segments, UnsafePointer(to=color))
 
 def DrawCircleLines(centerX: c_int, centerY: c_int, radius: c_float, color: Color):
     """Draw circle outline"""
-    external_call["DrawCircleLines", NoneType](centerX, centerY, radius, color)
+    external_call["mojo_raylib_DrawCircleLines", NoneType](centerX, centerY, radius, UnsafePointer(to=color))
 
 def DrawCircleLinesV(center: Vector2, radius: c_float, color: Color):
     """Draw circle outline (Vector version)"""
-    external_call["DrawCircleLinesV", NoneType](center, radius, color)
+    external_call["mojo_raylib_DrawCircleLinesV", NoneType](UnsafePointer(to=center), radius, UnsafePointer(to=color))
 
 def DrawEllipse(centerX: c_int, centerY: c_int, radiusH: c_float, radiusV: c_float, color: Color):
     """Draw ellipse"""
-    external_call["DrawEllipse", NoneType](centerX, centerY, radiusH, radiusV, color)
+    external_call["mojo_raylib_DrawEllipse", NoneType](centerX, centerY, radiusH, radiusV, UnsafePointer(to=color))
 
 def DrawEllipseV(center: Vector2, radiusH: c_float, radiusV: c_float, color: Color):
     """Draw ellipse (Vector version)"""
-    external_call["DrawEllipseV", NoneType](center, radiusH, radiusV, color)
+    external_call["mojo_raylib_DrawEllipseV", NoneType](UnsafePointer(to=center), radiusH, radiusV, UnsafePointer(to=color))
 
 def DrawEllipseLines(centerX: c_int, centerY: c_int, radiusH: c_float, radiusV: c_float, color: Color):
     """Draw ellipse outline"""
-    external_call["DrawEllipseLines", NoneType](centerX, centerY, radiusH, radiusV, color)
+    external_call["mojo_raylib_DrawEllipseLines", NoneType](centerX, centerY, radiusH, radiusV, UnsafePointer(to=color))
 
 def DrawEllipseLinesV(center: Vector2, radiusH: c_float, radiusV: c_float, color: Color):
     """Draw ellipse outline (Vector version)"""
-    external_call["DrawEllipseLinesV", NoneType](center, radiusH, radiusV, color)
+    external_call["mojo_raylib_DrawEllipseLinesV", NoneType](UnsafePointer(to=center), radiusH, radiusV, UnsafePointer(to=color))
 
 def DrawRing(center: Vector2, innerRadius: c_float, outerRadius: c_float, startAngle: c_float, endAngle: c_float, segments: c_int, color: Color):
     """Draw ring"""
-    external_call["DrawRing", NoneType](center, innerRadius, outerRadius, startAngle, endAngle, segments, color)
+    external_call["mojo_raylib_DrawRing", NoneType](UnsafePointer(to=center), innerRadius, outerRadius, startAngle, endAngle, segments, UnsafePointer(to=color))
 
 def DrawRingLines(center: Vector2, innerRadius: c_float, outerRadius: c_float, startAngle: c_float, endAngle: c_float, segments: c_int, color: Color):
     """Draw ring outline"""
-    external_call["DrawRingLines", NoneType](center, innerRadius, outerRadius, startAngle, endAngle, segments, color)
+    external_call["mojo_raylib_DrawRingLines", NoneType](UnsafePointer(to=center), innerRadius, outerRadius, startAngle, endAngle, segments, UnsafePointer(to=color))
 
 def DrawRectangle(posX: c_int, posY: c_int, width: c_int, height: c_int, color: Color):
     """Draw a color-filled rectangle"""
-    external_call["DrawRectangle", NoneType](posX, posY, width, height, color)
+    external_call["mojo_raylib_DrawRectangle", NoneType](posX, posY, width, height, UnsafePointer(to=color))
 
 def DrawRectangleV(position: Vector2, size: Vector2, color: Color):
     """Draw a color-filled rectangle (Vector version)"""
-    external_call["DrawRectangleV", NoneType](position, size, color)
+    external_call["mojo_raylib_DrawRectangleV", NoneType](UnsafePointer(to=position), UnsafePointer(to=size), UnsafePointer(to=color))
 
 def DrawRectangleRec(rec: Rectangle, color: Color):
     """Draw a color-filled rectangle"""
-    external_call["DrawRectangleRec", NoneType](rec, color)
+    external_call["mojo_raylib_DrawRectangleRec", NoneType](UnsafePointer(to=rec), UnsafePointer(to=color))
 
 def DrawRectanglePro(rec: Rectangle, origin: Vector2, rotation: c_float, color: Color):
     """Draw a color-filled rectangle with pro parameters"""
-    external_call["DrawRectanglePro", NoneType](rec, origin, rotation, color)
+    external_call["mojo_raylib_DrawRectanglePro", NoneType](UnsafePointer(to=rec), UnsafePointer(to=origin), rotation, UnsafePointer(to=color))
 
 def DrawRectangleGradientV(posX: c_int, posY: c_int, width: c_int, height: c_int, top: Color, bottom: Color):
     """Draw a vertical-gradient-filled rectangle"""
-    external_call["DrawRectangleGradientV", NoneType](posX, posY, width, height, top, bottom)
+    external_call["mojo_raylib_DrawRectangleGradientV", NoneType](posX, posY, width, height, UnsafePointer(to=top), UnsafePointer(to=bottom))
 
 def DrawRectangleGradientH(posX: c_int, posY: c_int, width: c_int, height: c_int, left: Color, right: Color):
     """Draw a horizontal-gradient-filled rectangle"""
-    external_call["DrawRectangleGradientH", NoneType](posX, posY, width, height, left, right)
+    external_call["mojo_raylib_DrawRectangleGradientH", NoneType](posX, posY, width, height, UnsafePointer(to=left), UnsafePointer(to=right))
 
 def DrawRectangleGradientEx(rec: Rectangle, topLeft: Color, bottomLeft: Color, bottomRight: Color, topRight: Color):
     """Draw a gradient-filled rectangle with custom vertex colors"""
-    external_call["DrawRectangleGradientEx", NoneType](rec, topLeft, bottomLeft, bottomRight, topRight)
+    external_call["mojo_raylib_DrawRectangleGradientEx", NoneType](UnsafePointer(to=rec), UnsafePointer(to=topLeft), UnsafePointer(to=bottomLeft), UnsafePointer(to=bottomRight), UnsafePointer(to=topRight))
 
 def DrawRectangleLines(posX: c_int, posY: c_int, width: c_int, height: c_int, color: Color):
     """Draw rectangle outline"""
-    external_call["DrawRectangleLines", NoneType](posX, posY, width, height, color)
+    external_call["mojo_raylib_DrawRectangleLines", NoneType](posX, posY, width, height, UnsafePointer(to=color))
 
 def DrawRectangleLinesEx(rec: Rectangle, lineThick: c_float, color: Color):
     """Draw rectangle outline with extended parameters"""
-    external_call["DrawRectangleLinesEx", NoneType](rec, lineThick, color)
+    external_call["mojo_raylib_DrawRectangleLinesEx", NoneType](UnsafePointer(to=rec), lineThick, UnsafePointer(to=color))
 
 def DrawRectangleRounded(rec: Rectangle, roundness: c_float, segments: c_int, color: Color):
     """Draw rectangle with rounded edges"""
-    external_call["DrawRectangleRounded", NoneType](rec, roundness, segments, color)
+    external_call["mojo_raylib_DrawRectangleRounded", NoneType](UnsafePointer(to=rec), roundness, segments, UnsafePointer(to=color))
 
 def DrawRectangleRoundedLines(rec: Rectangle, roundness: c_float, segments: c_int, color: Color):
     """Draw rectangle lines with rounded edges"""
-    external_call["DrawRectangleRoundedLines", NoneType](rec, roundness, segments, color)
+    external_call["mojo_raylib_DrawRectangleRoundedLines", NoneType](UnsafePointer(to=rec), roundness, segments, UnsafePointer(to=color))
 
 def DrawRectangleRoundedLinesEx(rec: Rectangle, roundness: c_float, segments: c_int, lineThick: c_float, color: Color):
     """Draw rectangle with rounded edges outline"""
-    external_call["DrawRectangleRoundedLinesEx", NoneType](rec, roundness, segments, lineThick, color)
+    external_call["mojo_raylib_DrawRectangleRoundedLinesEx", NoneType](UnsafePointer(to=rec), roundness, segments, lineThick, UnsafePointer(to=color))
 
 def DrawTriangle(v1: Vector2, v2: Vector2, v3: Vector2, color: Color):
     """Draw a color-filled triangle (vertex in counter-clockwise order!)"""
-    external_call["DrawTriangle", NoneType](v1, v2, v3, color)
+    external_call["mojo_raylib_DrawTriangle", NoneType](UnsafePointer(to=v1), UnsafePointer(to=v2), UnsafePointer(to=v3), UnsafePointer(to=color))
 
 def DrawTriangleLines(v1: Vector2, v2: Vector2, v3: Vector2, color: Color):
     """Draw triangle outline (vertex in counter-clockwise order!)"""
-    external_call["DrawTriangleLines", NoneType](v1, v2, v3, color)
+    external_call["mojo_raylib_DrawTriangleLines", NoneType](UnsafePointer(to=v1), UnsafePointer(to=v2), UnsafePointer(to=v3), UnsafePointer(to=color))
 
 def DrawTriangleFan(points: UnsafePointer[Vector2, MutAnyOrigin], pointCount: c_int, color: Color):
     """Draw a triangle fan defined by points (first vertex is the center)"""
-    external_call["DrawTriangleFan", NoneType](points, pointCount, color)
+    external_call["mojo_raylib_DrawTriangleFan", NoneType](points, pointCount, UnsafePointer(to=color))
 
 def DrawTriangleStrip(points: UnsafePointer[Vector2, MutAnyOrigin], pointCount: c_int, color: Color):
     """Draw a triangle strip defined by points"""
-    external_call["DrawTriangleStrip", NoneType](points, pointCount, color)
+    external_call["mojo_raylib_DrawTriangleStrip", NoneType](points, pointCount, UnsafePointer(to=color))
 
 def DrawPoly(center: Vector2, sides: c_int, radius: c_float, rotation: c_float, color: Color):
     """Draw a regular polygon (Vector version)"""
-    external_call["DrawPoly", NoneType](center, sides, radius, rotation, color)
+    external_call["mojo_raylib_DrawPoly", NoneType](UnsafePointer(to=center), sides, radius, rotation, UnsafePointer(to=color))
 
 def DrawPolyLines(center: Vector2, sides: c_int, radius: c_float, rotation: c_float, color: Color):
     """Draw a polygon outline of n sides"""
-    external_call["DrawPolyLines", NoneType](center, sides, radius, rotation, color)
+    external_call["mojo_raylib_DrawPolyLines", NoneType](UnsafePointer(to=center), sides, radius, rotation, UnsafePointer(to=color))
 
 def DrawPolyLinesEx(center: Vector2, sides: c_int, radius: c_float, rotation: c_float, lineThick: c_float, color: Color):
     """Draw a polygon outline of n sides with extended parameters"""
-    external_call["DrawPolyLinesEx", NoneType](center, sides, radius, rotation, lineThick, color)
+    external_call["mojo_raylib_DrawPolyLinesEx", NoneType](UnsafePointer(to=center), sides, radius, rotation, lineThick, UnsafePointer(to=color))
 
 def DrawSplineLinear(points: UnsafePointer[Vector2, MutAnyOrigin], pointCount: c_int, thick: c_float, color: Color):
     """Draw spline: Linear, minimum 2 points"""
-    external_call["DrawSplineLinear", NoneType](points, pointCount, thick, color)
+    external_call["mojo_raylib_DrawSplineLinear", NoneType](points, pointCount, thick, UnsafePointer(to=color))
 
 def DrawSplineBasis(points: UnsafePointer[Vector2, MutAnyOrigin], pointCount: c_int, thick: c_float, color: Color):
     """Draw spline: B-Spline, minimum 4 points"""
-    external_call["DrawSplineBasis", NoneType](points, pointCount, thick, color)
+    external_call["mojo_raylib_DrawSplineBasis", NoneType](points, pointCount, thick, UnsafePointer(to=color))
 
 def DrawSplineCatmullRom(points: UnsafePointer[Vector2, MutAnyOrigin], pointCount: c_int, thick: c_float, color: Color):
     """Draw spline: Catmull-Rom, minimum 4 points"""
-    external_call["DrawSplineCatmullRom", NoneType](points, pointCount, thick, color)
+    external_call["mojo_raylib_DrawSplineCatmullRom", NoneType](points, pointCount, thick, UnsafePointer(to=color))
 
 def DrawSplineBezierQuadratic(points: UnsafePointer[Vector2, MutAnyOrigin], pointCount: c_int, thick: c_float, color: Color):
     """Draw spline: Quadratic Bezier, minimum 3 points (1 control point): [p1, c2, p3, c4...]"""
-    external_call["DrawSplineBezierQuadratic", NoneType](points, pointCount, thick, color)
+    external_call["mojo_raylib_DrawSplineBezierQuadratic", NoneType](points, pointCount, thick, UnsafePointer(to=color))
 
 def DrawSplineBezierCubic(points: UnsafePointer[Vector2, MutAnyOrigin], pointCount: c_int, thick: c_float, color: Color):
     """Draw spline: Cubic Bezier, minimum 4 points (2 control points): [p1, c2, c3, p4, c5, c6...]"""
-    external_call["DrawSplineBezierCubic", NoneType](points, pointCount, thick, color)
+    external_call["mojo_raylib_DrawSplineBezierCubic", NoneType](points, pointCount, thick, UnsafePointer(to=color))
 
 def DrawSplineSegmentLinear(p1: Vector2, p2: Vector2, thick: c_float, color: Color):
     """Draw spline segment: Linear, 2 points"""
-    external_call["DrawSplineSegmentLinear", NoneType](p1, p2, thick, color)
+    external_call["mojo_raylib_DrawSplineSegmentLinear", NoneType](UnsafePointer(to=p1), UnsafePointer(to=p2), thick, UnsafePointer(to=color))
 
 def DrawSplineSegmentBasis(p1: Vector2, p2: Vector2, p3: Vector2, p4: Vector2, thick: c_float, color: Color):
     """Draw spline segment: B-Spline, 4 points"""
-    external_call["DrawSplineSegmentBasis", NoneType](p1, p2, p3, p4, thick, color)
+    external_call["mojo_raylib_DrawSplineSegmentBasis", NoneType](UnsafePointer(to=p1), UnsafePointer(to=p2), UnsafePointer(to=p3), UnsafePointer(to=p4), thick, UnsafePointer(to=color))
 
 def DrawSplineSegmentCatmullRom(p1: Vector2, p2: Vector2, p3: Vector2, p4: Vector2, thick: c_float, color: Color):
     """Draw spline segment: Catmull-Rom, 4 points"""
-    external_call["DrawSplineSegmentCatmullRom", NoneType](p1, p2, p3, p4, thick, color)
+    external_call["mojo_raylib_DrawSplineSegmentCatmullRom", NoneType](UnsafePointer(to=p1), UnsafePointer(to=p2), UnsafePointer(to=p3), UnsafePointer(to=p4), thick, UnsafePointer(to=color))
 
 def DrawSplineSegmentBezierQuadratic(p1: Vector2, c2: Vector2, p3: Vector2, thick: c_float, color: Color):
     """Draw spline segment: Quadratic Bezier, 2 points, 1 control point"""
-    external_call["DrawSplineSegmentBezierQuadratic", NoneType](p1, c2, p3, thick, color)
+    external_call["mojo_raylib_DrawSplineSegmentBezierQuadratic", NoneType](UnsafePointer(to=p1), UnsafePointer(to=c2), UnsafePointer(to=p3), thick, UnsafePointer(to=color))
 
 def DrawSplineSegmentBezierCubic(p1: Vector2, c2: Vector2, c3: Vector2, p4: Vector2, thick: c_float, color: Color):
     """Draw spline segment: Cubic Bezier, 2 points, 2 control points"""
-    external_call["DrawSplineSegmentBezierCubic", NoneType](p1, c2, c3, p4, thick, color)
+    external_call["mojo_raylib_DrawSplineSegmentBezierCubic", NoneType](UnsafePointer(to=p1), UnsafePointer(to=c2), UnsafePointer(to=c3), UnsafePointer(to=p4), thick, UnsafePointer(to=color))
 
 def GetSplinePointLinear(startPos: Vector2, endPos: Vector2, t: c_float) -> Vector2:
     """Get (evaluate) spline point: Linear"""
-    return external_call["GetSplinePointLinear", Vector2](startPos, endPos, t)
+    return external_call["mojo_raylib_GetSplinePointLinear", Vector2](UnsafePointer(to=startPos), UnsafePointer(to=endPos), t)
 
 def GetSplinePointBasis(p1: Vector2, p2: Vector2, p3: Vector2, p4: Vector2, t: c_float) -> Vector2:
     """Get (evaluate) spline point: B-Spline"""
-    return external_call["GetSplinePointBasis", Vector2](p1, p2, p3, p4, t)
+    return external_call["mojo_raylib_GetSplinePointBasis", Vector2](UnsafePointer(to=p1), UnsafePointer(to=p2), UnsafePointer(to=p3), UnsafePointer(to=p4), t)
 
 def GetSplinePointCatmullRom(p1: Vector2, p2: Vector2, p3: Vector2, p4: Vector2, t: c_float) -> Vector2:
     """Get (evaluate) spline point: Catmull-Rom"""
-    return external_call["GetSplinePointCatmullRom", Vector2](p1, p2, p3, p4, t)
+    return external_call["mojo_raylib_GetSplinePointCatmullRom", Vector2](UnsafePointer(to=p1), UnsafePointer(to=p2), UnsafePointer(to=p3), UnsafePointer(to=p4), t)
 
 def GetSplinePointBezierQuad(p1: Vector2, c2: Vector2, p3: Vector2, t: c_float) -> Vector2:
     """Get (evaluate) spline point: Quadratic Bezier"""
-    return external_call["GetSplinePointBezierQuad", Vector2](p1, c2, p3, t)
+    return external_call["mojo_raylib_GetSplinePointBezierQuad", Vector2](UnsafePointer(to=p1), UnsafePointer(to=c2), UnsafePointer(to=p3), t)
 
 def GetSplinePointBezierCubic(p1: Vector2, c2: Vector2, c3: Vector2, p4: Vector2, t: c_float) -> Vector2:
     """Get (evaluate) spline point: Cubic Bezier"""
-    return external_call["GetSplinePointBezierCubic", Vector2](p1, c2, c3, p4, t)
+    return external_call["mojo_raylib_GetSplinePointBezierCubic", Vector2](UnsafePointer(to=p1), UnsafePointer(to=c2), UnsafePointer(to=c3), UnsafePointer(to=p4), t)
 
 def CheckCollisionRecs(rec1: Rectangle, rec2: Rectangle) -> Bool:
     """Check collision between two rectangles"""
-    return external_call["CheckCollisionRecs", Bool](rec1, rec2)
+    return external_call["mojo_raylib_CheckCollisionRecs", Bool](UnsafePointer(to=rec1), UnsafePointer(to=rec2))
 
 def CheckCollisionCircles(center1: Vector2, radius1: c_float, center2: Vector2, radius2: c_float) -> Bool:
     """Check collision between two circles"""
-    return external_call["CheckCollisionCircles", Bool](center1, radius1, center2, radius2)
+    return external_call["mojo_raylib_CheckCollisionCircles", Bool](UnsafePointer(to=center1), radius1, UnsafePointer(to=center2), radius2)
 
 def CheckCollisionCircleRec(center: Vector2, radius: c_float, rec: Rectangle) -> Bool:
     """Check collision between circle and rectangle"""
-    return external_call["CheckCollisionCircleRec", Bool](center, radius, rec)
+    return external_call["mojo_raylib_CheckCollisionCircleRec", Bool](UnsafePointer(to=center), radius, UnsafePointer(to=rec))
 
 def CheckCollisionCircleLine(center: Vector2, radius: c_float, p1: Vector2, p2: Vector2) -> Bool:
     """Check if circle collides with a line created betweeen two points [p1] and [p2]"""
-    return external_call["CheckCollisionCircleLine", Bool](center, radius, p1, p2)
+    return external_call["mojo_raylib_CheckCollisionCircleLine", Bool](UnsafePointer(to=center), radius, UnsafePointer(to=p1), UnsafePointer(to=p2))
 
 def CheckCollisionPointRec(point: Vector2, rec: Rectangle) -> Bool:
     """Check if point is inside rectangle"""
-    return external_call["CheckCollisionPointRec", Bool](point, rec)
+    return external_call["mojo_raylib_CheckCollisionPointRec", Bool](UnsafePointer(to=point), UnsafePointer(to=rec))
 
 def CheckCollisionPointCircle(point: Vector2, center: Vector2, radius: c_float) -> Bool:
     """Check if point is inside circle"""
-    return external_call["CheckCollisionPointCircle", Bool](point, center, radius)
+    return external_call["mojo_raylib_CheckCollisionPointCircle", Bool](UnsafePointer(to=point), UnsafePointer(to=center), radius)
 
 def CheckCollisionPointTriangle(point: Vector2, p1: Vector2, p2: Vector2, p3: Vector2) -> Bool:
     """Check if point is inside a triangle"""
-    return external_call["CheckCollisionPointTriangle", Bool](point, p1, p2, p3)
+    return external_call["mojo_raylib_CheckCollisionPointTriangle", Bool](UnsafePointer(to=point), UnsafePointer(to=p1), UnsafePointer(to=p2), UnsafePointer(to=p3))
 
 def CheckCollisionPointLine(point: Vector2, p1: Vector2, p2: Vector2, threshold: c_int) -> Bool:
     """Check if point belongs to line created between two points [p1] and [p2] with defined margin in pixels [threshold]"""
-    return external_call["CheckCollisionPointLine", Bool](point, p1, p2, threshold)
+    return external_call["mojo_raylib_CheckCollisionPointLine", Bool](UnsafePointer(to=point), UnsafePointer(to=p1), UnsafePointer(to=p2), threshold)
 
 def CheckCollisionPointPoly(point: Vector2, points: UnsafePointer[Vector2, MutAnyOrigin], pointCount: c_int) -> Bool:
     """Check if point is within a polygon described by array of vertices"""
-    return external_call["CheckCollisionPointPoly", Bool](point, points, pointCount)
+    return external_call["mojo_raylib_CheckCollisionPointPoly", Bool](UnsafePointer(to=point), points, pointCount)
 
 def CheckCollisionLines(startPos1: Vector2, endPos1: Vector2, startPos2: Vector2, endPos2: Vector2, collisionPoint: UnsafePointer[Vector2, MutAnyOrigin]) -> Bool:
     """Check the collision between two lines defined by two points each, returns collision point by reference"""
-    return external_call["CheckCollisionLines", Bool](startPos1, endPos1, startPos2, endPos2, collisionPoint)
+    return external_call["mojo_raylib_CheckCollisionLines", Bool](UnsafePointer(to=startPos1), UnsafePointer(to=endPos1), UnsafePointer(to=startPos2), UnsafePointer(to=endPos2), collisionPoint)
 
 def GetCollisionRec(rec1: Rectangle, rec2: Rectangle) -> Rectangle:
     """Get collision rectangle for two rectangles collision"""
-    return external_call["GetCollisionRec", Rectangle](rec1, rec2)
+    return external_call["mojo_raylib_GetCollisionRec", Rectangle](UnsafePointer(to=rec1), UnsafePointer(to=rec2))
 
 def LoadImage(fileName: CStringSlice) -> Image:
     """Load image from file into CPU memory (RAM)"""
@@ -1174,7 +1174,7 @@ def LoadImageFromMemory(fileType: CStringSlice, fileData: UnsafePointer[c_uchar,
 
 def LoadImageFromTexture(texture: Texture2D) -> Image:
     """Load image from GPU texture data"""
-    return external_call["LoadImageFromTexture", Image](texture)
+    return external_call["mojo_raylib_LoadImageFromTexture", Image](UnsafePointer(to=texture))
 
 def LoadImageFromScreen() -> Image:
     """Load image from screen buffer and (screenshot)"""
@@ -1182,43 +1182,43 @@ def LoadImageFromScreen() -> Image:
 
 def IsImageValid(image: Image) -> Bool:
     """Check if an image is valid (data and parameters)"""
-    return external_call["IsImageValid", Bool](image)
+    return external_call["mojo_raylib_IsImageValid", Bool](UnsafePointer(to=image))
 
 def UnloadImage(image: Image):
     """Unload image from CPU memory (RAM)"""
-    external_call["UnloadImage", NoneType](image)
+    external_call["mojo_raylib_UnloadImage", NoneType](UnsafePointer(to=image))
 
 def ExportImage(image: Image, fileName: CStringSlice) -> Bool:
     """Export image data to file, returns true on success"""
-    return external_call["ExportImage", Bool](image, fileName)
+    return external_call["mojo_raylib_ExportImage", Bool](UnsafePointer(to=image), fileName)
 
 def ExportImageToMemory(image: Image, fileType: CStringSlice, fileSize: UnsafePointer[c_int, MutAnyOrigin]) -> UnsafePointer[c_uchar, MutAnyOrigin]:
     """Export image to memory buffer, memory must be MemFree()"""
-    return external_call["ExportImageToMemory", UnsafePointer[c_uchar, MutAnyOrigin]](image, fileType, fileSize)
+    return external_call["mojo_raylib_ExportImageToMemory", UnsafePointer[c_uchar, MutAnyOrigin]](UnsafePointer(to=image), fileType, fileSize)
 
 def ExportImageAsCode(image: Image, fileName: CStringSlice) -> Bool:
     """Export image as code file defining an array of bytes, returns true on success"""
-    return external_call["ExportImageAsCode", Bool](image, fileName)
+    return external_call["mojo_raylib_ExportImageAsCode", Bool](UnsafePointer(to=image), fileName)
 
 def GenImageColor(width: c_int, height: c_int, color: Color) -> Image:
     """Generate image: plain color"""
-    return external_call["GenImageColor", Image](width, height, color)
+    return external_call["mojo_raylib_GenImageColor", Image](width, height, UnsafePointer(to=color))
 
 def GenImageGradientLinear(width: c_int, height: c_int, direction: c_int, start: Color, end: Color) -> Image:
     """Generate image: linear gradient, direction in degrees [0..360], 0=Vertical gradient"""
-    return external_call["GenImageGradientLinear", Image](width, height, direction, start, end)
+    return external_call["mojo_raylib_GenImageGradientLinear", Image](width, height, direction, UnsafePointer(to=start), UnsafePointer(to=end))
 
 def GenImageGradientRadial(width: c_int, height: c_int, density: c_float, inner: Color, outer: Color) -> Image:
     """Generate image: radial gradient"""
-    return external_call["GenImageGradientRadial", Image](width, height, density, inner, outer)
+    return external_call["mojo_raylib_GenImageGradientRadial", Image](width, height, density, UnsafePointer(to=inner), UnsafePointer(to=outer))
 
 def GenImageGradientSquare(width: c_int, height: c_int, density: c_float, inner: Color, outer: Color) -> Image:
     """Generate image: square gradient"""
-    return external_call["GenImageGradientSquare", Image](width, height, density, inner, outer)
+    return external_call["mojo_raylib_GenImageGradientSquare", Image](width, height, density, UnsafePointer(to=inner), UnsafePointer(to=outer))
 
 def GenImageChecked(width: c_int, height: c_int, checksX: c_int, checksY: c_int, col1: Color, col2: Color) -> Image:
     """Generate image: checked"""
-    return external_call["GenImageChecked", Image](width, height, checksX, checksY, col1, col2)
+    return external_call["mojo_raylib_GenImageChecked", Image](width, height, checksX, checksY, UnsafePointer(to=col1), UnsafePointer(to=col2))
 
 def GenImageWhiteNoise(width: c_int, height: c_int, factor: c_float) -> Image:
     """Generate image: white noise"""
@@ -1238,23 +1238,23 @@ def GenImageText(width: c_int, height: c_int, text: CStringSlice) -> Image:
 
 def ImageCopy(image: Image) -> Image:
     """Create an image duplicate (useful for transformations)"""
-    return external_call["ImageCopy", Image](image)
+    return external_call["mojo_raylib_ImageCopy", Image](UnsafePointer(to=image))
 
 def ImageFromImage(image: Image, rec: Rectangle) -> Image:
     """Create an image from another image piece"""
-    return external_call["ImageFromImage", Image](image, rec)
+    return external_call["mojo_raylib_ImageFromImage", Image](UnsafePointer(to=image), UnsafePointer(to=rec))
 
 def ImageFromChannel(image: Image, selectedChannel: c_int) -> Image:
     """Create an image from a selected channel of another image (GRAYSCALE)"""
-    return external_call["ImageFromChannel", Image](image, selectedChannel)
+    return external_call["mojo_raylib_ImageFromChannel", Image](UnsafePointer(to=image), selectedChannel)
 
 def ImageText(text: CStringSlice, fontSize: c_int, color: Color) -> Image:
     """Create an image from text (default font)"""
-    return external_call["ImageText", Image](text, fontSize, color)
+    return external_call["mojo_raylib_ImageText", Image](text, fontSize, UnsafePointer(to=color))
 
 def ImageTextEx(font: Font, text: CStringSlice, fontSize: c_float, spacing: c_float, tint: Color) -> Image:
     """Create an image from text (custom sprite font)"""
-    return external_call["ImageTextEx", Image](font, text, fontSize, spacing, tint)
+    return external_call["mojo_raylib_ImageTextEx", Image](UnsafePointer(to=font), text, fontSize, spacing, UnsafePointer(to=tint))
 
 def ImageFormat(image: UnsafePointer[Image, MutAnyOrigin], newFormat: c_int):
     """Convert image data to desired format"""
@@ -1262,11 +1262,11 @@ def ImageFormat(image: UnsafePointer[Image, MutAnyOrigin], newFormat: c_int):
 
 def ImageToPOT(image: UnsafePointer[Image, MutAnyOrigin], fill: Color):
     """Convert image to POT (power-of-two)"""
-    external_call["ImageToPOT", NoneType](image, fill)
+    external_call["mojo_raylib_ImageToPOT", NoneType](image, UnsafePointer(to=fill))
 
 def ImageCrop(image: UnsafePointer[Image, MutAnyOrigin], crop: Rectangle):
     """Crop an image to a defined rectangle"""
-    external_call["ImageCrop", NoneType](image, crop)
+    external_call["mojo_raylib_ImageCrop", NoneType](image, UnsafePointer(to=crop))
 
 def ImageAlphaCrop(image: UnsafePointer[Image, MutAnyOrigin], threshold: c_float):
     """Crop image depending on alpha value"""
@@ -1274,11 +1274,11 @@ def ImageAlphaCrop(image: UnsafePointer[Image, MutAnyOrigin], threshold: c_float
 
 def ImageAlphaClear(image: UnsafePointer[Image, MutAnyOrigin], color: Color, threshold: c_float):
     """Clear alpha channel to desired color"""
-    external_call["ImageAlphaClear", NoneType](image, color, threshold)
+    external_call["mojo_raylib_ImageAlphaClear", NoneType](image, UnsafePointer(to=color), threshold)
 
 def ImageAlphaMask(image: UnsafePointer[Image, MutAnyOrigin], alphaMask: Image):
     """Apply alpha mask to image"""
-    external_call["ImageAlphaMask", NoneType](image, alphaMask)
+    external_call["mojo_raylib_ImageAlphaMask", NoneType](image, UnsafePointer(to=alphaMask))
 
 def ImageAlphaPremultiply(image: UnsafePointer[Image, MutAnyOrigin]):
     """Premultiply alpha channel"""
@@ -1302,7 +1302,7 @@ def ImageResizeNN(image: UnsafePointer[Image, MutAnyOrigin], newWidth: c_int, ne
 
 def ImageResizeCanvas(image: UnsafePointer[Image, MutAnyOrigin], newWidth: c_int, newHeight: c_int, offsetX: c_int, offsetY: c_int, fill: Color):
     """Resize canvas and fill with color"""
-    external_call["ImageResizeCanvas", NoneType](image, newWidth, newHeight, offsetX, offsetY, fill)
+    external_call["mojo_raylib_ImageResizeCanvas", NoneType](image, newWidth, newHeight, offsetX, offsetY, UnsafePointer(to=fill))
 
 def ImageMipmaps(image: UnsafePointer[Image, MutAnyOrigin]):
     """Compute all mipmap levels for a provided image"""
@@ -1334,7 +1334,7 @@ def ImageRotateCCW(image: UnsafePointer[Image, MutAnyOrigin]):
 
 def ImageColorTint(image: UnsafePointer[Image, MutAnyOrigin], color: Color):
     """Modify image color: tint"""
-    external_call["ImageColorTint", NoneType](image, color)
+    external_call["mojo_raylib_ImageColorTint", NoneType](image, UnsafePointer(to=color))
 
 def ImageColorInvert(image: UnsafePointer[Image, MutAnyOrigin]):
     """Modify image color: invert"""
@@ -1354,15 +1354,15 @@ def ImageColorBrightness(image: UnsafePointer[Image, MutAnyOrigin], brightness: 
 
 def ImageColorReplace(image: UnsafePointer[Image, MutAnyOrigin], color: Color, replace: Color):
     """Modify image color: replace color"""
-    external_call["ImageColorReplace", NoneType](image, color, replace)
+    external_call["mojo_raylib_ImageColorReplace", NoneType](image, UnsafePointer(to=color), UnsafePointer(to=replace))
 
 def LoadImageColors(image: Image) -> UnsafePointer[Color, MutAnyOrigin]:
     """Load color data from image as a Color array (RGBA - 32bit)"""
-    return external_call["LoadImageColors", UnsafePointer[Color, MutAnyOrigin]](image)
+    return external_call["mojo_raylib_LoadImageColors", UnsafePointer[Color, MutAnyOrigin]](UnsafePointer(to=image))
 
 def LoadImagePalette(image: Image, maxPaletteSize: c_int, colorCount: UnsafePointer[c_int, MutAnyOrigin]) -> UnsafePointer[Color, MutAnyOrigin]:
     """Load colors palette from image as a Color array (RGBA - 32bit)"""
-    return external_call["LoadImagePalette", UnsafePointer[Color, MutAnyOrigin]](image, maxPaletteSize, colorCount)
+    return external_call["mojo_raylib_LoadImagePalette", UnsafePointer[Color, MutAnyOrigin]](UnsafePointer(to=image), maxPaletteSize, colorCount)
 
 def UnloadImageColors(colors: UnsafePointer[Color, MutAnyOrigin]):
     """Unload color data loaded with LoadImageColors()"""
@@ -1374,99 +1374,99 @@ def UnloadImagePalette(colors: UnsafePointer[Color, MutAnyOrigin]):
 
 def GetImageAlphaBorder(image: Image, threshold: c_float) -> Rectangle:
     """Get image alpha border rectangle"""
-    return external_call["GetImageAlphaBorder", Rectangle](image, threshold)
+    return external_call["mojo_raylib_GetImageAlphaBorder", Rectangle](UnsafePointer(to=image), threshold)
 
 def GetImageColor(image: Image, x: c_int, y: c_int) -> Color:
     """Get image pixel color at (x, y) position"""
-    return external_call["GetImageColor", Color](image, x, y)
+    return external_call["mojo_raylib_GetImageColor", Color](UnsafePointer(to=image), x, y)
 
 def ImageClearBackground(dst: UnsafePointer[Image, MutAnyOrigin], color: Color):
     """Clear image background with given color"""
-    external_call["ImageClearBackground", NoneType](dst, color)
+    external_call["mojo_raylib_ImageClearBackground", NoneType](dst, UnsafePointer(to=color))
 
 def ImageDrawPixel(dst: UnsafePointer[Image, MutAnyOrigin], posX: c_int, posY: c_int, color: Color):
     """Draw pixel within an image"""
-    external_call["ImageDrawPixel", NoneType](dst, posX, posY, color)
+    external_call["mojo_raylib_ImageDrawPixel", NoneType](dst, posX, posY, UnsafePointer(to=color))
 
 def ImageDrawPixelV(dst: UnsafePointer[Image, MutAnyOrigin], position: Vector2, color: Color):
     """Draw pixel within an image (Vector version)"""
-    external_call["ImageDrawPixelV", NoneType](dst, position, color)
+    external_call["mojo_raylib_ImageDrawPixelV", NoneType](dst, UnsafePointer(to=position), UnsafePointer(to=color))
 
 def ImageDrawLine(dst: UnsafePointer[Image, MutAnyOrigin], startPosX: c_int, startPosY: c_int, endPosX: c_int, endPosY: c_int, color: Color):
     """Draw line within an image"""
-    external_call["ImageDrawLine", NoneType](dst, startPosX, startPosY, endPosX, endPosY, color)
+    external_call["mojo_raylib_ImageDrawLine", NoneType](dst, startPosX, startPosY, endPosX, endPosY, UnsafePointer(to=color))
 
 def ImageDrawLineV(dst: UnsafePointer[Image, MutAnyOrigin], start: Vector2, end: Vector2, color: Color):
     """Draw line within an image (Vector version)"""
-    external_call["ImageDrawLineV", NoneType](dst, start, end, color)
+    external_call["mojo_raylib_ImageDrawLineV", NoneType](dst, UnsafePointer(to=start), UnsafePointer(to=end), UnsafePointer(to=color))
 
 def ImageDrawLineEx(dst: UnsafePointer[Image, MutAnyOrigin], start: Vector2, end: Vector2, thick: c_int, color: Color):
     """Draw a line defining thickness within an image"""
-    external_call["ImageDrawLineEx", NoneType](dst, start, end, thick, color)
+    external_call["mojo_raylib_ImageDrawLineEx", NoneType](dst, UnsafePointer(to=start), UnsafePointer(to=end), thick, UnsafePointer(to=color))
 
 def ImageDrawCircle(dst: UnsafePointer[Image, MutAnyOrigin], centerX: c_int, centerY: c_int, radius: c_int, color: Color):
     """Draw a filled circle within an image"""
-    external_call["ImageDrawCircle", NoneType](dst, centerX, centerY, radius, color)
+    external_call["mojo_raylib_ImageDrawCircle", NoneType](dst, centerX, centerY, radius, UnsafePointer(to=color))
 
 def ImageDrawCircleV(dst: UnsafePointer[Image, MutAnyOrigin], center: Vector2, radius: c_int, color: Color):
     """Draw a filled circle within an image (Vector version)"""
-    external_call["ImageDrawCircleV", NoneType](dst, center, radius, color)
+    external_call["mojo_raylib_ImageDrawCircleV", NoneType](dst, UnsafePointer(to=center), radius, UnsafePointer(to=color))
 
 def ImageDrawCircleLines(dst: UnsafePointer[Image, MutAnyOrigin], centerX: c_int, centerY: c_int, radius: c_int, color: Color):
     """Draw circle outline within an image"""
-    external_call["ImageDrawCircleLines", NoneType](dst, centerX, centerY, radius, color)
+    external_call["mojo_raylib_ImageDrawCircleLines", NoneType](dst, centerX, centerY, radius, UnsafePointer(to=color))
 
 def ImageDrawCircleLinesV(dst: UnsafePointer[Image, MutAnyOrigin], center: Vector2, radius: c_int, color: Color):
     """Draw circle outline within an image (Vector version)"""
-    external_call["ImageDrawCircleLinesV", NoneType](dst, center, radius, color)
+    external_call["mojo_raylib_ImageDrawCircleLinesV", NoneType](dst, UnsafePointer(to=center), radius, UnsafePointer(to=color))
 
 def ImageDrawRectangle(dst: UnsafePointer[Image, MutAnyOrigin], posX: c_int, posY: c_int, width: c_int, height: c_int, color: Color):
     """Draw rectangle within an image"""
-    external_call["ImageDrawRectangle", NoneType](dst, posX, posY, width, height, color)
+    external_call["mojo_raylib_ImageDrawRectangle", NoneType](dst, posX, posY, width, height, UnsafePointer(to=color))
 
 def ImageDrawRectangleV(dst: UnsafePointer[Image, MutAnyOrigin], position: Vector2, size: Vector2, color: Color):
     """Draw rectangle within an image (Vector version)"""
-    external_call["ImageDrawRectangleV", NoneType](dst, position, size, color)
+    external_call["mojo_raylib_ImageDrawRectangleV", NoneType](dst, UnsafePointer(to=position), UnsafePointer(to=size), UnsafePointer(to=color))
 
 def ImageDrawRectangleRec(dst: UnsafePointer[Image, MutAnyOrigin], rec: Rectangle, color: Color):
     """Draw rectangle within an image"""
-    external_call["ImageDrawRectangleRec", NoneType](dst, rec, color)
+    external_call["mojo_raylib_ImageDrawRectangleRec", NoneType](dst, UnsafePointer(to=rec), UnsafePointer(to=color))
 
 def ImageDrawRectangleLines(dst: UnsafePointer[Image, MutAnyOrigin], rec: Rectangle, thick: c_int, color: Color):
     """Draw rectangle lines within an image"""
-    external_call["ImageDrawRectangleLines", NoneType](dst, rec, thick, color)
+    external_call["mojo_raylib_ImageDrawRectangleLines", NoneType](dst, UnsafePointer(to=rec), thick, UnsafePointer(to=color))
 
 def ImageDrawTriangle(dst: UnsafePointer[Image, MutAnyOrigin], v1: Vector2, v2: Vector2, v3: Vector2, color: Color):
     """Draw triangle within an image"""
-    external_call["ImageDrawTriangle", NoneType](dst, v1, v2, v3, color)
+    external_call["mojo_raylib_ImageDrawTriangle", NoneType](dst, UnsafePointer(to=v1), UnsafePointer(to=v2), UnsafePointer(to=v3), UnsafePointer(to=color))
 
 def ImageDrawTriangleEx(dst: UnsafePointer[Image, MutAnyOrigin], v1: Vector2, v2: Vector2, v3: Vector2, c1: Color, c2: Color, c3: Color):
     """Draw triangle with interpolated colors within an image"""
-    external_call["ImageDrawTriangleEx", NoneType](dst, v1, v2, v3, c1, c2, c3)
+    external_call["mojo_raylib_ImageDrawTriangleEx", NoneType](dst, UnsafePointer(to=v1), UnsafePointer(to=v2), UnsafePointer(to=v3), UnsafePointer(to=c1), UnsafePointer(to=c2), UnsafePointer(to=c3))
 
 def ImageDrawTriangleLines(dst: UnsafePointer[Image, MutAnyOrigin], v1: Vector2, v2: Vector2, v3: Vector2, color: Color):
     """Draw triangle outline within an image"""
-    external_call["ImageDrawTriangleLines", NoneType](dst, v1, v2, v3, color)
+    external_call["mojo_raylib_ImageDrawTriangleLines", NoneType](dst, UnsafePointer(to=v1), UnsafePointer(to=v2), UnsafePointer(to=v3), UnsafePointer(to=color))
 
 def ImageDrawTriangleFan(dst: UnsafePointer[Image, MutAnyOrigin], points: UnsafePointer[Vector2, MutAnyOrigin], pointCount: c_int, color: Color):
     """Draw a triangle fan defined by points within an image (first vertex is the center)"""
-    external_call["ImageDrawTriangleFan", NoneType](dst, points, pointCount, color)
+    external_call["mojo_raylib_ImageDrawTriangleFan", NoneType](dst, points, pointCount, UnsafePointer(to=color))
 
 def ImageDrawTriangleStrip(dst: UnsafePointer[Image, MutAnyOrigin], points: UnsafePointer[Vector2, MutAnyOrigin], pointCount: c_int, color: Color):
     """Draw a triangle strip defined by points within an image"""
-    external_call["ImageDrawTriangleStrip", NoneType](dst, points, pointCount, color)
+    external_call["mojo_raylib_ImageDrawTriangleStrip", NoneType](dst, points, pointCount, UnsafePointer(to=color))
 
 def ImageDraw(dst: UnsafePointer[Image, MutAnyOrigin], src: Image, srcRec: Rectangle, dstRec: Rectangle, tint: Color):
     """Draw a source image within a destination image (tint applied to source)"""
-    external_call["ImageDraw", NoneType](dst, src, srcRec, dstRec, tint)
+    external_call["mojo_raylib_ImageDraw", NoneType](dst, UnsafePointer(to=src), UnsafePointer(to=srcRec), UnsafePointer(to=dstRec), UnsafePointer(to=tint))
 
 def ImageDrawText(dst: UnsafePointer[Image, MutAnyOrigin], text: CStringSlice, posX: c_int, posY: c_int, fontSize: c_int, color: Color):
     """Draw text (using default font) within an image (destination)"""
-    external_call["ImageDrawText", NoneType](dst, text, posX, posY, fontSize, color)
+    external_call["mojo_raylib_ImageDrawText", NoneType](dst, text, posX, posY, fontSize, UnsafePointer(to=color))
 
 def ImageDrawTextEx(dst: UnsafePointer[Image, MutAnyOrigin], font: Font, text: CStringSlice, position: Vector2, fontSize: c_float, spacing: c_float, tint: Color):
     """Draw text (custom sprite font) within an image (destination)"""
-    external_call["ImageDrawTextEx", NoneType](dst, font, text, position, fontSize, spacing, tint)
+    external_call["mojo_raylib_ImageDrawTextEx", NoneType](dst, UnsafePointer(to=font), text, UnsafePointer(to=position), fontSize, spacing, UnsafePointer(to=tint))
 
 def LoadTexture(fileName: CStringSlice) -> Texture2D:
     """Load texture from file into GPU memory (VRAM)"""
@@ -1474,11 +1474,11 @@ def LoadTexture(fileName: CStringSlice) -> Texture2D:
 
 def LoadTextureFromImage(image: Image) -> Texture2D:
     """Load texture from image data"""
-    return external_call["LoadTextureFromImage", Texture2D](image)
+    return external_call["mojo_raylib_LoadTextureFromImage", Texture2D](UnsafePointer(to=image))
 
 def LoadTextureCubemap(image: Image, layout: c_int) -> TextureCubemap:
     """Load cubemap from image, multiple image cubemap layouts supported"""
-    return external_call["LoadTextureCubemap", TextureCubemap](image, layout)
+    return external_call["mojo_raylib_LoadTextureCubemap", TextureCubemap](UnsafePointer(to=image), layout)
 
 def LoadRenderTexture(width: c_int, height: c_int) -> RenderTexture2D:
     """Load texture for rendering (framebuffer)"""
@@ -1486,27 +1486,27 @@ def LoadRenderTexture(width: c_int, height: c_int) -> RenderTexture2D:
 
 def IsTextureValid(texture: Texture2D) -> Bool:
     """Check if a texture is valid (loaded in GPU)"""
-    return external_call["IsTextureValid", Bool](texture)
+    return external_call["mojo_raylib_IsTextureValid", Bool](UnsafePointer(to=texture))
 
 def UnloadTexture(texture: Texture2D):
     """Unload texture from GPU memory (VRAM)"""
-    external_call["UnloadTexture", NoneType](texture)
+    external_call["mojo_raylib_UnloadTexture", NoneType](UnsafePointer(to=texture))
 
 def IsRenderTextureValid(target: RenderTexture2D) -> Bool:
     """Check if a render texture is valid (loaded in GPU)"""
-    return external_call["IsRenderTextureValid", Bool](target)
+    return external_call["mojo_raylib_IsRenderTextureValid", Bool](UnsafePointer(to=target))
 
 def UnloadRenderTexture(target: RenderTexture2D):
     """Unload render texture from GPU memory (VRAM)"""
-    external_call["UnloadRenderTexture", NoneType](target)
+    external_call["mojo_raylib_UnloadRenderTexture", NoneType](UnsafePointer(to=target))
 
 def UpdateTexture(texture: Texture2D, pixels: UnsafePointer[NoneType, MutAnyOrigin]):
     """Update GPU texture with new data (pixels should be able to fill texture)"""
-    external_call["UpdateTexture", NoneType](texture, pixels)
+    external_call["mojo_raylib_UpdateTexture", NoneType](UnsafePointer(to=texture), pixels)
 
 def UpdateTextureRec(texture: Texture2D, rec: Rectangle, pixels: UnsafePointer[NoneType, MutAnyOrigin]):
     """Update GPU texture rectangle with new data (pixels and rec should fit in texture)"""
-    external_call["UpdateTextureRec", NoneType](texture, rec, pixels)
+    external_call["mojo_raylib_UpdateTextureRec", NoneType](UnsafePointer(to=texture), UnsafePointer(to=rec), pixels)
 
 def GenTextureMipmaps(texture: UnsafePointer[Texture2D, MutAnyOrigin]):
     """Generate GPU mipmaps for a texture"""
@@ -1514,59 +1514,59 @@ def GenTextureMipmaps(texture: UnsafePointer[Texture2D, MutAnyOrigin]):
 
 def SetTextureFilter(texture: Texture2D, filter: c_int):
     """Set texture scaling filter mode"""
-    external_call["SetTextureFilter", NoneType](texture, filter)
+    external_call["mojo_raylib_SetTextureFilter", NoneType](UnsafePointer(to=texture), filter)
 
 def SetTextureWrap(texture: Texture2D, wrap: c_int):
     """Set texture wrapping mode"""
-    external_call["SetTextureWrap", NoneType](texture, wrap)
+    external_call["mojo_raylib_SetTextureWrap", NoneType](UnsafePointer(to=texture), wrap)
 
 def DrawTexture(texture: Texture2D, posX: c_int, posY: c_int, tint: Color):
     """Draw a Texture2D"""
-    external_call["DrawTexture", NoneType](texture, posX, posY, tint)
+    external_call["mojo_raylib_DrawTexture", NoneType](UnsafePointer(to=texture), posX, posY, UnsafePointer(to=tint))
 
 def DrawTextureV(texture: Texture2D, position: Vector2, tint: Color):
     """Draw a Texture2D with position defined as Vector2"""
-    external_call["DrawTextureV", NoneType](texture, position, tint)
+    external_call["mojo_raylib_DrawTextureV", NoneType](UnsafePointer(to=texture), UnsafePointer(to=position), UnsafePointer(to=tint))
 
 def DrawTextureEx(texture: Texture2D, position: Vector2, rotation: c_float, scale: c_float, tint: Color):
     """Draw a Texture2D with extended parameters"""
-    external_call["DrawTextureEx", NoneType](texture, position, rotation, scale, tint)
+    external_call["mojo_raylib_DrawTextureEx", NoneType](UnsafePointer(to=texture), UnsafePointer(to=position), rotation, scale, UnsafePointer(to=tint))
 
 def DrawTextureRec(texture: Texture2D, source: Rectangle, position: Vector2, tint: Color):
     """Draw a part of a texture defined by a rectangle"""
-    external_call["DrawTextureRec", NoneType](texture, source, position, tint)
+    external_call["mojo_raylib_DrawTextureRec", NoneType](UnsafePointer(to=texture), UnsafePointer(to=source), UnsafePointer(to=position), UnsafePointer(to=tint))
 
 def DrawTexturePro(texture: Texture2D, source: Rectangle, dest: Rectangle, origin: Vector2, rotation: c_float, tint: Color):
     """Draw a part of a texture defined by a rectangle with 'pro' parameters"""
-    external_call["DrawTexturePro", NoneType](texture, source, dest, origin, rotation, tint)
+    external_call["mojo_raylib_DrawTexturePro", NoneType](UnsafePointer(to=texture), UnsafePointer(to=source), UnsafePointer(to=dest), UnsafePointer(to=origin), rotation, UnsafePointer(to=tint))
 
 def DrawTextureNPatch(texture: Texture2D, nPatchInfo: NPatchInfo, dest: Rectangle, origin: Vector2, rotation: c_float, tint: Color):
     """Draws a texture (or part of it) that stretches or shrinks nicely"""
-    external_call["DrawTextureNPatch", NoneType](texture, nPatchInfo, dest, origin, rotation, tint)
+    external_call["mojo_raylib_DrawTextureNPatch", NoneType](UnsafePointer(to=texture), UnsafePointer(to=nPatchInfo), UnsafePointer(to=dest), UnsafePointer(to=origin), rotation, UnsafePointer(to=tint))
 
 def ColorIsEqual(col1: Color, col2: Color) -> Bool:
     """Check if two colors are equal"""
-    return external_call["ColorIsEqual", Bool](col1, col2)
+    return external_call["mojo_raylib_ColorIsEqual", Bool](UnsafePointer(to=col1), UnsafePointer(to=col2))
 
 def Fade(color: Color, alpha: c_float) -> Color:
     """Get color with alpha applied, alpha goes from 0.0f to 1.0f"""
-    return external_call["Fade", Color](color, alpha)
+    return external_call["mojo_raylib_Fade", Color](UnsafePointer(to=color), alpha)
 
 def ColorToInt(color: Color) -> c_int:
     """Get hexadecimal value for a Color (0xRRGGBBAA)"""
-    return external_call["ColorToInt", c_int](color)
+    return external_call["mojo_raylib_ColorToInt", c_int](UnsafePointer(to=color))
 
 def ColorNormalize(color: Color) -> Vector4:
     """Get Color normalized as float [0..1]"""
-    return external_call["ColorNormalize", Vector4](color)
+    return external_call["mojo_raylib_ColorNormalize", Vector4](UnsafePointer(to=color))
 
 def ColorFromNormalized(normalized: Vector4) -> Color:
     """Get Color from normalized values [0..1]"""
-    return external_call["ColorFromNormalized", Color](normalized)
+    return external_call["mojo_raylib_ColorFromNormalized", Color](UnsafePointer(to=normalized))
 
 def ColorToHSV(color: Color) -> Vector3:
     """Get HSV values for a Color, hue [0..360], saturation/value [0..1]"""
-    return external_call["ColorToHSV", Vector3](color)
+    return external_call["mojo_raylib_ColorToHSV", Vector3](UnsafePointer(to=color))
 
 def ColorFromHSV(hue: c_float, saturation: c_float, value: c_float) -> Color:
     """Get a Color from HSV values, hue [0..360], saturation/value [0..1]"""
@@ -1574,27 +1574,27 @@ def ColorFromHSV(hue: c_float, saturation: c_float, value: c_float) -> Color:
 
 def ColorTint(color: Color, tint: Color) -> Color:
     """Get color multiplied with another color"""
-    return external_call["ColorTint", Color](color, tint)
+    return external_call["mojo_raylib_ColorTint", Color](UnsafePointer(to=color), UnsafePointer(to=tint))
 
 def ColorBrightness(color: Color, factor: c_float) -> Color:
     """Get color with brightness correction, brightness factor goes from -1.0f to 1.0f"""
-    return external_call["ColorBrightness", Color](color, factor)
+    return external_call["mojo_raylib_ColorBrightness", Color](UnsafePointer(to=color), factor)
 
 def ColorContrast(color: Color, contrast: c_float) -> Color:
     """Get color with contrast correction, contrast values between -1.0f and 1.0f"""
-    return external_call["ColorContrast", Color](color, contrast)
+    return external_call["mojo_raylib_ColorContrast", Color](UnsafePointer(to=color), contrast)
 
 def ColorAlpha(color: Color, alpha: c_float) -> Color:
     """Get color with alpha applied, alpha goes from 0.0f to 1.0f"""
-    return external_call["ColorAlpha", Color](color, alpha)
+    return external_call["mojo_raylib_ColorAlpha", Color](UnsafePointer(to=color), alpha)
 
 def ColorAlphaBlend(dst: Color, src: Color, tint: Color) -> Color:
     """Get src alpha-blended into dst color with tint"""
-    return external_call["ColorAlphaBlend", Color](dst, src, tint)
+    return external_call["mojo_raylib_ColorAlphaBlend", Color](UnsafePointer(to=dst), UnsafePointer(to=src), UnsafePointer(to=tint))
 
 def ColorLerp(color1: Color, color2: Color, factor: c_float) -> Color:
     """Get color lerp interpolation between two colors, factor [0.0f..1.0f]"""
-    return external_call["ColorLerp", Color](color1, color2, factor)
+    return external_call["mojo_raylib_ColorLerp", Color](UnsafePointer(to=color1), UnsafePointer(to=color2), factor)
 
 def GetColor(hexValue: c_uint) -> Color:
     """Get Color structure from hexadecimal value"""
@@ -1606,7 +1606,7 @@ def GetPixelColor(srcPtr: UnsafePointer[NoneType, MutAnyOrigin], format: c_int) 
 
 def SetPixelColor(dstPtr: UnsafePointer[NoneType, MutAnyOrigin], color: Color, format: c_int):
     """Set color formatted into destination pixel pointer"""
-    external_call["SetPixelColor", NoneType](dstPtr, color, format)
+    external_call["mojo_raylib_SetPixelColor", NoneType](dstPtr, UnsafePointer(to=color), format)
 
 def GetPixelDataSize(width: c_int, height: c_int, format: c_int) -> c_int:
     """Get pixel data size in bytes for certain format"""
@@ -1626,7 +1626,7 @@ def LoadFontEx(fileName: CStringSlice, fontSize: c_int, codepoints: UnsafePointe
 
 def LoadFontFromImage(image: Image, key: Color, firstChar: c_int) -> Font:
     """Load font from Image (XNA style)"""
-    return external_call["LoadFontFromImage", Font](image, key, firstChar)
+    return external_call["mojo_raylib_LoadFontFromImage", Font](UnsafePointer(to=image), UnsafePointer(to=key), firstChar)
 
 def LoadFontFromMemory(fileType: CStringSlice, fileData: UnsafePointer[c_uchar, MutAnyOrigin], dataSize: c_int, fontSize: c_int, codepoints: UnsafePointer[c_int, MutAnyOrigin], codepointCount: c_int) -> Font:
     """Load font from memory buffer, fileType refers to extension: i.e. '.ttf'"""
@@ -1634,7 +1634,7 @@ def LoadFontFromMemory(fileType: CStringSlice, fileData: UnsafePointer[c_uchar, 
 
 def IsFontValid(font: Font) -> Bool:
     """Check if a font is valid (font data loaded, WARNING: GPU texture not checked)"""
-    return external_call["IsFontValid", Bool](font)
+    return external_call["mojo_raylib_IsFontValid", Bool](UnsafePointer(to=font))
 
 def LoadFontData(fileData: UnsafePointer[c_uchar, MutAnyOrigin], dataSize: c_int, fontSize: c_int, codepoints: UnsafePointer[c_int, MutAnyOrigin], codepointCount: c_int, type_: c_int, glyphCount: UnsafePointer[c_int, MutAnyOrigin]) -> UnsafePointer[GlyphInfo, MutAnyOrigin]:
     """Load font data for further use"""
@@ -1650,11 +1650,11 @@ def UnloadFontData(glyphs: UnsafePointer[GlyphInfo, MutAnyOrigin], glyphCount: c
 
 def UnloadFont(font: Font):
     """Unload font from GPU memory (VRAM)"""
-    external_call["UnloadFont", NoneType](font)
+    external_call["mojo_raylib_UnloadFont", NoneType](UnsafePointer(to=font))
 
 def ExportFontAsCode(font: Font, fileName: CStringSlice) -> Bool:
     """Export font as code file, returns true on success"""
-    return external_call["ExportFontAsCode", Bool](font, fileName)
+    return external_call["mojo_raylib_ExportFontAsCode", Bool](UnsafePointer(to=font), fileName)
 
 def DrawFPS(posX: c_int, posY: c_int):
     """Draw current FPS"""
@@ -1662,23 +1662,23 @@ def DrawFPS(posX: c_int, posY: c_int):
 
 def DrawText(text: CStringSlice, posX: c_int, posY: c_int, fontSize: c_int, color: Color):
     """Draw text (using default font)"""
-    external_call["DrawText", NoneType](text, posX, posY, fontSize, color)
+    external_call["mojo_raylib_DrawText", NoneType](text, posX, posY, fontSize, UnsafePointer(to=color))
 
 def DrawTextEx(font: Font, text: CStringSlice, position: Vector2, fontSize: c_float, spacing: c_float, tint: Color):
     """Draw text using font and additional parameters"""
-    external_call["DrawTextEx", NoneType](font, text, position, fontSize, spacing, tint)
+    external_call["mojo_raylib_DrawTextEx", NoneType](UnsafePointer(to=font), text, UnsafePointer(to=position), fontSize, spacing, UnsafePointer(to=tint))
 
 def DrawTextPro(font: Font, text: CStringSlice, position: Vector2, origin: Vector2, rotation: c_float, fontSize: c_float, spacing: c_float, tint: Color):
     """Draw text using Font and pro parameters (rotation)"""
-    external_call["DrawTextPro", NoneType](font, text, position, origin, rotation, fontSize, spacing, tint)
+    external_call["mojo_raylib_DrawTextPro", NoneType](UnsafePointer(to=font), text, UnsafePointer(to=position), UnsafePointer(to=origin), rotation, fontSize, spacing, UnsafePointer(to=tint))
 
 def DrawTextCodepoint(font: Font, codepoint: c_int, position: Vector2, fontSize: c_float, tint: Color):
     """Draw one character (codepoint)"""
-    external_call["DrawTextCodepoint", NoneType](font, codepoint, position, fontSize, tint)
+    external_call["mojo_raylib_DrawTextCodepoint", NoneType](UnsafePointer(to=font), codepoint, UnsafePointer(to=position), fontSize, UnsafePointer(to=tint))
 
 def DrawTextCodepoints(font: Font, codepoints: UnsafePointer[c_int, MutAnyOrigin], codepointCount: c_int, position: Vector2, fontSize: c_float, spacing: c_float, tint: Color):
     """Draw multiple character (codepoint)"""
-    external_call["DrawTextCodepoints", NoneType](font, codepoints, codepointCount, position, fontSize, spacing, tint)
+    external_call["mojo_raylib_DrawTextCodepoints", NoneType](UnsafePointer(to=font), codepoints, codepointCount, UnsafePointer(to=position), fontSize, spacing, UnsafePointer(to=tint))
 
 def SetTextLineSpacing(spacing: c_int):
     """Set vertical line spacing when drawing with line-breaks"""
@@ -1690,23 +1690,23 @@ def MeasureText(text: CStringSlice, fontSize: c_int) -> c_int:
 
 def MeasureTextEx(font: Font, text: CStringSlice, fontSize: c_float, spacing: c_float) -> Vector2:
     """Measure string size for Font"""
-    return external_call["MeasureTextEx", Vector2](font, text, fontSize, spacing)
+    return external_call["mojo_raylib_MeasureTextEx", Vector2](UnsafePointer(to=font), text, fontSize, spacing)
 
 def MeasureTextCodepoints(font: Font, codepoints: UnsafePointer[c_int, MutAnyOrigin], length: c_int, fontSize: c_float, spacing: c_float) -> Vector2:
     """Measure string size for an existing array of codepoints for Font"""
-    return external_call["MeasureTextCodepoints", Vector2](font, codepoints, length, fontSize, spacing)
+    return external_call["mojo_raylib_MeasureTextCodepoints", Vector2](UnsafePointer(to=font), codepoints, length, fontSize, spacing)
 
 def GetGlyphIndex(font: Font, codepoint: c_int) -> c_int:
     """Get glyph index position in font for a codepoint (unicode character), fallback to '?' if not found"""
-    return external_call["GetGlyphIndex", c_int](font, codepoint)
+    return external_call["mojo_raylib_GetGlyphIndex", c_int](UnsafePointer(to=font), codepoint)
 
 def GetGlyphInfo(font: Font, codepoint: c_int) -> GlyphInfo:
     """Get glyph font info data for a codepoint (unicode character), fallback to '?' if not found"""
-    return external_call["GetGlyphInfo", GlyphInfo](font, codepoint)
+    return external_call["mojo_raylib_GetGlyphInfo", GlyphInfo](UnsafePointer(to=font), codepoint)
 
 def GetGlyphAtlasRec(font: Font, codepoint: c_int) -> Rectangle:
     """Get glyph rectangle in font atlas for a codepoint (unicode character), fallback to '?' if not found"""
-    return external_call["GetGlyphAtlasRec", Rectangle](font, codepoint)
+    return external_call["mojo_raylib_GetGlyphAtlasRec", Rectangle](UnsafePointer(to=font), codepoint)
 
 def LoadUTF8(codepoints: UnsafePointer[c_int, MutAnyOrigin], length: c_int) -> UnsafePointer[c_char, MutAnyOrigin]:
     """Load UTF-8 text encoded from codepoints array"""
@@ -1846,83 +1846,83 @@ def TextToFloat(text: CStringSlice) -> c_float:
 
 def DrawLine3D(startPos: Vector3, endPos: Vector3, color: Color):
     """Draw a line in 3D world space"""
-    external_call["DrawLine3D", NoneType](startPos, endPos, color)
+    external_call["mojo_raylib_DrawLine3D", NoneType](UnsafePointer(to=startPos), UnsafePointer(to=endPos), UnsafePointer(to=color))
 
 def DrawPoint3D(position: Vector3, color: Color):
     """Draw a point in 3D space, actually a small line"""
-    external_call["DrawPoint3D", NoneType](position, color)
+    external_call["mojo_raylib_DrawPoint3D", NoneType](UnsafePointer(to=position), UnsafePointer(to=color))
 
 def DrawCircle3D(center: Vector3, radius: c_float, rotationAxis: Vector3, rotationAngle: c_float, color: Color):
     """Draw a circle in 3D world space"""
-    external_call["DrawCircle3D", NoneType](center, radius, rotationAxis, rotationAngle, color)
+    external_call["mojo_raylib_DrawCircle3D", NoneType](UnsafePointer(to=center), radius, UnsafePointer(to=rotationAxis), rotationAngle, UnsafePointer(to=color))
 
 def DrawTriangle3D(v1: Vector3, v2: Vector3, v3: Vector3, color: Color):
     """Draw a color-filled triangle (vertex in counter-clockwise order!)"""
-    external_call["DrawTriangle3D", NoneType](v1, v2, v3, color)
+    external_call["mojo_raylib_DrawTriangle3D", NoneType](UnsafePointer(to=v1), UnsafePointer(to=v2), UnsafePointer(to=v3), UnsafePointer(to=color))
 
 def DrawTriangleStrip3D(points: UnsafePointer[Vector3, MutAnyOrigin], pointCount: c_int, color: Color):
     """Draw a triangle strip defined by points"""
-    external_call["DrawTriangleStrip3D", NoneType](points, pointCount, color)
+    external_call["mojo_raylib_DrawTriangleStrip3D", NoneType](points, pointCount, UnsafePointer(to=color))
 
 def DrawCube(position: Vector3, width: c_float, height: c_float, length: c_float, color: Color):
     """Draw cube"""
-    external_call["DrawCube", NoneType](position, width, height, length, color)
+    external_call["mojo_raylib_DrawCube", NoneType](UnsafePointer(to=position), width, height, length, UnsafePointer(to=color))
 
 def DrawCubeV(position: Vector3, size: Vector3, color: Color):
     """Draw cube (Vector version)"""
-    external_call["DrawCubeV", NoneType](position, size, color)
+    external_call["mojo_raylib_DrawCubeV", NoneType](UnsafePointer(to=position), UnsafePointer(to=size), UnsafePointer(to=color))
 
 def DrawCubeWires(position: Vector3, width: c_float, height: c_float, length: c_float, color: Color):
     """Draw cube wires"""
-    external_call["DrawCubeWires", NoneType](position, width, height, length, color)
+    external_call["mojo_raylib_DrawCubeWires", NoneType](UnsafePointer(to=position), width, height, length, UnsafePointer(to=color))
 
 def DrawCubeWiresV(position: Vector3, size: Vector3, color: Color):
     """Draw cube wires (Vector version)"""
-    external_call["DrawCubeWiresV", NoneType](position, size, color)
+    external_call["mojo_raylib_DrawCubeWiresV", NoneType](UnsafePointer(to=position), UnsafePointer(to=size), UnsafePointer(to=color))
 
 def DrawSphere(centerPos: Vector3, radius: c_float, color: Color):
     """Draw sphere"""
-    external_call["DrawSphere", NoneType](centerPos, radius, color)
+    external_call["mojo_raylib_DrawSphere", NoneType](UnsafePointer(to=centerPos), radius, UnsafePointer(to=color))
 
 def DrawSphereEx(centerPos: Vector3, radius: c_float, rings: c_int, slices: c_int, color: Color):
     """Draw sphere with extended parameters"""
-    external_call["DrawSphereEx", NoneType](centerPos, radius, rings, slices, color)
+    external_call["mojo_raylib_DrawSphereEx", NoneType](UnsafePointer(to=centerPos), radius, rings, slices, UnsafePointer(to=color))
 
 def DrawSphereWires(centerPos: Vector3, radius: c_float, rings: c_int, slices: c_int, color: Color):
     """Draw sphere wires"""
-    external_call["DrawSphereWires", NoneType](centerPos, radius, rings, slices, color)
+    external_call["mojo_raylib_DrawSphereWires", NoneType](UnsafePointer(to=centerPos), radius, rings, slices, UnsafePointer(to=color))
 
 def DrawCylinder(position: Vector3, radiusTop: c_float, radiusBottom: c_float, height: c_float, slices: c_int, color: Color):
     """Draw a cylinder/cone"""
-    external_call["DrawCylinder", NoneType](position, radiusTop, radiusBottom, height, slices, color)
+    external_call["mojo_raylib_DrawCylinder", NoneType](UnsafePointer(to=position), radiusTop, radiusBottom, height, slices, UnsafePointer(to=color))
 
 def DrawCylinderEx(startPos: Vector3, endPos: Vector3, startRadius: c_float, endRadius: c_float, sides: c_int, color: Color):
     """Draw a cylinder with base at startPos and top at endPos"""
-    external_call["DrawCylinderEx", NoneType](startPos, endPos, startRadius, endRadius, sides, color)
+    external_call["mojo_raylib_DrawCylinderEx", NoneType](UnsafePointer(to=startPos), UnsafePointer(to=endPos), startRadius, endRadius, sides, UnsafePointer(to=color))
 
 def DrawCylinderWires(position: Vector3, radiusTop: c_float, radiusBottom: c_float, height: c_float, slices: c_int, color: Color):
     """Draw a cylinder/cone wires"""
-    external_call["DrawCylinderWires", NoneType](position, radiusTop, radiusBottom, height, slices, color)
+    external_call["mojo_raylib_DrawCylinderWires", NoneType](UnsafePointer(to=position), radiusTop, radiusBottom, height, slices, UnsafePointer(to=color))
 
 def DrawCylinderWiresEx(startPos: Vector3, endPos: Vector3, startRadius: c_float, endRadius: c_float, sides: c_int, color: Color):
     """Draw a cylinder wires with base at startPos and top at endPos"""
-    external_call["DrawCylinderWiresEx", NoneType](startPos, endPos, startRadius, endRadius, sides, color)
+    external_call["mojo_raylib_DrawCylinderWiresEx", NoneType](UnsafePointer(to=startPos), UnsafePointer(to=endPos), startRadius, endRadius, sides, UnsafePointer(to=color))
 
 def DrawCapsule(startPos: Vector3, endPos: Vector3, radius: c_float, slices: c_int, rings: c_int, color: Color):
     """Draw a capsule with the center of its sphere caps at startPos and endPos"""
-    external_call["DrawCapsule", NoneType](startPos, endPos, radius, slices, rings, color)
+    external_call["mojo_raylib_DrawCapsule", NoneType](UnsafePointer(to=startPos), UnsafePointer(to=endPos), radius, slices, rings, UnsafePointer(to=color))
 
 def DrawCapsuleWires(startPos: Vector3, endPos: Vector3, radius: c_float, slices: c_int, rings: c_int, color: Color):
     """Draw capsule wireframe with the center of its sphere caps at startPos and endPos"""
-    external_call["DrawCapsuleWires", NoneType](startPos, endPos, radius, slices, rings, color)
+    external_call["mojo_raylib_DrawCapsuleWires", NoneType](UnsafePointer(to=startPos), UnsafePointer(to=endPos), radius, slices, rings, UnsafePointer(to=color))
 
 def DrawPlane(centerPos: Vector3, size: Vector2, color: Color):
     """Draw a plane XZ"""
-    external_call["DrawPlane", NoneType](centerPos, size, color)
+    external_call["mojo_raylib_DrawPlane", NoneType](UnsafePointer(to=centerPos), UnsafePointer(to=size), UnsafePointer(to=color))
 
 def DrawRay(ray: Ray, color: Color):
     """Draw a ray line"""
-    external_call["DrawRay", NoneType](ray, color)
+    external_call["mojo_raylib_DrawRay", NoneType](UnsafePointer(to=ray), UnsafePointer(to=color))
 
 def DrawGrid(slices: c_int, spacing: c_float):
     """Draw a grid (centered at (0, 0, 0))"""
@@ -1934,51 +1934,51 @@ def LoadModel(fileName: CStringSlice) -> Model:
 
 def LoadModelFromMesh(mesh: Mesh) -> Model:
     """Load model from generated mesh (default material)"""
-    return external_call["LoadModelFromMesh", Model](mesh)
+    return external_call["mojo_raylib_LoadModelFromMesh", Model](UnsafePointer(to=mesh))
 
 def IsModelValid(model: Model) -> Bool:
     """Check if a model is valid (loaded in GPU, VAO/VBOs)"""
-    return external_call["IsModelValid", Bool](model)
+    return external_call["mojo_raylib_IsModelValid", Bool](UnsafePointer(to=model))
 
 def UnloadModel(model: Model):
     """Unload model (including meshes) from memory (RAM and/or VRAM)"""
-    external_call["UnloadModel", NoneType](model)
+    external_call["mojo_raylib_UnloadModel", NoneType](UnsafePointer(to=model))
 
 def GetModelBoundingBox(model: Model) -> BoundingBox:
     """Compute model bounding box limits (considers all meshes)"""
-    return external_call["GetModelBoundingBox", BoundingBox](model)
+    return external_call["mojo_raylib_GetModelBoundingBox", BoundingBox](UnsafePointer(to=model))
 
 def DrawModel(model: Model, position: Vector3, scale: c_float, tint: Color):
     """Draw a model (with texture if set)"""
-    external_call["DrawModel", NoneType](model, position, scale, tint)
+    external_call["mojo_raylib_DrawModel", NoneType](UnsafePointer(to=model), UnsafePointer(to=position), scale, UnsafePointer(to=tint))
 
 def DrawModelEx(model: Model, position: Vector3, rotationAxis: Vector3, rotationAngle: c_float, scale: Vector3, tint: Color):
     """Draw a model with extended parameters"""
-    external_call["DrawModelEx", NoneType](model, position, rotationAxis, rotationAngle, scale, tint)
+    external_call["mojo_raylib_DrawModelEx", NoneType](UnsafePointer(to=model), UnsafePointer(to=position), UnsafePointer(to=rotationAxis), rotationAngle, UnsafePointer(to=scale), UnsafePointer(to=tint))
 
 def DrawModelWires(model: Model, position: Vector3, scale: c_float, tint: Color):
     """Draw a model wires (with texture if set)"""
-    external_call["DrawModelWires", NoneType](model, position, scale, tint)
+    external_call["mojo_raylib_DrawModelWires", NoneType](UnsafePointer(to=model), UnsafePointer(to=position), scale, UnsafePointer(to=tint))
 
 def DrawModelWiresEx(model: Model, position: Vector3, rotationAxis: Vector3, rotationAngle: c_float, scale: Vector3, tint: Color):
     """Draw a model wires (with texture if set) with extended parameters"""
-    external_call["DrawModelWiresEx", NoneType](model, position, rotationAxis, rotationAngle, scale, tint)
+    external_call["mojo_raylib_DrawModelWiresEx", NoneType](UnsafePointer(to=model), UnsafePointer(to=position), UnsafePointer(to=rotationAxis), rotationAngle, UnsafePointer(to=scale), UnsafePointer(to=tint))
 
 def DrawBoundingBox(box: BoundingBox, color: Color):
     """Draw bounding box (wires)"""
-    external_call["DrawBoundingBox", NoneType](box, color)
+    external_call["mojo_raylib_DrawBoundingBox", NoneType](UnsafePointer(to=box), UnsafePointer(to=color))
 
 def DrawBillboard(camera: Camera, texture: Texture2D, position: Vector3, scale: c_float, tint: Color):
     """Draw a billboard texture"""
-    external_call["DrawBillboard", NoneType](camera, texture, position, scale, tint)
+    external_call["mojo_raylib_DrawBillboard", NoneType](UnsafePointer(to=camera), UnsafePointer(to=texture), UnsafePointer(to=position), scale, UnsafePointer(to=tint))
 
 def DrawBillboardRec(camera: Camera, texture: Texture2D, source: Rectangle, position: Vector3, size: Vector2, tint: Color):
     """Draw a billboard texture defined by source"""
-    external_call["DrawBillboardRec", NoneType](camera, texture, source, position, size, tint)
+    external_call["mojo_raylib_DrawBillboardRec", NoneType](UnsafePointer(to=camera), UnsafePointer(to=texture), UnsafePointer(to=source), UnsafePointer(to=position), UnsafePointer(to=size), UnsafePointer(to=tint))
 
 def DrawBillboardPro(camera: Camera, texture: Texture2D, source: Rectangle, position: Vector3, up: Vector3, size: Vector2, origin: Vector2, rotation: c_float, tint: Color):
     """Draw a billboard texture defined by source and rotation"""
-    external_call["DrawBillboardPro", NoneType](camera, texture, source, position, up, size, origin, rotation, tint)
+    external_call["mojo_raylib_DrawBillboardPro", NoneType](UnsafePointer(to=camera), UnsafePointer(to=texture), UnsafePointer(to=source), UnsafePointer(to=position), UnsafePointer(to=up), UnsafePointer(to=size), UnsafePointer(to=origin), rotation, UnsafePointer(to=tint))
 
 def UploadMesh(mesh: UnsafePointer[Mesh, MutAnyOrigin], dynamic: Bool):
     """Upload mesh vertex data in GPU and provide VAO/VBO ids"""
@@ -1986,23 +1986,23 @@ def UploadMesh(mesh: UnsafePointer[Mesh, MutAnyOrigin], dynamic: Bool):
 
 def UpdateMeshBuffer(mesh: Mesh, index: c_int, data: UnsafePointer[NoneType, MutAnyOrigin], dataSize: c_int, offset: c_int):
     """Update mesh vertex data in GPU for a specific buffer index"""
-    external_call["UpdateMeshBuffer", NoneType](mesh, index, data, dataSize, offset)
+    external_call["mojo_raylib_UpdateMeshBuffer", NoneType](UnsafePointer(to=mesh), index, data, dataSize, offset)
 
 def UnloadMesh(mesh: Mesh):
     """Unload mesh data from CPU and GPU"""
-    external_call["UnloadMesh", NoneType](mesh)
+    external_call["mojo_raylib_UnloadMesh", NoneType](UnsafePointer(to=mesh))
 
 def DrawMesh(mesh: Mesh, material: Material, transform: Matrix):
     """Draw a 3d mesh with material and transform"""
-    external_call["DrawMesh", NoneType](mesh, material, transform)
+    external_call["mojo_raylib_DrawMesh", NoneType](UnsafePointer(to=mesh), UnsafePointer(to=material), UnsafePointer(to=transform))
 
 def DrawMeshInstanced(mesh: Mesh, material: Material, transforms: UnsafePointer[Matrix, MutAnyOrigin], instances: c_int):
     """Draw multiple mesh instances with material and different transforms"""
-    external_call["DrawMeshInstanced", NoneType](mesh, material, transforms, instances)
+    external_call["mojo_raylib_DrawMeshInstanced", NoneType](UnsafePointer(to=mesh), UnsafePointer(to=material), transforms, instances)
 
 def GetMeshBoundingBox(mesh: Mesh) -> BoundingBox:
     """Compute mesh bounding box limits"""
-    return external_call["GetMeshBoundingBox", BoundingBox](mesh)
+    return external_call["mojo_raylib_GetMeshBoundingBox", BoundingBox](UnsafePointer(to=mesh))
 
 def GenMeshTangents(mesh: UnsafePointer[Mesh, MutAnyOrigin]):
     """Compute mesh tangents"""
@@ -2010,11 +2010,11 @@ def GenMeshTangents(mesh: UnsafePointer[Mesh, MutAnyOrigin]):
 
 def ExportMesh(mesh: Mesh, fileName: CStringSlice) -> Bool:
     """Export mesh data to file, returns true on success"""
-    return external_call["ExportMesh", Bool](mesh, fileName)
+    return external_call["mojo_raylib_ExportMesh", Bool](UnsafePointer(to=mesh), fileName)
 
 def ExportMeshAsCode(mesh: Mesh, fileName: CStringSlice) -> Bool:
     """Export mesh as code file (.h) defining multiple arrays of vertex attributes"""
-    return external_call["ExportMeshAsCode", Bool](mesh, fileName)
+    return external_call["mojo_raylib_ExportMeshAsCode", Bool](UnsafePointer(to=mesh), fileName)
 
 def GenMeshPoly(sides: c_int, radius: c_float) -> Mesh:
     """Generate polygonal mesh"""
@@ -2054,11 +2054,11 @@ def GenMeshKnot(radius: c_float, size: c_float, radSeg: c_int, sides: c_int) -> 
 
 def GenMeshHeightmap(heightmap: Image, size: Vector3) -> Mesh:
     """Generate heightmap mesh from image data"""
-    return external_call["GenMeshHeightmap", Mesh](heightmap, size)
+    return external_call["mojo_raylib_GenMeshHeightmap", Mesh](UnsafePointer(to=heightmap), UnsafePointer(to=size))
 
 def GenMeshCubicmap(cubicmap: Image, cubeSize: Vector3) -> Mesh:
     """Generate cubes-based map mesh from image data"""
-    return external_call["GenMeshCubicmap", Mesh](cubicmap, cubeSize)
+    return external_call["mojo_raylib_GenMeshCubicmap", Mesh](UnsafePointer(to=cubicmap), UnsafePointer(to=cubeSize))
 
 def LoadMaterials(fileName: CStringSlice, materialCount: UnsafePointer[c_int, MutAnyOrigin]) -> UnsafePointer[Material, MutAnyOrigin]:
     """Load materials from model file"""
@@ -2070,15 +2070,15 @@ def LoadMaterialDefault() -> Material:
 
 def IsMaterialValid(material: Material) -> Bool:
     """Check if a material is valid (shader assigned, map textures loaded in GPU)"""
-    return external_call["IsMaterialValid", Bool](material)
+    return external_call["mojo_raylib_IsMaterialValid", Bool](UnsafePointer(to=material))
 
 def UnloadMaterial(material: Material):
     """Unload material from GPU memory (VRAM)"""
-    external_call["UnloadMaterial", NoneType](material)
+    external_call["mojo_raylib_UnloadMaterial", NoneType](UnsafePointer(to=material))
 
 def SetMaterialTexture(material: UnsafePointer[Material, MutAnyOrigin], mapType: c_int, texture: Texture2D):
     """Set texture for a material map type (MATERIAL_MAP_DIFFUSE, MATERIAL_MAP_SPECULAR...)"""
-    external_call["SetMaterialTexture", NoneType](material, mapType, texture)
+    external_call["mojo_raylib_SetMaterialTexture", NoneType](material, mapType, UnsafePointer(to=texture))
 
 def SetModelMeshMaterial(model: UnsafePointer[Model, MutAnyOrigin], meshId: c_int, materialId: c_int):
     """Set material for a mesh"""
@@ -2090,11 +2090,11 @@ def LoadModelAnimations(fileName: CStringSlice, animCount: UnsafePointer[c_int, 
 
 def UpdateModelAnimation(model: Model, anim: ModelAnimation, frame: c_float):
     """Update model animation pose (vertex buffers and bone matrices)"""
-    external_call["UpdateModelAnimation", NoneType](model, anim, frame)
+    external_call["mojo_raylib_UpdateModelAnimation", NoneType](UnsafePointer(to=model), UnsafePointer(to=anim), frame)
 
 def UpdateModelAnimationEx(model: Model, animA: ModelAnimation, frameA: c_float, animB: ModelAnimation, frameB: c_float, blend: c_float):
     """Update model animation pose, blending two animations"""
-    external_call["UpdateModelAnimationEx", NoneType](model, animA, frameA, animB, frameB, blend)
+    external_call["mojo_raylib_UpdateModelAnimationEx", NoneType](UnsafePointer(to=model), UnsafePointer(to=animA), frameA, UnsafePointer(to=animB), frameB, blend)
 
 def UnloadModelAnimations(animations: UnsafePointer[ModelAnimation, MutAnyOrigin], animCount: c_int):
     """Unload animation array data"""
@@ -2102,39 +2102,39 @@ def UnloadModelAnimations(animations: UnsafePointer[ModelAnimation, MutAnyOrigin
 
 def IsModelAnimationValid(model: Model, anim: ModelAnimation) -> Bool:
     """Check model animation skeleton match"""
-    return external_call["IsModelAnimationValid", Bool](model, anim)
+    return external_call["mojo_raylib_IsModelAnimationValid", Bool](UnsafePointer(to=model), UnsafePointer(to=anim))
 
 def CheckCollisionSpheres(center1: Vector3, radius1: c_float, center2: Vector3, radius2: c_float) -> Bool:
     """Check collision between two spheres"""
-    return external_call["CheckCollisionSpheres", Bool](center1, radius1, center2, radius2)
+    return external_call["mojo_raylib_CheckCollisionSpheres", Bool](UnsafePointer(to=center1), radius1, UnsafePointer(to=center2), radius2)
 
 def CheckCollisionBoxes(box1: BoundingBox, box2: BoundingBox) -> Bool:
     """Check collision between two bounding boxes"""
-    return external_call["CheckCollisionBoxes", Bool](box1, box2)
+    return external_call["mojo_raylib_CheckCollisionBoxes", Bool](UnsafePointer(to=box1), UnsafePointer(to=box2))
 
 def CheckCollisionBoxSphere(box: BoundingBox, center: Vector3, radius: c_float) -> Bool:
     """Check collision between box and sphere"""
-    return external_call["CheckCollisionBoxSphere", Bool](box, center, radius)
+    return external_call["mojo_raylib_CheckCollisionBoxSphere", Bool](UnsafePointer(to=box), UnsafePointer(to=center), radius)
 
 def GetRayCollisionSphere(ray: Ray, center: Vector3, radius: c_float) -> RayCollision:
     """Get collision info between ray and sphere"""
-    return external_call["GetRayCollisionSphere", RayCollision](ray, center, radius)
+    return external_call["mojo_raylib_GetRayCollisionSphere", RayCollision](UnsafePointer(to=ray), UnsafePointer(to=center), radius)
 
 def GetRayCollisionBox(ray: Ray, box: BoundingBox) -> RayCollision:
     """Get collision info between ray and box"""
-    return external_call["GetRayCollisionBox", RayCollision](ray, box)
+    return external_call["mojo_raylib_GetRayCollisionBox", RayCollision](UnsafePointer(to=ray), UnsafePointer(to=box))
 
 def GetRayCollisionMesh(ray: Ray, mesh: Mesh, transform: Matrix) -> RayCollision:
     """Get collision info between ray and mesh"""
-    return external_call["GetRayCollisionMesh", RayCollision](ray, mesh, transform)
+    return external_call["mojo_raylib_GetRayCollisionMesh", RayCollision](UnsafePointer(to=ray), UnsafePointer(to=mesh), UnsafePointer(to=transform))
 
 def GetRayCollisionTriangle(ray: Ray, p1: Vector3, p2: Vector3, p3: Vector3) -> RayCollision:
     """Get collision info between ray and triangle"""
-    return external_call["GetRayCollisionTriangle", RayCollision](ray, p1, p2, p3)
+    return external_call["mojo_raylib_GetRayCollisionTriangle", RayCollision](UnsafePointer(to=ray), UnsafePointer(to=p1), UnsafePointer(to=p2), UnsafePointer(to=p3))
 
 def GetRayCollisionQuad(ray: Ray, p1: Vector3, p2: Vector3, p3: Vector3, p4: Vector3) -> RayCollision:
     """Get collision info between ray and quad"""
-    return external_call["GetRayCollisionQuad", RayCollision](ray, p1, p2, p3, p4)
+    return external_call["mojo_raylib_GetRayCollisionQuad", RayCollision](UnsafePointer(to=ray), UnsafePointer(to=p1), UnsafePointer(to=p2), UnsafePointer(to=p3), UnsafePointer(to=p4))
 
 def InitAudioDevice():
     """Initialize audio device and context"""
@@ -2166,7 +2166,7 @@ def LoadWaveFromMemory(fileType: CStringSlice, fileData: UnsafePointer[c_uchar, 
 
 def IsWaveValid(wave: Wave) -> Bool:
     """Checks if wave data is valid (data loaded and parameters)"""
-    return external_call["IsWaveValid", Bool](wave)
+    return external_call["mojo_raylib_IsWaveValid", Bool](UnsafePointer(to=wave))
 
 def LoadSound(fileName: CStringSlice) -> Sound:
     """Load sound from file"""
@@ -2174,75 +2174,75 @@ def LoadSound(fileName: CStringSlice) -> Sound:
 
 def LoadSoundFromWave(wave: Wave) -> Sound:
     """Load sound from wave data"""
-    return external_call["LoadSoundFromWave", Sound](wave)
+    return external_call["mojo_raylib_LoadSoundFromWave", Sound](UnsafePointer(to=wave))
 
 def LoadSoundAlias(source: Sound) -> Sound:
     """Create a new sound that shares the same sample data as the source sound, does not own the sound data"""
-    return external_call["LoadSoundAlias", Sound](source)
+    return external_call["mojo_raylib_LoadSoundAlias", Sound](UnsafePointer(to=source))
 
 def IsSoundValid(sound: Sound) -> Bool:
     """Checks if a sound is valid (data loaded and buffers initialized)"""
-    return external_call["IsSoundValid", Bool](sound)
+    return external_call["mojo_raylib_IsSoundValid", Bool](UnsafePointer(to=sound))
 
 def UpdateSound(sound: Sound, data: UnsafePointer[NoneType, MutAnyOrigin], sampleCount: c_int):
     """Update sound buffer with new data (default data format: 32 bit float, stereo)"""
-    external_call["UpdateSound", NoneType](sound, data, sampleCount)
+    external_call["mojo_raylib_UpdateSound", NoneType](UnsafePointer(to=sound), data, sampleCount)
 
 def UnloadWave(wave: Wave):
     """Unload wave data"""
-    external_call["UnloadWave", NoneType](wave)
+    external_call["mojo_raylib_UnloadWave", NoneType](UnsafePointer(to=wave))
 
 def UnloadSound(sound: Sound):
     """Unload sound"""
-    external_call["UnloadSound", NoneType](sound)
+    external_call["mojo_raylib_UnloadSound", NoneType](UnsafePointer(to=sound))
 
 def UnloadSoundAlias(alias_: Sound):
     """Unload a sound alias (does not deallocate sample data)"""
-    external_call["UnloadSoundAlias", NoneType](alias_)
+    external_call["mojo_raylib_UnloadSoundAlias", NoneType](UnsafePointer(to=alias_))
 
 def ExportWave(wave: Wave, fileName: CStringSlice) -> Bool:
     """Export wave data to file, returns true on success"""
-    return external_call["ExportWave", Bool](wave, fileName)
+    return external_call["mojo_raylib_ExportWave", Bool](UnsafePointer(to=wave), fileName)
 
 def ExportWaveAsCode(wave: Wave, fileName: CStringSlice) -> Bool:
     """Export wave sample data to code (.h), returns true on success"""
-    return external_call["ExportWaveAsCode", Bool](wave, fileName)
+    return external_call["mojo_raylib_ExportWaveAsCode", Bool](UnsafePointer(to=wave), fileName)
 
 def PlaySound(sound: Sound):
     """Play a sound"""
-    external_call["PlaySound", NoneType](sound)
+    external_call["mojo_raylib_PlaySound", NoneType](UnsafePointer(to=sound))
 
 def StopSound(sound: Sound):
     """Stop playing a sound"""
-    external_call["StopSound", NoneType](sound)
+    external_call["mojo_raylib_StopSound", NoneType](UnsafePointer(to=sound))
 
 def PauseSound(sound: Sound):
     """Pause a sound"""
-    external_call["PauseSound", NoneType](sound)
+    external_call["mojo_raylib_PauseSound", NoneType](UnsafePointer(to=sound))
 
 def ResumeSound(sound: Sound):
     """Resume a paused sound"""
-    external_call["ResumeSound", NoneType](sound)
+    external_call["mojo_raylib_ResumeSound", NoneType](UnsafePointer(to=sound))
 
 def IsSoundPlaying(sound: Sound) -> Bool:
     """Check if a sound is currently playing"""
-    return external_call["IsSoundPlaying", Bool](sound)
+    return external_call["mojo_raylib_IsSoundPlaying", Bool](UnsafePointer(to=sound))
 
 def SetSoundVolume(sound: Sound, volume: c_float):
     """Set volume for a sound (1.0 is max level)"""
-    external_call["SetSoundVolume", NoneType](sound, volume)
+    external_call["mojo_raylib_SetSoundVolume", NoneType](UnsafePointer(to=sound), volume)
 
 def SetSoundPitch(sound: Sound, pitch: c_float):
     """Set pitch for a sound (1.0 is base level)"""
-    external_call["SetSoundPitch", NoneType](sound, pitch)
+    external_call["mojo_raylib_SetSoundPitch", NoneType](UnsafePointer(to=sound), pitch)
 
 def SetSoundPan(sound: Sound, pan: c_float):
     """Set pan for a sound (-1.0 left, 0.0 center, 1.0 right)"""
-    external_call["SetSoundPan", NoneType](sound, pan)
+    external_call["mojo_raylib_SetSoundPan", NoneType](UnsafePointer(to=sound), pan)
 
 def WaveCopy(wave: Wave) -> Wave:
     """Copy a wave to a new wave"""
-    return external_call["WaveCopy", Wave](wave)
+    return external_call["mojo_raylib_WaveCopy", Wave](UnsafePointer(to=wave))
 
 def WaveCrop(wave: UnsafePointer[Wave, MutAnyOrigin], initFrame: c_int, finalFrame: c_int):
     """Crop a wave to defined frames range"""
@@ -2254,7 +2254,7 @@ def WaveFormat(wave: UnsafePointer[Wave, MutAnyOrigin], sampleRate: c_int, sampl
 
 def LoadWaveSamples(wave: Wave) -> UnsafePointer[c_float, MutAnyOrigin]:
     """Load samples data from wave as a 32bit float data array"""
-    return external_call["LoadWaveSamples", UnsafePointer[c_float, MutAnyOrigin]](wave)
+    return external_call["mojo_raylib_LoadWaveSamples", UnsafePointer[c_float, MutAnyOrigin]](UnsafePointer(to=wave))
 
 def UnloadWaveSamples(samples: UnsafePointer[c_float, MutAnyOrigin]):
     """Unload samples data loaded with LoadWaveSamples()"""
@@ -2270,59 +2270,59 @@ def LoadMusicStreamFromMemory(fileType: CStringSlice, data: UnsafePointer[c_ucha
 
 def IsMusicValid(music: Music) -> Bool:
     """Checks if a music stream is valid (context and buffers initialized)"""
-    return external_call["IsMusicValid", Bool](music)
+    return external_call["mojo_raylib_IsMusicValid", Bool](UnsafePointer(to=music))
 
 def UnloadMusicStream(music: Music):
     """Unload music stream"""
-    external_call["UnloadMusicStream", NoneType](music)
+    external_call["mojo_raylib_UnloadMusicStream", NoneType](UnsafePointer(to=music))
 
 def PlayMusicStream(music: Music):
     """Start music playing"""
-    external_call["PlayMusicStream", NoneType](music)
+    external_call["mojo_raylib_PlayMusicStream", NoneType](UnsafePointer(to=music))
 
 def IsMusicStreamPlaying(music: Music) -> Bool:
     """Check if music is playing"""
-    return external_call["IsMusicStreamPlaying", Bool](music)
+    return external_call["mojo_raylib_IsMusicStreamPlaying", Bool](UnsafePointer(to=music))
 
 def UpdateMusicStream(music: Music):
     """Updates buffers for music streaming"""
-    external_call["UpdateMusicStream", NoneType](music)
+    external_call["mojo_raylib_UpdateMusicStream", NoneType](UnsafePointer(to=music))
 
 def StopMusicStream(music: Music):
     """Stop music playing"""
-    external_call["StopMusicStream", NoneType](music)
+    external_call["mojo_raylib_StopMusicStream", NoneType](UnsafePointer(to=music))
 
 def PauseMusicStream(music: Music):
     """Pause music playing"""
-    external_call["PauseMusicStream", NoneType](music)
+    external_call["mojo_raylib_PauseMusicStream", NoneType](UnsafePointer(to=music))
 
 def ResumeMusicStream(music: Music):
     """Resume playing paused music"""
-    external_call["ResumeMusicStream", NoneType](music)
+    external_call["mojo_raylib_ResumeMusicStream", NoneType](UnsafePointer(to=music))
 
 def SeekMusicStream(music: Music, position: c_float):
     """Seek music to a position (in seconds)"""
-    external_call["SeekMusicStream", NoneType](music, position)
+    external_call["mojo_raylib_SeekMusicStream", NoneType](UnsafePointer(to=music), position)
 
 def SetMusicVolume(music: Music, volume: c_float):
     """Set volume for music (1.0 is max level)"""
-    external_call["SetMusicVolume", NoneType](music, volume)
+    external_call["mojo_raylib_SetMusicVolume", NoneType](UnsafePointer(to=music), volume)
 
 def SetMusicPitch(music: Music, pitch: c_float):
     """Set pitch for a music (1.0 is base level)"""
-    external_call["SetMusicPitch", NoneType](music, pitch)
+    external_call["mojo_raylib_SetMusicPitch", NoneType](UnsafePointer(to=music), pitch)
 
 def SetMusicPan(music: Music, pan: c_float):
     """Set pan for a music (-1.0 left, 0.0 center, 1.0 right)"""
-    external_call["SetMusicPan", NoneType](music, pan)
+    external_call["mojo_raylib_SetMusicPan", NoneType](UnsafePointer(to=music), pan)
 
 def GetMusicTimeLength(music: Music) -> c_float:
     """Get music time length (in seconds)"""
-    return external_call["GetMusicTimeLength", c_float](music)
+    return external_call["mojo_raylib_GetMusicTimeLength", c_float](UnsafePointer(to=music))
 
 def GetMusicTimePlayed(music: Music) -> c_float:
     """Get current music time played (in seconds)"""
-    return external_call["GetMusicTimePlayed", c_float](music)
+    return external_call["mojo_raylib_GetMusicTimePlayed", c_float](UnsafePointer(to=music))
 
 def LoadAudioStream(sampleRate: c_uint, sampleSize: c_uint, channels: c_uint) -> AudioStream:
     """Load audio stream (to stream raw audio pcm data)"""
@@ -2330,51 +2330,51 @@ def LoadAudioStream(sampleRate: c_uint, sampleSize: c_uint, channels: c_uint) ->
 
 def IsAudioStreamValid(stream: AudioStream) -> Bool:
     """Checks if an audio stream is valid (buffers initialized)"""
-    return external_call["IsAudioStreamValid", Bool](stream)
+    return external_call["mojo_raylib_IsAudioStreamValid", Bool](UnsafePointer(to=stream))
 
 def UnloadAudioStream(stream: AudioStream):
     """Unload audio stream and free memory"""
-    external_call["UnloadAudioStream", NoneType](stream)
+    external_call["mojo_raylib_UnloadAudioStream", NoneType](UnsafePointer(to=stream))
 
 def UpdateAudioStream(stream: AudioStream, data: UnsafePointer[NoneType, MutAnyOrigin], frameCount: c_int):
     """Update audio stream buffers with data"""
-    external_call["UpdateAudioStream", NoneType](stream, data, frameCount)
+    external_call["mojo_raylib_UpdateAudioStream", NoneType](UnsafePointer(to=stream), data, frameCount)
 
 def IsAudioStreamProcessed(stream: AudioStream) -> Bool:
     """Check if any audio stream buffers requires refill"""
-    return external_call["IsAudioStreamProcessed", Bool](stream)
+    return external_call["mojo_raylib_IsAudioStreamProcessed", Bool](UnsafePointer(to=stream))
 
 def PlayAudioStream(stream: AudioStream):
     """Play audio stream"""
-    external_call["PlayAudioStream", NoneType](stream)
+    external_call["mojo_raylib_PlayAudioStream", NoneType](UnsafePointer(to=stream))
 
 def PauseAudioStream(stream: AudioStream):
     """Pause audio stream"""
-    external_call["PauseAudioStream", NoneType](stream)
+    external_call["mojo_raylib_PauseAudioStream", NoneType](UnsafePointer(to=stream))
 
 def ResumeAudioStream(stream: AudioStream):
     """Resume audio stream"""
-    external_call["ResumeAudioStream", NoneType](stream)
+    external_call["mojo_raylib_ResumeAudioStream", NoneType](UnsafePointer(to=stream))
 
 def IsAudioStreamPlaying(stream: AudioStream) -> Bool:
     """Check if audio stream is playing"""
-    return external_call["IsAudioStreamPlaying", Bool](stream)
+    return external_call["mojo_raylib_IsAudioStreamPlaying", Bool](UnsafePointer(to=stream))
 
 def StopAudioStream(stream: AudioStream):
     """Stop audio stream"""
-    external_call["StopAudioStream", NoneType](stream)
+    external_call["mojo_raylib_StopAudioStream", NoneType](UnsafePointer(to=stream))
 
 def SetAudioStreamVolume(stream: AudioStream, volume: c_float):
     """Set volume for audio stream (1.0 is max level)"""
-    external_call["SetAudioStreamVolume", NoneType](stream, volume)
+    external_call["mojo_raylib_SetAudioStreamVolume", NoneType](UnsafePointer(to=stream), volume)
 
 def SetAudioStreamPitch(stream: AudioStream, pitch: c_float):
     """Set pitch for audio stream (1.0 is base level)"""
-    external_call["SetAudioStreamPitch", NoneType](stream, pitch)
+    external_call["mojo_raylib_SetAudioStreamPitch", NoneType](UnsafePointer(to=stream), pitch)
 
 def SetAudioStreamPan(stream: AudioStream, pan: c_float):
     """Set pan for audio stream (-1.0 to 1.0 range, 0.0 is centered)"""
-    external_call["SetAudioStreamPan", NoneType](stream, pan)
+    external_call["mojo_raylib_SetAudioStreamPan", NoneType](UnsafePointer(to=stream), pan)
 
 def SetAudioStreamBufferSizeDefault(size: c_int):
     """Default size for new audio streams"""
@@ -2382,15 +2382,15 @@ def SetAudioStreamBufferSizeDefault(size: c_int):
 
 def SetAudioStreamCallback(stream: AudioStream, callback: AudioCallback):
     """Audio thread callback to request new data"""
-    external_call["SetAudioStreamCallback", NoneType](stream, callback)
+    external_call["mojo_raylib_SetAudioStreamCallback", NoneType](UnsafePointer(to=stream), callback)
 
 def AttachAudioStreamProcessor(stream: AudioStream, processor: AudioCallback):
     """Attach audio stream processor to stream, receives frames x 2 samples as 'float' (stereo)"""
-    external_call["AttachAudioStreamProcessor", NoneType](stream, processor)
+    external_call["mojo_raylib_AttachAudioStreamProcessor", NoneType](UnsafePointer(to=stream), processor)
 
 def DetachAudioStreamProcessor(stream: AudioStream, processor: AudioCallback):
     """Detach audio stream processor from stream"""
-    external_call["DetachAudioStreamProcessor", NoneType](stream, processor)
+    external_call["mojo_raylib_DetachAudioStreamProcessor", NoneType](UnsafePointer(to=stream), processor)
 
 def AttachAudioMixedProcessor(processor: AudioCallback):
     """Attach audio stream processor to the entire audio pipeline, receives frames x 2 samples as 'float' (stereo)"""

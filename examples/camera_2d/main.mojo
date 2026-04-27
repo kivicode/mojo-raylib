@@ -2,6 +2,7 @@ from std.math import exp, log
 
 from mojo_raylib import (
     Camera2D, Color, Rectangle, Vector2,
+    FLAG_WINDOW_RESIZABLE,
     KEY_A, KEY_LEFT, KEY_R, KEY_RIGHT, KEY_S,
     begin_drawing, begin_mode_2d,
     clear_background, close_window,
@@ -10,7 +11,7 @@ from mojo_raylib import (
     fade,
     get_mouse_wheel_move, get_random_value,
     init_window, is_key_down, is_key_pressed,
-    set_target_fps, window_should_close,
+    set_config_flags, set_target_fps, window_should_close,
 )
 
 
@@ -21,6 +22,7 @@ def main():
     var screen_width = 800
     var screen_height = 450
 
+    set_config_flags(FLAG_WINDOW_RESIZABLE)
     init_window(screen_width, screen_height, "raylib [core] example - 2d camera (Mojo port)")
 
     var player = Rectangle(400.0, 280.0, 40.0, 40.0)

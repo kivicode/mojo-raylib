@@ -35,91 +35,91 @@ def Vector2One() -> Vector2:
     return external_call["mojo_raymath_Vector2One", Vector2]()
 
 def Vector2Add(v1: Vector2, v2: Vector2) -> Vector2:
-    return external_call["mojo_raymath_Vector2Add", Vector2](v1, v2)
+    return external_call["mojo_raymath_Vector2Add", Vector2](UnsafePointer(to=v1), UnsafePointer(to=v2))
 
 def Vector2AddValue(v: Vector2, add: c_float) -> Vector2:
-    return external_call["mojo_raymath_Vector2AddValue", Vector2](v, add)
+    return external_call["mojo_raymath_Vector2AddValue", Vector2](UnsafePointer(to=v), add)
 
 def Vector2Subtract(v1: Vector2, v2: Vector2) -> Vector2:
-    return external_call["mojo_raymath_Vector2Subtract", Vector2](v1, v2)
+    return external_call["mojo_raymath_Vector2Subtract", Vector2](UnsafePointer(to=v1), UnsafePointer(to=v2))
 
 def Vector2SubtractValue(v: Vector2, sub: c_float) -> Vector2:
-    return external_call["mojo_raymath_Vector2SubtractValue", Vector2](v, sub)
+    return external_call["mojo_raymath_Vector2SubtractValue", Vector2](UnsafePointer(to=v), sub)
 
 def Vector2Length(v: Vector2) -> c_float:
-    return external_call["mojo_raymath_Vector2Length", c_float](v)
+    return external_call["mojo_raymath_Vector2Length", c_float](UnsafePointer(to=v))
 
 def Vector2LengthSqr(v: Vector2) -> c_float:
-    return external_call["mojo_raymath_Vector2LengthSqr", c_float](v)
+    return external_call["mojo_raymath_Vector2LengthSqr", c_float](UnsafePointer(to=v))
 
 def Vector2DotProduct(v1: Vector2, v2: Vector2) -> c_float:
-    return external_call["mojo_raymath_Vector2DotProduct", c_float](v1, v2)
+    return external_call["mojo_raymath_Vector2DotProduct", c_float](UnsafePointer(to=v1), UnsafePointer(to=v2))
 
 def Vector2CrossProduct(v1: Vector2, v2: Vector2) -> c_float:
-    return external_call["mojo_raymath_Vector2CrossProduct", c_float](v1, v2)
+    return external_call["mojo_raymath_Vector2CrossProduct", c_float](UnsafePointer(to=v1), UnsafePointer(to=v2))
 
 def Vector2Distance(v1: Vector2, v2: Vector2) -> c_float:
-    return external_call["mojo_raymath_Vector2Distance", c_float](v1, v2)
+    return external_call["mojo_raymath_Vector2Distance", c_float](UnsafePointer(to=v1), UnsafePointer(to=v2))
 
 def Vector2DistanceSqr(v1: Vector2, v2: Vector2) -> c_float:
-    return external_call["mojo_raymath_Vector2DistanceSqr", c_float](v1, v2)
+    return external_call["mojo_raymath_Vector2DistanceSqr", c_float](UnsafePointer(to=v1), UnsafePointer(to=v2))
 
 def Vector2Angle(v1: Vector2, v2: Vector2) -> c_float:
-    return external_call["mojo_raymath_Vector2Angle", c_float](v1, v2)
+    return external_call["mojo_raymath_Vector2Angle", c_float](UnsafePointer(to=v1), UnsafePointer(to=v2))
 
 def Vector2LineAngle(start: Vector2, end: Vector2) -> c_float:
-    return external_call["mojo_raymath_Vector2LineAngle", c_float](start, end)
+    return external_call["mojo_raymath_Vector2LineAngle", c_float](UnsafePointer(to=start), UnsafePointer(to=end))
 
 def Vector2Scale(v: Vector2, scale: c_float) -> Vector2:
-    return external_call["mojo_raymath_Vector2Scale", Vector2](v, scale)
+    return external_call["mojo_raymath_Vector2Scale", Vector2](UnsafePointer(to=v), scale)
 
 def Vector2Multiply(v1: Vector2, v2: Vector2) -> Vector2:
-    return external_call["mojo_raymath_Vector2Multiply", Vector2](v1, v2)
+    return external_call["mojo_raymath_Vector2Multiply", Vector2](UnsafePointer(to=v1), UnsafePointer(to=v2))
 
 def Vector2Negate(v: Vector2) -> Vector2:
-    return external_call["mojo_raymath_Vector2Negate", Vector2](v)
+    return external_call["mojo_raymath_Vector2Negate", Vector2](UnsafePointer(to=v))
 
 def Vector2Divide(v1: Vector2, v2: Vector2) -> Vector2:
-    return external_call["mojo_raymath_Vector2Divide", Vector2](v1, v2)
+    return external_call["mojo_raymath_Vector2Divide", Vector2](UnsafePointer(to=v1), UnsafePointer(to=v2))
 
 def Vector2Normalize(v: Vector2) -> Vector2:
-    return external_call["mojo_raymath_Vector2Normalize", Vector2](v)
+    return external_call["mojo_raymath_Vector2Normalize", Vector2](UnsafePointer(to=v))
 
 def Vector2Transform(v: Vector2, mat: Matrix) -> Vector2:
-    return external_call["mojo_raymath_Vector2Transform", Vector2](v, mat)
+    return external_call["mojo_raymath_Vector2Transform", Vector2](UnsafePointer(to=v), UnsafePointer(to=mat))
 
 def Vector2Lerp(v1: Vector2, v2: Vector2, amount: c_float) -> Vector2:
-    return external_call["mojo_raymath_Vector2Lerp", Vector2](v1, v2, amount)
+    return external_call["mojo_raymath_Vector2Lerp", Vector2](UnsafePointer(to=v1), UnsafePointer(to=v2), amount)
 
 def Vector2Reflect(v: Vector2, normal: Vector2) -> Vector2:
-    return external_call["mojo_raymath_Vector2Reflect", Vector2](v, normal)
+    return external_call["mojo_raymath_Vector2Reflect", Vector2](UnsafePointer(to=v), UnsafePointer(to=normal))
 
 def Vector2Min(v1: Vector2, v2: Vector2) -> Vector2:
-    return external_call["mojo_raymath_Vector2Min", Vector2](v1, v2)
+    return external_call["mojo_raymath_Vector2Min", Vector2](UnsafePointer(to=v1), UnsafePointer(to=v2))
 
 def Vector2Max(v1: Vector2, v2: Vector2) -> Vector2:
-    return external_call["mojo_raymath_Vector2Max", Vector2](v1, v2)
+    return external_call["mojo_raymath_Vector2Max", Vector2](UnsafePointer(to=v1), UnsafePointer(to=v2))
 
 def Vector2Rotate(v: Vector2, angle: c_float) -> Vector2:
-    return external_call["mojo_raymath_Vector2Rotate", Vector2](v, angle)
+    return external_call["mojo_raymath_Vector2Rotate", Vector2](UnsafePointer(to=v), angle)
 
 def Vector2MoveTowards(v: Vector2, target: Vector2, maxDistance: c_float) -> Vector2:
-    return external_call["mojo_raymath_Vector2MoveTowards", Vector2](v, target, maxDistance)
+    return external_call["mojo_raymath_Vector2MoveTowards", Vector2](UnsafePointer(to=v), UnsafePointer(to=target), maxDistance)
 
 def Vector2Invert(v: Vector2) -> Vector2:
-    return external_call["mojo_raymath_Vector2Invert", Vector2](v)
+    return external_call["mojo_raymath_Vector2Invert", Vector2](UnsafePointer(to=v))
 
 def Vector2Clamp(v: Vector2, min: Vector2, max: Vector2) -> Vector2:
-    return external_call["mojo_raymath_Vector2Clamp", Vector2](v, min, max)
+    return external_call["mojo_raymath_Vector2Clamp", Vector2](UnsafePointer(to=v), UnsafePointer(to=min), UnsafePointer(to=max))
 
 def Vector2ClampValue(v: Vector2, min: c_float, max: c_float) -> Vector2:
-    return external_call["mojo_raymath_Vector2ClampValue", Vector2](v, min, max)
+    return external_call["mojo_raymath_Vector2ClampValue", Vector2](UnsafePointer(to=v), min, max)
 
 def Vector2Equals(p: Vector2, q: Vector2) -> c_int:
-    return external_call["mojo_raymath_Vector2Equals", c_int](p, q)
+    return external_call["mojo_raymath_Vector2Equals", c_int](UnsafePointer(to=p), UnsafePointer(to=q))
 
 def Vector2Refract(v: Vector2, n: Vector2, r: c_float) -> Vector2:
-    return external_call["mojo_raymath_Vector2Refract", Vector2](v, n, r)
+    return external_call["mojo_raymath_Vector2Refract", Vector2](UnsafePointer(to=v), UnsafePointer(to=n), r)
 
 def Vector3Zero() -> Vector3:
     return external_call["mojo_raymath_Vector3Zero", Vector3]()
@@ -128,28 +128,28 @@ def Vector3One() -> Vector3:
     return external_call["mojo_raymath_Vector3One", Vector3]()
 
 def Vector3Add(v1: Vector3, v2: Vector3) -> Vector3:
-    return external_call["mojo_raymath_Vector3Add", Vector3](v1, v2)
+    return external_call["mojo_raymath_Vector3Add", Vector3](UnsafePointer(to=v1), UnsafePointer(to=v2))
 
 def Vector3AddValue(v: Vector3, add: c_float) -> Vector3:
-    return external_call["mojo_raymath_Vector3AddValue", Vector3](v, add)
+    return external_call["mojo_raymath_Vector3AddValue", Vector3](UnsafePointer(to=v), add)
 
 def Vector3Subtract(v1: Vector3, v2: Vector3) -> Vector3:
-    return external_call["mojo_raymath_Vector3Subtract", Vector3](v1, v2)
+    return external_call["mojo_raymath_Vector3Subtract", Vector3](UnsafePointer(to=v1), UnsafePointer(to=v2))
 
 def Vector3SubtractValue(v: Vector3, sub: c_float) -> Vector3:
-    return external_call["mojo_raymath_Vector3SubtractValue", Vector3](v, sub)
+    return external_call["mojo_raymath_Vector3SubtractValue", Vector3](UnsafePointer(to=v), sub)
 
 def Vector3Scale(v: Vector3, scalar: c_float) -> Vector3:
-    return external_call["mojo_raymath_Vector3Scale", Vector3](v, scalar)
+    return external_call["mojo_raymath_Vector3Scale", Vector3](UnsafePointer(to=v), scalar)
 
 def Vector3Multiply(v1: Vector3, v2: Vector3) -> Vector3:
-    return external_call["mojo_raymath_Vector3Multiply", Vector3](v1, v2)
+    return external_call["mojo_raymath_Vector3Multiply", Vector3](UnsafePointer(to=v1), UnsafePointer(to=v2))
 
 def Vector3CrossProduct(v1: Vector3, v2: Vector3) -> Vector3:
-    return external_call["mojo_raymath_Vector3CrossProduct", Vector3](v1, v2)
+    return external_call["mojo_raymath_Vector3CrossProduct", Vector3](UnsafePointer(to=v1), UnsafePointer(to=v2))
 
 def Vector3Perpendicular(v: Vector3) -> Vector3:
-    return external_call["mojo_raymath_Vector3Perpendicular", Vector3](v)
+    return external_call["mojo_raymath_Vector3Perpendicular", Vector3](UnsafePointer(to=v))
 
 def Vector3Length(v: Vector3) -> c_float:
     return external_call["mojo_raymath_Vector3Length", c_float](v)
@@ -158,85 +158,85 @@ def Vector3LengthSqr(v: Vector3) -> c_float:
     return external_call["mojo_raymath_Vector3LengthSqr", c_float](v)
 
 def Vector3DotProduct(v1: Vector3, v2: Vector3) -> c_float:
-    return external_call["mojo_raymath_Vector3DotProduct", c_float](v1, v2)
+    return external_call["mojo_raymath_Vector3DotProduct", c_float](UnsafePointer(to=v1), UnsafePointer(to=v2))
 
 def Vector3Distance(v1: Vector3, v2: Vector3) -> c_float:
-    return external_call["mojo_raymath_Vector3Distance", c_float](v1, v2)
+    return external_call["mojo_raymath_Vector3Distance", c_float](UnsafePointer(to=v1), UnsafePointer(to=v2))
 
 def Vector3DistanceSqr(v1: Vector3, v2: Vector3) -> c_float:
-    return external_call["mojo_raymath_Vector3DistanceSqr", c_float](v1, v2)
+    return external_call["mojo_raymath_Vector3DistanceSqr", c_float](UnsafePointer(to=v1), UnsafePointer(to=v2))
 
 def Vector3Angle(v1: Vector3, v2: Vector3) -> c_float:
-    return external_call["mojo_raymath_Vector3Angle", c_float](v1, v2)
+    return external_call["mojo_raymath_Vector3Angle", c_float](UnsafePointer(to=v1), UnsafePointer(to=v2))
 
 def Vector3Negate(v: Vector3) -> Vector3:
-    return external_call["mojo_raymath_Vector3Negate", Vector3](v)
+    return external_call["mojo_raymath_Vector3Negate", Vector3](UnsafePointer(to=v))
 
 def Vector3Divide(v1: Vector3, v2: Vector3) -> Vector3:
-    return external_call["mojo_raymath_Vector3Divide", Vector3](v1, v2)
+    return external_call["mojo_raymath_Vector3Divide", Vector3](UnsafePointer(to=v1), UnsafePointer(to=v2))
 
 def Vector3Normalize(v: Vector3) -> Vector3:
-    return external_call["mojo_raymath_Vector3Normalize", Vector3](v)
+    return external_call["mojo_raymath_Vector3Normalize", Vector3](UnsafePointer(to=v))
 
 def Vector3Project(v1: Vector3, v2: Vector3) -> Vector3:
-    return external_call["mojo_raymath_Vector3Project", Vector3](v1, v2)
+    return external_call["mojo_raymath_Vector3Project", Vector3](UnsafePointer(to=v1), UnsafePointer(to=v2))
 
 def Vector3Reject(v1: Vector3, v2: Vector3) -> Vector3:
-    return external_call["mojo_raymath_Vector3Reject", Vector3](v1, v2)
+    return external_call["mojo_raymath_Vector3Reject", Vector3](UnsafePointer(to=v1), UnsafePointer(to=v2))
 
 def Vector3OrthoNormalize(v1: UnsafePointer[Vector3, MutAnyOrigin], v2: UnsafePointer[Vector3, MutAnyOrigin]):
     external_call["mojo_raymath_Vector3OrthoNormalize", NoneType](v1, v2)
 
 def Vector3Transform(v: Vector3, mat: Matrix) -> Vector3:
-    return external_call["mojo_raymath_Vector3Transform", Vector3](v, mat)
+    return external_call["mojo_raymath_Vector3Transform", Vector3](UnsafePointer(to=v), UnsafePointer(to=mat))
 
 def Vector3RotateByQuaternion(v: Vector3, q: Quaternion) -> Vector3:
-    return external_call["mojo_raymath_Vector3RotateByQuaternion", Vector3](v, q)
+    return external_call["mojo_raymath_Vector3RotateByQuaternion", Vector3](UnsafePointer(to=v), UnsafePointer(to=q))
 
 def Vector3RotateByAxisAngle(v: Vector3, axis: Vector3, angle: c_float) -> Vector3:
-    return external_call["mojo_raymath_Vector3RotateByAxisAngle", Vector3](v, axis, angle)
+    return external_call["mojo_raymath_Vector3RotateByAxisAngle", Vector3](UnsafePointer(to=v), UnsafePointer(to=axis), angle)
 
 def Vector3MoveTowards(v: Vector3, target: Vector3, maxDistance: c_float) -> Vector3:
-    return external_call["mojo_raymath_Vector3MoveTowards", Vector3](v, target, maxDistance)
+    return external_call["mojo_raymath_Vector3MoveTowards", Vector3](UnsafePointer(to=v), UnsafePointer(to=target), maxDistance)
 
 def Vector3Lerp(v1: Vector3, v2: Vector3, amount: c_float) -> Vector3:
-    return external_call["mojo_raymath_Vector3Lerp", Vector3](v1, v2, amount)
+    return external_call["mojo_raymath_Vector3Lerp", Vector3](UnsafePointer(to=v1), UnsafePointer(to=v2), amount)
 
 def Vector3CubicHermite(v1: Vector3, tangent1: Vector3, v2: Vector3, tangent2: Vector3, amount: c_float) -> Vector3:
-    return external_call["mojo_raymath_Vector3CubicHermite", Vector3](v1, tangent1, v2, tangent2, amount)
+    return external_call["mojo_raymath_Vector3CubicHermite", Vector3](UnsafePointer(to=v1), UnsafePointer(to=tangent1), UnsafePointer(to=v2), UnsafePointer(to=tangent2), amount)
 
 def Vector3Reflect(v: Vector3, normal: Vector3) -> Vector3:
-    return external_call["mojo_raymath_Vector3Reflect", Vector3](v, normal)
+    return external_call["mojo_raymath_Vector3Reflect", Vector3](UnsafePointer(to=v), UnsafePointer(to=normal))
 
 def Vector3Min(v1: Vector3, v2: Vector3) -> Vector3:
-    return external_call["mojo_raymath_Vector3Min", Vector3](v1, v2)
+    return external_call["mojo_raymath_Vector3Min", Vector3](UnsafePointer(to=v1), UnsafePointer(to=v2))
 
 def Vector3Max(v1: Vector3, v2: Vector3) -> Vector3:
-    return external_call["mojo_raymath_Vector3Max", Vector3](v1, v2)
+    return external_call["mojo_raymath_Vector3Max", Vector3](UnsafePointer(to=v1), UnsafePointer(to=v2))
 
 def Vector3Barycenter(p: Vector3, a: Vector3, b: Vector3, c: Vector3) -> Vector3:
-    return external_call["mojo_raymath_Vector3Barycenter", Vector3](p, a, b, c)
+    return external_call["mojo_raymath_Vector3Barycenter", Vector3](UnsafePointer(to=p), UnsafePointer(to=a), UnsafePointer(to=b), UnsafePointer(to=c))
 
 def Vector3Unproject(source: Vector3, projection: Matrix, view: Matrix) -> Vector3:
-    return external_call["mojo_raymath_Vector3Unproject", Vector3](source, projection, view)
+    return external_call["mojo_raymath_Vector3Unproject", Vector3](UnsafePointer(to=source), UnsafePointer(to=projection), UnsafePointer(to=view))
 
 def Vector3ToFloatV(v: Vector3) -> float3:
-    return external_call["mojo_raymath_Vector3ToFloatV", float3](v)
+    return external_call["mojo_raymath_Vector3ToFloatV", float3](UnsafePointer(to=v))
 
 def Vector3Invert(v: Vector3) -> Vector3:
-    return external_call["mojo_raymath_Vector3Invert", Vector3](v)
+    return external_call["mojo_raymath_Vector3Invert", Vector3](UnsafePointer(to=v))
 
 def Vector3Clamp(v: Vector3, min: Vector3, max: Vector3) -> Vector3:
-    return external_call["mojo_raymath_Vector3Clamp", Vector3](v, min, max)
+    return external_call["mojo_raymath_Vector3Clamp", Vector3](UnsafePointer(to=v), UnsafePointer(to=min), UnsafePointer(to=max))
 
 def Vector3ClampValue(v: Vector3, min: c_float, max: c_float) -> Vector3:
-    return external_call["mojo_raymath_Vector3ClampValue", Vector3](v, min, max)
+    return external_call["mojo_raymath_Vector3ClampValue", Vector3](UnsafePointer(to=v), min, max)
 
 def Vector3Equals(p: Vector3, q: Vector3) -> c_int:
-    return external_call["mojo_raymath_Vector3Equals", c_int](p, q)
+    return external_call["mojo_raymath_Vector3Equals", c_int](UnsafePointer(to=p), UnsafePointer(to=q))
 
 def Vector3Refract(v: Vector3, n: Vector3, r: c_float) -> Vector3:
-    return external_call["mojo_raymath_Vector3Refract", Vector3](v, n, r)
+    return external_call["mojo_raymath_Vector3Refract", Vector3](UnsafePointer(to=v), UnsafePointer(to=n), r)
 
 def Vector4Zero() -> Vector4:
     return external_call["mojo_raymath_Vector4Zero", Vector4]()
@@ -245,97 +245,97 @@ def Vector4One() -> Vector4:
     return external_call["mojo_raymath_Vector4One", Vector4]()
 
 def Vector4Add(v1: Vector4, v2: Vector4) -> Vector4:
-    return external_call["mojo_raymath_Vector4Add", Vector4](v1, v2)
+    return external_call["mojo_raymath_Vector4Add", Vector4](UnsafePointer(to=v1), UnsafePointer(to=v2))
 
 def Vector4AddValue(v: Vector4, add: c_float) -> Vector4:
-    return external_call["mojo_raymath_Vector4AddValue", Vector4](v, add)
+    return external_call["mojo_raymath_Vector4AddValue", Vector4](UnsafePointer(to=v), add)
 
 def Vector4Subtract(v1: Vector4, v2: Vector4) -> Vector4:
-    return external_call["mojo_raymath_Vector4Subtract", Vector4](v1, v2)
+    return external_call["mojo_raymath_Vector4Subtract", Vector4](UnsafePointer(to=v1), UnsafePointer(to=v2))
 
 def Vector4SubtractValue(v: Vector4, add: c_float) -> Vector4:
-    return external_call["mojo_raymath_Vector4SubtractValue", Vector4](v, add)
+    return external_call["mojo_raymath_Vector4SubtractValue", Vector4](UnsafePointer(to=v), add)
 
 def Vector4Length(v: Vector4) -> c_float:
-    return external_call["mojo_raymath_Vector4Length", c_float](v)
+    return external_call["mojo_raymath_Vector4Length", c_float](UnsafePointer(to=v))
 
 def Vector4LengthSqr(v: Vector4) -> c_float:
-    return external_call["mojo_raymath_Vector4LengthSqr", c_float](v)
+    return external_call["mojo_raymath_Vector4LengthSqr", c_float](UnsafePointer(to=v))
 
 def Vector4DotProduct(v1: Vector4, v2: Vector4) -> c_float:
-    return external_call["mojo_raymath_Vector4DotProduct", c_float](v1, v2)
+    return external_call["mojo_raymath_Vector4DotProduct", c_float](UnsafePointer(to=v1), UnsafePointer(to=v2))
 
 def Vector4Distance(v1: Vector4, v2: Vector4) -> c_float:
-    return external_call["mojo_raymath_Vector4Distance", c_float](v1, v2)
+    return external_call["mojo_raymath_Vector4Distance", c_float](UnsafePointer(to=v1), UnsafePointer(to=v2))
 
 def Vector4DistanceSqr(v1: Vector4, v2: Vector4) -> c_float:
-    return external_call["mojo_raymath_Vector4DistanceSqr", c_float](v1, v2)
+    return external_call["mojo_raymath_Vector4DistanceSqr", c_float](UnsafePointer(to=v1), UnsafePointer(to=v2))
 
 def Vector4Scale(v: Vector4, scale: c_float) -> Vector4:
-    return external_call["mojo_raymath_Vector4Scale", Vector4](v, scale)
+    return external_call["mojo_raymath_Vector4Scale", Vector4](UnsafePointer(to=v), scale)
 
 def Vector4Multiply(v1: Vector4, v2: Vector4) -> Vector4:
-    return external_call["mojo_raymath_Vector4Multiply", Vector4](v1, v2)
+    return external_call["mojo_raymath_Vector4Multiply", Vector4](UnsafePointer(to=v1), UnsafePointer(to=v2))
 
 def Vector4Negate(v: Vector4) -> Vector4:
-    return external_call["mojo_raymath_Vector4Negate", Vector4](v)
+    return external_call["mojo_raymath_Vector4Negate", Vector4](UnsafePointer(to=v))
 
 def Vector4Divide(v1: Vector4, v2: Vector4) -> Vector4:
-    return external_call["mojo_raymath_Vector4Divide", Vector4](v1, v2)
+    return external_call["mojo_raymath_Vector4Divide", Vector4](UnsafePointer(to=v1), UnsafePointer(to=v2))
 
 def Vector4Normalize(v: Vector4) -> Vector4:
-    return external_call["mojo_raymath_Vector4Normalize", Vector4](v)
+    return external_call["mojo_raymath_Vector4Normalize", Vector4](UnsafePointer(to=v))
 
 def Vector4Min(v1: Vector4, v2: Vector4) -> Vector4:
-    return external_call["mojo_raymath_Vector4Min", Vector4](v1, v2)
+    return external_call["mojo_raymath_Vector4Min", Vector4](UnsafePointer(to=v1), UnsafePointer(to=v2))
 
 def Vector4Max(v1: Vector4, v2: Vector4) -> Vector4:
-    return external_call["mojo_raymath_Vector4Max", Vector4](v1, v2)
+    return external_call["mojo_raymath_Vector4Max", Vector4](UnsafePointer(to=v1), UnsafePointer(to=v2))
 
 def Vector4Lerp(v1: Vector4, v2: Vector4, amount: c_float) -> Vector4:
-    return external_call["mojo_raymath_Vector4Lerp", Vector4](v1, v2, amount)
+    return external_call["mojo_raymath_Vector4Lerp", Vector4](UnsafePointer(to=v1), UnsafePointer(to=v2), amount)
 
 def Vector4MoveTowards(v: Vector4, target: Vector4, maxDistance: c_float) -> Vector4:
-    return external_call["mojo_raymath_Vector4MoveTowards", Vector4](v, target, maxDistance)
+    return external_call["mojo_raymath_Vector4MoveTowards", Vector4](UnsafePointer(to=v), UnsafePointer(to=target), maxDistance)
 
 def Vector4Invert(v: Vector4) -> Vector4:
-    return external_call["mojo_raymath_Vector4Invert", Vector4](v)
+    return external_call["mojo_raymath_Vector4Invert", Vector4](UnsafePointer(to=v))
 
 def Vector4Equals(p: Vector4, q: Vector4) -> c_int:
-    return external_call["mojo_raymath_Vector4Equals", c_int](p, q)
+    return external_call["mojo_raymath_Vector4Equals", c_int](UnsafePointer(to=p), UnsafePointer(to=q))
 
 def MatrixDeterminant(mat: Matrix) -> c_float:
-    return external_call["mojo_raymath_MatrixDeterminant", c_float](mat)
+    return external_call["mojo_raymath_MatrixDeterminant", c_float](UnsafePointer(to=mat))
 
 def MatrixTrace(mat: Matrix) -> c_float:
-    return external_call["mojo_raymath_MatrixTrace", c_float](mat)
+    return external_call["mojo_raymath_MatrixTrace", c_float](UnsafePointer(to=mat))
 
 def MatrixTranspose(mat: Matrix) -> Matrix:
-    return external_call["mojo_raymath_MatrixTranspose", Matrix](mat)
+    return external_call["mojo_raymath_MatrixTranspose", Matrix](UnsafePointer(to=mat))
 
 def MatrixInvert(mat: Matrix) -> Matrix:
-    return external_call["mojo_raymath_MatrixInvert", Matrix](mat)
+    return external_call["mojo_raymath_MatrixInvert", Matrix](UnsafePointer(to=mat))
 
 def MatrixIdentity() -> Matrix:
     return external_call["mojo_raymath_MatrixIdentity", Matrix]()
 
 def MatrixAdd(left: Matrix, right: Matrix) -> Matrix:
-    return external_call["mojo_raymath_MatrixAdd", Matrix](left, right)
+    return external_call["mojo_raymath_MatrixAdd", Matrix](UnsafePointer(to=left), UnsafePointer(to=right))
 
 def MatrixSubtract(left: Matrix, right: Matrix) -> Matrix:
-    return external_call["mojo_raymath_MatrixSubtract", Matrix](left, right)
+    return external_call["mojo_raymath_MatrixSubtract", Matrix](UnsafePointer(to=left), UnsafePointer(to=right))
 
 def MatrixMultiply(left: Matrix, right: Matrix) -> Matrix:
-    return external_call["mojo_raymath_MatrixMultiply", Matrix](left, right)
+    return external_call["mojo_raymath_MatrixMultiply", Matrix](UnsafePointer(to=left), UnsafePointer(to=right))
 
 def MatrixMultiplyValue(left: Matrix, value: c_float) -> Matrix:
-    return external_call["mojo_raymath_MatrixMultiplyValue", Matrix](left, value)
+    return external_call["mojo_raymath_MatrixMultiplyValue", Matrix](UnsafePointer(to=left), value)
 
 def MatrixTranslate(x: c_float, y: c_float, z: c_float) -> Matrix:
     return external_call["mojo_raymath_MatrixTranslate", Matrix](x, y, z)
 
 def MatrixRotate(axis: Vector3, angle: c_float) -> Matrix:
-    return external_call["mojo_raymath_MatrixRotate", Matrix](axis, angle)
+    return external_call["mojo_raymath_MatrixRotate", Matrix](UnsafePointer(to=axis), angle)
 
 def MatrixRotateX(angle: c_float) -> Matrix:
     return external_call["mojo_raymath_MatrixRotateX", Matrix](angle)
@@ -347,10 +347,10 @@ def MatrixRotateZ(angle: c_float) -> Matrix:
     return external_call["mojo_raymath_MatrixRotateZ", Matrix](angle)
 
 def MatrixRotateXYZ(angle: Vector3) -> Matrix:
-    return external_call["mojo_raymath_MatrixRotateXYZ", Matrix](angle)
+    return external_call["mojo_raymath_MatrixRotateXYZ", Matrix](UnsafePointer(to=angle))
 
 def MatrixRotateZYX(angle: Vector3) -> Matrix:
-    return external_call["mojo_raymath_MatrixRotateZYX", Matrix](angle)
+    return external_call["mojo_raymath_MatrixRotateZYX", Matrix](UnsafePointer(to=angle))
 
 def MatrixScale(x: c_float, y: c_float, z: c_float) -> Matrix:
     return external_call["mojo_raymath_MatrixScale", Matrix](x, y, z)
@@ -365,86 +365,86 @@ def MatrixOrtho(left: c_double, right: c_double, bottom: c_double, top: c_double
     return external_call["mojo_raymath_MatrixOrtho", Matrix](left, right, bottom, top, nearPlane, farPlane)
 
 def MatrixLookAt(eye: Vector3, target: Vector3, up: Vector3) -> Matrix:
-    return external_call["mojo_raymath_MatrixLookAt", Matrix](eye, target, up)
+    return external_call["mojo_raymath_MatrixLookAt", Matrix](UnsafePointer(to=eye), UnsafePointer(to=target), UnsafePointer(to=up))
 
 def MatrixToFloatV(mat: Matrix) -> float16:
-    return external_call["mojo_raymath_MatrixToFloatV", float16](mat)
+    return external_call["mojo_raymath_MatrixToFloatV", float16](UnsafePointer(to=mat))
 
 def QuaternionAdd(q1: Quaternion, q2: Quaternion) -> Quaternion:
-    return external_call["mojo_raymath_QuaternionAdd", Quaternion](q1, q2)
+    return external_call["mojo_raymath_QuaternionAdd", Quaternion](UnsafePointer(to=q1), UnsafePointer(to=q2))
 
 def QuaternionAddValue(q: Quaternion, add: c_float) -> Quaternion:
-    return external_call["mojo_raymath_QuaternionAddValue", Quaternion](q, add)
+    return external_call["mojo_raymath_QuaternionAddValue", Quaternion](UnsafePointer(to=q), add)
 
 def QuaternionSubtract(q1: Quaternion, q2: Quaternion) -> Quaternion:
-    return external_call["mojo_raymath_QuaternionSubtract", Quaternion](q1, q2)
+    return external_call["mojo_raymath_QuaternionSubtract", Quaternion](UnsafePointer(to=q1), UnsafePointer(to=q2))
 
 def QuaternionSubtractValue(q: Quaternion, sub: c_float) -> Quaternion:
-    return external_call["mojo_raymath_QuaternionSubtractValue", Quaternion](q, sub)
+    return external_call["mojo_raymath_QuaternionSubtractValue", Quaternion](UnsafePointer(to=q), sub)
 
 def QuaternionIdentity() -> Quaternion:
     return external_call["mojo_raymath_QuaternionIdentity", Quaternion]()
 
 def QuaternionLength(q: Quaternion) -> c_float:
-    return external_call["mojo_raymath_QuaternionLength", c_float](q)
+    return external_call["mojo_raymath_QuaternionLength", c_float](UnsafePointer(to=q))
 
 def QuaternionNormalize(q: Quaternion) -> Quaternion:
-    return external_call["mojo_raymath_QuaternionNormalize", Quaternion](q)
+    return external_call["mojo_raymath_QuaternionNormalize", Quaternion](UnsafePointer(to=q))
 
 def QuaternionInvert(q: Quaternion) -> Quaternion:
-    return external_call["mojo_raymath_QuaternionInvert", Quaternion](q)
+    return external_call["mojo_raymath_QuaternionInvert", Quaternion](UnsafePointer(to=q))
 
 def QuaternionMultiply(q1: Quaternion, q2: Quaternion) -> Quaternion:
-    return external_call["mojo_raymath_QuaternionMultiply", Quaternion](q1, q2)
+    return external_call["mojo_raymath_QuaternionMultiply", Quaternion](UnsafePointer(to=q1), UnsafePointer(to=q2))
 
 def QuaternionScale(q: Quaternion, mul: c_float) -> Quaternion:
-    return external_call["mojo_raymath_QuaternionScale", Quaternion](q, mul)
+    return external_call["mojo_raymath_QuaternionScale", Quaternion](UnsafePointer(to=q), mul)
 
 def QuaternionDivide(q1: Quaternion, q2: Quaternion) -> Quaternion:
-    return external_call["mojo_raymath_QuaternionDivide", Quaternion](q1, q2)
+    return external_call["mojo_raymath_QuaternionDivide", Quaternion](UnsafePointer(to=q1), UnsafePointer(to=q2))
 
 def QuaternionLerp(q1: Quaternion, q2: Quaternion, amount: c_float) -> Quaternion:
-    return external_call["mojo_raymath_QuaternionLerp", Quaternion](q1, q2, amount)
+    return external_call["mojo_raymath_QuaternionLerp", Quaternion](UnsafePointer(to=q1), UnsafePointer(to=q2), amount)
 
 def QuaternionNlerp(q1: Quaternion, q2: Quaternion, amount: c_float) -> Quaternion:
-    return external_call["mojo_raymath_QuaternionNlerp", Quaternion](q1, q2, amount)
+    return external_call["mojo_raymath_QuaternionNlerp", Quaternion](UnsafePointer(to=q1), UnsafePointer(to=q2), amount)
 
 def QuaternionSlerp(q1: Quaternion, q2: Quaternion, amount: c_float) -> Quaternion:
-    return external_call["mojo_raymath_QuaternionSlerp", Quaternion](q1, q2, amount)
+    return external_call["mojo_raymath_QuaternionSlerp", Quaternion](UnsafePointer(to=q1), UnsafePointer(to=q2), amount)
 
 def QuaternionCubicHermiteSpline(q1: Quaternion, outTangent1: Quaternion, q2: Quaternion, inTangent2: Quaternion, t: c_float) -> Quaternion:
-    return external_call["mojo_raymath_QuaternionCubicHermiteSpline", Quaternion](q1, outTangent1, q2, inTangent2, t)
+    return external_call["mojo_raymath_QuaternionCubicHermiteSpline", Quaternion](UnsafePointer(to=q1), UnsafePointer(to=outTangent1), UnsafePointer(to=q2), UnsafePointer(to=inTangent2), t)
 
 def QuaternionFromVector3ToVector3(from_: Vector3, to: Vector3) -> Quaternion:
-    return external_call["mojo_raymath_QuaternionFromVector3ToVector3", Quaternion](from_, to)
+    return external_call["mojo_raymath_QuaternionFromVector3ToVector3", Quaternion](UnsafePointer(to=from_), UnsafePointer(to=to))
 
 def QuaternionFromMatrix(mat: Matrix) -> Quaternion:
-    return external_call["mojo_raymath_QuaternionFromMatrix", Quaternion](mat)
+    return external_call["mojo_raymath_QuaternionFromMatrix", Quaternion](UnsafePointer(to=mat))
 
 def QuaternionToMatrix(q: Quaternion) -> Matrix:
-    return external_call["mojo_raymath_QuaternionToMatrix", Matrix](q)
+    return external_call["mojo_raymath_QuaternionToMatrix", Matrix](UnsafePointer(to=q))
 
 def QuaternionFromAxisAngle(axis: Vector3, angle: c_float) -> Quaternion:
-    return external_call["mojo_raymath_QuaternionFromAxisAngle", Quaternion](axis, angle)
+    return external_call["mojo_raymath_QuaternionFromAxisAngle", Quaternion](UnsafePointer(to=axis), angle)
 
 def QuaternionToAxisAngle(q: Quaternion, outAxis: UnsafePointer[Vector3, MutAnyOrigin], outAngle: UnsafePointer[c_float, MutAnyOrigin]):
-    external_call["mojo_raymath_QuaternionToAxisAngle", NoneType](q, outAxis, outAngle)
+    external_call["mojo_raymath_QuaternionToAxisAngle", NoneType](UnsafePointer(to=q), outAxis, outAngle)
 
 def QuaternionFromEuler(pitch: c_float, yaw: c_float, roll: c_float) -> Quaternion:
     return external_call["mojo_raymath_QuaternionFromEuler", Quaternion](pitch, yaw, roll)
 
 def QuaternionToEuler(q: Quaternion) -> Vector3:
-    return external_call["mojo_raymath_QuaternionToEuler", Vector3](q)
+    return external_call["mojo_raymath_QuaternionToEuler", Vector3](UnsafePointer(to=q))
 
 def QuaternionTransform(q: Quaternion, mat: Matrix) -> Quaternion:
-    return external_call["mojo_raymath_QuaternionTransform", Quaternion](q, mat)
+    return external_call["mojo_raymath_QuaternionTransform", Quaternion](UnsafePointer(to=q), UnsafePointer(to=mat))
 
 def QuaternionEquals(p: Quaternion, q: Quaternion) -> c_int:
-    return external_call["mojo_raymath_QuaternionEquals", c_int](p, q)
+    return external_call["mojo_raymath_QuaternionEquals", c_int](UnsafePointer(to=p), UnsafePointer(to=q))
 
 def MatrixCompose(translation: Vector3, rotation: Quaternion, scale: Vector3) -> Matrix:
-    return external_call["mojo_raymath_MatrixCompose", Matrix](translation, rotation, scale)
+    return external_call["mojo_raymath_MatrixCompose", Matrix](UnsafePointer(to=translation), UnsafePointer(to=rotation), UnsafePointer(to=scale))
 
 def MatrixDecompose(mat: Matrix, translation: UnsafePointer[Vector3, MutAnyOrigin], rotation: UnsafePointer[Quaternion, MutAnyOrigin], scale: UnsafePointer[Vector3, MutAnyOrigin]):
-    external_call["mojo_raymath_MatrixDecompose", NoneType](mat, translation, rotation, scale)
+    external_call["mojo_raymath_MatrixDecompose", NoneType](UnsafePointer(to=mat), translation, rotation, scale)
 
