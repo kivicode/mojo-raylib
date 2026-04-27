@@ -9,7 +9,7 @@
   <h3 align="center">Mojo Raylib</h3>
 
   <p align="center">
-    🔥 Mojo bindings for [raylib](https://github.com/raysan5/raylib) v6.x 🔥
+    🔥 Mojo bindings for <a href="https://github.com/raysan5/raylib">raylib</a> v6.x 🔥
     <br/>
 
 ![Written in Mojo][language-shield]
