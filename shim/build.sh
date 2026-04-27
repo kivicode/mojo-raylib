@@ -10,17 +10,26 @@ if [ ! -f vendor/raylib/src/raylib.h ]; then
   exit 1
 fi
 
-cmake -S vendor/raylib -B build_raylib \
-  -G Ninja \
-  -DBUILD_SHARED_LIBS=ON \
-  -DBUILD_EXAMPLES=OFF \
-  -DBUILD_GAMES=OFF \
-  -DCMAKE_BUILD_TYPE=Release \
-  -DCMAKE_INSTALL_PREFIX="$PREFIX" \
-  -DCMAKE_INSTALL_LIBDIR=lib
+# pixi-build re-stages the source on every invocation, which wipes the
+# in-tree build_raylib. Park the cmake build directory in a stable per-user
+# cache so the cmake configure step (a few seconds even with --build cache)
+# only runs once per raylib revision.
+RAYLIB_REV="$(cd vendor/raylib && git rev-parse HEAD 2>/dev/null || echo unknown)"
+BUILD_RAYLIB_DIR="${HOME}/.cache/mojo-raylib/raylib-${RAYLIB_REV}-$(uname -m)-$(uname -s)"
+mkdir -p "$BUILD_RAYLIB_DIR"
 
-cmake --build build_raylib
-cmake --install build_raylib
+if [ ! -f "$BUILD_RAYLIB_DIR/CMakeCache.txt" ]; then
+  cmake -S vendor/raylib -B "$BUILD_RAYLIB_DIR" \
+    -G Ninja \
+    -DBUILD_SHARED_LIBS=ON \
+    -DBUILD_EXAMPLES=OFF \
+    -DBUILD_GAMES=OFF \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_LIBDIR=lib
+fi
+
+cmake --build "$BUILD_RAYLIB_DIR"
+cmake --install "$BUILD_RAYLIB_DIR" --prefix "$PREFIX"
 
 case "$(uname -s)" in
   Darwin)
