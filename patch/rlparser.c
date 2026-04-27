@@ -244,6 +244,7 @@ static void GetMojoLayoutType(const char *cType, char *outType, int outTypeSize)
 static bool GetPointerBaseType(const char *typeName, char *baseType, int baseTypeSize, bool *isConst, int *pointerCount);
 static void ResolveStructOrAliasName(const char *typeName, char *outTypeName, int outTypeNameSize);
 static bool IsPointerAlias(const char *typeName);
+static bool IsArrayOfKnownStruct(const char *fieldType, char *elementName, int elementNameSize, int *arraySize);
 static bool GetSpanCompanionIndex(const FunctionInfo *func, int paramIndex, int *countIndex);
 static bool ShouldUseMutValueParam(const FunctionInfo *func, int paramIndex, char *pointeeType, int pointeeTypeSize);
 static bool ShouldUseRefValueParam(const FunctionInfo *func, int paramIndex, char *pointeeType, int pointeeTypeSize);
@@ -1713,6 +1714,11 @@ static void ExportMojoTypes(const char *rootDir)
     fprintf(outFile, "# Opaque forward-declared types (raylib internals)\n");
     fprintf(outFile, "@fieldwise_init\nstruct rAudioBuffer(Copyable, ImplicitlyCopyable, Movable):\n    var _opaque: c_int\n\n");
     fprintf(outFile, "@fieldwise_init\nstruct rAudioProcessor(Copyable, ImplicitlyCopyable, Movable):\n    var _opaque: c_int\n\n");
+    fprintf(outFile, "@fieldwise_init\nstruct float3(TrivialRegisterPassable):\n");
+    for (int k = 0; k < 3; k++) fprintf(outFile, "    var v%d: c_float\n", k);
+    fprintf(outFile, "\n@fieldwise_init\nstruct float16(TrivialRegisterPassable):\n");
+    for (int k = 0; k < 16; k++) fprintf(outFile, "    var v%d: c_float\n", k);
+    fprintf(outFile, "\n");
 
     // Aliases first so structs that use them resolve. Mojo doesn't forward-reference comptime aliases.
     for (int i = 0; i < aliasCount; i++)
@@ -1739,33 +1745,8 @@ static void ExportMojoTypes(const char *rootDir)
         if (comment[0] != '\0')
             fprintf(outFile, "# %s\n", comment);
 
-        // Pre-scan: if any field is an array of a known struct (e.g. Matrix[2]),
-        // we can't be RegisterPassable because InlineArray of struct isn't.
-        bool canBeRP = true;
-        for (int j = 0; j < structs[i].fieldCount; j++)
-        {
-            int arrAt = TextFindIndex(structs[i].fieldType[j], "[");
-            if (arrAt > -1)
-            {
-                char arrBase[128] = {0};
-                for (int k = 0; k < arrAt; k++)
-                    arrBase[k] = structs[i].fieldType[j][k];
-                arrBase[arrAt] = '\0';
-                char trimmedAB[128] = {0};
-                CopyTrimmed(trimmedAB, arrBase, sizeof(trimmedAB));
-                if (IsKnownStructOrAlias(trimmedAB))
-                {
-                    canBeRP = false;
-                    break;
-                }
-            }
-        }
-
         fprintf(outFile, "@fieldwise_init\n");
-        if (canBeRP)
-            fprintf(outFile, "struct %s(TrivialRegisterPassable):\n", structs[i].name);
-        else
-            fprintf(outFile, "struct %s(Copyable, ImplicitlyCopyable, Movable):\n", structs[i].name);
+        fprintf(outFile, "struct %s(TrivialRegisterPassable):\n", structs[i].name);
 
         if (structs[i].fieldCount == 0)
             fprintf(outFile, "    var _unused: c_int\n");
@@ -1773,12 +1754,25 @@ static void ExportMojoTypes(const char *rootDir)
         {
             char mojoType[256] = {0};
             char fieldComment[256] = {0};
-            GetMojoType(structs[i].fieldType[j], false, false, mojoType, sizeof(mojoType));
-            SanitizeComment(structs[i].fieldDesc[j], fieldComment, sizeof(fieldComment));
+            char elementName[128] = {0};
+            int arraySize = 0;
 
+            SanitizeComment(structs[i].fieldDesc[j], fieldComment, sizeof(fieldComment));
             if (fieldComment[0] != '\0')
                 fprintf(outFile, "    # %s\n", fieldComment);
-            fprintf(outFile, "    var %s: %s\n", structs[i].fieldName[j], mojoType);
+
+            // Expand `Struct[N]` into N separate fields so the enclosing struct
+            // can stay TrivialRegisterPassable.
+            if (IsArrayOfKnownStruct(structs[i].fieldType[j], elementName, sizeof(elementName), &arraySize))
+            {
+                for (int k = 0; k < arraySize; k++)
+                    fprintf(outFile, "    var %s_%d: %s\n", structs[i].fieldName[j], k, elementName);
+            }
+            else
+            {
+                GetMojoType(structs[i].fieldType[j], false, false, mojoType, sizeof(mojoType));
+                fprintf(outFile, "    var %s: %s\n", structs[i].fieldName[j], mojoType);
+            }
         }
 
         fprintf(outFile, "\n");
@@ -1873,6 +1867,27 @@ static void ExportMojoPublicTypes(const char *rootDir)
     // Forward-declared opaque types — same stubs as raw/types.mojo for layout parity.
     fprintf(outFile, "@fieldwise_init\nstruct rAudioBuffer(TrivialRegisterPassable):\n    var _opaque: c_int\n\n");
     fprintf(outFile, "@fieldwise_init\nstruct rAudioProcessor(TrivialRegisterPassable):\n    var _opaque: c_int\n\n");
+    // raymath float3/float16: misnomer — both are flat float arrays
+    // (`struct { float v[N]; }`), N = 3 or 16. Public mirrors hold Float32 fields
+    // and provide round-trip conversion to the raw FFI structs.
+    fprintf(outFile, "@fieldwise_init\nstruct float3(Copyable, ImplicitlyCopyable, Movable):\n");
+    for (int k = 0; k < 3; k++) fprintf(outFile, "    var v%d: Float32\n", k);
+    fprintf(outFile, "\n    @always_inline\n    @staticmethod\n    def from_raw(value: raw_types.float3) -> Self:\n");
+    fprintf(outFile, "        return float3(Float32(value.v0), Float32(value.v1), Float32(value.v2))\n");
+    fprintf(outFile, "\n    @always_inline\n    def to_raw(self) -> raw_types.float3:\n");
+    fprintf(outFile, "        return raw_types.float3(c_float(self.v0), c_float(self.v1), c_float(self.v2))\n\n");
+    fprintf(outFile, "@always_inline\ndef _to_raw_float3(value: float3) -> raw_types.float3:\n    return value.to_raw()\n\n");
+    fprintf(outFile, "@always_inline\ndef _from_raw_float3(value: raw_types.float3) -> float3:\n    return float3.from_raw(value)\n\n");
+
+    fprintf(outFile, "@fieldwise_init\nstruct float16(Copyable, ImplicitlyCopyable, Movable):\n");
+    for (int k = 0; k < 16; k++) fprintf(outFile, "    var v%d: Float32\n", k);
+    fprintf(outFile, "\n    @always_inline\n    @staticmethod\n    def from_raw(value: raw_types.float16) -> Self:\n        return float16(");
+    for (int k = 0; k < 16; k++) fprintf(outFile, "%sFloat32(value.v%d)", k ? ", " : "", k);
+    fprintf(outFile, ")\n\n    @always_inline\n    def to_raw(self) -> raw_types.float16:\n        return raw_types.float16(");
+    for (int k = 0; k < 16; k++) fprintf(outFile, "%sc_float(self.v%d)", k ? ", " : "", k);
+    fprintf(outFile, ")\n\n");
+    fprintf(outFile, "@always_inline\ndef _to_raw_float16(value: float16) -> raw_types.float16:\n    return value.to_raw()\n\n");
+    fprintf(outFile, "@always_inline\ndef _from_raw_float16(value: raw_types.float16) -> float16:\n    return float16.from_raw(value)\n\n");
 
     // Pointer aliases (e.g. ModelAnimPose) emitted up front so structs that use them resolve.
     for (int i = 0; i < aliasCount; i++)
@@ -1895,30 +1910,7 @@ static void ExportMojoPublicTypes(const char *rootDir)
         if (comment[0] != '\0')
             fprintf(outFile, "# %s\n", comment);
 
-        bool canBeRP = true;
-        for (int j = 0; j < structs[i].fieldCount; j++)
-        {
-            int arrAt = TextFindIndex(structs[i].fieldType[j], "[");
-            if (arrAt > -1)
-            {
-                char arrBase[128] = {0};
-                for (int k = 0; k < arrAt; k++)
-                    arrBase[k] = structs[i].fieldType[j][k];
-                arrBase[arrAt] = '\0';
-                char trimmedAB[128] = {0};
-                CopyTrimmed(trimmedAB, arrBase, sizeof(trimmedAB));
-                if (IsKnownStructOrAlias(trimmedAB))
-                {
-                    canBeRP = false;
-                    break;
-                }
-            }
-        }
-
-        if (canBeRP)
-            fprintf(outFile, "struct %s(TrivialRegisterPassable):\n", structs[i].name);
-        else
-            fprintf(outFile, "struct %s(Copyable, ImplicitlyCopyable, Movable):\n", structs[i].name);
+        fprintf(outFile, "struct %s(TrivialRegisterPassable):\n", structs[i].name);
         if (structs[i].fieldCount == 0)
         {
             fprintf(outFile, "    var _unused: Int32\n");
@@ -1929,11 +1921,23 @@ static void ExportMojoPublicTypes(const char *rootDir)
             {
                 char fieldType[256] = {0};
                 char fieldComment[256] = {0};
-                GetMojoLayoutType(structs[i].fieldType[j], fieldType, sizeof(fieldType));
+                char elementName[128] = {0};
+                int arraySize = 0;
+
                 SanitizeComment(structs[i].fieldDesc[j], fieldComment, sizeof(fieldComment));
                 if (fieldComment[0] != '\0')
                     fprintf(outFile, "    # %s\n", fieldComment);
-                fprintf(outFile, "    var %s: %s\n", structs[i].fieldName[j], fieldType);
+
+                if (IsArrayOfKnownStruct(structs[i].fieldType[j], elementName, sizeof(elementName), &arraySize))
+                {
+                    for (int k = 0; k < arraySize; k++)
+                        fprintf(outFile, "    var %s_%d: %s\n", structs[i].fieldName[j], k, elementName);
+                }
+                else
+                {
+                    GetMojoLayoutType(structs[i].fieldType[j], fieldType, sizeof(fieldType));
+                    fprintf(outFile, "    var %s: %s\n", structs[i].fieldName[j], fieldType);
+                }
             }
         }
         fprintf(outFile, "\n");
@@ -1941,56 +1945,109 @@ static void ExportMojoPublicTypes(const char *rootDir)
         for (int j = 0; j < structs[i].fieldCount; j++)
         {
             char fieldType[256] = {0};
-            GetMojoLayoutType(structs[i].fieldType[j], fieldType, sizeof(fieldType));
-            fprintf(outFile, ", %s: %s", structs[i].fieldName[j], fieldType);
+            char elementName[128] = {0};
+            int arraySize = 0;
+            if (IsArrayOfKnownStruct(structs[i].fieldType[j], elementName, sizeof(elementName), &arraySize))
+            {
+                for (int k = 0; k < arraySize; k++)
+                    fprintf(outFile, ", %s_%d: %s", structs[i].fieldName[j], k, elementName);
+            }
+            else
+            {
+                GetMojoLayoutType(structs[i].fieldType[j], fieldType, sizeof(fieldType));
+                fprintf(outFile, ", %s: %s", structs[i].fieldName[j], fieldType);
+            }
         }
         fprintf(outFile, "):\n");
         if (structs[i].fieldCount == 0)
             fprintf(outFile, "        self._unused = 0\n");
         else
             for (int j = 0; j < structs[i].fieldCount; j++)
-                fprintf(outFile, "        self.%s = %s\n", structs[i].fieldName[j], structs[i].fieldName[j]);
+            {
+                char elementName[128] = {0};
+                int arraySize = 0;
+                if (IsArrayOfKnownStruct(structs[i].fieldType[j], elementName, sizeof(elementName), &arraySize))
+                {
+                    for (int k = 0; k < arraySize; k++)
+                        fprintf(outFile, "        self.%s_%d = %s_%d\n",
+                            structs[i].fieldName[j], k, structs[i].fieldName[j], k);
+                }
+                else
+                {
+                    fprintf(outFile, "        self.%s = %s\n", structs[i].fieldName[j], structs[i].fieldName[j]);
+                }
+            }
         fprintf(outFile, "\n");
 
-        // For non-RP structs (those with InlineArray of struct), the public/raw
-        // layouts are identical so an UnsafePointer reinterpret bitcast is safer
-        // than a fieldwise reconstruction (which would need element-by-element
-        // conversion of the InlineArray).
+        fprintf(outFile, "    @always_inline\n");
         fprintf(outFile, "    @staticmethod\n");
         fprintf(outFile, "    def from_raw(value: raw_types.%s) -> Self:\n", structs[i].name);
-        if (!canBeRP)
-            fprintf(outFile, "        return UnsafePointer(to=value).bitcast[Self]()[]\n\n");
-        else if (structs[i].fieldCount == 0)
+        if (structs[i].fieldCount == 0)
             fprintf(outFile, "        return %s(0)\n\n", structs[i].name);
         else
         {
             fprintf(outFile, "        return %s(", structs[i].name);
+            bool firstArg = true;
             for (int j = 0; j < structs[i].fieldCount; j++)
             {
-                char rawFieldExpr[256] = {0};
-                if (j > 0)
-                    fprintf(outFile, ", ");
-                snprintf(rawFieldExpr, sizeof(rawFieldExpr), "value.%s", structs[i].fieldName[j]);
-                WriteRawTypeToPublicExpr(outFile, structs[i].fieldType[j], rawFieldExpr);
+                char elementName[128] = {0};
+                int arraySize = 0;
+                if (IsArrayOfKnownStruct(structs[i].fieldType[j], elementName, sizeof(elementName), &arraySize))
+                {
+                    char snakeName[128] = {0};
+                    ToSnakeCase(elementName, snakeName, sizeof(snakeName));
+                    for (int k = 0; k < arraySize; k++)
+                    {
+                        if (!firstArg) fprintf(outFile, ", ");
+                        fprintf(outFile, "public_types._from_raw_%s(value.%s_%d)",
+                            snakeName, structs[i].fieldName[j], k);
+                        firstArg = false;
+                    }
+                }
+                else
+                {
+                    char rawFieldExpr[256] = {0};
+                    if (!firstArg) fprintf(outFile, ", ");
+                    snprintf(rawFieldExpr, sizeof(rawFieldExpr), "value.%s", structs[i].fieldName[j]);
+                    WriteRawTypeToPublicExpr(outFile, structs[i].fieldType[j], rawFieldExpr);
+                    firstArg = false;
+                }
             }
             fprintf(outFile, ")\n\n");
         }
 
+        fprintf(outFile, "    @always_inline\n");
         fprintf(outFile, "    def to_raw(self) -> raw_types.%s:\n", structs[i].name);
-        if (!canBeRP)
-            fprintf(outFile, "        return UnsafePointer(to=self).bitcast[raw_types.%s]()[]\n\n", structs[i].name);
-        else if (structs[i].fieldCount == 0)
+        if (structs[i].fieldCount == 0)
             fprintf(outFile, "        return raw_types.%s(c_int(0))\n\n", structs[i].name);
         else
         {
             fprintf(outFile, "        return raw_types.%s(", structs[i].name);
+            bool firstArg = true;
             for (int j = 0; j < structs[i].fieldCount; j++)
             {
-                char publicFieldExpr[256] = {0};
-                if (j > 0)
-                    fprintf(outFile, ", ");
-                snprintf(publicFieldExpr, sizeof(publicFieldExpr), "self.%s", structs[i].fieldName[j]);
-                WritePublicTypeToRawExpr(outFile, structs[i].fieldType[j], publicFieldExpr);
+                char elementName[128] = {0};
+                int arraySize = 0;
+                if (IsArrayOfKnownStruct(structs[i].fieldType[j], elementName, sizeof(elementName), &arraySize))
+                {
+                    char snakeName[128] = {0};
+                    ToSnakeCase(elementName, snakeName, sizeof(snakeName));
+                    for (int k = 0; k < arraySize; k++)
+                    {
+                        if (!firstArg) fprintf(outFile, ", ");
+                        fprintf(outFile, "public_types._to_raw_%s(self.%s_%d)",
+                            snakeName, structs[i].fieldName[j], k);
+                        firstArg = false;
+                    }
+                }
+                else
+                {
+                    char publicFieldExpr[256] = {0};
+                    if (!firstArg) fprintf(outFile, ", ");
+                    snprintf(publicFieldExpr, sizeof(publicFieldExpr), "self.%s", structs[i].fieldName[j]);
+                    WritePublicTypeToRawExpr(outFile, structs[i].fieldType[j], publicFieldExpr);
+                    firstArg = false;
+                }
             }
             fprintf(outFile, ")\n\n");
         }
@@ -2700,7 +2757,7 @@ static bool IsKnownStructOrAlias(const char *typeName)
 {
     // Hard-coded opaque forward decls we synthesize stubs for at the top of the
     // generated type modules.
-    static const char *kOpaque[] = { "rAudioBuffer", "rAudioProcessor", NULL };
+    static const char *kOpaque[] = { "rAudioBuffer", "rAudioProcessor", "float3", "float16", NULL };
     for (int k = 0; kOpaque[k] != NULL; k++)
     {
         unsigned int len = TextLength(kOpaque[k]);
@@ -2739,32 +2796,9 @@ static bool IsVoidType(const char *typeName)
 static bool IsUnsupportedFunction(const FunctionInfo *func)
 {
     static const char *kUnsupported[] = {
-        // Variadic / log helpers
+        // Variadic / log helpers — handled by hand-written shim re-exports
         "TraceLog",
         "TextFormat",
-        "SetTraceLogCallback",
-        // float3/float16 returns — no Mojo equivalents are emitted.
-        "Vector3ToFloatV",
-        "MatrixToFloatV",
-        // raymath functions taking Vector3/Quaternion out-pointers — the safe
-        // wrappers can't bridge UnsafePointer[Vector3, ...] cleanly today.
-        "Vector3OrthoNormalize",
-        "QuaternionToAxisAngle",
-        "MatrixDecompose",
-        // Callback setters whose callback type aliases aren't generated yet.
-        "SetLoadFileDataCallback",
-        "SetSaveFileDataCallback",
-        "SetLoadFileTextCallback",
-        "SetSaveFileTextCallback",
-        // Misc origin-mismatch sites until codegen learns to thread origins.
-        "SetWindowIcons",
-        "LoadFileData",
-        "ExportDataAsCode",
-        // VrStereoConfig contains InlineArray[Matrix, 2] which can't be
-        // TrivialRegisterPassable, so external_call refuses it as a return value.
-        "LoadVrStereoConfig",
-        "BeginVrStereoMode",
-        "UnloadVrStereoConfig",
         NULL
     };
     for (int i = 0; kUnsupported[i] != NULL; i++)
@@ -3167,6 +3201,34 @@ static bool IsPointerAlias(const char *typeName)
         }
     }
     return false;
+}
+
+// `Matrix[2]` → elementName="Matrix", arraySize=2; returns true.
+// Used to expand InlineArray[Struct, N] fields into N individual fields so the
+// containing struct can stay TrivialRegisterPassable.
+static bool IsArrayOfKnownStruct(const char *fieldType, char *elementName, int elementNameSize, int *arraySize)
+{
+    int arrAt = TextFindIndex(fieldType, "[");
+    if (arrAt < 0)
+        return false;
+    char arrBase[128] = {0};
+    for (int k = 0; k < arrAt; k++)
+        arrBase[k] = fieldType[k];
+    arrBase[arrAt] = '\0';
+    char trimmed[128] = {0};
+    CopyTrimmed(trimmed, arrBase, sizeof(trimmed));
+    if (!IsKnownStructOrAlias(trimmed))
+        return false;
+
+    int arrEnd = TextFindIndex(fieldType, "]");
+    if (arrEnd <= arrAt)
+        return false;
+    char sizeText[32] = {0};
+    for (int k = arrAt + 1, m = 0; k < arrEnd; k++, m++)
+        sizeText[m] = fieldType[k];
+    *arraySize = atoi(sizeText);
+    CopyText(elementName, trimmed, elementNameSize);
+    return true;
 }
 
 static void ResolveStructOrAliasName(const char *typeName, char *outTypeName, int outTypeNameSize)

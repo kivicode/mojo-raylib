@@ -17,6 +17,13 @@ struct OwnedRandomSequence:
         raw.UnloadRandomSequence(self.data)
 
 @fieldwise_init
+struct OwnedFileData:
+    var data: UnsafePointer[c_uchar, MutAnyOrigin]
+    var count: Int
+    def __del__(deinit self):
+        raw.UnloadFileData(self.data)
+
+@fieldwise_init
 struct OwnedFileText:
     var data: UnsafePointer[c_char, MutAnyOrigin]
     def __del__(deinit self):
@@ -231,6 +238,11 @@ def restore_window():
 def set_window_icon(image: Image):
     """Set icon for window (single image, RGBA 32bit)"""
     raw.SetWindowIcon(public_types._to_raw_image(image))
+
+@always_inline
+def set_window_icons(images: Span[Image, _]):
+    """Set icon for window (multiple images, RGBA 32bit)"""
+    raw.SetWindowIcons(images.unsafe_ptr().bitcast[raw_types.Image]().mut_cast[True]().as_any_origin(), c_int(len(images)))
 
 @always_inline
 def set_window_title(title: String):
@@ -503,9 +515,25 @@ def end_scissor_mode():
     raw.EndScissorMode()
 
 @always_inline
+def begin_vr_stereo_mode(config: VrStereoConfig):
+    """Begin stereo rendering (requires VR simulator)"""
+    raw.BeginVrStereoMode(public_types._to_raw_vr_stereo_config(config))
+
+@always_inline
 def end_vr_stereo_mode():
     """End stereo rendering (requires VR simulator)"""
     raw.EndVrStereoMode()
+
+@always_inline
+def load_vr_stereo_config(device: VrDeviceInfo) -> VrStereoConfig:
+    """Load VR stereo config for VR simulator device parameters"""
+    var result = raw.LoadVrStereoConfig(public_types._to_raw_vr_device_info(device))
+    return public_types._from_raw_vr_stereo_config(result)
+
+@always_inline
+def unload_vr_stereo_config(config: VrStereoConfig):
+    """Unload VR stereo config"""
+    raw.UnloadVrStereoConfig(public_types._to_raw_vr_stereo_config(config))
 
 @always_inline
 def load_shader(vs_file_name: String, fs_file_name: String) -> Shader:
@@ -692,6 +720,11 @@ def set_trace_log_level(log_level: Int):
     raw.SetTraceLogLevel(c_int(log_level))
 
 @always_inline
+def set_trace_log_callback(callback: raw_types.TraceLogCallback):
+    """Set custom trace log"""
+    raw.SetTraceLogCallback(callback)
+
+@always_inline
 def mem_alloc(size: UInt) -> UnsafePointer[NoneType, MutAnyOrigin]:
     """Internal memory allocator"""
     var result = raw.MemAlloc(c_uint(size))
@@ -709,6 +742,13 @@ def mem_free(ptr: UnsafePointer[NoneType, MutAnyOrigin]):
     raw.MemFree(ptr)
 
 @always_inline
+def load_file_data(file_name: String) -> OwnedFileData:
+    """Load file data as byte array (read)"""
+    var count: c_int = 0
+    var _owned = raw.LoadFileData(CStringSlice(unsafe_from_ptr=file_name.unsafe_ptr().bitcast[c_char]()), UnsafePointer(to=count))
+    return OwnedFileData(_owned, Int(count))
+
+@always_inline
 def unload_file_data(data: UnsafePointer[c_uchar, MutAnyOrigin]):
     """Unload file data allocated by LoadFileData()"""
     raw.UnloadFileData(data)
@@ -717,6 +757,12 @@ def unload_file_data(data: UnsafePointer[c_uchar, MutAnyOrigin]):
 def save_file_data(file_name: String, data: UnsafePointer[NoneType, MutAnyOrigin], data_size: Int) -> Bool:
     """Save data to file from byte array (write), returns true on success"""
     var result = raw.SaveFileData(CStringSlice(unsafe_from_ptr=file_name.unsafe_ptr().bitcast[c_char]()), data, c_int(data_size))
+    return result
+
+@always_inline
+def export_data_as_code(data: Span[UInt8, _], file_name: String) -> Bool:
+    """Export data to code (.h), returns true on success"""
+    var result = raw.ExportDataAsCode(data.unsafe_ptr().bitcast[c_uchar]().mut_cast[True]().as_any_origin(), c_int(len(data)), CStringSlice(unsafe_from_ptr=file_name.unsafe_ptr().bitcast[c_char]()))
     return result
 
 @always_inline
@@ -735,6 +781,26 @@ def save_file_text(file_name: String, text: String) -> Bool:
     """Save text data to file (write), string must be '\0' terminated, returns true on success"""
     var result = raw.SaveFileText(CStringSlice(unsafe_from_ptr=file_name.unsafe_ptr().bitcast[c_char]()), CStringSlice(unsafe_from_ptr=text.unsafe_ptr().bitcast[c_char]()))
     return result
+
+@always_inline
+def set_load_file_data_callback(callback: raw_types.LoadFileDataCallback):
+    """Set custom file binary data loader"""
+    raw.SetLoadFileDataCallback(callback)
+
+@always_inline
+def set_save_file_data_callback(callback: raw_types.SaveFileDataCallback):
+    """Set custom file binary data saver"""
+    raw.SetSaveFileDataCallback(callback)
+
+@always_inline
+def set_load_file_text_callback(callback: raw_types.LoadFileTextCallback):
+    """Set custom file text data loader"""
+    raw.SetLoadFileTextCallback(callback)
+
+@always_inline
+def set_save_file_text_callback(callback: raw_types.SaveFileTextCallback):
+    """Set custom file text data saver"""
+    raw.SetSaveFileTextCallback(callback)
 
 @always_inline
 def file_rename(file_name: String, file_rename: String) -> Int:

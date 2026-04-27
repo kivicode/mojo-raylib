@@ -358,6 +358,10 @@ def vector3_reject(v1: Vector3, v2: Vector3) -> Vector3:
     return public_types._from_raw_vector3(result)
 
 @always_inline
+def vector3_ortho_normalize(mut v1: Vector3, mut v2: Vector3):
+    raw.Vector3OrthoNormalize(UnsafePointer(to=v1).bitcast[raw_types.Vector3]().mut_cast[True]().as_any_origin(), UnsafePointer(to=v2).bitcast[raw_types.Vector3]().mut_cast[True]().as_any_origin())
+
+@always_inline
 def vector3_transform(v: Vector3, mat: Matrix) -> Vector3:
     var result = raw.Vector3Transform(public_types._to_raw_vector3(v), public_types._to_raw_matrix(mat))
 
@@ -422,6 +426,12 @@ def vector3_unproject(source: Vector3, projection: Matrix, view: Matrix) -> Vect
     var result = raw.Vector3Unproject(public_types._to_raw_vector3(source), public_types._to_raw_matrix(projection), public_types._to_raw_matrix(view))
 
     return public_types._from_raw_vector3(result)
+
+@always_inline
+def vector3_to_float_v(v: Vector3) -> float3:
+    var result = raw.Vector3ToFloatV(public_types._to_raw_vector3(v))
+
+    return public_types._from_raw_float3(result)
 
 @always_inline
 def vector3_invert(v: Vector3) -> Vector3:
@@ -712,6 +722,12 @@ def matrix_look_at(eye: Vector3, target: Vector3, up: Vector3) -> Matrix:
     return public_types._from_raw_matrix(result)
 
 @always_inline
+def matrix_to_float_v(mat: Matrix) -> float16:
+    var result = raw.MatrixToFloatV(public_types._to_raw_matrix(mat))
+
+    return public_types._from_raw_float16(result)
+
+@always_inline
 def quaternion_add(q1: Quaternion, q2: Quaternion) -> Quaternion:
     var result = raw.QuaternionAdd(public_types._to_raw_quaternion(q1), public_types._to_raw_quaternion(q2))
 
@@ -826,6 +842,10 @@ def quaternion_from_axis_angle(axis: Vector3, angle: Float32) -> Quaternion:
     return public_types._from_raw_quaternion(result)
 
 @always_inline
+def quaternion_to_axis_angle(q: Quaternion, mut out_axis: Vector3, out_angle: UnsafePointer[c_float, MutAnyOrigin]):
+    raw.QuaternionToAxisAngle(public_types._to_raw_quaternion(q), UnsafePointer(to=out_axis).bitcast[raw_types.Vector3]().mut_cast[True]().as_any_origin(), out_angle)
+
+@always_inline
 def quaternion_from_euler(pitch: Float32, yaw: Float32, roll: Float32) -> Quaternion:
     var result = raw.QuaternionFromEuler(c_float(pitch), c_float(yaw), c_float(roll))
 
@@ -854,4 +874,8 @@ def matrix_compose(translation: Vector3, rotation: Quaternion, scale: Vector3) -
     var result = raw.MatrixCompose(public_types._to_raw_vector3(translation), public_types._to_raw_quaternion(rotation), public_types._to_raw_vector3(scale))
 
     return public_types._from_raw_matrix(result)
+
+@always_inline
+def matrix_decompose(mat: Matrix, mut translation: Vector3, mut rotation: Quaternion, mut scale: Vector3):
+    raw.MatrixDecompose(public_types._to_raw_matrix(mat), UnsafePointer(to=translation).bitcast[raw_types.Vector3]().mut_cast[True]().as_any_origin(), UnsafePointer(to=rotation).bitcast[raw_types.Vector4]().mut_cast[True]().as_any_origin(), UnsafePointer(to=scale).bitcast[raw_types.Vector3]().mut_cast[True]().as_any_origin())
 

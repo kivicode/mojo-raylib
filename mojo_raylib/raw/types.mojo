@@ -16,6 +16,31 @@ struct rAudioBuffer(Copyable, ImplicitlyCopyable, Movable):
 struct rAudioProcessor(Copyable, ImplicitlyCopyable, Movable):
     var _opaque: c_int
 
+@fieldwise_init
+struct float3(TrivialRegisterPassable):
+    var v0: c_float
+    var v1: c_float
+    var v2: c_float
+
+@fieldwise_init
+struct float16(TrivialRegisterPassable):
+    var v0: c_float
+    var v1: c_float
+    var v2: c_float
+    var v3: c_float
+    var v4: c_float
+    var v5: c_float
+    var v6: c_float
+    var v7: c_float
+    var v8: c_float
+    var v9: c_float
+    var v10: c_float
+    var v11: c_float
+    var v12: c_float
+    var v13: c_float
+    var v14: c_float
+    var v15: c_float
+
 # Quaternion, 4 components (Vector4 alias)
 comptime Quaternion = Vector4
 
@@ -462,11 +487,13 @@ struct VrDeviceInfo(TrivialRegisterPassable):
 
 # VrStereoConfig, VR stereo rendering configuration for simulator
 @fieldwise_init
-struct VrStereoConfig(Copyable, ImplicitlyCopyable, Movable):
+struct VrStereoConfig(TrivialRegisterPassable):
     # VR projection matrices (per eye)
-    var projection: InlineArray[Matrix, 2]
+    var projection_0: Matrix
+    var projection_1: Matrix
     # VR view offset matrices (per eye)
-    var viewOffset: InlineArray[Matrix, 2]
+    var viewOffset_0: Matrix
+    var viewOffset_1: Matrix
     # VR left lens center
     var leftLensCenter: SIMD[DType.float32, 2]
     # VR right lens center

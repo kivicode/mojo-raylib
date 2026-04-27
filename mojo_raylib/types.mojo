@@ -15,6 +15,65 @@ struct rAudioBuffer(TrivialRegisterPassable):
 struct rAudioProcessor(TrivialRegisterPassable):
     var _opaque: c_int
 
+@fieldwise_init
+struct float3(Copyable, ImplicitlyCopyable, Movable):
+    var v0: Float32
+    var v1: Float32
+    var v2: Float32
+
+    @always_inline
+    @staticmethod
+    def from_raw(value: raw_types.float3) -> Self:
+        return float3(Float32(value.v0), Float32(value.v1), Float32(value.v2))
+
+    @always_inline
+    def to_raw(self) -> raw_types.float3:
+        return raw_types.float3(c_float(self.v0), c_float(self.v1), c_float(self.v2))
+
+@always_inline
+def _to_raw_float3(value: float3) -> raw_types.float3:
+    return value.to_raw()
+
+@always_inline
+def _from_raw_float3(value: raw_types.float3) -> float3:
+    return float3.from_raw(value)
+
+@fieldwise_init
+struct float16(Copyable, ImplicitlyCopyable, Movable):
+    var v0: Float32
+    var v1: Float32
+    var v2: Float32
+    var v3: Float32
+    var v4: Float32
+    var v5: Float32
+    var v6: Float32
+    var v7: Float32
+    var v8: Float32
+    var v9: Float32
+    var v10: Float32
+    var v11: Float32
+    var v12: Float32
+    var v13: Float32
+    var v14: Float32
+    var v15: Float32
+
+    @always_inline
+    @staticmethod
+    def from_raw(value: raw_types.float16) -> Self:
+        return float16(Float32(value.v0), Float32(value.v1), Float32(value.v2), Float32(value.v3), Float32(value.v4), Float32(value.v5), Float32(value.v6), Float32(value.v7), Float32(value.v8), Float32(value.v9), Float32(value.v10), Float32(value.v11), Float32(value.v12), Float32(value.v13), Float32(value.v14), Float32(value.v15))
+
+    @always_inline
+    def to_raw(self) -> raw_types.float16:
+        return raw_types.float16(c_float(self.v0), c_float(self.v1), c_float(self.v2), c_float(self.v3), c_float(self.v4), c_float(self.v5), c_float(self.v6), c_float(self.v7), c_float(self.v8), c_float(self.v9), c_float(self.v10), c_float(self.v11), c_float(self.v12), c_float(self.v13), c_float(self.v14), c_float(self.v15))
+
+@always_inline
+def _to_raw_float16(value: float16) -> raw_types.float16:
+    return value.to_raw()
+
+@always_inline
+def _from_raw_float16(value: raw_types.float16) -> float16:
+    return float16.from_raw(value)
+
 comptime ModelAnimPose = UnsafePointer[Transform, MutAnyOrigin]
 
 # Vector2, 2 components
@@ -28,10 +87,12 @@ struct Vector2(TrivialRegisterPassable):
         self.x = x
         self.y = y
 
+    @always_inline
     @staticmethod
     def from_raw(value: raw_types.Vector2) -> Self:
         return Vector2(Float32(value.x), Float32(value.y))
 
+    @always_inline
     def to_raw(self) -> raw_types.Vector2:
         return raw_types.Vector2(c_float(self.x), c_float(self.y))
 
@@ -57,10 +118,12 @@ struct Vector3(TrivialRegisterPassable):
         self.y = y
         self.z = z
 
+    @always_inline
     @staticmethod
     def from_raw(value: raw_types.Vector3) -> Self:
         return Vector3(Float32(value.x), Float32(value.y), Float32(value.z))
 
+    @always_inline
     def to_raw(self) -> raw_types.Vector3:
         return raw_types.Vector3(c_float(self.x), c_float(self.y), c_float(self.z))
 
@@ -89,10 +152,12 @@ struct Vector4(TrivialRegisterPassable):
         self.z = z
         self.w = w
 
+    @always_inline
     @staticmethod
     def from_raw(value: raw_types.Vector4) -> Self:
         return Vector4(Float32(value.x), Float32(value.y), Float32(value.z), Float32(value.w))
 
+    @always_inline
     def to_raw(self) -> raw_types.Vector4:
         return raw_types.Vector4(c_float(self.x), c_float(self.y), c_float(self.z), c_float(self.w))
 
@@ -157,10 +222,12 @@ struct Matrix(TrivialRegisterPassable):
         self.m11 = m11
         self.m15 = m15
 
+    @always_inline
     @staticmethod
     def from_raw(value: raw_types.Matrix) -> Self:
         return Matrix(Float32(value.m0), Float32(value.m4), Float32(value.m8), Float32(value.m12), Float32(value.m1), Float32(value.m5), Float32(value.m9), Float32(value.m13), Float32(value.m2), Float32(value.m6), Float32(value.m10), Float32(value.m14), Float32(value.m3), Float32(value.m7), Float32(value.m11), Float32(value.m15))
 
+    @always_inline
     def to_raw(self) -> raw_types.Matrix:
         return raw_types.Matrix(c_float(self.m0), c_float(self.m4), c_float(self.m8), c_float(self.m12), c_float(self.m1), c_float(self.m5), c_float(self.m9), c_float(self.m13), c_float(self.m2), c_float(self.m6), c_float(self.m10), c_float(self.m14), c_float(self.m3), c_float(self.m7), c_float(self.m11), c_float(self.m15))
 
@@ -189,10 +256,12 @@ struct Color(TrivialRegisterPassable):
         self.b = b
         self.a = a
 
+    @always_inline
     @staticmethod
     def from_raw(value: raw_types.Color) -> Self:
         return Color(UInt8(value.r), UInt8(value.g), UInt8(value.b), UInt8(value.a))
 
+    @always_inline
     def to_raw(self) -> raw_types.Color:
         return raw_types.Color(c_uchar(self.r), c_uchar(self.g), c_uchar(self.b), c_uchar(self.a))
 
@@ -221,10 +290,12 @@ struct Rectangle(TrivialRegisterPassable):
         self.width = width
         self.height = height
 
+    @always_inline
     @staticmethod
     def from_raw(value: raw_types.Rectangle) -> Self:
         return Rectangle(Float32(value.x), Float32(value.y), Float32(value.width), Float32(value.height))
 
+    @always_inline
     def to_raw(self) -> raw_types.Rectangle:
         return raw_types.Rectangle(c_float(self.x), c_float(self.y), c_float(self.width), c_float(self.height))
 
@@ -256,10 +327,12 @@ struct Image(TrivialRegisterPassable):
         self.mipmaps = mipmaps
         self.format = format
 
+    @always_inline
     @staticmethod
     def from_raw(value: raw_types.Image) -> Self:
         return Image(value.data, Int(value.width), Int(value.height), Int(value.mipmaps), Int(value.format))
 
+    @always_inline
     def to_raw(self) -> raw_types.Image:
         return raw_types.Image(self.data, c_int(self.width), c_int(self.height), c_int(self.mipmaps), c_int(self.format))
 
@@ -291,10 +364,12 @@ struct Texture(TrivialRegisterPassable):
         self.mipmaps = mipmaps
         self.format = format
 
+    @always_inline
     @staticmethod
     def from_raw(value: raw_types.Texture) -> Self:
         return Texture(UInt(value.id), Int(value.width), Int(value.height), Int(value.mipmaps), Int(value.format))
 
+    @always_inline
     def to_raw(self) -> raw_types.Texture:
         return raw_types.Texture(c_uint(self.id), c_int(self.width), c_int(self.height), c_int(self.mipmaps), c_int(self.format))
 
@@ -320,10 +395,12 @@ struct RenderTexture(TrivialRegisterPassable):
         self.texture = texture
         self.depth = depth
 
+    @always_inline
     @staticmethod
     def from_raw(value: raw_types.RenderTexture) -> Self:
         return RenderTexture(UInt(value.id), public_types._from_raw_texture(value.texture), public_types._from_raw_texture(value.depth))
 
+    @always_inline
     def to_raw(self) -> raw_types.RenderTexture:
         return raw_types.RenderTexture(c_uint(self.id), public_types._to_raw_texture(self.texture), public_types._to_raw_texture(self.depth))
 
@@ -358,10 +435,12 @@ struct NPatchInfo(TrivialRegisterPassable):
         self.bottom = bottom
         self.layout = layout
 
+    @always_inline
     @staticmethod
     def from_raw(value: raw_types.NPatchInfo) -> Self:
         return NPatchInfo(public_types._from_raw_rectangle(value.source), Int(value.left), Int(value.top), Int(value.right), Int(value.bottom), Int(value.layout))
 
+    @always_inline
     def to_raw(self) -> raw_types.NPatchInfo:
         return raw_types.NPatchInfo(public_types._to_raw_rectangle(self.source), c_int(self.left), c_int(self.top), c_int(self.right), c_int(self.bottom), c_int(self.layout))
 
@@ -393,10 +472,12 @@ struct GlyphInfo(TrivialRegisterPassable):
         self.advanceX = advanceX
         self.image = image
 
+    @always_inline
     @staticmethod
     def from_raw(value: raw_types.GlyphInfo) -> Self:
         return GlyphInfo(Int(value.value), Int(value.offsetX), Int(value.offsetY), Int(value.advanceX), public_types._from_raw_image(value.image))
 
+    @always_inline
     def to_raw(self) -> raw_types.GlyphInfo:
         return raw_types.GlyphInfo(c_int(self.value), c_int(self.offsetX), c_int(self.offsetY), c_int(self.advanceX), public_types._to_raw_image(self.image))
 
@@ -431,10 +512,12 @@ struct Font(TrivialRegisterPassable):
         self.recs = recs
         self.glyphs = glyphs
 
+    @always_inline
     @staticmethod
     def from_raw(value: raw_types.Font) -> Self:
         return Font(Int(value.baseSize), Int(value.glyphCount), Int(value.glyphPadding), public_types._from_raw_texture(value.texture), value.recs.bitcast[Rectangle](), value.glyphs.bitcast[GlyphInfo]())
 
+    @always_inline
     def to_raw(self) -> raw_types.Font:
         return raw_types.Font(c_int(self.baseSize), c_int(self.glyphCount), c_int(self.glyphPadding), public_types._to_raw_texture2_d(self.texture), UnsafePointer(to=self.recs).bitcast[raw_types.Rectangle]().mut_cast[True]().as_any_origin(), UnsafePointer(to=self.glyphs).bitcast[raw_types.GlyphInfo]().mut_cast[True]().as_any_origin())
 
@@ -466,10 +549,12 @@ struct Camera3D(TrivialRegisterPassable):
         self.fovy = fovy
         self.projection = projection
 
+    @always_inline
     @staticmethod
     def from_raw(value: raw_types.Camera3D) -> Self:
         return Camera3D(public_types._from_raw_vector3(value.position), public_types._from_raw_vector3(value.target), public_types._from_raw_vector3(value.up), Float32(value.fovy), Int(value.projection))
 
+    @always_inline
     def to_raw(self) -> raw_types.Camera3D:
         return raw_types.Camera3D(public_types._to_raw_vector3(self.position), public_types._to_raw_vector3(self.target), public_types._to_raw_vector3(self.up), c_float(self.fovy), c_int(self.projection))
 
@@ -498,10 +583,12 @@ struct Camera2D(TrivialRegisterPassable):
         self.rotation = rotation
         self.zoom = zoom
 
+    @always_inline
     @staticmethod
     def from_raw(value: raw_types.Camera2D) -> Self:
         return Camera2D(public_types._from_raw_vector2(value.offset), public_types._from_raw_vector2(value.target), Float32(value.rotation), Float32(value.zoom))
 
+    @always_inline
     def to_raw(self) -> raw_types.Camera2D:
         return raw_types.Camera2D(public_types._to_raw_vector2(self.offset), public_types._to_raw_vector2(self.target), c_float(self.rotation), c_float(self.zoom))
 
@@ -566,10 +653,12 @@ struct Mesh(TrivialRegisterPassable):
         self.vaoId = vaoId
         self.vboId = vboId
 
+    @always_inline
     @staticmethod
     def from_raw(value: raw_types.Mesh) -> Self:
         return Mesh(Int(value.vertexCount), Int(value.triangleCount), value.vertices, value.texcoords, value.texcoords2, value.normals, value.tangents, value.colors, value.indices, Int(value.boneCount), value.boneIndices, value.boneWeights, value.animVertices, value.animNormals, UInt(value.vaoId), value.vboId)
 
+    @always_inline
     def to_raw(self) -> raw_types.Mesh:
         return raw_types.Mesh(c_int(self.vertexCount), c_int(self.triangleCount), self.vertices, self.texcoords, self.texcoords2, self.normals, self.tangents, self.colors, self.indices, c_int(self.boneCount), self.boneIndices, self.boneWeights, self.animVertices, self.animNormals, c_uint(self.vaoId), self.vboId)
 
@@ -592,10 +681,12 @@ struct Shader(TrivialRegisterPassable):
         self.id = id
         self.locs = locs
 
+    @always_inline
     @staticmethod
     def from_raw(value: raw_types.Shader) -> Self:
         return Shader(UInt(value.id), value.locs)
 
+    @always_inline
     def to_raw(self) -> raw_types.Shader:
         return raw_types.Shader(c_uint(self.id), self.locs)
 
@@ -621,10 +712,12 @@ struct MaterialMap(TrivialRegisterPassable):
         self.color = color
         self.value = value
 
+    @always_inline
     @staticmethod
     def from_raw(value: raw_types.MaterialMap) -> Self:
         return MaterialMap(public_types._from_raw_texture(value.texture), public_types._from_raw_color(value.color), Float32(value.value))
 
+    @always_inline
     def to_raw(self) -> raw_types.MaterialMap:
         return raw_types.MaterialMap(public_types._to_raw_texture2_d(self.texture), public_types._to_raw_color(self.color), c_float(self.value))
 
@@ -650,10 +743,12 @@ struct Material(TrivialRegisterPassable):
         self.maps = maps
         self.params = params
 
+    @always_inline
     @staticmethod
     def from_raw(value: raw_types.Material) -> Self:
         return Material(public_types._from_raw_shader(value.shader), value.maps.bitcast[MaterialMap](), value.params)
 
+    @always_inline
     def to_raw(self) -> raw_types.Material:
         return raw_types.Material(public_types._to_raw_shader(self.shader), UnsafePointer(to=self.maps).bitcast[raw_types.MaterialMap]().mut_cast[True]().as_any_origin(), self.params)
 
@@ -679,10 +774,12 @@ struct Transform(TrivialRegisterPassable):
         self.rotation = rotation
         self.scale = scale
 
+    @always_inline
     @staticmethod
     def from_raw(value: raw_types.Transform) -> Self:
         return Transform(public_types._from_raw_vector3(value.translation), public_types._from_raw_vector4(value.rotation), public_types._from_raw_vector3(value.scale))
 
+    @always_inline
     def to_raw(self) -> raw_types.Transform:
         return raw_types.Transform(public_types._to_raw_vector3(self.translation), public_types._to_raw_quaternion(self.rotation), public_types._to_raw_vector3(self.scale))
 
@@ -705,10 +802,12 @@ struct BoneInfo(TrivialRegisterPassable):
         self.name = name
         self.parent = parent
 
+    @always_inline
     @staticmethod
     def from_raw(value: raw_types.BoneInfo) -> Self:
         return BoneInfo(value.name, Int(value.parent))
 
+    @always_inline
     def to_raw(self) -> raw_types.BoneInfo:
         return raw_types.BoneInfo(self.name, c_int(self.parent))
 
@@ -734,10 +833,12 @@ struct ModelSkeleton(TrivialRegisterPassable):
         self.bones = bones
         self.bindPose = bindPose
 
+    @always_inline
     @staticmethod
     def from_raw(value: raw_types.ModelSkeleton) -> Self:
         return ModelSkeleton(Int(value.boneCount), value.bones.bitcast[BoneInfo](), value.bindPose.bitcast[Transform]())
 
+    @always_inline
     def to_raw(self) -> raw_types.ModelSkeleton:
         return raw_types.ModelSkeleton(c_int(self.boneCount), UnsafePointer(to=self.bones).bitcast[raw_types.BoneInfo]().mut_cast[True]().as_any_origin(), self.bindPose.bitcast[raw_types.Transform]())
 
@@ -781,10 +882,12 @@ struct Model(TrivialRegisterPassable):
         self.currentPose = currentPose
         self.boneMatrices = boneMatrices
 
+    @always_inline
     @staticmethod
     def from_raw(value: raw_types.Model) -> Self:
         return Model(public_types._from_raw_matrix(value.transform), Int(value.meshCount), Int(value.materialCount), value.meshes.bitcast[Mesh](), value.materials.bitcast[Material](), value.meshMaterial, public_types._from_raw_model_skeleton(value.skeleton), value.currentPose.bitcast[Transform](), value.boneMatrices.bitcast[Matrix]())
 
+    @always_inline
     def to_raw(self) -> raw_types.Model:
         return raw_types.Model(public_types._to_raw_matrix(self.transform), c_int(self.meshCount), c_int(self.materialCount), UnsafePointer(to=self.meshes).bitcast[raw_types.Mesh]().mut_cast[True]().as_any_origin(), UnsafePointer(to=self.materials).bitcast[raw_types.Material]().mut_cast[True]().as_any_origin(), self.meshMaterial, public_types._to_raw_model_skeleton(self.skeleton), self.currentPose.bitcast[raw_types.Transform](), UnsafePointer(to=self.boneMatrices).bitcast[raw_types.Matrix]().mut_cast[True]().as_any_origin())
 
@@ -813,10 +916,12 @@ struct ModelAnimation(TrivialRegisterPassable):
         self.keyframeCount = keyframeCount
         self.keyframePoses = keyframePoses
 
+    @always_inline
     @staticmethod
     def from_raw(value: raw_types.ModelAnimation) -> Self:
         return ModelAnimation(value.name, Int(value.boneCount), Int(value.keyframeCount), value.keyframePoses.bitcast[ModelAnimPose]())
 
+    @always_inline
     def to_raw(self) -> raw_types.ModelAnimation:
         return raw_types.ModelAnimation(self.name, c_int(self.boneCount), c_int(self.keyframeCount), UnsafePointer(to=self.keyframePoses).bitcast[raw_types.ModelAnimPose]().mut_cast[True]().as_any_origin())
 
@@ -839,10 +944,12 @@ struct Ray(TrivialRegisterPassable):
         self.position = position
         self.direction = direction
 
+    @always_inline
     @staticmethod
     def from_raw(value: raw_types.Ray) -> Self:
         return Ray(public_types._from_raw_vector3(value.position), public_types._from_raw_vector3(value.direction))
 
+    @always_inline
     def to_raw(self) -> raw_types.Ray:
         return raw_types.Ray(public_types._to_raw_vector3(self.position), public_types._to_raw_vector3(self.direction))
 
@@ -871,10 +978,12 @@ struct RayCollision(TrivialRegisterPassable):
         self.point = point
         self.normal = normal
 
+    @always_inline
     @staticmethod
     def from_raw(value: raw_types.RayCollision) -> Self:
         return RayCollision(value.hit, Float32(value.distance), public_types._from_raw_vector3(value.point), public_types._from_raw_vector3(value.normal))
 
+    @always_inline
     def to_raw(self) -> raw_types.RayCollision:
         return raw_types.RayCollision(self.hit, c_float(self.distance), public_types._to_raw_vector3(self.point), public_types._to_raw_vector3(self.normal))
 
@@ -897,10 +1006,12 @@ struct BoundingBox(TrivialRegisterPassable):
         self.min = min
         self.max = max
 
+    @always_inline
     @staticmethod
     def from_raw(value: raw_types.BoundingBox) -> Self:
         return BoundingBox(public_types._from_raw_vector3(value.min), public_types._from_raw_vector3(value.max))
 
+    @always_inline
     def to_raw(self) -> raw_types.BoundingBox:
         return raw_types.BoundingBox(public_types._to_raw_vector3(self.min), public_types._to_raw_vector3(self.max))
 
@@ -932,10 +1043,12 @@ struct Wave(TrivialRegisterPassable):
         self.channels = channels
         self.data = data
 
+    @always_inline
     @staticmethod
     def from_raw(value: raw_types.Wave) -> Self:
         return Wave(UInt(value.frameCount), UInt(value.sampleRate), UInt(value.sampleSize), UInt(value.channels), value.data)
 
+    @always_inline
     def to_raw(self) -> raw_types.Wave:
         return raw_types.Wave(c_uint(self.frameCount), c_uint(self.sampleRate), c_uint(self.sampleSize), c_uint(self.channels), self.data)
 
@@ -967,10 +1080,12 @@ struct AudioStream(TrivialRegisterPassable):
         self.sampleSize = sampleSize
         self.channels = channels
 
+    @always_inline
     @staticmethod
     def from_raw(value: raw_types.AudioStream) -> Self:
         return AudioStream(value.buffer.bitcast[rAudioBuffer](), value.processor.bitcast[rAudioProcessor](), UInt(value.sampleRate), UInt(value.sampleSize), UInt(value.channels))
 
+    @always_inline
     def to_raw(self) -> raw_types.AudioStream:
         return raw_types.AudioStream(UnsafePointer(to=self.buffer).bitcast[raw_types.rAudioBuffer]().mut_cast[True]().as_any_origin(), UnsafePointer(to=self.processor).bitcast[raw_types.rAudioProcessor]().mut_cast[True]().as_any_origin(), c_uint(self.sampleRate), c_uint(self.sampleSize), c_uint(self.channels))
 
@@ -993,10 +1108,12 @@ struct Sound(TrivialRegisterPassable):
         self.stream = stream
         self.frameCount = frameCount
 
+    @always_inline
     @staticmethod
     def from_raw(value: raw_types.Sound) -> Self:
         return Sound(public_types._from_raw_audio_stream(value.stream), UInt(value.frameCount))
 
+    @always_inline
     def to_raw(self) -> raw_types.Sound:
         return raw_types.Sound(public_types._to_raw_audio_stream(self.stream), c_uint(self.frameCount))
 
@@ -1028,10 +1145,12 @@ struct Music(TrivialRegisterPassable):
         self.ctxType = ctxType
         self.ctxData = ctxData
 
+    @always_inline
     @staticmethod
     def from_raw(value: raw_types.Music) -> Self:
         return Music(public_types._from_raw_audio_stream(value.stream), UInt(value.frameCount), value.looping, Int(value.ctxType), value.ctxData)
 
+    @always_inline
     def to_raw(self) -> raw_types.Music:
         return raw_types.Music(public_types._to_raw_audio_stream(self.stream), c_uint(self.frameCount), self.looping, c_int(self.ctxType), self.ctxData)
 
@@ -1075,10 +1194,12 @@ struct VrDeviceInfo(TrivialRegisterPassable):
         self.lensDistortionValues = lensDistortionValues
         self.chromaAbCorrection = chromaAbCorrection
 
+    @always_inline
     @staticmethod
     def from_raw(value: raw_types.VrDeviceInfo) -> Self:
         return VrDeviceInfo(Int(value.hResolution), Int(value.vResolution), Float32(value.hScreenSize), Float32(value.vScreenSize), Float32(value.eyeToScreenDistance), Float32(value.lensSeparationDistance), Float32(value.interpupillaryDistance), value.lensDistortionValues, value.chromaAbCorrection)
 
+    @always_inline
     def to_raw(self) -> raw_types.VrDeviceInfo:
         return raw_types.VrDeviceInfo(c_int(self.hResolution), c_int(self.vResolution), c_float(self.hScreenSize), c_float(self.vScreenSize), c_float(self.eyeToScreenDistance), c_float(self.lensSeparationDistance), c_float(self.interpupillaryDistance), self.lensDistortionValues, self.chromaAbCorrection)
 
@@ -1091,11 +1212,13 @@ def _from_raw_vr_device_info(value: raw_types.VrDeviceInfo) -> VrDeviceInfo:
     return VrDeviceInfo.from_raw(value)
 
 # VrStereoConfig, VR stereo rendering configuration for simulator
-struct VrStereoConfig(Copyable, ImplicitlyCopyable, Movable):
+struct VrStereoConfig(TrivialRegisterPassable):
     # VR projection matrices (per eye)
-    var projection: InlineArray[Matrix, 2]
+    var projection_0: Matrix
+    var projection_1: Matrix
     # VR view offset matrices (per eye)
-    var viewOffset: InlineArray[Matrix, 2]
+    var viewOffset_0: Matrix
+    var viewOffset_1: Matrix
     # VR left lens center
     var leftLensCenter: SIMD[DType.float32, 2]
     # VR right lens center
@@ -1109,9 +1232,11 @@ struct VrStereoConfig(Copyable, ImplicitlyCopyable, Movable):
     # VR distortion scale in
     var scaleIn: SIMD[DType.float32, 2]
 
-    def __init__(out self, projection: InlineArray[Matrix, 2], viewOffset: InlineArray[Matrix, 2], leftLensCenter: SIMD[DType.float32, 2], rightLensCenter: SIMD[DType.float32, 2], leftScreenCenter: SIMD[DType.float32, 2], rightScreenCenter: SIMD[DType.float32, 2], scale: SIMD[DType.float32, 2], scaleIn: SIMD[DType.float32, 2]):
-        self.projection = projection
-        self.viewOffset = viewOffset
+    def __init__(out self, projection_0: Matrix, projection_1: Matrix, viewOffset_0: Matrix, viewOffset_1: Matrix, leftLensCenter: SIMD[DType.float32, 2], rightLensCenter: SIMD[DType.float32, 2], leftScreenCenter: SIMD[DType.float32, 2], rightScreenCenter: SIMD[DType.float32, 2], scale: SIMD[DType.float32, 2], scaleIn: SIMD[DType.float32, 2]):
+        self.projection_0 = projection_0
+        self.projection_1 = projection_1
+        self.viewOffset_0 = viewOffset_0
+        self.viewOffset_1 = viewOffset_1
         self.leftLensCenter = leftLensCenter
         self.rightLensCenter = rightLensCenter
         self.leftScreenCenter = leftScreenCenter
@@ -1119,12 +1244,14 @@ struct VrStereoConfig(Copyable, ImplicitlyCopyable, Movable):
         self.scale = scale
         self.scaleIn = scaleIn
 
+    @always_inline
     @staticmethod
     def from_raw(value: raw_types.VrStereoConfig) -> Self:
-        return UnsafePointer(to=value).bitcast[Self]()[]
+        return VrStereoConfig(public_types._from_raw_matrix(value.projection_0), public_types._from_raw_matrix(value.projection_1), public_types._from_raw_matrix(value.viewOffset_0), public_types._from_raw_matrix(value.viewOffset_1), value.leftLensCenter, value.rightLensCenter, value.leftScreenCenter, value.rightScreenCenter, value.scale, value.scaleIn)
 
+    @always_inline
     def to_raw(self) -> raw_types.VrStereoConfig:
-        return UnsafePointer(to=self).bitcast[raw_types.VrStereoConfig]()[]
+        return raw_types.VrStereoConfig(public_types._to_raw_matrix(self.projection_0), public_types._to_raw_matrix(self.projection_1), public_types._to_raw_matrix(self.viewOffset_0), public_types._to_raw_matrix(self.viewOffset_1), self.leftLensCenter, self.rightLensCenter, self.leftScreenCenter, self.rightScreenCenter, self.scale, self.scaleIn)
 
 @always_inline
 def _to_raw_vr_stereo_config(value: VrStereoConfig) -> raw_types.VrStereoConfig:
@@ -1145,10 +1272,12 @@ struct FilePathList(TrivialRegisterPassable):
         self.count = count
         self.paths = paths
 
+    @always_inline
     @staticmethod
     def from_raw(value: raw_types.FilePathList) -> Self:
         return FilePathList(UInt(value.count), value.paths)
 
+    @always_inline
     def to_raw(self) -> raw_types.FilePathList:
         return raw_types.FilePathList(c_uint(self.count), self.paths)
 
@@ -1174,10 +1303,12 @@ struct AutomationEvent(TrivialRegisterPassable):
         self.type = type
         self.params = params
 
+    @always_inline
     @staticmethod
     def from_raw(value: raw_types.AutomationEvent) -> Self:
         return AutomationEvent(UInt(value.frame), UInt(value.type), value.params)
 
+    @always_inline
     def to_raw(self) -> raw_types.AutomationEvent:
         return raw_types.AutomationEvent(c_uint(self.frame), c_uint(self.type), self.params)
 
@@ -1203,10 +1334,12 @@ struct AutomationEventList(TrivialRegisterPassable):
         self.count = count
         self.events = events
 
+    @always_inline
     @staticmethod
     def from_raw(value: raw_types.AutomationEventList) -> Self:
         return AutomationEventList(UInt(value.capacity), UInt(value.count), value.events.bitcast[AutomationEvent]())
 
+    @always_inline
     def to_raw(self) -> raw_types.AutomationEventList:
         return raw_types.AutomationEventList(c_uint(self.capacity), c_uint(self.count), UnsafePointer(to=self.events).bitcast[raw_types.AutomationEvent]().mut_cast[True]().as_any_origin())
 

@@ -84,6 +84,10 @@ def SetWindowIcon(image: Image):
     """Set icon for window (single image, RGBA 32bit)"""
     external_call["SetWindowIcon", NoneType](image)
 
+def SetWindowIcons(images: UnsafePointer[Image, MutAnyOrigin], count: c_int):
+    """Set icon for window (multiple images, RGBA 32bit)"""
+    external_call["SetWindowIcons", NoneType](images, count)
+
 def SetWindowTitle(title: CStringSlice):
     """Set title for window"""
     external_call["SetWindowTitle", NoneType](title)
@@ -284,9 +288,21 @@ def EndScissorMode():
     """End scissor mode"""
     external_call["EndScissorMode", NoneType]()
 
+def BeginVrStereoMode(config: VrStereoConfig):
+    """Begin stereo rendering (requires VR simulator)"""
+    external_call["BeginVrStereoMode", NoneType](config)
+
 def EndVrStereoMode():
     """End stereo rendering (requires VR simulator)"""
     external_call["EndVrStereoMode", NoneType]()
+
+def LoadVrStereoConfig(device: VrDeviceInfo) -> VrStereoConfig:
+    """Load VR stereo config for VR simulator device parameters"""
+    return external_call["LoadVrStereoConfig", VrStereoConfig](device)
+
+def UnloadVrStereoConfig(config: VrStereoConfig):
+    """Unload VR stereo config"""
+    external_call["UnloadVrStereoConfig", NoneType](config)
 
 def LoadShader(vsFileName: CStringSlice, fsFileName: CStringSlice) -> Shader:
     """Load shader from files and bind default locations"""
@@ -420,6 +436,10 @@ def SetTraceLogLevel(logLevel: c_int):
     """Set the current threshold (minimum) log level"""
     external_call["SetTraceLogLevel", NoneType](logLevel)
 
+def SetTraceLogCallback(callback: TraceLogCallback):
+    """Set custom trace log"""
+    external_call["SetTraceLogCallback", NoneType](callback)
+
 def MemAlloc(size: c_uint) -> UnsafePointer[NoneType, MutAnyOrigin]:
     """Internal memory allocator"""
     return external_call["MemAlloc", UnsafePointer[NoneType, MutAnyOrigin]](size)
@@ -432,6 +452,10 @@ def MemFree(ptr: UnsafePointer[NoneType, MutAnyOrigin]):
     """Internal memory free"""
     external_call["MemFree", NoneType](ptr)
 
+def LoadFileData(fileName: CStringSlice, dataSize: UnsafePointer[c_int, MutAnyOrigin]) -> UnsafePointer[c_uchar, MutAnyOrigin]:
+    """Load file data as byte array (read)"""
+    return external_call["LoadFileData", UnsafePointer[c_uchar, MutAnyOrigin]](fileName, dataSize)
+
 def UnloadFileData(data: UnsafePointer[c_uchar, MutAnyOrigin]):
     """Unload file data allocated by LoadFileData()"""
     external_call["UnloadFileData", NoneType](data)
@@ -439,6 +463,10 @@ def UnloadFileData(data: UnsafePointer[c_uchar, MutAnyOrigin]):
 def SaveFileData(fileName: CStringSlice, data: UnsafePointer[NoneType, MutAnyOrigin], dataSize: c_int) -> Bool:
     """Save data to file from byte array (write), returns true on success"""
     return external_call["SaveFileData", Bool](fileName, data, dataSize)
+
+def ExportDataAsCode(data: UnsafePointer[c_uchar, MutAnyOrigin], dataSize: c_int, fileName: CStringSlice) -> Bool:
+    """Export data to code (.h), returns true on success"""
+    return external_call["ExportDataAsCode", Bool](data, dataSize, fileName)
 
 def LoadFileText(fileName: CStringSlice) -> UnsafePointer[c_char, MutAnyOrigin]:
     """Load text data from file (read), returns a '\0' terminated string"""
@@ -451,6 +479,22 @@ def UnloadFileText(text: UnsafePointer[c_char, MutAnyOrigin]):
 def SaveFileText(fileName: CStringSlice, text: CStringSlice) -> Bool:
     """Save text data to file (write), string must be '\0' terminated, returns true on success"""
     return external_call["SaveFileText", Bool](fileName, text)
+
+def SetLoadFileDataCallback(callback: LoadFileDataCallback):
+    """Set custom file binary data loader"""
+    external_call["SetLoadFileDataCallback", NoneType](callback)
+
+def SetSaveFileDataCallback(callback: SaveFileDataCallback):
+    """Set custom file binary data saver"""
+    external_call["SetSaveFileDataCallback", NoneType](callback)
+
+def SetLoadFileTextCallback(callback: LoadFileTextCallback):
+    """Set custom file text data loader"""
+    external_call["SetLoadFileTextCallback", NoneType](callback)
+
+def SetSaveFileTextCallback(callback: SaveFileTextCallback):
+    """Set custom file text data saver"""
+    external_call["SetSaveFileTextCallback", NoneType](callback)
 
 def FileRename(fileName: CStringSlice, fileRename: CStringSlice) -> c_int:
     """Rename file (if exists)"""

@@ -329,6 +329,11 @@ MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3Reject(Vector3 v1, Vector3 v2)
     return Vector3Reject(v1, v2);
 }
 
+MOJO_RAYLIB_EXPORT void mojo_raymath_Vector3OrthoNormalize(Vector3 * v1, Vector3 * v2)
+{
+    Vector3OrthoNormalize(v1, v2);
+}
+
 MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3Transform(Vector3 v, Matrix mat)
 {
     return Vector3Transform(v, mat);
@@ -382,6 +387,11 @@ MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3Barycenter(Vector3 p, Vector3 a, 
 MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3Unproject(Vector3 source, Matrix projection, Matrix view)
 {
     return Vector3Unproject(source, projection, view);
+}
+
+MOJO_RAYLIB_EXPORT float3 mojo_raymath_Vector3ToFloatV(Vector3 v)
+{
+    return Vector3ToFloatV(v);
 }
 
 MOJO_RAYLIB_EXPORT Vector3 mojo_raymath_Vector3Invert(Vector3 v)
@@ -624,6 +634,11 @@ MOJO_RAYLIB_EXPORT Matrix mojo_raymath_MatrixLookAt(Vector3 eye, Vector3 target,
     return MatrixLookAt(eye, target, up);
 }
 
+MOJO_RAYLIB_EXPORT float16 mojo_raymath_MatrixToFloatV(Matrix mat)
+{
+    return MatrixToFloatV(mat);
+}
+
 MOJO_RAYLIB_EXPORT Quaternion mojo_raymath_QuaternionAdd(Quaternion q1, Quaternion q2)
 {
     return QuaternionAdd(q1, q2);
@@ -719,6 +734,11 @@ MOJO_RAYLIB_EXPORT Quaternion mojo_raymath_QuaternionFromAxisAngle(Vector3 axis,
     return QuaternionFromAxisAngle(axis, angle);
 }
 
+MOJO_RAYLIB_EXPORT void mojo_raymath_QuaternionToAxisAngle(Quaternion q, Vector3 * outAxis, float * outAngle)
+{
+    QuaternionToAxisAngle(q, outAxis, outAngle);
+}
+
 MOJO_RAYLIB_EXPORT Quaternion mojo_raymath_QuaternionFromEuler(float pitch, float yaw, float roll)
 {
     return QuaternionFromEuler(pitch, yaw, roll);
@@ -742,5 +762,10 @@ MOJO_RAYLIB_EXPORT int mojo_raymath_QuaternionEquals(Quaternion p, Quaternion q)
 MOJO_RAYLIB_EXPORT Matrix mojo_raymath_MatrixCompose(Vector3 translation, Quaternion rotation, Vector3 scale)
 {
     return MatrixCompose(translation, rotation, scale);
+}
+
+MOJO_RAYLIB_EXPORT void mojo_raymath_MatrixDecompose(Matrix mat, Vector3 * translation, Quaternion * rotation, Vector3 * scale)
+{
+    MatrixDecompose(mat, translation, rotation, scale);
 }
 

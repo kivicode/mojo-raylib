@@ -184,6 +184,9 @@ def Vector3Project(v1: Vector3, v2: Vector3) -> Vector3:
 def Vector3Reject(v1: Vector3, v2: Vector3) -> Vector3:
     return external_call["mojo_raymath_Vector3Reject", Vector3](v1, v2)
 
+def Vector3OrthoNormalize(v1: UnsafePointer[Vector3, MutAnyOrigin], v2: UnsafePointer[Vector3, MutAnyOrigin]):
+    external_call["mojo_raymath_Vector3OrthoNormalize", NoneType](v1, v2)
+
 def Vector3Transform(v: Vector3, mat: Matrix) -> Vector3:
     return external_call["mojo_raymath_Vector3Transform", Vector3](v, mat)
 
@@ -216,6 +219,9 @@ def Vector3Barycenter(p: Vector3, a: Vector3, b: Vector3, c: Vector3) -> Vector3
 
 def Vector3Unproject(source: Vector3, projection: Matrix, view: Matrix) -> Vector3:
     return external_call["mojo_raymath_Vector3Unproject", Vector3](source, projection, view)
+
+def Vector3ToFloatV(v: Vector3) -> float3:
+    return external_call["mojo_raymath_Vector3ToFloatV", float3](v)
 
 def Vector3Invert(v: Vector3) -> Vector3:
     return external_call["mojo_raymath_Vector3Invert", Vector3](v)
@@ -361,6 +367,9 @@ def MatrixOrtho(left: c_double, right: c_double, bottom: c_double, top: c_double
 def MatrixLookAt(eye: Vector3, target: Vector3, up: Vector3) -> Matrix:
     return external_call["mojo_raymath_MatrixLookAt", Matrix](eye, target, up)
 
+def MatrixToFloatV(mat: Matrix) -> float16:
+    return external_call["mojo_raymath_MatrixToFloatV", float16](mat)
+
 def QuaternionAdd(q1: Quaternion, q2: Quaternion) -> Quaternion:
     return external_call["mojo_raymath_QuaternionAdd", Quaternion](q1, q2)
 
@@ -418,6 +427,9 @@ def QuaternionToMatrix(q: Quaternion) -> Matrix:
 def QuaternionFromAxisAngle(axis: Vector3, angle: c_float) -> Quaternion:
     return external_call["mojo_raymath_QuaternionFromAxisAngle", Quaternion](axis, angle)
 
+def QuaternionToAxisAngle(q: Quaternion, outAxis: UnsafePointer[Vector3, MutAnyOrigin], outAngle: UnsafePointer[c_float, MutAnyOrigin]):
+    external_call["mojo_raymath_QuaternionToAxisAngle", NoneType](q, outAxis, outAngle)
+
 def QuaternionFromEuler(pitch: c_float, yaw: c_float, roll: c_float) -> Quaternion:
     return external_call["mojo_raymath_QuaternionFromEuler", Quaternion](pitch, yaw, roll)
 
@@ -432,4 +444,7 @@ def QuaternionEquals(p: Quaternion, q: Quaternion) -> c_int:
 
 def MatrixCompose(translation: Vector3, rotation: Quaternion, scale: Vector3) -> Matrix:
     return external_call["mojo_raymath_MatrixCompose", Matrix](translation, rotation, scale)
+
+def MatrixDecompose(mat: Matrix, translation: UnsafePointer[Vector3, MutAnyOrigin], rotation: UnsafePointer[Quaternion, MutAnyOrigin], scale: UnsafePointer[Vector3, MutAnyOrigin]):
+    external_call["mojo_raymath_MatrixDecompose", NoneType](mat, translation, rotation, scale)
 
