@@ -519,7 +519,7 @@ struct Font(TrivialRegisterPassable):
 
     @always_inline
     def to_raw(self) -> raw_types.Font:
-        return raw_types.Font(c_int(self.baseSize), c_int(self.glyphCount), c_int(self.glyphPadding), public_types._to_raw_texture2_d(self.texture), UnsafePointer(to=self.recs).bitcast[raw_types.Rectangle]().mut_cast[True]().as_any_origin(), UnsafePointer(to=self.glyphs).bitcast[raw_types.GlyphInfo]().mut_cast[True]().as_any_origin())
+        return raw_types.Font(c_int(self.baseSize), c_int(self.glyphCount), c_int(self.glyphPadding), public_types._to_raw_texture_2d(self.texture), UnsafePointer(to=self.recs).bitcast[raw_types.Rectangle]().mut_cast[True]().as_any_origin(), UnsafePointer(to=self.glyphs).bitcast[raw_types.GlyphInfo]().mut_cast[True]().as_any_origin())
 
 @always_inline
 def _to_raw_font(value: Font) -> raw_types.Font:
@@ -559,11 +559,11 @@ struct Camera3D(TrivialRegisterPassable):
         return raw_types.Camera3D(public_types._to_raw_vector3(self.position), public_types._to_raw_vector3(self.target), public_types._to_raw_vector3(self.up), c_float(self.fovy), c_int(self.projection))
 
 @always_inline
-def _to_raw_camera3_d(value: Camera3D) -> raw_types.Camera3D:
+def _to_raw_camera_3d(value: Camera3D) -> raw_types.Camera3D:
     return value.to_raw()
 
 @always_inline
-def _from_raw_camera3_d(value: raw_types.Camera3D) -> Camera3D:
+def _from_raw_camera_3d(value: raw_types.Camera3D) -> Camera3D:
     return Camera3D.from_raw(value)
 
 # Camera2D, defines position/orientation in 2d space
@@ -593,11 +593,11 @@ struct Camera2D(TrivialRegisterPassable):
         return raw_types.Camera2D(public_types._to_raw_vector2(self.offset), public_types._to_raw_vector2(self.target), c_float(self.rotation), c_float(self.zoom))
 
 @always_inline
-def _to_raw_camera2_d(value: Camera2D) -> raw_types.Camera2D:
+def _to_raw_camera_2d(value: Camera2D) -> raw_types.Camera2D:
     return value.to_raw()
 
 @always_inline
-def _from_raw_camera2_d(value: raw_types.Camera2D) -> Camera2D:
+def _from_raw_camera_2d(value: raw_types.Camera2D) -> Camera2D:
     return Camera2D.from_raw(value)
 
 # Mesh, vertex data and vao/vbo
@@ -719,7 +719,7 @@ struct MaterialMap(TrivialRegisterPassable):
 
     @always_inline
     def to_raw(self) -> raw_types.MaterialMap:
-        return raw_types.MaterialMap(public_types._to_raw_texture2_d(self.texture), public_types._to_raw_color(self.color), c_float(self.value))
+        return raw_types.MaterialMap(public_types._to_raw_texture_2d(self.texture), public_types._to_raw_color(self.color), c_float(self.value))
 
 @always_inline
 def _to_raw_material_map(value: MaterialMap) -> raw_types.MaterialMap:
@@ -1366,11 +1366,11 @@ def _from_raw_quaternion(value: raw_types.Quaternion) -> Quaternion:
 comptime Texture2D = Texture
 
 @always_inline
-def _to_raw_texture2_d(value: Texture2D) -> raw_types.Texture2D:
+def _to_raw_texture_2d(value: Texture2D) -> raw_types.Texture2D:
     return _to_raw_texture(value)
 
 @always_inline
-def _from_raw_texture2_d(value: raw_types.Texture2D) -> Texture2D:
+def _from_raw_texture_2d(value: raw_types.Texture2D) -> Texture2D:
     return _from_raw_texture(value)
 
 # TextureCubemap, same as Texture
@@ -1388,11 +1388,11 @@ def _from_raw_texture_cubemap(value: raw_types.TextureCubemap) -> TextureCubemap
 comptime RenderTexture2D = RenderTexture
 
 @always_inline
-def _to_raw_render_texture2_d(value: RenderTexture2D) -> raw_types.RenderTexture2D:
+def _to_raw_render_texture_2d(value: RenderTexture2D) -> raw_types.RenderTexture2D:
     return _to_raw_render_texture(value)
 
 @always_inline
-def _from_raw_render_texture2_d(value: raw_types.RenderTexture2D) -> RenderTexture2D:
+def _from_raw_render_texture_2d(value: raw_types.RenderTexture2D) -> RenderTexture2D:
     return _from_raw_render_texture(value)
 
 # Camera type fallback, defaults to Camera3D
@@ -1400,9 +1400,9 @@ comptime Camera = Camera3D
 
 @always_inline
 def _to_raw_camera(value: Camera) -> raw_types.Camera:
-    return _to_raw_camera3_d(value)
+    return _to_raw_camera_3d(value)
 
 @always_inline
 def _from_raw_camera(value: raw_types.Camera) -> Camera:
-    return _from_raw_camera3_d(value)
+    return _from_raw_camera_3d(value)
 

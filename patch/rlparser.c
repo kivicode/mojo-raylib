@@ -2521,6 +2521,12 @@ static void ExportMojoRaymathSafe(const char *rootDir)
 
 static void ExportMojoPackageInit(const char *rootDir)
 {
+    // The raymath pass would overwrite this file with only its 4 #defines,
+    // wiping the raylib enum re-exports. Generate it once, during the raylib
+    // pass, and hand-roll the small raymath constants list.
+    if (IsRaymathApi())
+        return;
+
     char fileName[1024] = {0};
     JoinPath(rootDir, "mojo_raylib/__init__.mojo", fileName, sizeof(fileName));
 
@@ -2531,7 +2537,52 @@ static void ExportMojoPackageInit(const char *rootDir)
     WriteGeneratedHeader(outFile, "Public package exports", inFileName);
     fprintf(outFile, "from .types import *\n");
     fprintf(outFile, "from .safe import *\n");
-    fprintf(outFile, "from .raymath_safe import *\n");
+    fprintf(outFile, "from .raymath_safe import *\n\n");
+
+    // Re-export every comptime constant from .raw.types (enum names + values,
+    // numeric #defines, callback typedefs) so users can write `KEY_RIGHT` etc.
+    // directly off `mojo_raylib`. Listed explicitly to avoid star-import
+    // shadowing the public structs.
+    fprintf(outFile, "from .raw.types import (\n");
+    bool first = true;
+    for (int i = 0; i < callbackCount; i++)
+    {
+        if (!first) fprintf(outFile, ",\n");
+        fprintf(outFile, "    %s", callbacks[i].name);
+        first = false;
+    }
+    for (int i = 0; i < enumCount; i++)
+    {
+        if (!first) fprintf(outFile, ",\n");
+        fprintf(outFile, "    %s", enums[i].name);
+        first = false;
+        for (int j = 0; j < enums[i].valueCount; j++)
+            fprintf(outFile, ",\n    %s", enums[i].valueName[j]);
+    }
+    for (int i = 0; i < defineCount; i++)
+    {
+        if ((defines[i].type == INT) || (defines[i].type == INT_MATH) ||
+            (defines[i].type == LONG) || (defines[i].type == LONG_MATH) ||
+            (defines[i].type == FLOAT) || (defines[i].type == FLOAT_MATH))
+        {
+            if (!first) fprintf(outFile, ",\n");
+            fprintf(outFile, "    %s", defines[i].name);
+            first = false;
+        }
+    }
+    // Raymath #defines are emitted into raw.types by the raymath pass; list
+    // them here by name since this pass doesn't see raymath's defines table.
+    // (EPSILON skipped — the existing parser doesn't categorise `0.000001f`
+    // as a numeric define so it never makes it to the raw module.)
+    static const char *kRaymathDefines[] = { "PI", "DEG2RAD", "RAD2DEG", NULL };
+    for (int i = 0; kRaymathDefines[i] != NULL; i++)
+    {
+        if (!first) fprintf(outFile, ",\n");
+        fprintf(outFile, "    %s", kRaymathDefines[i]);
+        first = false;
+    }
+    fprintf(outFile, ",\n)\n");
+
     fclose(outFile);
 }
 
@@ -2692,14 +2743,45 @@ static void ToSnakeCase(const char *source, char *outText, int outTextSize)
         {
             char prev = (i > 0) ? source[i - 1] : '\0';
             char next = source[i + 1];
-            bool prevIsLowerOrDigit = ((prev >= 'a') && (prev <= 'z')) || ((prev >= '0') && (prev <= '9'));
+            bool prevIsLower = (prev >= 'a') && (prev <= 'z');
             bool prevIsUpper = (prev >= 'A') && (prev <= 'Z');
             bool nextIsLower = (next >= 'a') && (next <= 'z');
 
-            if (((prevIsLowerOrDigit) || (prevIsUpper && nextIsLower)) &&
+            // Insert "_" before this uppercase when:
+            //  - it follows a lowercase ("aB" → "a_b")
+            //  - it ends a run of uppercase before a lowercase ("HTTPRequest" → "http_request")
+            //  - it follows a digit and starts a new word ("Vector2Zero" → "vector2_zero")
+            // NOT when prev is a digit and there's no following lowercase ("Mode2D" stays
+            // glued so it can be paired with the leading digit by the digit rule below).
+            bool prevIsDigit = (prev >= '0') && (prev <= '9');
+            if ((prevIsLower
+                 || (prevIsUpper && nextIsLower)
+                 || (prevIsDigit && nextIsLower)) &&
                 (j > 0) && (outText[j - 1] != '_'))
                 outText[j++] = '_';
             outText[j++] = (char)(ch - 'A' + 'a');
+            continue;
+        }
+
+        // Digit boundary: only break when the digit is part of an "ND" pair
+        // (e.g. `Mode2D` → `mode_2d`, `Vector3D` → `vector_3d`). Plain trailing
+        // or in-word digits stay attached (`Vector2` → `vector2`,
+        // `float3` → `float3`, `Vector3From…` → `vector3_from…`).
+        if ((ch >= '0') && (ch <= '9'))
+        {
+            char prev = (i > 0) ? source[i - 1] : '\0';
+            char next = source[i + 1];
+            bool prevIsLetter = ((prev >= 'a') && (prev <= 'z')) ||
+                                ((prev >= 'A') && (prev <= 'Z'));
+            // Only treat the digit as the head of an "ND" pair when the D is
+            // *not* the start of another camel word (so "Vector2DotProduct"
+            // stays `vector2_dot_product`, not `vector_2dot_product`).
+            char nextNext = (next != '\0') ? source[i + 2] : '\0';
+            bool nextNextIsLower = (nextNext >= 'a') && (nextNext <= 'z');
+            if (prevIsLetter && (next == 'D') && !nextNextIsLower &&
+                (j > 0) && (outText[j - 1] != '_'))
+                outText[j++] = '_';
+            outText[j++] = ch;
             continue;
         }
 

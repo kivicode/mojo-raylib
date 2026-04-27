@@ -455,29 +455,29 @@ def end_drawing():
     raw.EndDrawing()
 
 @always_inline
-def begin_mode2_d(camera: Camera2D):
+def begin_mode_2d(camera: Camera2D):
     """Begin 2D mode with custom camera (2D)"""
-    raw.BeginMode2D(public_types._to_raw_camera2_d(camera))
+    raw.BeginMode2D(public_types._to_raw_camera_2d(camera))
 
 @always_inline
-def end_mode2_d():
+def end_mode_2d():
     """Ends 2D mode with custom camera"""
     raw.EndMode2D()
 
 @always_inline
-def begin_mode3_d(camera: Camera3D):
+def begin_mode_3d(camera: Camera3D):
     """Begin 3D mode with custom camera (3D)"""
-    raw.BeginMode3D(public_types._to_raw_camera3_d(camera))
+    raw.BeginMode3D(public_types._to_raw_camera_3d(camera))
 
 @always_inline
-def end_mode3_d():
+def end_mode_3d():
     """Ends 3D mode and returns to default 2D orthographic mode"""
     raw.EndMode3D()
 
 @always_inline
 def begin_texture_mode(target: RenderTexture2D):
     """Begin drawing to render texture"""
-    raw.BeginTextureMode(public_types._to_raw_render_texture2_d(target))
+    raw.BeginTextureMode(public_types._to_raw_render_texture_2d(target))
 
 @always_inline
 def end_texture_mode():
@@ -583,7 +583,7 @@ def set_shader_value_matrix(shader: Shader, loc_index: Int, mat: Matrix):
 @always_inline
 def set_shader_value_texture(shader: Shader, loc_index: Int, texture: Texture2D):
     """Set shader uniform value and bind the texture (sampler2d)"""
-    raw.SetShaderValueTexture(public_types._to_raw_shader(shader), c_int(loc_index), public_types._to_raw_texture2_d(texture))
+    raw.SetShaderValueTexture(public_types._to_raw_shader(shader), c_int(loc_index), public_types._to_raw_texture_2d(texture))
 
 @always_inline
 def unload_shader(shader: Shader):
@@ -615,15 +615,15 @@ def get_world_to_screen_ex(position: Vector3, camera: Camera, width: Int, height
     return public_types._from_raw_vector2(result)
 
 @always_inline
-def get_world_to_screen2_d(position: Vector2, camera: Camera2D) -> Vector2:
+def get_world_to_screen_2d(position: Vector2, camera: Camera2D) -> Vector2:
     """Get the screen space position for a 2d camera world space position"""
-    var result = raw.GetWorldToScreen2D(public_types._to_raw_vector2(position), public_types._to_raw_camera2_d(camera))
+    var result = raw.GetWorldToScreen2D(public_types._to_raw_vector2(position), public_types._to_raw_camera_2d(camera))
     return public_types._from_raw_vector2(result)
 
 @always_inline
-def get_screen_to_world2_d(position: Vector2, camera: Camera2D) -> Vector2:
+def get_screen_to_world_2d(position: Vector2, camera: Camera2D) -> Vector2:
     """Get the world space position for a 2d camera screen space position"""
-    var result = raw.GetScreenToWorld2D(public_types._to_raw_vector2(position), public_types._to_raw_camera2_d(camera))
+    var result = raw.GetScreenToWorld2D(public_types._to_raw_vector2(position), public_types._to_raw_camera_2d(camera))
     return public_types._from_raw_vector2(result)
 
 @always_inline
@@ -633,9 +633,9 @@ def get_camera_matrix(camera: Camera) -> Matrix:
     return public_types._from_raw_matrix(result)
 
 @always_inline
-def get_camera_matrix2_d(camera: Camera2D) -> Matrix:
+def get_camera_matrix_2d(camera: Camera2D) -> Matrix:
     """Get camera 2d transform matrix"""
-    var result = raw.GetCameraMatrix2D(public_types._to_raw_camera2_d(camera))
+    var result = raw.GetCameraMatrix2D(public_types._to_raw_camera_2d(camera))
     return public_types._from_raw_matrix(result)
 
 @always_inline
@@ -1362,13 +1362,13 @@ def update_camera_pro(mut camera: Camera, movement: Vector3, rotation: Vector3, 
 @always_inline
 def set_shapes_texture(texture: Texture2D, source: Rectangle):
     """Set texture and rectangle to be used on shapes drawing"""
-    raw.SetShapesTexture(public_types._to_raw_texture2_d(texture), public_types._to_raw_rectangle(source))
+    raw.SetShapesTexture(public_types._to_raw_texture_2d(texture), public_types._to_raw_rectangle(source))
 
 @always_inline
 def get_shapes_texture() -> Texture2D:
     """Get texture that is used for shapes drawing"""
     var result = raw.GetShapesTexture()
-    return public_types._from_raw_texture2_d(result)
+    return public_types._from_raw_texture_2d(result)
 
 @always_inline
 def get_shapes_texture_rectangle() -> Rectangle:
@@ -1757,7 +1757,7 @@ def load_image_from_memory(file_type: String, file_data: Span[UInt8, _]) -> Imag
 @always_inline
 def load_image_from_texture(texture: Texture2D) -> Image:
     """Load image from GPU texture data"""
-    var result = raw.LoadImageFromTexture(public_types._to_raw_texture2_d(texture))
+    var result = raw.LoadImageFromTexture(public_types._to_raw_texture_2d(texture))
     return public_types._from_raw_image(result)
 
 @always_inline
@@ -2154,13 +2154,13 @@ def image_draw_text_ex(mut dst: Image, font: Font, text: String, position: Vecto
 def load_texture(file_name: String) -> Texture2D:
     """Load texture from file into GPU memory (VRAM)"""
     var result = raw.LoadTexture(CStringSlice(unsafe_from_ptr=file_name.unsafe_ptr().bitcast[c_char]()))
-    return public_types._from_raw_texture2_d(result)
+    return public_types._from_raw_texture_2d(result)
 
 @always_inline
 def load_texture_from_image(image: Image) -> Texture2D:
     """Load texture from image data"""
     var result = raw.LoadTextureFromImage(public_types._to_raw_image(image))
-    return public_types._from_raw_texture2_d(result)
+    return public_types._from_raw_texture_2d(result)
 
 @always_inline
 def load_texture_cubemap(image: Image, layout: Int) -> TextureCubemap:
@@ -2172,39 +2172,39 @@ def load_texture_cubemap(image: Image, layout: Int) -> TextureCubemap:
 def load_render_texture(width: Int, height: Int) -> RenderTexture2D:
     """Load texture for rendering (framebuffer)"""
     var result = raw.LoadRenderTexture(c_int(width), c_int(height))
-    return public_types._from_raw_render_texture2_d(result)
+    return public_types._from_raw_render_texture_2d(result)
 
 @always_inline
 def is_texture_valid(texture: Texture2D) -> Bool:
     """Check if a texture is valid (loaded in GPU)"""
-    var result = raw.IsTextureValid(public_types._to_raw_texture2_d(texture))
+    var result = raw.IsTextureValid(public_types._to_raw_texture_2d(texture))
     return result
 
 @always_inline
 def unload_texture(texture: Texture2D):
     """Unload texture from GPU memory (VRAM)"""
-    raw.UnloadTexture(public_types._to_raw_texture2_d(texture))
+    raw.UnloadTexture(public_types._to_raw_texture_2d(texture))
 
 @always_inline
 def is_render_texture_valid(target: RenderTexture2D) -> Bool:
     """Check if a render texture is valid (loaded in GPU)"""
-    var result = raw.IsRenderTextureValid(public_types._to_raw_render_texture2_d(target))
+    var result = raw.IsRenderTextureValid(public_types._to_raw_render_texture_2d(target))
     return result
 
 @always_inline
 def unload_render_texture(target: RenderTexture2D):
     """Unload render texture from GPU memory (VRAM)"""
-    raw.UnloadRenderTexture(public_types._to_raw_render_texture2_d(target))
+    raw.UnloadRenderTexture(public_types._to_raw_render_texture_2d(target))
 
 @always_inline
 def update_texture(texture: Texture2D, pixels: UnsafePointer[NoneType, MutAnyOrigin]):
     """Update GPU texture with new data (pixels should be able to fill texture)"""
-    raw.UpdateTexture(public_types._to_raw_texture2_d(texture), pixels)
+    raw.UpdateTexture(public_types._to_raw_texture_2d(texture), pixels)
 
 @always_inline
 def update_texture_rec(texture: Texture2D, rec: Rectangle, pixels: UnsafePointer[NoneType, MutAnyOrigin]):
     """Update GPU texture rectangle with new data (pixels and rec should fit in texture)"""
-    raw.UpdateTextureRec(public_types._to_raw_texture2_d(texture), public_types._to_raw_rectangle(rec), pixels)
+    raw.UpdateTextureRec(public_types._to_raw_texture_2d(texture), public_types._to_raw_rectangle(rec), pixels)
 
 @always_inline
 def gen_texture_mipmaps(mut texture: Texture2D):
@@ -2214,42 +2214,42 @@ def gen_texture_mipmaps(mut texture: Texture2D):
 @always_inline
 def set_texture_filter(texture: Texture2D, filter: Int):
     """Set texture scaling filter mode"""
-    raw.SetTextureFilter(public_types._to_raw_texture2_d(texture), c_int(filter))
+    raw.SetTextureFilter(public_types._to_raw_texture_2d(texture), c_int(filter))
 
 @always_inline
 def set_texture_wrap(texture: Texture2D, wrap: Int):
     """Set texture wrapping mode"""
-    raw.SetTextureWrap(public_types._to_raw_texture2_d(texture), c_int(wrap))
+    raw.SetTextureWrap(public_types._to_raw_texture_2d(texture), c_int(wrap))
 
 @always_inline
 def draw_texture(texture: Texture2D, pos_x: Int, pos_y: Int, tint: Color):
     """Draw a Texture2D"""
-    raw.DrawTexture(public_types._to_raw_texture2_d(texture), c_int(pos_x), c_int(pos_y), public_types._to_raw_color(tint))
+    raw.DrawTexture(public_types._to_raw_texture_2d(texture), c_int(pos_x), c_int(pos_y), public_types._to_raw_color(tint))
 
 @always_inline
 def draw_texture_v(texture: Texture2D, position: Vector2, tint: Color):
     """Draw a Texture2D with position defined as Vector2"""
-    raw.DrawTextureV(public_types._to_raw_texture2_d(texture), public_types._to_raw_vector2(position), public_types._to_raw_color(tint))
+    raw.DrawTextureV(public_types._to_raw_texture_2d(texture), public_types._to_raw_vector2(position), public_types._to_raw_color(tint))
 
 @always_inline
 def draw_texture_ex(texture: Texture2D, position: Vector2, rotation: Float32, scale: Float32, tint: Color):
     """Draw a Texture2D with extended parameters"""
-    raw.DrawTextureEx(public_types._to_raw_texture2_d(texture), public_types._to_raw_vector2(position), c_float(rotation), c_float(scale), public_types._to_raw_color(tint))
+    raw.DrawTextureEx(public_types._to_raw_texture_2d(texture), public_types._to_raw_vector2(position), c_float(rotation), c_float(scale), public_types._to_raw_color(tint))
 
 @always_inline
 def draw_texture_rec(texture: Texture2D, source: Rectangle, position: Vector2, tint: Color):
     """Draw a part of a texture defined by a rectangle"""
-    raw.DrawTextureRec(public_types._to_raw_texture2_d(texture), public_types._to_raw_rectangle(source), public_types._to_raw_vector2(position), public_types._to_raw_color(tint))
+    raw.DrawTextureRec(public_types._to_raw_texture_2d(texture), public_types._to_raw_rectangle(source), public_types._to_raw_vector2(position), public_types._to_raw_color(tint))
 
 @always_inline
 def draw_texture_pro(texture: Texture2D, source: Rectangle, dest: Rectangle, origin: Vector2, rotation: Float32, tint: Color):
     """Draw a part of a texture defined by a rectangle with 'pro' parameters"""
-    raw.DrawTexturePro(public_types._to_raw_texture2_d(texture), public_types._to_raw_rectangle(source), public_types._to_raw_rectangle(dest), public_types._to_raw_vector2(origin), c_float(rotation), public_types._to_raw_color(tint))
+    raw.DrawTexturePro(public_types._to_raw_texture_2d(texture), public_types._to_raw_rectangle(source), public_types._to_raw_rectangle(dest), public_types._to_raw_vector2(origin), c_float(rotation), public_types._to_raw_color(tint))
 
 @always_inline
 def draw_texture_n_patch(texture: Texture2D, n_patch_info: NPatchInfo, dest: Rectangle, origin: Vector2, rotation: Float32, tint: Color):
     """Draws a texture (or part of it) that stretches or shrinks nicely"""
-    raw.DrawTextureNPatch(public_types._to_raw_texture2_d(texture), public_types._to_raw_n_patch_info(n_patch_info), public_types._to_raw_rectangle(dest), public_types._to_raw_vector2(origin), c_float(rotation), public_types._to_raw_color(tint))
+    raw.DrawTextureNPatch(public_types._to_raw_texture_2d(texture), public_types._to_raw_n_patch_info(n_patch_info), public_types._to_raw_rectangle(dest), public_types._to_raw_vector2(origin), c_float(rotation), public_types._to_raw_color(tint))
 
 @always_inline
 def color_is_equal(col1: Color, col2: Color) -> Bool:
@@ -2698,27 +2698,27 @@ def text_to_float(text: String) -> Float32:
     return Float32(result)
 
 @always_inline
-def draw_line3_d(start_pos: Vector3, end_pos: Vector3, color: Color):
+def draw_line_3d(start_pos: Vector3, end_pos: Vector3, color: Color):
     """Draw a line in 3D world space"""
     raw.DrawLine3D(public_types._to_raw_vector3(start_pos), public_types._to_raw_vector3(end_pos), public_types._to_raw_color(color))
 
 @always_inline
-def draw_point3_d(position: Vector3, color: Color):
+def draw_point_3d(position: Vector3, color: Color):
     """Draw a point in 3D space, actually a small line"""
     raw.DrawPoint3D(public_types._to_raw_vector3(position), public_types._to_raw_color(color))
 
 @always_inline
-def draw_circle3_d(center: Vector3, radius: Float32, rotation_axis: Vector3, rotation_angle: Float32, color: Color):
+def draw_circle_3d(center: Vector3, radius: Float32, rotation_axis: Vector3, rotation_angle: Float32, color: Color):
     """Draw a circle in 3D world space"""
     raw.DrawCircle3D(public_types._to_raw_vector3(center), c_float(radius), public_types._to_raw_vector3(rotation_axis), c_float(rotation_angle), public_types._to_raw_color(color))
 
 @always_inline
-def draw_triangle3_d(v1: Vector3, v2: Vector3, v3: Vector3, color: Color):
+def draw_triangle_3d(v1: Vector3, v2: Vector3, v3: Vector3, color: Color):
     """Draw a color-filled triangle (vertex in counter-clockwise order!)"""
     raw.DrawTriangle3D(public_types._to_raw_vector3(v1), public_types._to_raw_vector3(v2), public_types._to_raw_vector3(v3), public_types._to_raw_color(color))
 
 @always_inline
-def draw_triangle_strip3_d(points: Span[Vector3, _], color: Color):
+def draw_triangle_strip_3d(points: Span[Vector3, _], color: Color):
     """Draw a triangle strip defined by points"""
     raw.DrawTriangleStrip3D(points.unsafe_ptr().bitcast[raw_types.Vector3]().mut_cast[True]().as_any_origin(), c_int(len(points)), public_types._to_raw_color(color))
 
@@ -2859,17 +2859,17 @@ def draw_bounding_box(box: BoundingBox, color: Color):
 @always_inline
 def draw_billboard(camera: Camera, texture: Texture2D, position: Vector3, scale: Float32, tint: Color):
     """Draw a billboard texture"""
-    raw.DrawBillboard(public_types._to_raw_camera(camera), public_types._to_raw_texture2_d(texture), public_types._to_raw_vector3(position), c_float(scale), public_types._to_raw_color(tint))
+    raw.DrawBillboard(public_types._to_raw_camera(camera), public_types._to_raw_texture_2d(texture), public_types._to_raw_vector3(position), c_float(scale), public_types._to_raw_color(tint))
 
 @always_inline
 def draw_billboard_rec(camera: Camera, texture: Texture2D, source: Rectangle, position: Vector3, size: Vector2, tint: Color):
     """Draw a billboard texture defined by source"""
-    raw.DrawBillboardRec(public_types._to_raw_camera(camera), public_types._to_raw_texture2_d(texture), public_types._to_raw_rectangle(source), public_types._to_raw_vector3(position), public_types._to_raw_vector2(size), public_types._to_raw_color(tint))
+    raw.DrawBillboardRec(public_types._to_raw_camera(camera), public_types._to_raw_texture_2d(texture), public_types._to_raw_rectangle(source), public_types._to_raw_vector3(position), public_types._to_raw_vector2(size), public_types._to_raw_color(tint))
 
 @always_inline
 def draw_billboard_pro(camera: Camera, texture: Texture2D, source: Rectangle, position: Vector3, up: Vector3, size: Vector2, origin: Vector2, rotation: Float32, tint: Color):
     """Draw a billboard texture defined by source and rotation"""
-    raw.DrawBillboardPro(public_types._to_raw_camera(camera), public_types._to_raw_texture2_d(texture), public_types._to_raw_rectangle(source), public_types._to_raw_vector3(position), public_types._to_raw_vector3(up), public_types._to_raw_vector2(size), public_types._to_raw_vector2(origin), c_float(rotation), public_types._to_raw_color(tint))
+    raw.DrawBillboardPro(public_types._to_raw_camera(camera), public_types._to_raw_texture_2d(texture), public_types._to_raw_rectangle(source), public_types._to_raw_vector3(position), public_types._to_raw_vector3(up), public_types._to_raw_vector2(size), public_types._to_raw_vector2(origin), c_float(rotation), public_types._to_raw_color(tint))
 
 @always_inline
 def upload_mesh(mut mesh: Mesh, dynamic: Bool):
@@ -3012,7 +3012,7 @@ def unload_material(material: Material):
 @always_inline
 def set_material_texture(mut material: Material, map_type: Int, texture: Texture2D):
     """Set texture for a material map type (MATERIAL_MAP_DIFFUSE, MATERIAL_MAP_SPECULAR...)"""
-    raw.SetMaterialTexture(UnsafePointer(to=material).bitcast[raw_types.Material]().mut_cast[True]().as_any_origin(), c_int(map_type), public_types._to_raw_texture2_d(texture))
+    raw.SetMaterialTexture(UnsafePointer(to=material).bitcast[raw_types.Material]().mut_cast[True]().as_any_origin(), c_int(map_type), public_types._to_raw_texture_2d(texture))
 
 @always_inline
 def set_model_mesh_material(mut model: Model, mesh_id: Int, material_id: Int):
