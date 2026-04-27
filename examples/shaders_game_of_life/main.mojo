@@ -8,8 +8,6 @@ Conway step per frame. Controls:
   Down  — faster (fewer frames per step)
 """
 
-from std.memory.unsafe_pointer import UnsafePointer
-
 from mojo_raylib import (
     Color, Image, Rectangle, RenderTexture2D, Vector2,
     KEY_DOWN, KEY_R, KEY_SPACE, KEY_UP,
@@ -25,6 +23,7 @@ from mojo_raylib import (
     set_target_fps, set_shader_value,
     unload_image, unload_render_texture, unload_shader,
     update_texture_rec,
+    void_ref,
     window_should_close,
 )
 
@@ -68,11 +67,7 @@ def main():
     var shader = load_shader(String(""), String("resources/game_of_life.fs"))
     var resolution_loc = get_shader_location(shader, String("resolution"))
     var resolution = Vector2(Float32(WORLD_WIDTH), Float32(WORLD_HEIGHT))
-    set_shader_value(
-        shader, resolution_loc,
-        UnsafePointer(to=resolution).bitcast[NoneType]().mut_cast[True]().as_any_origin(),
-        SHADER_UNIFORM_VEC2,
-    )
+    set_shader_value(shader, resolution_loc, void_ref(resolution), SHADER_UNIFORM_VEC2)
 
     var world_a = load_render_texture(WORLD_WIDTH, WORLD_HEIGHT)
     var world_b = load_render_texture(WORLD_WIDTH, WORLD_HEIGHT)
@@ -119,7 +114,7 @@ def main():
         clear_background(DEAD)
         draw_texture_pro(current.texture, world_dst, screen_dst, origin, Float32(0.0), DEAD)
 
-        # Side panel.
+        # Side panel
         draw_line(view_w, 0, view_w, SCREEN_HEIGHT, PANEL_LINE)
         draw_rectangle(view_w, 0, SCREEN_WIDTH - view_w, SCREEN_HEIGHT, PANEL)
         draw_text("Conway's", 704, 4, 20, DARKBLUE)
