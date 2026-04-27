@@ -1,6 +1,27 @@
 # mojo-raylib
 
-Mojo bindings for [raylib](https://github.com/raysan5/raylib). Auto-generated raw FFI bindings + a safe, Mojo-native API with RAII.
+<a name="readme-top"></a>
+<br />
+
+<div align="center">
+    <img src="assets/image.png" alt="Logo" width="300" height="300">
+
+  <h3 align="center">Mojo Raylib</h3>
+
+  <p align="center">
+    🔥 Mojo bindings for [raylib](https://github.com/raysan5/raylib) v6.x 🔥
+    <br/>
+
+![Written in Mojo][language-shield]
+[![MIT License][license-shield]][license-url]
+[![CodeQL](https://github.com/kivicode/mojo-raylib/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/kivicode/mojo-raylib/actions/workflows/github-code-scanning/codeql)
+
+<br/>
+
+[![Contributors Welcome][contributors-shield]][contributors-url]
+
+  </p>
+</div>
 
 ## Requirements
 
@@ -67,3 +88,12 @@ patch/rlparser.c         patched raylib code-gen tool
 vendor/raylib/           git submodule, pinned by parent commit
 examples/<name>/         per-example pixi.toml + main.mojo
 ```
+
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+
+[language-shield]: https://img.shields.io/badge/language-mojo-orange
+[license-shield]: https://img.shields.io/github/license/kivicode/mojo-raylib?logo=github
+[license-url]: https://github.com/kivicode/mojo-raylib/blob/main/LICENSE
+[contributors-shield]: https://img.shields.io/badge/contributors-welcome!-blue
+[contributors-url]: https://github.com/kivicode/mojo-raylib#contributing
