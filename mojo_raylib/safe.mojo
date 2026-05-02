@@ -137,3315 +137,3315 @@ struct OwnedWaveSamples:
 
 @always_inline
 def init_window(width: Int, height: Int, title: String):
-    """Initialize window and OpenGL context"""
+    """Initialize window and OpenGL context."""
     raw.InitWindow(c_int(width), c_int(height), CStringSlice(unsafe_from_ptr=title.unsafe_ptr().bitcast[c_char]()))
 
 @always_inline
 def close_window():
-    """Close window and unload OpenGL context"""
+    """Close window and unload OpenGL context."""
     raw.CloseWindow()
 
 @always_inline
 def window_should_close() -> Bool:
-    """Check if application should close (KEY_ESCAPE pressed or windows close icon clicked)"""
+    """Check if application should close (KEY_ESCAPE pressed or windows close icon clicked)."""
     var result = raw.WindowShouldClose()
     return result
 
 @always_inline
 def is_window_ready() -> Bool:
-    """Check if window has been initialized successfully"""
+    """Check if window has been initialized successfully."""
     var result = raw.IsWindowReady()
     return result
 
 @always_inline
 def is_window_fullscreen() -> Bool:
-    """Check if window is currently fullscreen"""
+    """Check if window is currently fullscreen."""
     var result = raw.IsWindowFullscreen()
     return result
 
 @always_inline
 def is_window_hidden() -> Bool:
-    """Check if window is currently hidden"""
+    """Check if window is currently hidden."""
     var result = raw.IsWindowHidden()
     return result
 
 @always_inline
 def is_window_minimized() -> Bool:
-    """Check if window is currently minimized"""
+    """Check if window is currently minimized."""
     var result = raw.IsWindowMinimized()
     return result
 
 @always_inline
 def is_window_maximized() -> Bool:
-    """Check if window is currently maximized"""
+    """Check if window is currently maximized."""
     var result = raw.IsWindowMaximized()
     return result
 
 @always_inline
 def is_window_focused() -> Bool:
-    """Check if window is currently focused"""
+    """Check if window is currently focused."""
     var result = raw.IsWindowFocused()
     return result
 
 @always_inline
 def is_window_resized() -> Bool:
-    """Check if window has been resized last frame"""
+    """Check if window has been resized last frame."""
     var result = raw.IsWindowResized()
     return result
 
 @always_inline
 def is_window_state(flag: UInt) -> Bool:
-    """Check if one specific window flag is enabled"""
+    """Check if one specific window flag is enabled."""
     var result = raw.IsWindowState(c_uint(flag))
     return result
 
 @always_inline
 def set_window_state(flags: UInt):
-    """Set window configuration state using flags"""
+    """Set window configuration state using flags."""
     raw.SetWindowState(c_uint(flags))
 
 @always_inline
 def clear_window_state(flags: UInt):
-    """Clear window configuration state flags"""
+    """Clear window configuration state flags."""
     raw.ClearWindowState(c_uint(flags))
 
 @always_inline
 def toggle_fullscreen():
-    """Toggle window state: fullscreen/windowed, resizes monitor to match window resolution"""
+    """Toggle window state: fullscreen/windowed, resizes monitor to match window resolution."""
     raw.ToggleFullscreen()
 
 @always_inline
 def toggle_borderless_windowed():
-    """Toggle window state: borderless windowed, resizes window to match monitor resolution"""
+    """Toggle window state: borderless windowed, resizes window to match monitor resolution."""
     raw.ToggleBorderlessWindowed()
 
 @always_inline
 def maximize_window():
-    """Set window state: maximized, if resizable"""
+    """Set window state: maximized, if resizable."""
     raw.MaximizeWindow()
 
 @always_inline
 def minimize_window():
-    """Set window state: minimized, if resizable"""
+    """Set window state: minimized, if resizable."""
     raw.MinimizeWindow()
 
 @always_inline
 def restore_window():
-    """Restore window from being minimized/maximized"""
+    """Restore window from being minimized/maximized."""
     raw.RestoreWindow()
 
 @always_inline
 def set_window_icon(image: Image):
-    """Set icon for window (single image, RGBA 32bit)"""
+    """Set icon for window (single image, RGBA 32bit)."""
     raw.SetWindowIcon(public_types._to_raw_image(image))
 
 @always_inline
 def set_window_icons(images: Span[Image, _]):
-    """Set icon for window (multiple images, RGBA 32bit)"""
+    """Set icon for window (multiple images, RGBA 32bit)."""
     raw.SetWindowIcons(images.unsafe_ptr().bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(images)))
 
 @always_inline
 def set_window_title(title: String):
-    """Set title for window"""
+    """Set title for window."""
     raw.SetWindowTitle(CStringSlice(unsafe_from_ptr=title.unsafe_ptr().bitcast[c_char]()))
 
 @always_inline
 def set_window_position(x: Int, y: Int):
-    """Set window position on screen"""
+    """Set window position on screen."""
     raw.SetWindowPosition(c_int(x), c_int(y))
 
 @always_inline
 def set_window_monitor(monitor: Int):
-    """Set monitor for the current window"""
+    """Set monitor for the current window."""
     raw.SetWindowMonitor(c_int(monitor))
 
 @always_inline
 def set_window_min_size(width: Int, height: Int):
-    """Set window minimum dimensions (for FLAG_WINDOW_RESIZABLE)"""
+    """Set window minimum dimensions (for FLAG_WINDOW_RESIZABLE)."""
     raw.SetWindowMinSize(c_int(width), c_int(height))
 
 @always_inline
 def set_window_max_size(width: Int, height: Int):
-    """Set window maximum dimensions (for FLAG_WINDOW_RESIZABLE)"""
+    """Set window maximum dimensions (for FLAG_WINDOW_RESIZABLE)."""
     raw.SetWindowMaxSize(c_int(width), c_int(height))
 
 @always_inline
 def set_window_size(width: Int, height: Int):
-    """Set window dimensions"""
+    """Set window dimensions."""
     raw.SetWindowSize(c_int(width), c_int(height))
 
 @always_inline
 def set_window_opacity(opacity: Float32):
-    """Set window opacity [0.0f..1.0f]"""
+    """Set window opacity [0.0f..1.0f]."""
     raw.SetWindowOpacity(c_float(opacity))
 
 @always_inline
 def set_window_focused():
-    """Set window focused"""
+    """Set window focused."""
     raw.SetWindowFocused()
 
 @always_inline
 def get_window_handle() -> UnsafePointer[NoneType, MutAnyOrigin]:
-    """Get native window handle"""
+    """Get native window handle."""
     var result = raw.GetWindowHandle()
     return result
 
 @always_inline
 def get_screen_width() -> Int:
-    """Get current screen width"""
+    """Get current screen width."""
     var result = raw.GetScreenWidth()
     return Int(result)
 
 @always_inline
 def get_screen_height() -> Int:
-    """Get current screen height"""
+    """Get current screen height."""
     var result = raw.GetScreenHeight()
     return Int(result)
 
 @always_inline
 def get_render_width() -> Int:
-    """Get current render width (it considers HiDPI)"""
+    """Get current render width (it considers HiDPI)."""
     var result = raw.GetRenderWidth()
     return Int(result)
 
 @always_inline
 def get_render_height() -> Int:
-    """Get current render height (it considers HiDPI)"""
+    """Get current render height (it considers HiDPI)."""
     var result = raw.GetRenderHeight()
     return Int(result)
 
 @always_inline
 def get_monitor_count() -> Int:
-    """Get number of connected monitors"""
+    """Get number of connected monitors."""
     var result = raw.GetMonitorCount()
     return Int(result)
 
 @always_inline
 def get_current_monitor() -> Int:
-    """Get current monitor where window is placed"""
+    """Get current monitor where window is placed."""
     var result = raw.GetCurrentMonitor()
     return Int(result)
 
 @always_inline
 def get_monitor_position(monitor: Int) -> Vector2:
-    """Get specified monitor position"""
+    """Get specified monitor position."""
     var result = raw.GetMonitorPosition(c_int(monitor))
     return public_types._from_raw_vector2(result)
 
 @always_inline
 def get_monitor_width(monitor: Int) -> Int:
-    """Get specified monitor width (current video mode used by monitor)"""
+    """Get specified monitor width (current video mode used by monitor)."""
     var result = raw.GetMonitorWidth(c_int(monitor))
     return Int(result)
 
 @always_inline
 def get_monitor_height(monitor: Int) -> Int:
-    """Get specified monitor height (current video mode used by monitor)"""
+    """Get specified monitor height (current video mode used by monitor)."""
     var result = raw.GetMonitorHeight(c_int(monitor))
     return Int(result)
 
 @always_inline
 def get_monitor_physical_width(monitor: Int) -> Int:
-    """Get specified monitor physical width in millimetres"""
+    """Get specified monitor physical width in millimetres."""
     var result = raw.GetMonitorPhysicalWidth(c_int(monitor))
     return Int(result)
 
 @always_inline
 def get_monitor_physical_height(monitor: Int) -> Int:
-    """Get specified monitor physical height in millimetres"""
+    """Get specified monitor physical height in millimetres."""
     var result = raw.GetMonitorPhysicalHeight(c_int(monitor))
     return Int(result)
 
 @always_inline
 def get_monitor_refresh_rate(monitor: Int) -> Int:
-    """Get specified monitor refresh rate"""
+    """Get specified monitor refresh rate."""
     var result = raw.GetMonitorRefreshRate(c_int(monitor))
     return Int(result)
 
 @always_inline
 def get_window_position() -> Vector2:
-    """Get window position XY on monitor"""
+    """Get window position XY on monitor."""
     var result = raw.GetWindowPosition()
     return public_types._from_raw_vector2(result)
 
 @always_inline
 def get_window_scale_dpi() -> Vector2:
-    """Get window scale DPI factor"""
+    """Get window scale DPI factor."""
     var result = raw.GetWindowScaleDPI()
     return public_types._from_raw_vector2(result)
 
 @always_inline
 def get_monitor_name(monitor: Int) -> String:
-    """Get the human-readable, UTF-8 encoded name of the specified monitor"""
+    """Get the human-readable, UTF-8 encoded name of the specified monitor."""
     var result = raw.GetMonitorName(c_int(monitor))
     return String(CStringSlice(unsafe_from_ptr=result))
 
 @always_inline
 def set_clipboard_text(text: String):
-    """Set clipboard text content"""
+    """Set clipboard text content."""
     raw.SetClipboardText(CStringSlice(unsafe_from_ptr=text.unsafe_ptr().bitcast[c_char]()))
 
 @always_inline
 def get_clipboard_text() -> String:
-    """Get clipboard text content"""
+    """Get clipboard text content."""
     var result = raw.GetClipboardText()
     return String(CStringSlice(unsafe_from_ptr=result))
 
 @always_inline
 def get_clipboard_image() -> Image:
-    """Get clipboard image content"""
+    """Get clipboard image content."""
     var result = raw.GetClipboardImage()
     return public_types._from_raw_image(result)
 
 @always_inline
 def enable_event_waiting():
-    """Enable waiting for events on EndDrawing(), no automatic event polling"""
+    """Enable waiting for events on EndDrawing(), no automatic event polling."""
     raw.EnableEventWaiting()
 
 @always_inline
 def disable_event_waiting():
-    """Disable waiting for events on EndDrawing(), automatic events polling"""
+    """Disable waiting for events on EndDrawing(), automatic events polling."""
     raw.DisableEventWaiting()
 
 @always_inline
 def show_cursor():
-    """Shows cursor"""
+    """Shows cursor."""
     raw.ShowCursor()
 
 @always_inline
 def hide_cursor():
-    """Hides cursor"""
+    """Hides cursor."""
     raw.HideCursor()
 
 @always_inline
 def is_cursor_hidden() -> Bool:
-    """Check if cursor is not visible"""
+    """Check if cursor is not visible."""
     var result = raw.IsCursorHidden()
     return result
 
 @always_inline
 def enable_cursor():
-    """Enables cursor (unlock cursor)"""
+    """Enables cursor (unlock cursor)."""
     raw.EnableCursor()
 
 @always_inline
 def disable_cursor():
-    """Disables cursor (lock cursor)"""
+    """Disables cursor (lock cursor)."""
     raw.DisableCursor()
 
 @always_inline
 def is_cursor_on_screen() -> Bool:
-    """Check if cursor is on the screen"""
+    """Check if cursor is on the screen."""
     var result = raw.IsCursorOnScreen()
     return result
 
 @always_inline
 def clear_background(color: Color):
-    """Set background color (framebuffer clear color)"""
+    """Set background color (framebuffer clear color)."""
     raw.ClearBackground(public_types._to_raw_color(color))
 
 @always_inline
 def begin_drawing():
-    """Setup canvas (framebuffer) to start drawing"""
+    """Setup canvas (framebuffer) to start drawing."""
     raw.BeginDrawing()
 
 @always_inline
 def end_drawing():
-    """End canvas drawing and swap buffers (double buffering)"""
+    """End canvas drawing and swap buffers (double buffering)."""
     raw.EndDrawing()
 
 @always_inline
 def begin_mode_2d(camera: Camera2D):
-    """Begin 2D mode with custom camera (2D)"""
+    """Begin 2D mode with custom camera (2D)."""
     raw.BeginMode2D(public_types._to_raw_camera_2d(camera))
 
 @always_inline
 def end_mode_2d():
-    """Ends 2D mode with custom camera"""
+    """Ends 2D mode with custom camera."""
     raw.EndMode2D()
 
 @always_inline
 def begin_mode_3d(camera: Camera3D):
-    """Begin 3D mode with custom camera (3D)"""
+    """Begin 3D mode with custom camera (3D)."""
     raw.BeginMode3D(public_types._to_raw_camera_3d(camera))
 
 @always_inline
 def end_mode_3d():
-    """Ends 3D mode and returns to default 2D orthographic mode"""
+    """Ends 3D mode and returns to default 2D orthographic mode."""
     raw.EndMode3D()
 
 @always_inline
 def begin_texture_mode(target: RenderTexture2D):
-    """Begin drawing to render texture"""
+    """Begin drawing to render texture."""
     raw.BeginTextureMode(public_types._to_raw_render_texture_2d(target))
 
 @always_inline
 def end_texture_mode():
-    """Ends drawing to render texture"""
+    """Ends drawing to render texture."""
     raw.EndTextureMode()
 
 @always_inline
 def begin_shader_mode(shader: Shader):
-    """Begin custom shader drawing"""
+    """Begin custom shader drawing."""
     raw.BeginShaderMode(public_types._to_raw_shader(shader))
 
 @always_inline
 def end_shader_mode():
-    """End custom shader drawing (use default shader)"""
+    """End custom shader drawing (use default shader)."""
     raw.EndShaderMode()
 
 @always_inline
 def begin_blend_mode(mode: Int):
-    """Begin blending mode (alpha, additive, multiplied, subtract, custom)"""
+    """Begin blending mode (alpha, additive, multiplied, subtract, custom)."""
     raw.BeginBlendMode(c_int(mode))
 
 @always_inline
 def end_blend_mode():
-    """End blending mode (reset to default: alpha blending)"""
+    """End blending mode (reset to default: alpha blending)."""
     raw.EndBlendMode()
 
 @always_inline
 def begin_scissor_mode(x: Int, y: Int, width: Int, height: Int):
-    """Begin scissor mode (define screen area for following drawing)"""
+    """Begin scissor mode (define screen area for following drawing)."""
     raw.BeginScissorMode(c_int(x), c_int(y), c_int(width), c_int(height))
 
 @always_inline
 def end_scissor_mode():
-    """End scissor mode"""
+    """End scissor mode."""
     raw.EndScissorMode()
 
 @always_inline
 def begin_vr_stereo_mode(config: VrStereoConfig):
-    """Begin stereo rendering (requires VR simulator)"""
+    """Begin stereo rendering (requires VR simulator)."""
     raw.BeginVrStereoMode(public_types._to_raw_vr_stereo_config(config))
 
 @always_inline
 def end_vr_stereo_mode():
-    """End stereo rendering (requires VR simulator)"""
+    """End stereo rendering (requires VR simulator)."""
     raw.EndVrStereoMode()
 
 @always_inline
 def load_vr_stereo_config(device: VrDeviceInfo) -> VrStereoConfig:
-    """Load VR stereo config for VR simulator device parameters"""
+    """Load VR stereo config for VR simulator device parameters."""
     var result = raw.LoadVrStereoConfig(public_types._to_raw_vr_device_info(device))
     return public_types._from_raw_vr_stereo_config(result)
 
 @always_inline
 def unload_vr_stereo_config(config: VrStereoConfig):
-    """Unload VR stereo config"""
+    """Unload VR stereo config."""
     raw.UnloadVrStereoConfig(public_types._to_raw_vr_stereo_config(config))
 
 @always_inline
 def load_shader(vs_file_name: String, fs_file_name: String) -> Shader:
-    """Load shader from files and bind default locations"""
+    """Load shader from files and bind default locations."""
     var result = raw.LoadShader(CStringSlice(unsafe_from_ptr=vs_file_name.unsafe_ptr().bitcast[c_char]()), CStringSlice(unsafe_from_ptr=fs_file_name.unsafe_ptr().bitcast[c_char]()))
     return public_types._from_raw_shader(result)
 
 @always_inline
 def load_shader_from_memory(vs_code: String, fs_code: String) -> Shader:
-    """Load shader from code strings and bind default locations"""
+    """Load shader from code strings and bind default locations."""
     var result = raw.LoadShaderFromMemory(CStringSlice(unsafe_from_ptr=vs_code.unsafe_ptr().bitcast[c_char]()), CStringSlice(unsafe_from_ptr=fs_code.unsafe_ptr().bitcast[c_char]()))
     return public_types._from_raw_shader(result)
 
 @always_inline
 def is_shader_valid(shader: Shader) -> Bool:
-    """Check if a shader is valid (loaded on GPU)"""
+    """Check if a shader is valid (loaded on GPU)."""
     var result = raw.IsShaderValid(public_types._to_raw_shader(shader))
     return result
 
 @always_inline
 def get_shader_location(shader: Shader, uniform_name: String) -> Int:
-    """Get shader uniform location"""
+    """Get shader uniform location."""
     var result = raw.GetShaderLocation(public_types._to_raw_shader(shader), CStringSlice(unsafe_from_ptr=uniform_name.unsafe_ptr().bitcast[c_char]()))
     return Int(result)
 
 @always_inline
 def get_shader_location_attrib(shader: Shader, attrib_name: String) -> Int:
-    """Get shader attribute location"""
+    """Get shader attribute location."""
     var result = raw.GetShaderLocationAttrib(public_types._to_raw_shader(shader), CStringSlice(unsafe_from_ptr=attrib_name.unsafe_ptr().bitcast[c_char]()))
     return Int(result)
 
 @always_inline
 def set_shader_value(shader: Shader, loc_index: Int, value: UnsafePointer[NoneType, MutAnyOrigin], uniform_type: Int):
-    """Set shader uniform value"""
+    """Set shader uniform value."""
     raw.SetShaderValue(public_types._to_raw_shader(shader), c_int(loc_index), value, c_int(uniform_type))
 
 @always_inline
 def set_shader_value_v(shader: Shader, loc_index: Int, value: UnsafePointer[NoneType, MutAnyOrigin], uniform_type: Int, count: Int):
-    """Set shader uniform value vector"""
+    """Set shader uniform value vector."""
     raw.SetShaderValueV(public_types._to_raw_shader(shader), c_int(loc_index), value, c_int(uniform_type), c_int(count))
 
 @always_inline
 def set_shader_value_matrix(shader: Shader, loc_index: Int, mat: Matrix):
-    """Set shader uniform value (matrix 4x4)"""
+    """Set shader uniform value (matrix 4x4)."""
     raw.SetShaderValueMatrix(public_types._to_raw_shader(shader), c_int(loc_index), public_types._to_raw_matrix(mat))
 
 @always_inline
 def set_shader_value_texture(shader: Shader, loc_index: Int, texture: Texture2D):
-    """Set shader uniform value and bind the texture (sampler2d)"""
+    """Set shader uniform value and bind the texture (sampler2d)."""
     raw.SetShaderValueTexture(public_types._to_raw_shader(shader), c_int(loc_index), public_types._to_raw_texture_2d(texture))
 
 @always_inline
 def unload_shader(shader: Shader):
-    """Unload shader from GPU memory (VRAM)"""
+    """Unload shader from GPU memory (VRAM)."""
     raw.UnloadShader(public_types._to_raw_shader(shader))
 
 @always_inline
 def get_screen_to_world_ray(position: Vector2, camera: Camera) -> Ray:
-    """Get a ray trace from screen position (i.e mouse)"""
+    """Get a ray trace from screen position (i.e mouse)."""
     var result = raw.GetScreenToWorldRay(public_types._to_raw_vector2(position), public_types._to_raw_camera(camera))
     return public_types._from_raw_ray(result)
 
 @always_inline
 def get_screen_to_world_ray_ex(position: Vector2, camera: Camera, width: Int, height: Int) -> Ray:
-    """Get a ray trace from screen position (i.e mouse) in a viewport"""
+    """Get a ray trace from screen position (i.e mouse) in a viewport."""
     var result = raw.GetScreenToWorldRayEx(public_types._to_raw_vector2(position), public_types._to_raw_camera(camera), c_int(width), c_int(height))
     return public_types._from_raw_ray(result)
 
 @always_inline
 def get_world_to_screen(position: Vector3, camera: Camera) -> Vector2:
-    """Get the screen space position for a 3d world space position"""
+    """Get the screen space position for a 3d world space position."""
     var result = raw.GetWorldToScreen(public_types._to_raw_vector3(position), public_types._to_raw_camera(camera))
     return public_types._from_raw_vector2(result)
 
 @always_inline
 def get_world_to_screen_ex(position: Vector3, camera: Camera, width: Int, height: Int) -> Vector2:
-    """Get size position for a 3d world space position"""
+    """Get size position for a 3d world space position."""
     var result = raw.GetWorldToScreenEx(public_types._to_raw_vector3(position), public_types._to_raw_camera(camera), c_int(width), c_int(height))
     return public_types._from_raw_vector2(result)
 
 @always_inline
 def get_world_to_screen_2d(position: Vector2, camera: Camera2D) -> Vector2:
-    """Get the screen space position for a 2d camera world space position"""
+    """Get the screen space position for a 2d camera world space position."""
     var result = raw.GetWorldToScreen2D(public_types._to_raw_vector2(position), public_types._to_raw_camera_2d(camera))
     return public_types._from_raw_vector2(result)
 
 @always_inline
 def get_screen_to_world_2d(position: Vector2, camera: Camera2D) -> Vector2:
-    """Get the world space position for a 2d camera screen space position"""
+    """Get the world space position for a 2d camera screen space position."""
     var result = raw.GetScreenToWorld2D(public_types._to_raw_vector2(position), public_types._to_raw_camera_2d(camera))
     return public_types._from_raw_vector2(result)
 
 @always_inline
 def get_camera_matrix(camera: Camera) -> Matrix:
-    """Get camera transform matrix (view matrix)"""
+    """Get camera transform matrix (view matrix)."""
     var result = raw.GetCameraMatrix(public_types._to_raw_camera(camera))
     return public_types._from_raw_matrix(result)
 
 @always_inline
 def get_camera_matrix_2d(camera: Camera2D) -> Matrix:
-    """Get camera 2d transform matrix"""
+    """Get camera 2d transform matrix."""
     var result = raw.GetCameraMatrix2D(public_types._to_raw_camera_2d(camera))
     return public_types._from_raw_matrix(result)
 
 @always_inline
 def set_target_fps(fps: Int):
-    """Set target FPS (maximum)"""
+    """Set target FPS (maximum)."""
     raw.SetTargetFPS(c_int(fps))
 
 @always_inline
 def get_frame_time() -> Float32:
-    """Get time in seconds for last frame drawn (delta time)"""
+    """Get time in seconds for last frame drawn (delta time)."""
     var result = raw.GetFrameTime()
     return Float32(result)
 
 @always_inline
 def get_time() -> Float64:
-    """Get elapsed time in seconds since InitWindow()"""
+    """Get elapsed time in seconds since InitWindow()."""
     var result = raw.GetTime()
     return Float64(result)
 
 @always_inline
 def get_fps() -> Int:
-    """Get current FPS"""
+    """Get current FPS."""
     var result = raw.GetFPS()
     return Int(result)
 
 @always_inline
 def swap_screen_buffer():
-    """Swap back buffer with front buffer (screen drawing)"""
+    """Swap back buffer with front buffer (screen drawing)."""
     raw.SwapScreenBuffer()
 
 @always_inline
 def poll_input_events():
-    """Register all input events"""
+    """Register all input events."""
     raw.PollInputEvents()
 
 @always_inline
 def wait_time(seconds: Float64):
-    """Wait for some time (halt program execution)"""
+    """Wait for some time (halt program execution)."""
     raw.WaitTime(c_double(seconds))
 
 @always_inline
 def set_random_seed(seed: UInt):
-    """Set the seed for the random number generator"""
+    """Set the seed for the random number generator."""
     raw.SetRandomSeed(c_uint(seed))
 
 @always_inline
 def get_random_value(min: Int, max: Int) -> Int:
-    """Get a random value between min and max (both included)"""
+    """Get a random value between min and max (both included)."""
     var result = raw.GetRandomValue(c_int(min), c_int(max))
     return Int(result)
 
 @always_inline
 def load_random_sequence(count: UInt, min: Int, max: Int) -> OwnedRandomSequence:
-    """Load random values sequence, no values repeated"""
+    """Load random values sequence, no values repeated."""
     var _owned = raw.LoadRandomSequence(c_uint(count), c_int(min), c_int(max))
     return OwnedRandomSequence(_owned)
 
 @always_inline
 def unload_random_sequence():
-    """Unload random values sequence"""
+    """Unload random values sequence."""
     var count: c_int = 0
     raw.UnloadRandomSequence(UnsafePointer(to=count))
 
 @always_inline
 def take_screenshot(file_name: String):
-    """Takes a screenshot of current screen (filename extension defines format)"""
+    """Takes a screenshot of current screen (filename extension defines format)."""
     raw.TakeScreenshot(CStringSlice(unsafe_from_ptr=file_name.unsafe_ptr().bitcast[c_char]()))
 
 @always_inline
 def set_config_flags(flags: UInt):
-    """Setup init configuration flags (view FLAGS)"""
+    """Setup init configuration flags (view FLAGS)."""
     raw.SetConfigFlags(c_uint(flags))
 
 @always_inline
 def open_url(url: String):
-    """Open URL with default system browser (if available)"""
+    """Open URL with default system browser (if available)."""
     raw.OpenURL(CStringSlice(unsafe_from_ptr=url.unsafe_ptr().bitcast[c_char]()))
 
 @always_inline
 def set_trace_log_level(log_level: Int):
-    """Set the current threshold (minimum) log level"""
+    """Set the current threshold (minimum) log level."""
     raw.SetTraceLogLevel(c_int(log_level))
 
 @always_inline
 def set_trace_log_callback(callback: raw_types.TraceLogCallback):
-    """Set custom trace log"""
+    """Set custom trace log."""
     raw.SetTraceLogCallback(callback)
 
 @always_inline
 def mem_alloc(size: UInt) -> UnsafePointer[NoneType, MutAnyOrigin]:
-    """Internal memory allocator"""
+    """Internal memory allocator."""
     var result = raw.MemAlloc(c_uint(size))
     return result
 
 @always_inline
 def mem_realloc(ptr: UnsafePointer[NoneType, MutAnyOrigin], size: UInt) -> UnsafePointer[NoneType, MutAnyOrigin]:
-    """Internal memory reallocator"""
+    """Internal memory reallocator."""
     var result = raw.MemRealloc(ptr, c_uint(size))
     return result
 
 @always_inline
 def mem_free(ptr: UnsafePointer[NoneType, MutAnyOrigin]):
-    """Internal memory free"""
+    """Internal memory free."""
     raw.MemFree(ptr)
 
 @always_inline
 def load_file_data(file_name: String) -> OwnedFileData:
-    """Load file data as byte array (read)"""
+    """Load file data as byte array (read)."""
     var count: c_int = 0
     var _owned = raw.LoadFileData(CStringSlice(unsafe_from_ptr=file_name.unsafe_ptr().bitcast[c_char]()), UnsafePointer(to=count))
     return OwnedFileData(_owned, Int(count))
 
 @always_inline
 def unload_file_data(data: UnsafePointer[c_uchar, MutAnyOrigin]):
-    """Unload file data allocated by LoadFileData()"""
+    """Unload file data allocated by LoadFileData()."""
     raw.UnloadFileData(data)
 
 @always_inline
 def save_file_data(file_name: String, data: UnsafePointer[NoneType, MutAnyOrigin], data_size: Int) -> Bool:
-    """Save data to file from byte array (write), returns true on success"""
+    """Save data to file from byte array (write), returns true on success."""
     var result = raw.SaveFileData(CStringSlice(unsafe_from_ptr=file_name.unsafe_ptr().bitcast[c_char]()), data, c_int(data_size))
     return result
 
 @always_inline
 def export_data_as_code(data: Span[UInt8, _], file_name: String) -> Bool:
-    """Export data to code (.h), returns true on success"""
+    """Export data to code (.h), returns true on success."""
     var result = raw.ExportDataAsCode(data.unsafe_ptr().bitcast[c_uchar]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(data)), CStringSlice(unsafe_from_ptr=file_name.unsafe_ptr().bitcast[c_char]()))
     return result
 
 @always_inline
 def load_file_text(file_name: String) -> OwnedFileText:
-    """Load text data from file (read), returns a '\0' terminated string"""
+    """Load text data from file (read), returns a '\0' terminated string."""
     var _owned = raw.LoadFileText(CStringSlice(unsafe_from_ptr=file_name.unsafe_ptr().bitcast[c_char]()))
     return OwnedFileText(_owned)
 
 @always_inline
 def unload_file_text(text: UnsafePointer[c_char, MutAnyOrigin]):
-    """Unload file text data allocated by LoadFileText()"""
+    """Unload file text data allocated by LoadFileText()."""
     raw.UnloadFileText(text)
 
 @always_inline
 def save_file_text(file_name: String, text: String) -> Bool:
-    """Save text data to file (write), string must be '\0' terminated, returns true on success"""
+    """Save text data to file (write), string must be '\0' terminated, returns true on success."""
     var result = raw.SaveFileText(CStringSlice(unsafe_from_ptr=file_name.unsafe_ptr().bitcast[c_char]()), CStringSlice(unsafe_from_ptr=text.unsafe_ptr().bitcast[c_char]()))
     return result
 
 @always_inline
 def set_load_file_data_callback(callback: raw_types.LoadFileDataCallback):
-    """Set custom file binary data loader"""
+    """Set custom file binary data loader."""
     raw.SetLoadFileDataCallback(callback)
 
 @always_inline
 def set_save_file_data_callback(callback: raw_types.SaveFileDataCallback):
-    """Set custom file binary data saver"""
+    """Set custom file binary data saver."""
     raw.SetSaveFileDataCallback(callback)
 
 @always_inline
 def set_load_file_text_callback(callback: raw_types.LoadFileTextCallback):
-    """Set custom file text data loader"""
+    """Set custom file text data loader."""
     raw.SetLoadFileTextCallback(callback)
 
 @always_inline
 def set_save_file_text_callback(callback: raw_types.SaveFileTextCallback):
-    """Set custom file text data saver"""
+    """Set custom file text data saver."""
     raw.SetSaveFileTextCallback(callback)
 
 @always_inline
 def file_rename(file_name: String, file_rename: String) -> Int:
-    """Rename file (if exists)"""
+    """Rename file (if exists)."""
     var result = raw.FileRename(CStringSlice(unsafe_from_ptr=file_name.unsafe_ptr().bitcast[c_char]()), CStringSlice(unsafe_from_ptr=file_rename.unsafe_ptr().bitcast[c_char]()))
     return Int(result)
 
 @always_inline
 def file_remove(file_name: String) -> Int:
-    """Remove file (if exists)"""
+    """Remove file (if exists)."""
     var result = raw.FileRemove(CStringSlice(unsafe_from_ptr=file_name.unsafe_ptr().bitcast[c_char]()))
     return Int(result)
 
 @always_inline
 def file_copy(src_path: String, dst_path: String) -> Int:
-    """Copy file from one path to another, dstPath created if it doesn't exist"""
+    """Copy file from one path to another, dstPath created if it doesn't exist."""
     var result = raw.FileCopy(CStringSlice(unsafe_from_ptr=src_path.unsafe_ptr().bitcast[c_char]()), CStringSlice(unsafe_from_ptr=dst_path.unsafe_ptr().bitcast[c_char]()))
     return Int(result)
 
 @always_inline
 def file_move(src_path: String, dst_path: String) -> Int:
-    """Move file from one directory to another, dstPath created if it doesn't exist"""
+    """Move file from one directory to another, dstPath created if it doesn't exist."""
     var result = raw.FileMove(CStringSlice(unsafe_from_ptr=src_path.unsafe_ptr().bitcast[c_char]()), CStringSlice(unsafe_from_ptr=dst_path.unsafe_ptr().bitcast[c_char]()))
     return Int(result)
 
 @always_inline
 def file_text_replace(file_name: String, search: String, replacement: String) -> Int:
-    """Replace text in an existing file"""
+    """Replace text in an existing file."""
     var result = raw.FileTextReplace(CStringSlice(unsafe_from_ptr=file_name.unsafe_ptr().bitcast[c_char]()), CStringSlice(unsafe_from_ptr=search.unsafe_ptr().bitcast[c_char]()), CStringSlice(unsafe_from_ptr=replacement.unsafe_ptr().bitcast[c_char]()))
     return Int(result)
 
 @always_inline
 def file_text_find_index(file_name: String, search: String) -> Int:
-    """Find text in existing file"""
+    """Find text in existing file."""
     var result = raw.FileTextFindIndex(CStringSlice(unsafe_from_ptr=file_name.unsafe_ptr().bitcast[c_char]()), CStringSlice(unsafe_from_ptr=search.unsafe_ptr().bitcast[c_char]()))
     return Int(result)
 
 @always_inline
 def file_exists(file_name: String) -> Bool:
-    """Check if file exists"""
+    """Check if file exists."""
     var result = raw.FileExists(CStringSlice(unsafe_from_ptr=file_name.unsafe_ptr().bitcast[c_char]()))
     return result
 
 @always_inline
 def directory_exists(dir_path: String) -> Bool:
-    """Check if a directory path exists"""
+    """Check if a directory path exists."""
     var result = raw.DirectoryExists(CStringSlice(unsafe_from_ptr=dir_path.unsafe_ptr().bitcast[c_char]()))
     return result
 
 @always_inline
 def is_file_extension(file_name: String, ext: String) -> Bool:
-    """Check file extension (recommended include point: .png, .wav)"""
+    """Check file extension (recommended include point: .png, .wav)."""
     var result = raw.IsFileExtension(CStringSlice(unsafe_from_ptr=file_name.unsafe_ptr().bitcast[c_char]()), CStringSlice(unsafe_from_ptr=ext.unsafe_ptr().bitcast[c_char]()))
     return result
 
 @always_inline
 def get_file_length(file_name: String) -> Int:
-    """Get file length in bytes (NOTE: GetFileSize() conflicts with windows.h)"""
+    """Get file length in bytes (NOTE: GetFileSize() conflicts with windows.h)."""
     var result = raw.GetFileLength(CStringSlice(unsafe_from_ptr=file_name.unsafe_ptr().bitcast[c_char]()))
     return Int(result)
 
 @always_inline
 def get_file_mod_time(file_name: String) -> Int:
-    """Get file modification time (last write time)"""
+    """Get file modification time (last write time)."""
     var result = raw.GetFileModTime(CStringSlice(unsafe_from_ptr=file_name.unsafe_ptr().bitcast[c_char]()))
     return Int(result)
 
 @always_inline
 def get_file_extension(file_name: String) -> String:
-    """Get pointer to extension for a filename string (includes dot: '.png')"""
+    """Get pointer to extension for a filename string (includes dot: '.png')."""
     var result = raw.GetFileExtension(CStringSlice(unsafe_from_ptr=file_name.unsafe_ptr().bitcast[c_char]()))
     return String(CStringSlice(unsafe_from_ptr=result))
 
 @always_inline
 def get_file_name(file_path: String) -> String:
-    """Get pointer to filename for a path string"""
+    """Get pointer to filename for a path string."""
     var result = raw.GetFileName(CStringSlice(unsafe_from_ptr=file_path.unsafe_ptr().bitcast[c_char]()))
     return String(CStringSlice(unsafe_from_ptr=result))
 
 @always_inline
 def get_file_name_without_ext(file_path: String) -> String:
-    """Get filename string without extension (uses static string)"""
+    """Get filename string without extension (uses static string)."""
     var result = raw.GetFileNameWithoutExt(CStringSlice(unsafe_from_ptr=file_path.unsafe_ptr().bitcast[c_char]()))
     return String(CStringSlice(unsafe_from_ptr=result))
 
 @always_inline
 def get_directory_path(file_path: String) -> String:
-    """Get full path for a given fileName with path (uses static string)"""
+    """Get full path for a given fileName with path (uses static string)."""
     var result = raw.GetDirectoryPath(CStringSlice(unsafe_from_ptr=file_path.unsafe_ptr().bitcast[c_char]()))
     return String(CStringSlice(unsafe_from_ptr=result))
 
 @always_inline
 def get_prev_directory_path(dir_path: String) -> String:
-    """Get previous directory path for a given path (uses static string)"""
+    """Get previous directory path for a given path (uses static string)."""
     var result = raw.GetPrevDirectoryPath(CStringSlice(unsafe_from_ptr=dir_path.unsafe_ptr().bitcast[c_char]()))
     return String(CStringSlice(unsafe_from_ptr=result))
 
 @always_inline
 def get_working_directory() -> String:
-    """Get current working directory (uses static string)"""
+    """Get current working directory (uses static string)."""
     var result = raw.GetWorkingDirectory()
     return String(CStringSlice(unsafe_from_ptr=result))
 
 @always_inline
 def get_application_directory() -> String:
-    """Get the directory of the running application (uses static string)"""
+    """Get the directory of the running application (uses static string)."""
     var result = raw.GetApplicationDirectory()
     return String(CStringSlice(unsafe_from_ptr=result))
 
 @always_inline
 def make_directory(dir_path: String) -> Int:
-    """Create directories (including full path requested), returns 0 on success"""
+    """Create directories (including full path requested), returns 0 on success."""
     var result = raw.MakeDirectory(CStringSlice(unsafe_from_ptr=dir_path.unsafe_ptr().bitcast[c_char]()))
     return Int(result)
 
 @always_inline
 def change_directory(dir_path: String) -> Bool:
-    """Change working directory, return true on success"""
+    """Change working directory, return true on success."""
     var result = raw.ChangeDirectory(CStringSlice(unsafe_from_ptr=dir_path.unsafe_ptr().bitcast[c_char]()))
     return result
 
 @always_inline
 def is_path_file(path: String) -> Bool:
-    """Check if a given path is a file or a directory"""
+    """Check if a given path is a file or a directory."""
     var result = raw.IsPathFile(CStringSlice(unsafe_from_ptr=path.unsafe_ptr().bitcast[c_char]()))
     return result
 
 @always_inline
 def is_file_name_valid(file_name: String) -> Bool:
-    """Check if fileName is valid for the platform/OS"""
+    """Check if fileName is valid for the platform/OS."""
     var result = raw.IsFileNameValid(CStringSlice(unsafe_from_ptr=file_name.unsafe_ptr().bitcast[c_char]()))
     return result
 
 @always_inline
 def load_directory_files(dir_path: String) -> FilePathList:
-    """Load directory filepaths, files and directories, no subdirs scan"""
+    """Load directory filepaths, files and directories, no subdirs scan."""
     var result = raw.LoadDirectoryFiles(CStringSlice(unsafe_from_ptr=dir_path.unsafe_ptr().bitcast[c_char]()))
     return public_types._from_raw_file_path_list(result)
 
 @always_inline
 def load_directory_files_ex(base_path: String, filter: String, scan_subdirs: Bool) -> FilePathList:
-    """Load directory filepaths with extension filtering and subdir scan; some filters available: '*.*', 'FILES*', 'DIRS*'"""
+    """Load directory filepaths with extension filtering and subdir scan; some filters available: '*.*', 'FILES*', 'DIRS*'."""
     var result = raw.LoadDirectoryFilesEx(CStringSlice(unsafe_from_ptr=base_path.unsafe_ptr().bitcast[c_char]()), CStringSlice(unsafe_from_ptr=filter.unsafe_ptr().bitcast[c_char]()), scan_subdirs)
     return public_types._from_raw_file_path_list(result)
 
 @always_inline
 def unload_directory_files(files: FilePathList):
-    """Unload filepaths"""
+    """Unload filepaths."""
     raw.UnloadDirectoryFiles(public_types._to_raw_file_path_list(files))
 
 @always_inline
 def is_file_dropped() -> Bool:
-    """Check if a file has been dropped into window"""
+    """Check if a file has been dropped into window."""
     var result = raw.IsFileDropped()
     return result
 
 @always_inline
 def load_dropped_files() -> FilePathList:
-    """Load dropped filepaths"""
+    """Load dropped filepaths."""
     var result = raw.LoadDroppedFiles()
     return public_types._from_raw_file_path_list(result)
 
 @always_inline
 def unload_dropped_files(files: FilePathList):
-    """Unload dropped filepaths"""
+    """Unload dropped filepaths."""
     raw.UnloadDroppedFiles(public_types._to_raw_file_path_list(files))
 
 @always_inline
 def get_directory_file_count(dir_path: String) -> UInt:
-    """Get the file count in a directory"""
+    """Get the file count in a directory."""
     var result = raw.GetDirectoryFileCount(CStringSlice(unsafe_from_ptr=dir_path.unsafe_ptr().bitcast[c_char]()))
     return UInt(result)
 
 @always_inline
 def get_directory_file_count_ex(base_path: String, filter: String, scan_subdirs: Bool) -> UInt:
-    """Get the file count in a directory with extension filtering and recursive directory scan. Use 'DIR' in the filter string to include directories in the result"""
+    """Get the file count in a directory with extension filtering and recursive directory scan. Use 'DIR' in the filter string to include directories in the result."""
     var result = raw.GetDirectoryFileCountEx(CStringSlice(unsafe_from_ptr=base_path.unsafe_ptr().bitcast[c_char]()), CStringSlice(unsafe_from_ptr=filter.unsafe_ptr().bitcast[c_char]()), scan_subdirs)
     return UInt(result)
 
 @always_inline
 def compress_data(data: Span[UInt8, _]) -> OwnedCompressData:
-    """Compress data (DEFLATE algorithm), memory must be MemFree()"""
+    """Compress data (DEFLATE algorithm), memory must be MemFree()."""
     var count: c_int = 0
     var _owned = raw.CompressData(data.unsafe_ptr().bitcast[c_uchar]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(data)), UnsafePointer(to=count))
     return OwnedCompressData(_owned, Int(count))
 
 @always_inline
 def decompress_data(comp_data: Span[UInt8, _]) -> OwnedDecompressData:
-    """Decompress data (DEFLATE algorithm), memory must be MemFree()"""
+    """Decompress data (DEFLATE algorithm), memory must be MemFree()."""
     var count: c_int = 0
     var _owned = raw.DecompressData(comp_data.unsafe_ptr().bitcast[c_uchar]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(comp_data)), UnsafePointer(to=count))
     return OwnedDecompressData(_owned, Int(count))
 
 @always_inline
 def encode_data_base64(data: Span[UInt8, _]) -> OwnedEncodeDataBase64:
-    """Encode data to Base64 string (includes NULL terminator), memory must be MemFree()"""
+    """Encode data to Base64 string (includes NULL terminator), memory must be MemFree()."""
     var count: c_int = 0
     var _owned = raw.EncodeDataBase64(data.unsafe_ptr().bitcast[c_uchar]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(data)), UnsafePointer(to=count))
     return OwnedEncodeDataBase64(_owned, Int(count))
 
 @always_inline
 def decode_data_base64(text: String) -> OwnedDecodeDataBase64:
-    """Decode Base64 string (expected NULL terminated), memory must be MemFree()"""
+    """Decode Base64 string (expected NULL terminated), memory must be MemFree()."""
     var count: c_int = 0
     var _owned = raw.DecodeDataBase64(CStringSlice(unsafe_from_ptr=text.unsafe_ptr().bitcast[c_char]()), UnsafePointer(to=count))
     return OwnedDecodeDataBase64(_owned, Int(count))
 
 @always_inline
 def compute_crc32(data: Span[UInt8, _]) -> UInt:
-    """Compute CRC32 hash code"""
+    """Compute CRC32 hash code."""
     var result = raw.ComputeCRC32(data.unsafe_ptr().bitcast[c_uchar]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(data)))
     return UInt(result)
 
 @always_inline
 def compute_md5(data: Span[UInt8, _]) -> UnsafePointer[c_uint, MutAnyOrigin]:
-    """Compute MD5 hash code, returns static int[4] (16 bytes)"""
+    """Compute MD5 hash code, returns static int[4] (16 bytes)."""
     var result = raw.ComputeMD5(data.unsafe_ptr().bitcast[c_uchar]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(data)))
     return result
 
 @always_inline
 def compute_sha1(data: Span[UInt8, _]) -> UnsafePointer[c_uint, MutAnyOrigin]:
-    """Compute SHA1 hash code, returns static int[5] (20 bytes)"""
+    """Compute SHA1 hash code, returns static int[5] (20 bytes)."""
     var result = raw.ComputeSHA1(data.unsafe_ptr().bitcast[c_uchar]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(data)))
     return result
 
 @always_inline
 def compute_sha256(data: Span[UInt8, _]) -> UnsafePointer[c_uint, MutAnyOrigin]:
-    """Compute SHA256 hash code, returns static int[8] (32 bytes)"""
+    """Compute SHA256 hash code, returns static int[8] (32 bytes)."""
     var result = raw.ComputeSHA256(data.unsafe_ptr().bitcast[c_uchar]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(data)))
     return result
 
 @always_inline
 def load_automation_event_list(file_name: String) -> AutomationEventList:
-    """Load automation events list from file, NULL for empty list, capacity = MAX_AUTOMATION_EVENTS"""
+    """Load automation events list from file, NULL for empty list, capacity = MAX_AUTOMATION_EVENTS."""
     var result = raw.LoadAutomationEventList(CStringSlice(unsafe_from_ptr=file_name.unsafe_ptr().bitcast[c_char]()))
     return public_types._from_raw_automation_event_list(result)
 
 @always_inline
 def unload_automation_event_list(list: AutomationEventList):
-    """Unload automation events list from file"""
+    """Unload automation events list from file."""
     raw.UnloadAutomationEventList(public_types._to_raw_automation_event_list(list))
 
 @always_inline
 def export_automation_event_list(list: AutomationEventList, file_name: String) -> Bool:
-    """Export automation events list as text file"""
+    """Export automation events list as text file."""
     var result = raw.ExportAutomationEventList(public_types._to_raw_automation_event_list(list), CStringSlice(unsafe_from_ptr=file_name.unsafe_ptr().bitcast[c_char]()))
     return result
 
 @always_inline
 def set_automation_event_list(mut list: AutomationEventList):
-    """Set automation event list to record to"""
+    """Set automation event list to record to."""
     raw.SetAutomationEventList(UnsafePointer(to=list).bitcast[raw_types.AutomationEventList]().unsafe_mut_cast[True]().as_any_origin())
 
 @always_inline
 def set_automation_event_base_frame(frame: Int):
-    """Set automation event internal base frame to start recording"""
+    """Set automation event internal base frame to start recording."""
     raw.SetAutomationEventBaseFrame(c_int(frame))
 
 @always_inline
 def start_automation_event_recording():
-    """Start recording automation events (AutomationEventList must be set)"""
+    """Start recording automation events (AutomationEventList must be set)."""
     raw.StartAutomationEventRecording()
 
 @always_inline
 def stop_automation_event_recording():
-    """Stop recording automation events"""
+    """Stop recording automation events."""
     raw.StopAutomationEventRecording()
 
 @always_inline
 def play_automation_event(event: AutomationEvent):
-    """Play a recorded automation event"""
+    """Play a recorded automation event."""
     raw.PlayAutomationEvent(public_types._to_raw_automation_event(event))
 
 @always_inline
 def is_key_pressed(key: Int) -> Bool:
-    """Check if a key has been pressed once"""
+    """Check if a key has been pressed once."""
     var result = raw.IsKeyPressed(c_int(key))
     return result
 
 @always_inline
 def is_key_pressed_repeat(key: Int) -> Bool:
-    """Check if a key has been pressed again"""
+    """Check if a key has been pressed again."""
     var result = raw.IsKeyPressedRepeat(c_int(key))
     return result
 
 @always_inline
 def is_key_down(key: Int) -> Bool:
-    """Check if a key is being pressed"""
+    """Check if a key is being pressed."""
     var result = raw.IsKeyDown(c_int(key))
     return result
 
 @always_inline
 def is_key_released(key: Int) -> Bool:
-    """Check if a key has been released once"""
+    """Check if a key has been released once."""
     var result = raw.IsKeyReleased(c_int(key))
     return result
 
 @always_inline
 def is_key_up(key: Int) -> Bool:
-    """Check if a key is NOT being pressed"""
+    """Check if a key is NOT being pressed."""
     var result = raw.IsKeyUp(c_int(key))
     return result
 
 @always_inline
 def get_key_pressed() -> Int:
-    """Get key pressed (keycode), call it multiple times for keys queued, returns 0 when the queue is empty"""
+    """Get key pressed (keycode), call it multiple times for keys queued, returns 0 when the queue is empty."""
     var result = raw.GetKeyPressed()
     return Int(result)
 
 @always_inline
 def get_char_pressed() -> Int:
-    """Get char pressed (unicode), call it multiple times for chars queued, returns 0 when the queue is empty"""
+    """Get char pressed (unicode), call it multiple times for chars queued, returns 0 when the queue is empty."""
     var result = raw.GetCharPressed()
     return Int(result)
 
 @always_inline
 def get_key_name(key: Int) -> String:
-    """Get name of a QWERTY key on the current keyboard layout (eg returns string 'q' for KEY_A on an AZERTY keyboard)"""
+    """Get name of a QWERTY key on the current keyboard layout (eg returns string 'q' for KEY_A on an AZERTY keyboard)."""
     var result = raw.GetKeyName(c_int(key))
     return String(CStringSlice(unsafe_from_ptr=result))
 
 @always_inline
 def set_exit_key(key: Int):
-    """Set a custom key to exit program (default is ESC)"""
+    """Set a custom key to exit program (default is ESC)."""
     raw.SetExitKey(c_int(key))
 
 @always_inline
 def is_gamepad_available(gamepad: Int) -> Bool:
-    """Check if a gamepad is available"""
+    """Check if a gamepad is available."""
     var result = raw.IsGamepadAvailable(c_int(gamepad))
     return result
 
 @always_inline
 def get_gamepad_name(gamepad: Int) -> String:
-    """Get gamepad internal name id"""
+    """Get gamepad internal name id."""
     var result = raw.GetGamepadName(c_int(gamepad))
     return String(CStringSlice(unsafe_from_ptr=result))
 
 @always_inline
 def is_gamepad_button_pressed(gamepad: Int, button: Int) -> Bool:
-    """Check if a gamepad button has been pressed once"""
+    """Check if a gamepad button has been pressed once."""
     var result = raw.IsGamepadButtonPressed(c_int(gamepad), c_int(button))
     return result
 
 @always_inline
 def is_gamepad_button_down(gamepad: Int, button: Int) -> Bool:
-    """Check if a gamepad button is being pressed"""
+    """Check if a gamepad button is being pressed."""
     var result = raw.IsGamepadButtonDown(c_int(gamepad), c_int(button))
     return result
 
 @always_inline
 def is_gamepad_button_released(gamepad: Int, button: Int) -> Bool:
-    """Check if a gamepad button has been released once"""
+    """Check if a gamepad button has been released once."""
     var result = raw.IsGamepadButtonReleased(c_int(gamepad), c_int(button))
     return result
 
 @always_inline
 def is_gamepad_button_up(gamepad: Int, button: Int) -> Bool:
-    """Check if a gamepad button is NOT being pressed"""
+    """Check if a gamepad button is NOT being pressed."""
     var result = raw.IsGamepadButtonUp(c_int(gamepad), c_int(button))
     return result
 
 @always_inline
 def get_gamepad_button_pressed() -> Int:
-    """Get the last gamepad button pressed"""
+    """Get the last gamepad button pressed."""
     var result = raw.GetGamepadButtonPressed()
     return Int(result)
 
 @always_inline
 def get_gamepad_axis_count(gamepad: Int) -> Int:
-    """Get axis count for a gamepad"""
+    """Get axis count for a gamepad."""
     var result = raw.GetGamepadAxisCount(c_int(gamepad))
     return Int(result)
 
 @always_inline
 def get_gamepad_axis_movement(gamepad: Int, axis: Int) -> Float32:
-    """Get movement value for a gamepad axis"""
+    """Get movement value for a gamepad axis."""
     var result = raw.GetGamepadAxisMovement(c_int(gamepad), c_int(axis))
     return Float32(result)
 
 @always_inline
 def set_gamepad_mappings(mappings: String) -> Int:
-    """Set internal gamepad mappings (SDL_GameControllerDB)"""
+    """Set internal gamepad mappings (SDL_GameControllerDB)."""
     var result = raw.SetGamepadMappings(CStringSlice(unsafe_from_ptr=mappings.unsafe_ptr().bitcast[c_char]()))
     return Int(result)
 
 @always_inline
 def set_gamepad_vibration(gamepad: Int, left_motor: Float32, right_motor: Float32, duration: Float32):
-    """Set gamepad vibration for both motors (duration in seconds)"""
+    """Set gamepad vibration for both motors (duration in seconds)."""
     raw.SetGamepadVibration(c_int(gamepad), c_float(left_motor), c_float(right_motor), c_float(duration))
 
 @always_inline
 def is_mouse_button_pressed(button: Int) -> Bool:
-    """Check if a mouse button has been pressed once"""
+    """Check if a mouse button has been pressed once."""
     var result = raw.IsMouseButtonPressed(c_int(button))
     return result
 
 @always_inline
 def is_mouse_button_down(button: Int) -> Bool:
-    """Check if a mouse button is being pressed"""
+    """Check if a mouse button is being pressed."""
     var result = raw.IsMouseButtonDown(c_int(button))
     return result
 
 @always_inline
 def is_mouse_button_released(button: Int) -> Bool:
-    """Check if a mouse button has been released once"""
+    """Check if a mouse button has been released once."""
     var result = raw.IsMouseButtonReleased(c_int(button))
     return result
 
 @always_inline
 def is_mouse_button_up(button: Int) -> Bool:
-    """Check if a mouse button is NOT being pressed"""
+    """Check if a mouse button is NOT being pressed."""
     var result = raw.IsMouseButtonUp(c_int(button))
     return result
 
 @always_inline
 def get_mouse_x() -> Int:
-    """Get mouse position X"""
+    """Get mouse position X."""
     var result = raw.GetMouseX()
     return Int(result)
 
 @always_inline
 def get_mouse_y() -> Int:
-    """Get mouse position Y"""
+    """Get mouse position Y."""
     var result = raw.GetMouseY()
     return Int(result)
 
 @always_inline
 def get_mouse_position() -> Vector2:
-    """Get mouse position XY"""
+    """Get mouse position XY."""
     var result = raw.GetMousePosition()
     return public_types._from_raw_vector2(result)
 
 @always_inline
 def get_mouse_delta() -> Vector2:
-    """Get mouse delta between frames"""
+    """Get mouse delta between frames."""
     var result = raw.GetMouseDelta()
     return public_types._from_raw_vector2(result)
 
 @always_inline
 def set_mouse_position(x: Int, y: Int):
-    """Set mouse position XY"""
+    """Set mouse position XY."""
     raw.SetMousePosition(c_int(x), c_int(y))
 
 @always_inline
 def set_mouse_offset(offset_x: Int, offset_y: Int):
-    """Set mouse offset"""
+    """Set mouse offset."""
     raw.SetMouseOffset(c_int(offset_x), c_int(offset_y))
 
 @always_inline
 def set_mouse_scale(scale_x: Float32, scale_y: Float32):
-    """Set mouse scaling"""
+    """Set mouse scaling."""
     raw.SetMouseScale(c_float(scale_x), c_float(scale_y))
 
 @always_inline
 def get_mouse_wheel_move() -> Float32:
-    """Get mouse wheel movement for X or Y, whichever is larger"""
+    """Get mouse wheel movement for X or Y, whichever is larger."""
     var result = raw.GetMouseWheelMove()
     return Float32(result)
 
 @always_inline
 def get_mouse_wheel_move_v() -> Vector2:
-    """Get mouse wheel movement for both X and Y"""
+    """Get mouse wheel movement for both X and Y."""
     var result = raw.GetMouseWheelMoveV()
     return public_types._from_raw_vector2(result)
 
 @always_inline
 def set_mouse_cursor(cursor: Int):
-    """Set mouse cursor"""
+    """Set mouse cursor."""
     raw.SetMouseCursor(c_int(cursor))
 
 @always_inline
 def get_touch_x() -> Int:
-    """Get touch position X for touch point 0 (relative to screen size)"""
+    """Get touch position X for touch point 0 (relative to screen size)."""
     var result = raw.GetTouchX()
     return Int(result)
 
 @always_inline
 def get_touch_y() -> Int:
-    """Get touch position Y for touch point 0 (relative to screen size)"""
+    """Get touch position Y for touch point 0 (relative to screen size)."""
     var result = raw.GetTouchY()
     return Int(result)
 
 @always_inline
 def get_touch_position(index: Int) -> Vector2:
-    """Get touch position XY for a touch point index (relative to screen size)"""
+    """Get touch position XY for a touch point index (relative to screen size)."""
     var result = raw.GetTouchPosition(c_int(index))
     return public_types._from_raw_vector2(result)
 
 @always_inline
 def get_touch_point_id(index: Int) -> Int:
-    """Get touch point identifier for given index"""
+    """Get touch point identifier for given index."""
     var result = raw.GetTouchPointId(c_int(index))
     return Int(result)
 
 @always_inline
 def get_touch_point_count() -> Int:
-    """Get number of touch points"""
+    """Get number of touch points."""
     var result = raw.GetTouchPointCount()
     return Int(result)
 
 @always_inline
 def set_gestures_enabled(flags: UInt):
-    """Enable a set of gestures using flags"""
+    """Enable a set of gestures using flags."""
     raw.SetGesturesEnabled(c_uint(flags))
 
 @always_inline
 def is_gesture_detected(gesture: UInt) -> Bool:
-    """Check if a gesture have been detected"""
+    """Check if a gesture have been detected."""
     var result = raw.IsGestureDetected(c_uint(gesture))
     return result
 
 @always_inline
 def get_gesture_detected() -> Int:
-    """Get latest detected gesture"""
+    """Get latest detected gesture."""
     var result = raw.GetGestureDetected()
     return Int(result)
 
 @always_inline
 def get_gesture_hold_duration() -> Float32:
-    """Get gesture hold time in seconds"""
+    """Get gesture hold time in seconds."""
     var result = raw.GetGestureHoldDuration()
     return Float32(result)
 
 @always_inline
 def get_gesture_drag_vector() -> Vector2:
-    """Get gesture drag vector"""
+    """Get gesture drag vector."""
     var result = raw.GetGestureDragVector()
     return public_types._from_raw_vector2(result)
 
 @always_inline
 def get_gesture_drag_angle() -> Float32:
-    """Get gesture drag angle"""
+    """Get gesture drag angle."""
     var result = raw.GetGestureDragAngle()
     return Float32(result)
 
 @always_inline
 def get_gesture_pinch_vector() -> Vector2:
-    """Get gesture pinch delta"""
+    """Get gesture pinch delta."""
     var result = raw.GetGesturePinchVector()
     return public_types._from_raw_vector2(result)
 
 @always_inline
 def get_gesture_pinch_angle() -> Float32:
-    """Get gesture pinch angle"""
+    """Get gesture pinch angle."""
     var result = raw.GetGesturePinchAngle()
     return Float32(result)
 
 @always_inline
 def update_camera(mut camera: Camera, mode: Int):
-    """Update camera position for selected mode"""
+    """Update camera position for selected mode."""
     raw.UpdateCamera(UnsafePointer(to=camera).bitcast[raw_types.Camera3D]().unsafe_mut_cast[True]().as_any_origin(), c_int(mode))
 
 @always_inline
 def update_camera_pro(mut camera: Camera, movement: Vector3, rotation: Vector3, zoom: Float32):
-    """Update camera movement/rotation"""
+    """Update camera movement/rotation."""
     raw.UpdateCameraPro(UnsafePointer(to=camera).bitcast[raw_types.Camera3D]().unsafe_mut_cast[True]().as_any_origin(), public_types._to_raw_vector3(movement), public_types._to_raw_vector3(rotation), c_float(zoom))
 
 @always_inline
 def set_shapes_texture(texture: Texture2D, source: Rectangle):
-    """Set texture and rectangle to be used on shapes drawing"""
+    """Set texture and rectangle to be used on shapes drawing."""
     raw.SetShapesTexture(public_types._to_raw_texture_2d(texture), public_types._to_raw_rectangle(source))
 
 @always_inline
 def get_shapes_texture() -> Texture2D:
-    """Get texture that is used for shapes drawing"""
+    """Get texture that is used for shapes drawing."""
     var result = raw.GetShapesTexture()
     return public_types._from_raw_texture_2d(result)
 
 @always_inline
 def get_shapes_texture_rectangle() -> Rectangle:
-    """Get texture source rectangle that is used for shapes drawing"""
+    """Get texture source rectangle that is used for shapes drawing."""
     var result = raw.GetShapesTextureRectangle()
     return public_types._from_raw_rectangle(result)
 
 @always_inline
 def draw_pixel(pos_x: Int, pos_y: Int, color: Color):
-    """Draw a pixel using geometry [Can be slow, use with care]"""
+    """Draw a pixel using geometry [Can be slow, use with care]."""
     raw.DrawPixel(c_int(pos_x), c_int(pos_y), public_types._to_raw_color(color))
 
 @always_inline
 def draw_pixel_v(position: Vector2, color: Color):
-    """Draw a pixel using geometry (Vector version) [Can be slow, use with care]"""
+    """Draw a pixel using geometry (Vector version) [Can be slow, use with care]."""
     raw.DrawPixelV(public_types._to_raw_vector2(position), public_types._to_raw_color(color))
 
 @always_inline
 def draw_line(start_pos_x: Int, start_pos_y: Int, end_pos_x: Int, end_pos_y: Int, color: Color):
-    """Draw a line"""
+    """Draw a line."""
     raw.DrawLine(c_int(start_pos_x), c_int(start_pos_y), c_int(end_pos_x), c_int(end_pos_y), public_types._to_raw_color(color))
 
 @always_inline
 def draw_line_v(start_pos: Vector2, end_pos: Vector2, color: Color):
-    """Draw a line (using gl lines)"""
+    """Draw a line (using gl lines)."""
     raw.DrawLineV(public_types._to_raw_vector2(start_pos), public_types._to_raw_vector2(end_pos), public_types._to_raw_color(color))
 
 @always_inline
 def draw_line_ex(start_pos: Vector2, end_pos: Vector2, thick: Float32, color: Color):
-    """Draw a line (using triangles/quads)"""
+    """Draw a line (using triangles/quads)."""
     raw.DrawLineEx(public_types._to_raw_vector2(start_pos), public_types._to_raw_vector2(end_pos), c_float(thick), public_types._to_raw_color(color))
 
 @always_inline
 def draw_line_strip(points: Span[Vector2, _], color: Color):
-    """Draw lines sequence (using gl lines)"""
+    """Draw lines sequence (using gl lines)."""
     raw.DrawLineStrip(points.unsafe_ptr().bitcast[raw_types.Vector2]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(points)), public_types._to_raw_color(color))
 
 @always_inline
 def draw_line_bezier(start_pos: Vector2, end_pos: Vector2, thick: Float32, color: Color):
-    """Draw line segment cubic-bezier in-out interpolation"""
+    """Draw line segment cubic-bezier in-out interpolation."""
     raw.DrawLineBezier(public_types._to_raw_vector2(start_pos), public_types._to_raw_vector2(end_pos), c_float(thick), public_types._to_raw_color(color))
 
 @always_inline
 def draw_line_dashed(start_pos: Vector2, end_pos: Vector2, dash_size: Int, space_size: Int, color: Color):
-    """Draw a dashed line"""
+    """Draw a dashed line."""
     raw.DrawLineDashed(public_types._to_raw_vector2(start_pos), public_types._to_raw_vector2(end_pos), c_int(dash_size), c_int(space_size), public_types._to_raw_color(color))
 
 @always_inline
 def draw_circle(center_x: Int, center_y: Int, radius: Float32, color: Color):
-    """Draw a color-filled circle"""
+    """Draw a color-filled circle."""
     raw.DrawCircle(c_int(center_x), c_int(center_y), c_float(radius), public_types._to_raw_color(color))
 
 @always_inline
 def draw_circle_v(center: Vector2, radius: Float32, color: Color):
-    """Draw a color-filled circle (Vector version)"""
+    """Draw a color-filled circle (Vector version)."""
     raw.DrawCircleV(public_types._to_raw_vector2(center), c_float(radius), public_types._to_raw_color(color))
 
 @always_inline
 def draw_circle_gradient(center: Vector2, radius: Float32, inner: Color, outer: Color):
-    """Draw a gradient-filled circle"""
+    """Draw a gradient-filled circle."""
     raw.DrawCircleGradient(public_types._to_raw_vector2(center), c_float(radius), public_types._to_raw_color(inner), public_types._to_raw_color(outer))
 
 @always_inline
 def draw_circle_sector(center: Vector2, radius: Float32, start_angle: Float32, end_angle: Float32, segments: Int, color: Color):
-    """Draw a piece of a circle"""
+    """Draw a piece of a circle."""
     raw.DrawCircleSector(public_types._to_raw_vector2(center), c_float(radius), c_float(start_angle), c_float(end_angle), c_int(segments), public_types._to_raw_color(color))
 
 @always_inline
 def draw_circle_sector_lines(center: Vector2, radius: Float32, start_angle: Float32, end_angle: Float32, segments: Int, color: Color):
-    """Draw circle sector outline"""
+    """Draw circle sector outline."""
     raw.DrawCircleSectorLines(public_types._to_raw_vector2(center), c_float(radius), c_float(start_angle), c_float(end_angle), c_int(segments), public_types._to_raw_color(color))
 
 @always_inline
 def draw_circle_lines(center_x: Int, center_y: Int, radius: Float32, color: Color):
-    """Draw circle outline"""
+    """Draw circle outline."""
     raw.DrawCircleLines(c_int(center_x), c_int(center_y), c_float(radius), public_types._to_raw_color(color))
 
 @always_inline
 def draw_circle_lines_v(center: Vector2, radius: Float32, color: Color):
-    """Draw circle outline (Vector version)"""
+    """Draw circle outline (Vector version)."""
     raw.DrawCircleLinesV(public_types._to_raw_vector2(center), c_float(radius), public_types._to_raw_color(color))
 
 @always_inline
 def draw_ellipse(center_x: Int, center_y: Int, radius_h: Float32, radius_v: Float32, color: Color):
-    """Draw ellipse"""
+    """Draw ellipse."""
     raw.DrawEllipse(c_int(center_x), c_int(center_y), c_float(radius_h), c_float(radius_v), public_types._to_raw_color(color))
 
 @always_inline
 def draw_ellipse_v(center: Vector2, radius_h: Float32, radius_v: Float32, color: Color):
-    """Draw ellipse (Vector version)"""
+    """Draw ellipse (Vector version)."""
     raw.DrawEllipseV(public_types._to_raw_vector2(center), c_float(radius_h), c_float(radius_v), public_types._to_raw_color(color))
 
 @always_inline
 def draw_ellipse_lines(center_x: Int, center_y: Int, radius_h: Float32, radius_v: Float32, color: Color):
-    """Draw ellipse outline"""
+    """Draw ellipse outline."""
     raw.DrawEllipseLines(c_int(center_x), c_int(center_y), c_float(radius_h), c_float(radius_v), public_types._to_raw_color(color))
 
 @always_inline
 def draw_ellipse_lines_v(center: Vector2, radius_h: Float32, radius_v: Float32, color: Color):
-    """Draw ellipse outline (Vector version)"""
+    """Draw ellipse outline (Vector version)."""
     raw.DrawEllipseLinesV(public_types._to_raw_vector2(center), c_float(radius_h), c_float(radius_v), public_types._to_raw_color(color))
 
 @always_inline
 def draw_ring(center: Vector2, inner_radius: Float32, outer_radius: Float32, start_angle: Float32, end_angle: Float32, segments: Int, color: Color):
-    """Draw ring"""
+    """Draw ring."""
     raw.DrawRing(public_types._to_raw_vector2(center), c_float(inner_radius), c_float(outer_radius), c_float(start_angle), c_float(end_angle), c_int(segments), public_types._to_raw_color(color))
 
 @always_inline
 def draw_ring_lines(center: Vector2, inner_radius: Float32, outer_radius: Float32, start_angle: Float32, end_angle: Float32, segments: Int, color: Color):
-    """Draw ring outline"""
+    """Draw ring outline."""
     raw.DrawRingLines(public_types._to_raw_vector2(center), c_float(inner_radius), c_float(outer_radius), c_float(start_angle), c_float(end_angle), c_int(segments), public_types._to_raw_color(color))
 
 @always_inline
 def draw_rectangle(pos_x: Int, pos_y: Int, width: Int, height: Int, color: Color):
-    """Draw a color-filled rectangle"""
+    """Draw a color-filled rectangle."""
     raw.DrawRectangle(c_int(pos_x), c_int(pos_y), c_int(width), c_int(height), public_types._to_raw_color(color))
 
 @always_inline
 def draw_rectangle_v(position: Vector2, size: Vector2, color: Color):
-    """Draw a color-filled rectangle (Vector version)"""
+    """Draw a color-filled rectangle (Vector version)."""
     raw.DrawRectangleV(public_types._to_raw_vector2(position), public_types._to_raw_vector2(size), public_types._to_raw_color(color))
 
 @always_inline
 def draw_rectangle_rec(rec: Rectangle, color: Color):
-    """Draw a color-filled rectangle"""
+    """Draw a color-filled rectangle."""
     raw.DrawRectangleRec(public_types._to_raw_rectangle(rec), public_types._to_raw_color(color))
 
 @always_inline
 def draw_rectangle_pro(rec: Rectangle, origin: Vector2, rotation: Float32, color: Color):
-    """Draw a color-filled rectangle with pro parameters"""
+    """Draw a color-filled rectangle with pro parameters."""
     raw.DrawRectanglePro(public_types._to_raw_rectangle(rec), public_types._to_raw_vector2(origin), c_float(rotation), public_types._to_raw_color(color))
 
 @always_inline
 def draw_rectangle_gradient_v(pos_x: Int, pos_y: Int, width: Int, height: Int, top: Color, bottom: Color):
-    """Draw a vertical-gradient-filled rectangle"""
+    """Draw a vertical-gradient-filled rectangle."""
     raw.DrawRectangleGradientV(c_int(pos_x), c_int(pos_y), c_int(width), c_int(height), public_types._to_raw_color(top), public_types._to_raw_color(bottom))
 
 @always_inline
 def draw_rectangle_gradient_h(pos_x: Int, pos_y: Int, width: Int, height: Int, left: Color, right: Color):
-    """Draw a horizontal-gradient-filled rectangle"""
+    """Draw a horizontal-gradient-filled rectangle."""
     raw.DrawRectangleGradientH(c_int(pos_x), c_int(pos_y), c_int(width), c_int(height), public_types._to_raw_color(left), public_types._to_raw_color(right))
 
 @always_inline
 def draw_rectangle_gradient_ex(rec: Rectangle, top_left: Color, bottom_left: Color, bottom_right: Color, top_right: Color):
-    """Draw a gradient-filled rectangle with custom vertex colors"""
+    """Draw a gradient-filled rectangle with custom vertex colors."""
     raw.DrawRectangleGradientEx(public_types._to_raw_rectangle(rec), public_types._to_raw_color(top_left), public_types._to_raw_color(bottom_left), public_types._to_raw_color(bottom_right), public_types._to_raw_color(top_right))
 
 @always_inline
 def draw_rectangle_lines(pos_x: Int, pos_y: Int, width: Int, height: Int, color: Color):
-    """Draw rectangle outline"""
+    """Draw rectangle outline."""
     raw.DrawRectangleLines(c_int(pos_x), c_int(pos_y), c_int(width), c_int(height), public_types._to_raw_color(color))
 
 @always_inline
 def draw_rectangle_lines_ex(rec: Rectangle, line_thick: Float32, color: Color):
-    """Draw rectangle outline with extended parameters"""
+    """Draw rectangle outline with extended parameters."""
     raw.DrawRectangleLinesEx(public_types._to_raw_rectangle(rec), c_float(line_thick), public_types._to_raw_color(color))
 
 @always_inline
 def draw_rectangle_rounded(rec: Rectangle, roundness: Float32, segments: Int, color: Color):
-    """Draw rectangle with rounded edges"""
+    """Draw rectangle with rounded edges."""
     raw.DrawRectangleRounded(public_types._to_raw_rectangle(rec), c_float(roundness), c_int(segments), public_types._to_raw_color(color))
 
 @always_inline
 def draw_rectangle_rounded_lines(rec: Rectangle, roundness: Float32, segments: Int, color: Color):
-    """Draw rectangle lines with rounded edges"""
+    """Draw rectangle lines with rounded edges."""
     raw.DrawRectangleRoundedLines(public_types._to_raw_rectangle(rec), c_float(roundness), c_int(segments), public_types._to_raw_color(color))
 
 @always_inline
 def draw_rectangle_rounded_lines_ex(rec: Rectangle, roundness: Float32, segments: Int, line_thick: Float32, color: Color):
-    """Draw rectangle with rounded edges outline"""
+    """Draw rectangle with rounded edges outline."""
     raw.DrawRectangleRoundedLinesEx(public_types._to_raw_rectangle(rec), c_float(roundness), c_int(segments), c_float(line_thick), public_types._to_raw_color(color))
 
 @always_inline
 def draw_triangle(v1: Vector2, v2: Vector2, v3: Vector2, color: Color):
-    """Draw a color-filled triangle (vertex in counter-clockwise order!)"""
+    """Draw a color-filled triangle (vertex in counter-clockwise order!)."""
     raw.DrawTriangle(public_types._to_raw_vector2(v1), public_types._to_raw_vector2(v2), public_types._to_raw_vector2(v3), public_types._to_raw_color(color))
 
 @always_inline
 def draw_triangle_lines(v1: Vector2, v2: Vector2, v3: Vector2, color: Color):
-    """Draw triangle outline (vertex in counter-clockwise order!)"""
+    """Draw triangle outline (vertex in counter-clockwise order!)."""
     raw.DrawTriangleLines(public_types._to_raw_vector2(v1), public_types._to_raw_vector2(v2), public_types._to_raw_vector2(v3), public_types._to_raw_color(color))
 
 @always_inline
 def draw_triangle_fan(points: Span[Vector2, _], color: Color):
-    """Draw a triangle fan defined by points (first vertex is the center)"""
+    """Draw a triangle fan defined by points (first vertex is the center)."""
     raw.DrawTriangleFan(points.unsafe_ptr().bitcast[raw_types.Vector2]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(points)), public_types._to_raw_color(color))
 
 @always_inline
 def draw_triangle_strip(points: Span[Vector2, _], color: Color):
-    """Draw a triangle strip defined by points"""
+    """Draw a triangle strip defined by points."""
     raw.DrawTriangleStrip(points.unsafe_ptr().bitcast[raw_types.Vector2]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(points)), public_types._to_raw_color(color))
 
 @always_inline
 def draw_poly(center: Vector2, sides: Int, radius: Float32, rotation: Float32, color: Color):
-    """Draw a regular polygon (Vector version)"""
+    """Draw a regular polygon (Vector version)."""
     raw.DrawPoly(public_types._to_raw_vector2(center), c_int(sides), c_float(radius), c_float(rotation), public_types._to_raw_color(color))
 
 @always_inline
 def draw_poly_lines(center: Vector2, sides: Int, radius: Float32, rotation: Float32, color: Color):
-    """Draw a polygon outline of n sides"""
+    """Draw a polygon outline of n sides."""
     raw.DrawPolyLines(public_types._to_raw_vector2(center), c_int(sides), c_float(radius), c_float(rotation), public_types._to_raw_color(color))
 
 @always_inline
 def draw_poly_lines_ex(center: Vector2, sides: Int, radius: Float32, rotation: Float32, line_thick: Float32, color: Color):
-    """Draw a polygon outline of n sides with extended parameters"""
+    """Draw a polygon outline of n sides with extended parameters."""
     raw.DrawPolyLinesEx(public_types._to_raw_vector2(center), c_int(sides), c_float(radius), c_float(rotation), c_float(line_thick), public_types._to_raw_color(color))
 
 @always_inline
 def draw_spline_linear(points: Span[Vector2, _], thick: Float32, color: Color):
-    """Draw spline: Linear, minimum 2 points"""
+    """Draw spline: Linear, minimum 2 points."""
     raw.DrawSplineLinear(points.unsafe_ptr().bitcast[raw_types.Vector2]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(points)), c_float(thick), public_types._to_raw_color(color))
 
 @always_inline
 def draw_spline_basis(points: Span[Vector2, _], thick: Float32, color: Color):
-    """Draw spline: B-Spline, minimum 4 points"""
+    """Draw spline: B-Spline, minimum 4 points."""
     raw.DrawSplineBasis(points.unsafe_ptr().bitcast[raw_types.Vector2]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(points)), c_float(thick), public_types._to_raw_color(color))
 
 @always_inline
 def draw_spline_catmull_rom(points: Span[Vector2, _], thick: Float32, color: Color):
-    """Draw spline: Catmull-Rom, minimum 4 points"""
+    """Draw spline: Catmull-Rom, minimum 4 points."""
     raw.DrawSplineCatmullRom(points.unsafe_ptr().bitcast[raw_types.Vector2]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(points)), c_float(thick), public_types._to_raw_color(color))
 
 @always_inline
 def draw_spline_bezier_quadratic(points: Span[Vector2, _], thick: Float32, color: Color):
-    """Draw spline: Quadratic Bezier, minimum 3 points (1 control point): [p1, c2, p3, c4...]"""
+    """Draw spline: Quadratic Bezier, minimum 3 points (1 control point): [p1, c2, p3, c4...]."""
     raw.DrawSplineBezierQuadratic(points.unsafe_ptr().bitcast[raw_types.Vector2]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(points)), c_float(thick), public_types._to_raw_color(color))
 
 @always_inline
 def draw_spline_bezier_cubic(points: Span[Vector2, _], thick: Float32, color: Color):
-    """Draw spline: Cubic Bezier, minimum 4 points (2 control points): [p1, c2, c3, p4, c5, c6...]"""
+    """Draw spline: Cubic Bezier, minimum 4 points (2 control points): [p1, c2, c3, p4, c5, c6...]."""
     raw.DrawSplineBezierCubic(points.unsafe_ptr().bitcast[raw_types.Vector2]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(points)), c_float(thick), public_types._to_raw_color(color))
 
 @always_inline
 def draw_spline_segment_linear(p1: Vector2, p2: Vector2, thick: Float32, color: Color):
-    """Draw spline segment: Linear, 2 points"""
+    """Draw spline segment: Linear, 2 points."""
     raw.DrawSplineSegmentLinear(public_types._to_raw_vector2(p1), public_types._to_raw_vector2(p2), c_float(thick), public_types._to_raw_color(color))
 
 @always_inline
 def draw_spline_segment_basis(p1: Vector2, p2: Vector2, p3: Vector2, p4: Vector2, thick: Float32, color: Color):
-    """Draw spline segment: B-Spline, 4 points"""
+    """Draw spline segment: B-Spline, 4 points."""
     raw.DrawSplineSegmentBasis(public_types._to_raw_vector2(p1), public_types._to_raw_vector2(p2), public_types._to_raw_vector2(p3), public_types._to_raw_vector2(p4), c_float(thick), public_types._to_raw_color(color))
 
 @always_inline
 def draw_spline_segment_catmull_rom(p1: Vector2, p2: Vector2, p3: Vector2, p4: Vector2, thick: Float32, color: Color):
-    """Draw spline segment: Catmull-Rom, 4 points"""
+    """Draw spline segment: Catmull-Rom, 4 points."""
     raw.DrawSplineSegmentCatmullRom(public_types._to_raw_vector2(p1), public_types._to_raw_vector2(p2), public_types._to_raw_vector2(p3), public_types._to_raw_vector2(p4), c_float(thick), public_types._to_raw_color(color))
 
 @always_inline
 def draw_spline_segment_bezier_quadratic(p1: Vector2, c2: Vector2, p3: Vector2, thick: Float32, color: Color):
-    """Draw spline segment: Quadratic Bezier, 2 points, 1 control point"""
+    """Draw spline segment: Quadratic Bezier, 2 points, 1 control point."""
     raw.DrawSplineSegmentBezierQuadratic(public_types._to_raw_vector2(p1), public_types._to_raw_vector2(c2), public_types._to_raw_vector2(p3), c_float(thick), public_types._to_raw_color(color))
 
 @always_inline
 def draw_spline_segment_bezier_cubic(p1: Vector2, c2: Vector2, c3: Vector2, p4: Vector2, thick: Float32, color: Color):
-    """Draw spline segment: Cubic Bezier, 2 points, 2 control points"""
+    """Draw spline segment: Cubic Bezier, 2 points, 2 control points."""
     raw.DrawSplineSegmentBezierCubic(public_types._to_raw_vector2(p1), public_types._to_raw_vector2(c2), public_types._to_raw_vector2(c3), public_types._to_raw_vector2(p4), c_float(thick), public_types._to_raw_color(color))
 
 @always_inline
 def get_spline_point_linear(start_pos: Vector2, end_pos: Vector2, t: Float32) -> Vector2:
-    """Get (evaluate) spline point: Linear"""
+    """Get (evaluate) spline point: Linear."""
     var result = raw.GetSplinePointLinear(public_types._to_raw_vector2(start_pos), public_types._to_raw_vector2(end_pos), c_float(t))
     return public_types._from_raw_vector2(result)
 
 @always_inline
 def get_spline_point_basis(p1: Vector2, p2: Vector2, p3: Vector2, p4: Vector2, t: Float32) -> Vector2:
-    """Get (evaluate) spline point: B-Spline"""
+    """Get (evaluate) spline point: B-Spline."""
     var result = raw.GetSplinePointBasis(public_types._to_raw_vector2(p1), public_types._to_raw_vector2(p2), public_types._to_raw_vector2(p3), public_types._to_raw_vector2(p4), c_float(t))
     return public_types._from_raw_vector2(result)
 
 @always_inline
 def get_spline_point_catmull_rom(p1: Vector2, p2: Vector2, p3: Vector2, p4: Vector2, t: Float32) -> Vector2:
-    """Get (evaluate) spline point: Catmull-Rom"""
+    """Get (evaluate) spline point: Catmull-Rom."""
     var result = raw.GetSplinePointCatmullRom(public_types._to_raw_vector2(p1), public_types._to_raw_vector2(p2), public_types._to_raw_vector2(p3), public_types._to_raw_vector2(p4), c_float(t))
     return public_types._from_raw_vector2(result)
 
 @always_inline
 def get_spline_point_bezier_quad(p1: Vector2, c2: Vector2, p3: Vector2, t: Float32) -> Vector2:
-    """Get (evaluate) spline point: Quadratic Bezier"""
+    """Get (evaluate) spline point: Quadratic Bezier."""
     var result = raw.GetSplinePointBezierQuad(public_types._to_raw_vector2(p1), public_types._to_raw_vector2(c2), public_types._to_raw_vector2(p3), c_float(t))
     return public_types._from_raw_vector2(result)
 
 @always_inline
 def get_spline_point_bezier_cubic(p1: Vector2, c2: Vector2, c3: Vector2, p4: Vector2, t: Float32) -> Vector2:
-    """Get (evaluate) spline point: Cubic Bezier"""
+    """Get (evaluate) spline point: Cubic Bezier."""
     var result = raw.GetSplinePointBezierCubic(public_types._to_raw_vector2(p1), public_types._to_raw_vector2(c2), public_types._to_raw_vector2(c3), public_types._to_raw_vector2(p4), c_float(t))
     return public_types._from_raw_vector2(result)
 
 @always_inline
 def check_collision_recs(rec1: Rectangle, rec2: Rectangle) -> Bool:
-    """Check collision between two rectangles"""
+    """Check collision between two rectangles."""
     var result = raw.CheckCollisionRecs(public_types._to_raw_rectangle(rec1), public_types._to_raw_rectangle(rec2))
     return result
 
 @always_inline
 def check_collision_circles(center1: Vector2, radius1: Float32, center2: Vector2, radius2: Float32) -> Bool:
-    """Check collision between two circles"""
+    """Check collision between two circles."""
     var result = raw.CheckCollisionCircles(public_types._to_raw_vector2(center1), c_float(radius1), public_types._to_raw_vector2(center2), c_float(radius2))
     return result
 
 @always_inline
 def check_collision_circle_rec(center: Vector2, radius: Float32, rec: Rectangle) -> Bool:
-    """Check collision between circle and rectangle"""
+    """Check collision between circle and rectangle."""
     var result = raw.CheckCollisionCircleRec(public_types._to_raw_vector2(center), c_float(radius), public_types._to_raw_rectangle(rec))
     return result
 
 @always_inline
 def check_collision_circle_line(center: Vector2, radius: Float32, p1: Vector2, p2: Vector2) -> Bool:
-    """Check if circle collides with a line created betweeen two points [p1] and [p2]"""
+    """Check if circle collides with a line created betweeen two points [p1] and [p2]."""
     var result = raw.CheckCollisionCircleLine(public_types._to_raw_vector2(center), c_float(radius), public_types._to_raw_vector2(p1), public_types._to_raw_vector2(p2))
     return result
 
 @always_inline
 def check_collision_point_rec(point: Vector2, rec: Rectangle) -> Bool:
-    """Check if point is inside rectangle"""
+    """Check if point is inside rectangle."""
     var result = raw.CheckCollisionPointRec(public_types._to_raw_vector2(point), public_types._to_raw_rectangle(rec))
     return result
 
 @always_inline
 def check_collision_point_circle(point: Vector2, center: Vector2, radius: Float32) -> Bool:
-    """Check if point is inside circle"""
+    """Check if point is inside circle."""
     var result = raw.CheckCollisionPointCircle(public_types._to_raw_vector2(point), public_types._to_raw_vector2(center), c_float(radius))
     return result
 
 @always_inline
 def check_collision_point_triangle(point: Vector2, p1: Vector2, p2: Vector2, p3: Vector2) -> Bool:
-    """Check if point is inside a triangle"""
+    """Check if point is inside a triangle."""
     var result = raw.CheckCollisionPointTriangle(public_types._to_raw_vector2(point), public_types._to_raw_vector2(p1), public_types._to_raw_vector2(p2), public_types._to_raw_vector2(p3))
     return result
 
 @always_inline
 def check_collision_point_line(point: Vector2, p1: Vector2, p2: Vector2, threshold: Int) -> Bool:
-    """Check if point belongs to line created between two points [p1] and [p2] with defined margin in pixels [threshold]"""
+    """Check if point belongs to line created between two points [p1] and [p2] with defined margin in pixels [threshold]."""
     var result = raw.CheckCollisionPointLine(public_types._to_raw_vector2(point), public_types._to_raw_vector2(p1), public_types._to_raw_vector2(p2), c_int(threshold))
     return result
 
 @always_inline
 def check_collision_point_poly(point: Vector2, points: Span[Vector2, _]) -> Bool:
-    """Check if point is within a polygon described by array of vertices"""
+    """Check if point is within a polygon described by array of vertices."""
     var result = raw.CheckCollisionPointPoly(public_types._to_raw_vector2(point), points.unsafe_ptr().bitcast[raw_types.Vector2]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(points)))
     return result
 
 @always_inline
 def check_collision_lines(start_pos1: Vector2, end_pos1: Vector2, start_pos2: Vector2, end_pos2: Vector2, mut collision_point: Vector2) -> Bool:
-    """Check the collision between two lines defined by two points each, returns collision point by reference"""
+    """Check the collision between two lines defined by two points each, returns collision point by reference."""
     var result = raw.CheckCollisionLines(public_types._to_raw_vector2(start_pos1), public_types._to_raw_vector2(end_pos1), public_types._to_raw_vector2(start_pos2), public_types._to_raw_vector2(end_pos2), UnsafePointer(to=collision_point).bitcast[raw_types.Vector2]().unsafe_mut_cast[True]().as_any_origin())
     return result
 
 @always_inline
 def get_collision_rec(rec1: Rectangle, rec2: Rectangle) -> Rectangle:
-    """Get collision rectangle for two rectangles collision"""
+    """Get collision rectangle for two rectangles collision."""
     var result = raw.GetCollisionRec(public_types._to_raw_rectangle(rec1), public_types._to_raw_rectangle(rec2))
     return public_types._from_raw_rectangle(result)
 
 @always_inline
 def load_image(file_name: String) -> Image:
-    """Load image from file into CPU memory (RAM)"""
+    """Load image from file into CPU memory (RAM)."""
     var result = raw.LoadImage(CStringSlice(unsafe_from_ptr=file_name.unsafe_ptr().bitcast[c_char]()))
     return public_types._from_raw_image(result)
 
 @always_inline
 def load_image_raw(file_name: String, width: Int, height: Int, format: Int, header_size: Int) -> Image:
-    """Load image from RAW file data"""
+    """Load image from RAW file data."""
     var result = raw.LoadImageRaw(CStringSlice(unsafe_from_ptr=file_name.unsafe_ptr().bitcast[c_char]()), c_int(width), c_int(height), c_int(format), c_int(header_size))
     return public_types._from_raw_image(result)
 
 @always_inline
 def load_image_anim(file_name: String) -> Image:
-    """Load image sequence from file (frames appended to image.data)"""
+    """Load image sequence from file (frames appended to image.data)."""
     var count: c_int = 0
     var result = raw.LoadImageAnim(CStringSlice(unsafe_from_ptr=file_name.unsafe_ptr().bitcast[c_char]()), UnsafePointer(to=count))
     return public_types._from_raw_image(result)
 
 @always_inline
 def load_image_anim_from_memory(file_type: String, file_data: Span[UInt8, _]) -> Image:
-    """Load image sequence from memory buffer"""
+    """Load image sequence from memory buffer."""
     var count: c_int = 0
     var result = raw.LoadImageAnimFromMemory(CStringSlice(unsafe_from_ptr=file_type.unsafe_ptr().bitcast[c_char]()), file_data.unsafe_ptr().bitcast[c_uchar]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(file_data)), UnsafePointer(to=count))
     return public_types._from_raw_image(result)
 
 @always_inline
 def load_image_from_memory(file_type: String, file_data: Span[UInt8, _]) -> Image:
-    """Load image from memory buffer, fileType refers to extension: i.e. '.png'"""
+    """Load image from memory buffer, fileType refers to extension: i.e. '.png'."""
     var result = raw.LoadImageFromMemory(CStringSlice(unsafe_from_ptr=file_type.unsafe_ptr().bitcast[c_char]()), file_data.unsafe_ptr().bitcast[c_uchar]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(file_data)))
     return public_types._from_raw_image(result)
 
 @always_inline
 def load_image_from_texture(texture: Texture2D) -> Image:
-    """Load image from GPU texture data"""
+    """Load image from GPU texture data."""
     var result = raw.LoadImageFromTexture(public_types._to_raw_texture_2d(texture))
     return public_types._from_raw_image(result)
 
 @always_inline
 def load_image_from_screen() -> Image:
-    """Load image from screen buffer and (screenshot)"""
+    """Load image from screen buffer and (screenshot)."""
     var result = raw.LoadImageFromScreen()
     return public_types._from_raw_image(result)
 
 @always_inline
 def is_image_valid(image: Image) -> Bool:
-    """Check if an image is valid (data and parameters)"""
+    """Check if an image is valid (data and parameters)."""
     var result = raw.IsImageValid(public_types._to_raw_image(image))
     return result
 
 @always_inline
 def unload_image(image: Image):
-    """Unload image from CPU memory (RAM)"""
+    """Unload image from CPU memory (RAM)."""
     raw.UnloadImage(public_types._to_raw_image(image))
 
 @always_inline
 def export_image(image: Image, file_name: String) -> Bool:
-    """Export image data to file, returns true on success"""
+    """Export image data to file, returns true on success."""
     var result = raw.ExportImage(public_types._to_raw_image(image), CStringSlice(unsafe_from_ptr=file_name.unsafe_ptr().bitcast[c_char]()))
     return result
 
 @always_inline
 def export_image_to_memory(image: Image, file_type: String) -> OwnedExportImageToMemory:
-    """Export image to memory buffer, memory must be MemFree()"""
+    """Export image to memory buffer, memory must be MemFree()."""
     var count: c_int = 0
     var _owned = raw.ExportImageToMemory(public_types._to_raw_image(image), CStringSlice(unsafe_from_ptr=file_type.unsafe_ptr().bitcast[c_char]()), UnsafePointer(to=count))
     return OwnedExportImageToMemory(_owned, Int(count))
 
 @always_inline
 def export_image_as_code(image: Image, file_name: String) -> Bool:
-    """Export image as code file defining an array of bytes, returns true on success"""
+    """Export image as code file defining an array of bytes, returns true on success."""
     var result = raw.ExportImageAsCode(public_types._to_raw_image(image), CStringSlice(unsafe_from_ptr=file_name.unsafe_ptr().bitcast[c_char]()))
     return result
 
 @always_inline
 def gen_image_color(width: Int, height: Int, color: Color) -> Image:
-    """Generate image: plain color"""
+    """Generate image: plain color."""
     var result = raw.GenImageColor(c_int(width), c_int(height), public_types._to_raw_color(color))
     return public_types._from_raw_image(result)
 
 @always_inline
 def gen_image_gradient_linear(width: Int, height: Int, direction: Int, start: Color, end: Color) -> Image:
-    """Generate image: linear gradient, direction in degrees [0..360], 0=Vertical gradient"""
+    """Generate image: linear gradient, direction in degrees [0..360], 0=Vertical gradient."""
     var result = raw.GenImageGradientLinear(c_int(width), c_int(height), c_int(direction), public_types._to_raw_color(start), public_types._to_raw_color(end))
     return public_types._from_raw_image(result)
 
 @always_inline
 def gen_image_gradient_radial(width: Int, height: Int, density: Float32, inner: Color, outer: Color) -> Image:
-    """Generate image: radial gradient"""
+    """Generate image: radial gradient."""
     var result = raw.GenImageGradientRadial(c_int(width), c_int(height), c_float(density), public_types._to_raw_color(inner), public_types._to_raw_color(outer))
     return public_types._from_raw_image(result)
 
 @always_inline
 def gen_image_gradient_square(width: Int, height: Int, density: Float32, inner: Color, outer: Color) -> Image:
-    """Generate image: square gradient"""
+    """Generate image: square gradient."""
     var result = raw.GenImageGradientSquare(c_int(width), c_int(height), c_float(density), public_types._to_raw_color(inner), public_types._to_raw_color(outer))
     return public_types._from_raw_image(result)
 
 @always_inline
 def gen_image_checked(width: Int, height: Int, checks_x: Int, checks_y: Int, col1: Color, col2: Color) -> Image:
-    """Generate image: checked"""
+    """Generate image: checked."""
     var result = raw.GenImageChecked(c_int(width), c_int(height), c_int(checks_x), c_int(checks_y), public_types._to_raw_color(col1), public_types._to_raw_color(col2))
     return public_types._from_raw_image(result)
 
 @always_inline
 def gen_image_white_noise(width: Int, height: Int, factor: Float32) -> Image:
-    """Generate image: white noise"""
+    """Generate image: white noise."""
     var result = raw.GenImageWhiteNoise(c_int(width), c_int(height), c_float(factor))
     return public_types._from_raw_image(result)
 
 @always_inline
 def gen_image_perlin_noise(width: Int, height: Int, offset_x: Int, offset_y: Int, scale: Float32) -> Image:
-    """Generate image: perlin noise"""
+    """Generate image: perlin noise."""
     var result = raw.GenImagePerlinNoise(c_int(width), c_int(height), c_int(offset_x), c_int(offset_y), c_float(scale))
     return public_types._from_raw_image(result)
 
 @always_inline
 def gen_image_cellular(width: Int, height: Int, tile_size: Int) -> Image:
-    """Generate image: cellular algorithm, bigger tileSize means bigger cells"""
+    """Generate image: cellular algorithm, bigger tileSize means bigger cells."""
     var result = raw.GenImageCellular(c_int(width), c_int(height), c_int(tile_size))
     return public_types._from_raw_image(result)
 
 @always_inline
 def gen_image_text(width: Int, height: Int, text: String) -> Image:
-    """Generate image: grayscale image from text data"""
+    """Generate image: grayscale image from text data."""
     var result = raw.GenImageText(c_int(width), c_int(height), CStringSlice(unsafe_from_ptr=text.unsafe_ptr().bitcast[c_char]()))
     return public_types._from_raw_image(result)
 
 @always_inline
 def image_copy(image: Image) -> Image:
-    """Create an image duplicate (useful for transformations)"""
+    """Create an image duplicate (useful for transformations)."""
     var result = raw.ImageCopy(public_types._to_raw_image(image))
     return public_types._from_raw_image(result)
 
 @always_inline
 def image_from_image(image: Image, rec: Rectangle) -> Image:
-    """Create an image from another image piece"""
+    """Create an image from another image piece."""
     var result = raw.ImageFromImage(public_types._to_raw_image(image), public_types._to_raw_rectangle(rec))
     return public_types._from_raw_image(result)
 
 @always_inline
 def image_from_channel(image: Image, selected_channel: Int) -> Image:
-    """Create an image from a selected channel of another image (GRAYSCALE)"""
+    """Create an image from a selected channel of another image (GRAYSCALE)."""
     var result = raw.ImageFromChannel(public_types._to_raw_image(image), c_int(selected_channel))
     return public_types._from_raw_image(result)
 
 @always_inline
 def image_text(text: String, font_size: Int, color: Color) -> Image:
-    """Create an image from text (default font)"""
+    """Create an image from text (default font)."""
     var result = raw.ImageText(CStringSlice(unsafe_from_ptr=text.unsafe_ptr().bitcast[c_char]()), c_int(font_size), public_types._to_raw_color(color))
     return public_types._from_raw_image(result)
 
 @always_inline
 def image_text_ex(font: Font, text: String, font_size: Float32, spacing: Float32, tint: Color) -> Image:
-    """Create an image from text (custom sprite font)"""
+    """Create an image from text (custom sprite font)."""
     var result = raw.ImageTextEx(public_types._to_raw_font(font), CStringSlice(unsafe_from_ptr=text.unsafe_ptr().bitcast[c_char]()), c_float(font_size), c_float(spacing), public_types._to_raw_color(tint))
     return public_types._from_raw_image(result)
 
 @always_inline
 def image_format(mut image: Image, new_format: Int):
-    """Convert image data to desired format"""
+    """Convert image data to desired format."""
     raw.ImageFormat(UnsafePointer(to=image).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), c_int(new_format))
 
 @always_inline
 def image_to_pot(mut image: Image, fill: Color):
-    """Convert image to POT (power-of-two)"""
+    """Convert image to POT (power-of-two)."""
     raw.ImageToPOT(UnsafePointer(to=image).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), public_types._to_raw_color(fill))
 
 @always_inline
 def image_crop(mut image: Image, crop: Rectangle):
-    """Crop an image to a defined rectangle"""
+    """Crop an image to a defined rectangle."""
     raw.ImageCrop(UnsafePointer(to=image).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), public_types._to_raw_rectangle(crop))
 
 @always_inline
 def image_alpha_crop(mut image: Image, threshold: Float32):
-    """Crop image depending on alpha value"""
+    """Crop image depending on alpha value."""
     raw.ImageAlphaCrop(UnsafePointer(to=image).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), c_float(threshold))
 
 @always_inline
 def image_alpha_clear(mut image: Image, color: Color, threshold: Float32):
-    """Clear alpha channel to desired color"""
+    """Clear alpha channel to desired color."""
     raw.ImageAlphaClear(UnsafePointer(to=image).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), public_types._to_raw_color(color), c_float(threshold))
 
 @always_inline
 def image_alpha_mask(mut image: Image, alpha_mask: Image):
-    """Apply alpha mask to image"""
+    """Apply alpha mask to image."""
     raw.ImageAlphaMask(UnsafePointer(to=image).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), public_types._to_raw_image(alpha_mask))
 
 @always_inline
 def image_alpha_premultiply(mut image: Image):
-    """Premultiply alpha channel"""
+    """Premultiply alpha channel."""
     raw.ImageAlphaPremultiply(UnsafePointer(to=image).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin())
 
 @always_inline
 def image_blur_gaussian(image: Span[Image, _]):
-    """Apply Gaussian blur using a box blur approximation"""
+    """Apply Gaussian blur using a box blur approximation."""
     raw.ImageBlurGaussian(image.unsafe_ptr().bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(image)))
 
 @always_inline
 def image_kernel_convolution(mut image: Image, kernel: Span[Float32, _]):
-    """Apply custom square convolution kernel to image"""
+    """Apply custom square convolution kernel to image."""
     raw.ImageKernelConvolution(UnsafePointer(to=image).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), kernel.unsafe_ptr().bitcast[c_float]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(kernel)))
 
 @always_inline
 def image_resize(mut image: Image, new_width: Int, new_height: Int):
-    """Resize image (Bicubic scaling algorithm)"""
+    """Resize image (Bicubic scaling algorithm)."""
     raw.ImageResize(UnsafePointer(to=image).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), c_int(new_width), c_int(new_height))
 
 @always_inline
 def image_resize_nn(mut image: Image, new_width: Int, new_height: Int):
-    """Resize image (Nearest-Neighbor scaling algorithm)"""
+    """Resize image (Nearest-Neighbor scaling algorithm)."""
     raw.ImageResizeNN(UnsafePointer(to=image).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), c_int(new_width), c_int(new_height))
 
 @always_inline
 def image_resize_canvas(mut image: Image, new_width: Int, new_height: Int, offset_x: Int, offset_y: Int, fill: Color):
-    """Resize canvas and fill with color"""
+    """Resize canvas and fill with color."""
     raw.ImageResizeCanvas(UnsafePointer(to=image).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), c_int(new_width), c_int(new_height), c_int(offset_x), c_int(offset_y), public_types._to_raw_color(fill))
 
 @always_inline
 def image_mipmaps(mut image: Image):
-    """Compute all mipmap levels for a provided image"""
+    """Compute all mipmap levels for a provided image."""
     raw.ImageMipmaps(UnsafePointer(to=image).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin())
 
 @always_inline
 def image_dither(mut image: Image, r_bpp: Int, g_bpp: Int, b_bpp: Int, a_bpp: Int):
-    """Dither image data to 16bpp or lower (Floyd-Steinberg dithering)"""
+    """Dither image data to 16bpp or lower (Floyd-Steinberg dithering)."""
     raw.ImageDither(UnsafePointer(to=image).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), c_int(r_bpp), c_int(g_bpp), c_int(b_bpp), c_int(a_bpp))
 
 @always_inline
 def image_flip_vertical(mut image: Image):
-    """Flip image vertically"""
+    """Flip image vertically."""
     raw.ImageFlipVertical(UnsafePointer(to=image).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin())
 
 @always_inline
 def image_flip_horizontal(mut image: Image):
-    """Flip image horizontally"""
+    """Flip image horizontally."""
     raw.ImageFlipHorizontal(UnsafePointer(to=image).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin())
 
 @always_inline
 def image_rotate(mut image: Image, degrees: Int):
-    """Rotate image by input angle in degrees (-359 to 359)"""
+    """Rotate image by input angle in degrees (-359 to 359)."""
     raw.ImageRotate(UnsafePointer(to=image).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), c_int(degrees))
 
 @always_inline
 def image_rotate_cw(mut image: Image):
-    """Rotate image clockwise 90deg"""
+    """Rotate image clockwise 90deg."""
     raw.ImageRotateCW(UnsafePointer(to=image).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin())
 
 @always_inline
 def image_rotate_ccw(mut image: Image):
-    """Rotate image counter-clockwise 90deg"""
+    """Rotate image counter-clockwise 90deg."""
     raw.ImageRotateCCW(UnsafePointer(to=image).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin())
 
 @always_inline
 def image_color_tint(mut image: Image, color: Color):
-    """Modify image color: tint"""
+    """Modify image color: tint."""
     raw.ImageColorTint(UnsafePointer(to=image).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), public_types._to_raw_color(color))
 
 @always_inline
 def image_color_invert(mut image: Image):
-    """Modify image color: invert"""
+    """Modify image color: invert."""
     raw.ImageColorInvert(UnsafePointer(to=image).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin())
 
 @always_inline
 def image_color_grayscale(mut image: Image):
-    """Modify image color: grayscale"""
+    """Modify image color: grayscale."""
     raw.ImageColorGrayscale(UnsafePointer(to=image).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin())
 
 @always_inline
 def image_color_contrast(mut image: Image, contrast: Float32):
-    """Modify image color: contrast (-100 to 100)"""
+    """Modify image color: contrast (-100 to 100)."""
     raw.ImageColorContrast(UnsafePointer(to=image).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), c_float(contrast))
 
 @always_inline
 def image_color_brightness(mut image: Image, brightness: Int):
-    """Modify image color: brightness (-255 to 255)"""
+    """Modify image color: brightness (-255 to 255)."""
     raw.ImageColorBrightness(UnsafePointer(to=image).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), c_int(brightness))
 
 @always_inline
 def image_color_replace(mut image: Image, color: Color, replace: Color):
-    """Modify image color: replace color"""
+    """Modify image color: replace color."""
     raw.ImageColorReplace(UnsafePointer(to=image).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), public_types._to_raw_color(color), public_types._to_raw_color(replace))
 
 @always_inline
 def load_image_colors(image: Image) -> OwnedImageColors:
-    """Load color data from image as a Color array (RGBA - 32bit)"""
+    """Load color data from image as a Color array (RGBA - 32bit)."""
     var _owned = raw.LoadImageColors(public_types._to_raw_image(image))
     return OwnedImageColors(_owned)
 
 @always_inline
 def load_image_palette(image: Image, max_palette_size: Int) -> OwnedImagePalette:
-    """Load colors palette from image as a Color array (RGBA - 32bit)"""
+    """Load colors palette from image as a Color array (RGBA - 32bit)."""
     var count: c_int = 0
     var _owned = raw.LoadImagePalette(public_types._to_raw_image(image), c_int(max_palette_size), UnsafePointer(to=count))
     return OwnedImagePalette(_owned, Int(count))
 
 @always_inline
 def unload_image_colors(mut colors: Color):
-    """Unload color data loaded with LoadImageColors()"""
+    """Unload color data loaded with LoadImageColors()."""
     raw.UnloadImageColors(UnsafePointer(to=colors).bitcast[raw_types.Color]().unsafe_mut_cast[True]().as_any_origin())
 
 @always_inline
 def unload_image_palette(mut colors: Color):
-    """Unload colors palette loaded with LoadImagePalette()"""
+    """Unload colors palette loaded with LoadImagePalette()."""
     raw.UnloadImagePalette(UnsafePointer(to=colors).bitcast[raw_types.Color]().unsafe_mut_cast[True]().as_any_origin())
 
 @always_inline
 def get_image_alpha_border(image: Image, threshold: Float32) -> Rectangle:
-    """Get image alpha border rectangle"""
+    """Get image alpha border rectangle."""
     var result = raw.GetImageAlphaBorder(public_types._to_raw_image(image), c_float(threshold))
     return public_types._from_raw_rectangle(result)
 
 @always_inline
 def get_image_color(image: Image, x: Int, y: Int) -> Color:
-    """Get image pixel color at (x, y) position"""
+    """Get image pixel color at (x, y) position."""
     var result = raw.GetImageColor(public_types._to_raw_image(image), c_int(x), c_int(y))
     return public_types._from_raw_color(result)
 
 @always_inline
 def image_clear_background(mut dst: Image, color: Color):
-    """Clear image background with given color"""
+    """Clear image background with given color."""
     raw.ImageClearBackground(UnsafePointer(to=dst).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), public_types._to_raw_color(color))
 
 @always_inline
 def image_draw_pixel(mut dst: Image, pos_x: Int, pos_y: Int, color: Color):
-    """Draw pixel within an image"""
+    """Draw pixel within an image."""
     raw.ImageDrawPixel(UnsafePointer(to=dst).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), c_int(pos_x), c_int(pos_y), public_types._to_raw_color(color))
 
 @always_inline
 def image_draw_pixel_v(mut dst: Image, position: Vector2, color: Color):
-    """Draw pixel within an image (Vector version)"""
+    """Draw pixel within an image (Vector version)."""
     raw.ImageDrawPixelV(UnsafePointer(to=dst).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), public_types._to_raw_vector2(position), public_types._to_raw_color(color))
 
 @always_inline
 def image_draw_line(mut dst: Image, start_pos_x: Int, start_pos_y: Int, end_pos_x: Int, end_pos_y: Int, color: Color):
-    """Draw line within an image"""
+    """Draw line within an image."""
     raw.ImageDrawLine(UnsafePointer(to=dst).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), c_int(start_pos_x), c_int(start_pos_y), c_int(end_pos_x), c_int(end_pos_y), public_types._to_raw_color(color))
 
 @always_inline
 def image_draw_line_v(mut dst: Image, start: Vector2, end: Vector2, color: Color):
-    """Draw line within an image (Vector version)"""
+    """Draw line within an image (Vector version)."""
     raw.ImageDrawLineV(UnsafePointer(to=dst).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), public_types._to_raw_vector2(start), public_types._to_raw_vector2(end), public_types._to_raw_color(color))
 
 @always_inline
 def image_draw_line_ex(mut dst: Image, start: Vector2, end: Vector2, thick: Int, color: Color):
-    """Draw a line defining thickness within an image"""
+    """Draw a line defining thickness within an image."""
     raw.ImageDrawLineEx(UnsafePointer(to=dst).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), public_types._to_raw_vector2(start), public_types._to_raw_vector2(end), c_int(thick), public_types._to_raw_color(color))
 
 @always_inline
 def image_draw_circle(mut dst: Image, center_x: Int, center_y: Int, radius: Int, color: Color):
-    """Draw a filled circle within an image"""
+    """Draw a filled circle within an image."""
     raw.ImageDrawCircle(UnsafePointer(to=dst).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), c_int(center_x), c_int(center_y), c_int(radius), public_types._to_raw_color(color))
 
 @always_inline
 def image_draw_circle_v(mut dst: Image, center: Vector2, radius: Int, color: Color):
-    """Draw a filled circle within an image (Vector version)"""
+    """Draw a filled circle within an image (Vector version)."""
     raw.ImageDrawCircleV(UnsafePointer(to=dst).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), public_types._to_raw_vector2(center), c_int(radius), public_types._to_raw_color(color))
 
 @always_inline
 def image_draw_circle_lines(mut dst: Image, center_x: Int, center_y: Int, radius: Int, color: Color):
-    """Draw circle outline within an image"""
+    """Draw circle outline within an image."""
     raw.ImageDrawCircleLines(UnsafePointer(to=dst).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), c_int(center_x), c_int(center_y), c_int(radius), public_types._to_raw_color(color))
 
 @always_inline
 def image_draw_circle_lines_v(mut dst: Image, center: Vector2, radius: Int, color: Color):
-    """Draw circle outline within an image (Vector version)"""
+    """Draw circle outline within an image (Vector version)."""
     raw.ImageDrawCircleLinesV(UnsafePointer(to=dst).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), public_types._to_raw_vector2(center), c_int(radius), public_types._to_raw_color(color))
 
 @always_inline
 def image_draw_rectangle(mut dst: Image, pos_x: Int, pos_y: Int, width: Int, height: Int, color: Color):
-    """Draw rectangle within an image"""
+    """Draw rectangle within an image."""
     raw.ImageDrawRectangle(UnsafePointer(to=dst).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), c_int(pos_x), c_int(pos_y), c_int(width), c_int(height), public_types._to_raw_color(color))
 
 @always_inline
 def image_draw_rectangle_v(mut dst: Image, position: Vector2, size: Vector2, color: Color):
-    """Draw rectangle within an image (Vector version)"""
+    """Draw rectangle within an image (Vector version)."""
     raw.ImageDrawRectangleV(UnsafePointer(to=dst).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), public_types._to_raw_vector2(position), public_types._to_raw_vector2(size), public_types._to_raw_color(color))
 
 @always_inline
 def image_draw_rectangle_rec(mut dst: Image, rec: Rectangle, color: Color):
-    """Draw rectangle within an image"""
+    """Draw rectangle within an image."""
     raw.ImageDrawRectangleRec(UnsafePointer(to=dst).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), public_types._to_raw_rectangle(rec), public_types._to_raw_color(color))
 
 @always_inline
 def image_draw_rectangle_lines(mut dst: Image, rec: Rectangle, thick: Int, color: Color):
-    """Draw rectangle lines within an image"""
+    """Draw rectangle lines within an image."""
     raw.ImageDrawRectangleLines(UnsafePointer(to=dst).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), public_types._to_raw_rectangle(rec), c_int(thick), public_types._to_raw_color(color))
 
 @always_inline
 def image_draw_triangle(mut dst: Image, v1: Vector2, v2: Vector2, v3: Vector2, color: Color):
-    """Draw triangle within an image"""
+    """Draw triangle within an image."""
     raw.ImageDrawTriangle(UnsafePointer(to=dst).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), public_types._to_raw_vector2(v1), public_types._to_raw_vector2(v2), public_types._to_raw_vector2(v3), public_types._to_raw_color(color))
 
 @always_inline
 def image_draw_triangle_ex(mut dst: Image, v1: Vector2, v2: Vector2, v3: Vector2, c1: Color, c2: Color, c3: Color):
-    """Draw triangle with interpolated colors within an image"""
+    """Draw triangle with interpolated colors within an image."""
     raw.ImageDrawTriangleEx(UnsafePointer(to=dst).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), public_types._to_raw_vector2(v1), public_types._to_raw_vector2(v2), public_types._to_raw_vector2(v3), public_types._to_raw_color(c1), public_types._to_raw_color(c2), public_types._to_raw_color(c3))
 
 @always_inline
 def image_draw_triangle_lines(mut dst: Image, v1: Vector2, v2: Vector2, v3: Vector2, color: Color):
-    """Draw triangle outline within an image"""
+    """Draw triangle outline within an image."""
     raw.ImageDrawTriangleLines(UnsafePointer(to=dst).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), public_types._to_raw_vector2(v1), public_types._to_raw_vector2(v2), public_types._to_raw_vector2(v3), public_types._to_raw_color(color))
 
 @always_inline
 def image_draw_triangle_fan(mut dst: Image, points: Span[Vector2, _], color: Color):
-    """Draw a triangle fan defined by points within an image (first vertex is the center)"""
+    """Draw a triangle fan defined by points within an image (first vertex is the center)."""
     raw.ImageDrawTriangleFan(UnsafePointer(to=dst).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), points.unsafe_ptr().bitcast[raw_types.Vector2]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(points)), public_types._to_raw_color(color))
 
 @always_inline
 def image_draw_triangle_strip(mut dst: Image, points: Span[Vector2, _], color: Color):
-    """Draw a triangle strip defined by points within an image"""
+    """Draw a triangle strip defined by points within an image."""
     raw.ImageDrawTriangleStrip(UnsafePointer(to=dst).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), points.unsafe_ptr().bitcast[raw_types.Vector2]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(points)), public_types._to_raw_color(color))
 
 @always_inline
 def image_draw(mut dst: Image, src: Image, src_rec: Rectangle, dst_rec: Rectangle, tint: Color):
-    """Draw a source image within a destination image (tint applied to source)"""
+    """Draw a source image within a destination image (tint applied to source)."""
     raw.ImageDraw(UnsafePointer(to=dst).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), public_types._to_raw_image(src), public_types._to_raw_rectangle(src_rec), public_types._to_raw_rectangle(dst_rec), public_types._to_raw_color(tint))
 
 @always_inline
 def image_draw_text(mut dst: Image, text: String, pos_x: Int, pos_y: Int, font_size: Int, color: Color):
-    """Draw text (using default font) within an image (destination)"""
+    """Draw text (using default font) within an image (destination)."""
     raw.ImageDrawText(UnsafePointer(to=dst).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), CStringSlice(unsafe_from_ptr=text.unsafe_ptr().bitcast[c_char]()), c_int(pos_x), c_int(pos_y), c_int(font_size), public_types._to_raw_color(color))
 
 @always_inline
 def image_draw_text_ex(mut dst: Image, font: Font, text: String, position: Vector2, font_size: Float32, spacing: Float32, tint: Color):
-    """Draw text (custom sprite font) within an image (destination)"""
+    """Draw text (custom sprite font) within an image (destination)."""
     raw.ImageDrawTextEx(UnsafePointer(to=dst).bitcast[raw_types.Image]().unsafe_mut_cast[True]().as_any_origin(), public_types._to_raw_font(font), CStringSlice(unsafe_from_ptr=text.unsafe_ptr().bitcast[c_char]()), public_types._to_raw_vector2(position), c_float(font_size), c_float(spacing), public_types._to_raw_color(tint))
 
 @always_inline
 def load_texture(file_name: String) -> Texture2D:
-    """Load texture from file into GPU memory (VRAM)"""
+    """Load texture from file into GPU memory (VRAM)."""
     var result = raw.LoadTexture(CStringSlice(unsafe_from_ptr=file_name.unsafe_ptr().bitcast[c_char]()))
     return public_types._from_raw_texture_2d(result)
 
 @always_inline
 def load_texture_from_image(image: Image) -> Texture2D:
-    """Load texture from image data"""
+    """Load texture from image data."""
     var result = raw.LoadTextureFromImage(public_types._to_raw_image(image))
     return public_types._from_raw_texture_2d(result)
 
 @always_inline
 def load_texture_cubemap(image: Image, layout: Int) -> TextureCubemap:
-    """Load cubemap from image, multiple image cubemap layouts supported"""
+    """Load cubemap from image, multiple image cubemap layouts supported."""
     var result = raw.LoadTextureCubemap(public_types._to_raw_image(image), c_int(layout))
     return public_types._from_raw_texture_cubemap(result)
 
 @always_inline
 def load_render_texture(width: Int, height: Int) -> RenderTexture2D:
-    """Load texture for rendering (framebuffer)"""
+    """Load texture for rendering (framebuffer)."""
     var result = raw.LoadRenderTexture(c_int(width), c_int(height))
     return public_types._from_raw_render_texture_2d(result)
 
 @always_inline
 def is_texture_valid(texture: Texture2D) -> Bool:
-    """Check if a texture is valid (loaded in GPU)"""
+    """Check if a texture is valid (loaded in GPU)."""
     var result = raw.IsTextureValid(public_types._to_raw_texture_2d(texture))
     return result
 
 @always_inline
 def unload_texture(texture: Texture2D):
-    """Unload texture from GPU memory (VRAM)"""
+    """Unload texture from GPU memory (VRAM)."""
     raw.UnloadTexture(public_types._to_raw_texture_2d(texture))
 
 @always_inline
 def is_render_texture_valid(target: RenderTexture2D) -> Bool:
-    """Check if a render texture is valid (loaded in GPU)"""
+    """Check if a render texture is valid (loaded in GPU)."""
     var result = raw.IsRenderTextureValid(public_types._to_raw_render_texture_2d(target))
     return result
 
 @always_inline
 def unload_render_texture(target: RenderTexture2D):
-    """Unload render texture from GPU memory (VRAM)"""
+    """Unload render texture from GPU memory (VRAM)."""
     raw.UnloadRenderTexture(public_types._to_raw_render_texture_2d(target))
 
 @always_inline
 def update_texture(texture: Texture2D, pixels: UnsafePointer[NoneType, MutAnyOrigin]):
-    """Update GPU texture with new data (pixels should be able to fill texture)"""
+    """Update GPU texture with new data (pixels should be able to fill texture)."""
     raw.UpdateTexture(public_types._to_raw_texture_2d(texture), pixels)
 
 @always_inline
 def update_texture_rec(texture: Texture2D, rec: Rectangle, pixels: UnsafePointer[NoneType, MutAnyOrigin]):
-    """Update GPU texture rectangle with new data (pixels and rec should fit in texture)"""
+    """Update GPU texture rectangle with new data (pixels and rec should fit in texture)."""
     raw.UpdateTextureRec(public_types._to_raw_texture_2d(texture), public_types._to_raw_rectangle(rec), pixels)
 
 @always_inline
 def gen_texture_mipmaps(mut texture: Texture2D):
-    """Generate GPU mipmaps for a texture"""
+    """Generate GPU mipmaps for a texture."""
     raw.GenTextureMipmaps(UnsafePointer(to=texture).bitcast[raw_types.Texture]().unsafe_mut_cast[True]().as_any_origin())
 
 @always_inline
 def set_texture_filter(texture: Texture2D, filter: Int):
-    """Set texture scaling filter mode"""
+    """Set texture scaling filter mode."""
     raw.SetTextureFilter(public_types._to_raw_texture_2d(texture), c_int(filter))
 
 @always_inline
 def set_texture_wrap(texture: Texture2D, wrap: Int):
-    """Set texture wrapping mode"""
+    """Set texture wrapping mode."""
     raw.SetTextureWrap(public_types._to_raw_texture_2d(texture), c_int(wrap))
 
 @always_inline
 def draw_texture(texture: Texture2D, pos_x: Int, pos_y: Int, tint: Color):
-    """Draw a Texture2D"""
+    """Draw a Texture2D."""
     raw.DrawTexture(public_types._to_raw_texture_2d(texture), c_int(pos_x), c_int(pos_y), public_types._to_raw_color(tint))
 
 @always_inline
 def draw_texture_v(texture: Texture2D, position: Vector2, tint: Color):
-    """Draw a Texture2D with position defined as Vector2"""
+    """Draw a Texture2D with position defined as Vector2."""
     raw.DrawTextureV(public_types._to_raw_texture_2d(texture), public_types._to_raw_vector2(position), public_types._to_raw_color(tint))
 
 @always_inline
 def draw_texture_ex(texture: Texture2D, position: Vector2, rotation: Float32, scale: Float32, tint: Color):
-    """Draw a Texture2D with extended parameters"""
+    """Draw a Texture2D with extended parameters."""
     raw.DrawTextureEx(public_types._to_raw_texture_2d(texture), public_types._to_raw_vector2(position), c_float(rotation), c_float(scale), public_types._to_raw_color(tint))
 
 @always_inline
 def draw_texture_rec(texture: Texture2D, source: Rectangle, position: Vector2, tint: Color):
-    """Draw a part of a texture defined by a rectangle"""
+    """Draw a part of a texture defined by a rectangle."""
     raw.DrawTextureRec(public_types._to_raw_texture_2d(texture), public_types._to_raw_rectangle(source), public_types._to_raw_vector2(position), public_types._to_raw_color(tint))
 
 @always_inline
 def draw_texture_pro(texture: Texture2D, source: Rectangle, dest: Rectangle, origin: Vector2, rotation: Float32, tint: Color):
-    """Draw a part of a texture defined by a rectangle with 'pro' parameters"""
+    """Draw a part of a texture defined by a rectangle with 'pro' parameters."""
     raw.DrawTexturePro(public_types._to_raw_texture_2d(texture), public_types._to_raw_rectangle(source), public_types._to_raw_rectangle(dest), public_types._to_raw_vector2(origin), c_float(rotation), public_types._to_raw_color(tint))
 
 @always_inline
 def draw_texture_n_patch(texture: Texture2D, n_patch_info: NPatchInfo, dest: Rectangle, origin: Vector2, rotation: Float32, tint: Color):
-    """Draws a texture (or part of it) that stretches or shrinks nicely"""
+    """Draws a texture (or part of it) that stretches or shrinks nicely."""
     raw.DrawTextureNPatch(public_types._to_raw_texture_2d(texture), public_types._to_raw_n_patch_info(n_patch_info), public_types._to_raw_rectangle(dest), public_types._to_raw_vector2(origin), c_float(rotation), public_types._to_raw_color(tint))
 
 @always_inline
 def color_is_equal(col1: Color, col2: Color) -> Bool:
-    """Check if two colors are equal"""
+    """Check if two colors are equal."""
     var result = raw.ColorIsEqual(public_types._to_raw_color(col1), public_types._to_raw_color(col2))
     return result
 
 @always_inline
 def fade(color: Color, alpha: Float32) -> Color:
-    """Get color with alpha applied, alpha goes from 0.0f to 1.0f"""
+    """Get color with alpha applied, alpha goes from 0.0f to 1.0f."""
     var result = raw.Fade(public_types._to_raw_color(color), c_float(alpha))
     return public_types._from_raw_color(result)
 
 @always_inline
 def color_to_int(color: Color) -> Int:
-    """Get hexadecimal value for a Color (0xRRGGBBAA)"""
+    """Get hexadecimal value for a Color (0xRRGGBBAA)."""
     var result = raw.ColorToInt(public_types._to_raw_color(color))
     return Int(result)
 
 @always_inline
 def color_normalize(color: Color) -> Vector4:
-    """Get Color normalized as float [0..1]"""
+    """Get Color normalized as float [0..1]."""
     var result = raw.ColorNormalize(public_types._to_raw_color(color))
     return public_types._from_raw_vector4(result)
 
 @always_inline
 def color_from_normalized(normalized: Vector4) -> Color:
-    """Get Color from normalized values [0..1]"""
+    """Get Color from normalized values [0..1]."""
     var result = raw.ColorFromNormalized(public_types._to_raw_vector4(normalized))
     return public_types._from_raw_color(result)
 
 @always_inline
 def color_to_hsv(color: Color) -> Vector3:
-    """Get HSV values for a Color, hue [0..360], saturation/value [0..1]"""
+    """Get HSV values for a Color, hue [0..360], saturation/value [0..1]."""
     var result = raw.ColorToHSV(public_types._to_raw_color(color))
     return public_types._from_raw_vector3(result)
 
 @always_inline
 def color_from_hsv(hue: Float32, saturation: Float32, value: Float32) -> Color:
-    """Get a Color from HSV values, hue [0..360], saturation/value [0..1]"""
+    """Get a Color from HSV values, hue [0..360], saturation/value [0..1]."""
     var result = raw.ColorFromHSV(c_float(hue), c_float(saturation), c_float(value))
     return public_types._from_raw_color(result)
 
 @always_inline
 def color_tint(color: Color, tint: Color) -> Color:
-    """Get color multiplied with another color"""
+    """Get color multiplied with another color."""
     var result = raw.ColorTint(public_types._to_raw_color(color), public_types._to_raw_color(tint))
     return public_types._from_raw_color(result)
 
 @always_inline
 def color_brightness(color: Color, factor: Float32) -> Color:
-    """Get color with brightness correction, brightness factor goes from -1.0f to 1.0f"""
+    """Get color with brightness correction, brightness factor goes from -1.0f to 1.0f."""
     var result = raw.ColorBrightness(public_types._to_raw_color(color), c_float(factor))
     return public_types._from_raw_color(result)
 
 @always_inline
 def color_contrast(color: Color, contrast: Float32) -> Color:
-    """Get color with contrast correction, contrast values between -1.0f and 1.0f"""
+    """Get color with contrast correction, contrast values between -1.0f and 1.0f."""
     var result = raw.ColorContrast(public_types._to_raw_color(color), c_float(contrast))
     return public_types._from_raw_color(result)
 
 @always_inline
 def color_alpha(color: Color, alpha: Float32) -> Color:
-    """Get color with alpha applied, alpha goes from 0.0f to 1.0f"""
+    """Get color with alpha applied, alpha goes from 0.0f to 1.0f."""
     var result = raw.ColorAlpha(public_types._to_raw_color(color), c_float(alpha))
     return public_types._from_raw_color(result)
 
 @always_inline
 def color_alpha_blend(dst: Color, src: Color, tint: Color) -> Color:
-    """Get src alpha-blended into dst color with tint"""
+    """Get src alpha-blended into dst color with tint."""
     var result = raw.ColorAlphaBlend(public_types._to_raw_color(dst), public_types._to_raw_color(src), public_types._to_raw_color(tint))
     return public_types._from_raw_color(result)
 
 @always_inline
 def color_lerp(color1: Color, color2: Color, factor: Float32) -> Color:
-    """Get color lerp interpolation between two colors, factor [0.0f..1.0f]"""
+    """Get color lerp interpolation between two colors, factor [0.0f..1.0f]."""
     var result = raw.ColorLerp(public_types._to_raw_color(color1), public_types._to_raw_color(color2), c_float(factor))
     return public_types._from_raw_color(result)
 
 @always_inline
 def get_color(hex_value: UInt) -> Color:
-    """Get Color structure from hexadecimal value"""
+    """Get Color structure from hexadecimal value."""
     var result = raw.GetColor(c_uint(hex_value))
     return public_types._from_raw_color(result)
 
 @always_inline
 def get_pixel_color(src_ptr: UnsafePointer[NoneType, MutAnyOrigin], format: Int) -> Color:
-    """Get Color from a source pixel pointer of certain format"""
+    """Get Color from a source pixel pointer of certain format."""
     var result = raw.GetPixelColor(src_ptr, c_int(format))
     return public_types._from_raw_color(result)
 
 @always_inline
 def set_pixel_color(dst_ptr: UnsafePointer[NoneType, MutAnyOrigin], color: Color, format: Int):
-    """Set color formatted into destination pixel pointer"""
+    """Set color formatted into destination pixel pointer."""
     raw.SetPixelColor(dst_ptr, public_types._to_raw_color(color), c_int(format))
 
 @always_inline
 def get_pixel_data_size(width: Int, height: Int, format: Int) -> Int:
-    """Get pixel data size in bytes for certain format"""
+    """Get pixel data size in bytes for certain format."""
     var result = raw.GetPixelDataSize(c_int(width), c_int(height), c_int(format))
     return Int(result)
 
 @always_inline
 def get_font_default() -> Font:
-    """Get the default Font"""
+    """Get the default Font."""
     var result = raw.GetFontDefault()
     return public_types._from_raw_font(result)
 
 @always_inline
 def load_font(file_name: String) -> Font:
-    """Load font from file into GPU memory (VRAM)"""
+    """Load font from file into GPU memory (VRAM)."""
     var result = raw.LoadFont(CStringSlice(unsafe_from_ptr=file_name.unsafe_ptr().bitcast[c_char]()))
     return public_types._from_raw_font(result)
 
 @always_inline
 def load_font_ex(file_name: String, font_size: Int, codepoints: Span[Int32, _]) -> Font:
-    """Load font from file with extended parameters, use NULL for codepoints and 0 for codepointCount to load the default character set, font size is provided in pixels height"""
+    """Load font from file with extended parameters, use NULL for codepoints and 0 for codepointCount to load the default character set, font size is provided in pixels height."""
     var result = raw.LoadFontEx(CStringSlice(unsafe_from_ptr=file_name.unsafe_ptr().bitcast[c_char]()), c_int(font_size), codepoints.unsafe_ptr().bitcast[c_int]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(codepoints)))
     return public_types._from_raw_font(result)
 
 @always_inline
 def load_font_from_image(image: Image, key: Color, first_char: Int) -> Font:
-    """Load font from Image (XNA style)"""
+    """Load font from Image (XNA style)."""
     var result = raw.LoadFontFromImage(public_types._to_raw_image(image), public_types._to_raw_color(key), c_int(first_char))
     return public_types._from_raw_font(result)
 
 @always_inline
 def load_font_from_memory(file_type: String, file_data: Span[UInt8, _], font_size: Int, codepoints: Span[Int32, _]) -> Font:
-    """Load font from memory buffer, fileType refers to extension: i.e. '.ttf'"""
+    """Load font from memory buffer, fileType refers to extension: i.e. '.ttf'."""
     var result = raw.LoadFontFromMemory(CStringSlice(unsafe_from_ptr=file_type.unsafe_ptr().bitcast[c_char]()), file_data.unsafe_ptr().bitcast[c_uchar]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(file_data)), c_int(font_size), codepoints.unsafe_ptr().bitcast[c_int]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(codepoints)))
     return public_types._from_raw_font(result)
 
 @always_inline
 def is_font_valid(font: Font) -> Bool:
-    """Check if a font is valid (font data loaded, WARNING: GPU texture not checked)"""
+    """Check if a font is valid (font data loaded, WARNING: GPU texture not checked)."""
     var result = raw.IsFontValid(public_types._to_raw_font(font))
     return result
 
 @always_inline
 def load_font_data(file_data: Span[UInt8, _], font_size: Int, codepoints: Span[Int32, _], type_: Int) -> OwnedFontData:
-    """Load font data for further use"""
+    """Load font data for further use."""
     var count: c_int = 0
     var _owned = raw.LoadFontData(file_data.unsafe_ptr().bitcast[c_uchar]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(file_data)), c_int(font_size), codepoints.unsafe_ptr().bitcast[c_int]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(codepoints)), c_int(type_), UnsafePointer(to=count))
     return OwnedFontData(_owned, Int(count))
 
 @always_inline
 def gen_image_font_atlas(ref glyphs: GlyphInfo, glyph_recs: UnsafePointer[Rectangle, MutAnyOrigin], glyph_count: Int, font_size: Int, padding: Int, pack_method: Int) -> Image:
-    """Generate image font atlas using chars info"""
+    """Generate image font atlas using chars info."""
     var result = raw.GenImageFontAtlas(UnsafePointer(to=glyphs).bitcast[raw_types.GlyphInfo]().unsafe_mut_cast[True]().as_any_origin(), UnsafePointer(to=glyph_recs).bitcast[raw_types.Rectangle]().unsafe_mut_cast[True]().as_any_origin(), c_int(glyph_count), c_int(font_size), c_int(padding), c_int(pack_method))
     return public_types._from_raw_image(result)
 
 @always_inline
 def unload_font_data(glyphs: Span[GlyphInfo, _]):
-    """Unload font chars info data (RAM)"""
+    """Unload font chars info data (RAM)."""
     raw.UnloadFontData(glyphs.unsafe_ptr().bitcast[raw_types.GlyphInfo]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(glyphs)))
 
 @always_inline
 def unload_font(font: Font):
-    """Unload font from GPU memory (VRAM)"""
+    """Unload font from GPU memory (VRAM)."""
     raw.UnloadFont(public_types._to_raw_font(font))
 
 @always_inline
 def export_font_as_code(font: Font, file_name: String) -> Bool:
-    """Export font as code file, returns true on success"""
+    """Export font as code file, returns true on success."""
     var result = raw.ExportFontAsCode(public_types._to_raw_font(font), CStringSlice(unsafe_from_ptr=file_name.unsafe_ptr().bitcast[c_char]()))
     return result
 
 @always_inline
 def draw_fps(pos_x: Int, pos_y: Int):
-    """Draw current FPS"""
+    """Draw current FPS."""
     raw.DrawFPS(c_int(pos_x), c_int(pos_y))
 
 @always_inline
 def draw_text(text: String, pos_x: Int, pos_y: Int, font_size: Int, color: Color):
-    """Draw text (using default font)"""
+    """Draw text (using default font)."""
     raw.DrawText(CStringSlice(unsafe_from_ptr=text.unsafe_ptr().bitcast[c_char]()), c_int(pos_x), c_int(pos_y), c_int(font_size), public_types._to_raw_color(color))
 
 @always_inline
 def draw_text_ex(font: Font, text: String, position: Vector2, font_size: Float32, spacing: Float32, tint: Color):
-    """Draw text using font and additional parameters"""
+    """Draw text using font and additional parameters."""
     raw.DrawTextEx(public_types._to_raw_font(font), CStringSlice(unsafe_from_ptr=text.unsafe_ptr().bitcast[c_char]()), public_types._to_raw_vector2(position), c_float(font_size), c_float(spacing), public_types._to_raw_color(tint))
 
 @always_inline
 def draw_text_pro(font: Font, text: String, position: Vector2, origin: Vector2, rotation: Float32, font_size: Float32, spacing: Float32, tint: Color):
-    """Draw text using Font and pro parameters (rotation)"""
+    """Draw text using Font and pro parameters (rotation)."""
     raw.DrawTextPro(public_types._to_raw_font(font), CStringSlice(unsafe_from_ptr=text.unsafe_ptr().bitcast[c_char]()), public_types._to_raw_vector2(position), public_types._to_raw_vector2(origin), c_float(rotation), c_float(font_size), c_float(spacing), public_types._to_raw_color(tint))
 
 @always_inline
 def draw_text_codepoint(font: Font, codepoint: Int, position: Vector2, font_size: Float32, tint: Color):
-    """Draw one character (codepoint)"""
+    """Draw one character (codepoint)."""
     raw.DrawTextCodepoint(public_types._to_raw_font(font), c_int(codepoint), public_types._to_raw_vector2(position), c_float(font_size), public_types._to_raw_color(tint))
 
 @always_inline
 def draw_text_codepoints(font: Font, codepoints: Span[Int32, _], position: Vector2, font_size: Float32, spacing: Float32, tint: Color):
-    """Draw multiple character (codepoint)"""
+    """Draw multiple character (codepoint)."""
     raw.DrawTextCodepoints(public_types._to_raw_font(font), codepoints.unsafe_ptr().bitcast[c_int]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(codepoints)), public_types._to_raw_vector2(position), c_float(font_size), c_float(spacing), public_types._to_raw_color(tint))
 
 @always_inline
 def set_text_line_spacing(spacing: Int):
-    """Set vertical line spacing when drawing with line-breaks"""
+    """Set vertical line spacing when drawing with line-breaks."""
     raw.SetTextLineSpacing(c_int(spacing))
 
 @always_inline
 def measure_text(text: String, font_size: Int) -> Int:
-    """Measure string width for default font"""
+    """Measure string width for default font."""
     var result = raw.MeasureText(CStringSlice(unsafe_from_ptr=text.unsafe_ptr().bitcast[c_char]()), c_int(font_size))
     return Int(result)
 
 @always_inline
 def measure_text_ex(font: Font, text: String, font_size: Float32, spacing: Float32) -> Vector2:
-    """Measure string size for Font"""
+    """Measure string size for Font."""
     var result = raw.MeasureTextEx(public_types._to_raw_font(font), CStringSlice(unsafe_from_ptr=text.unsafe_ptr().bitcast[c_char]()), c_float(font_size), c_float(spacing))
     return public_types._from_raw_vector2(result)
 
 @always_inline
 def measure_text_codepoints(font: Font, codepoints: Span[Int32, _], font_size: Float32, spacing: Float32) -> Vector2:
-    """Measure string size for an existing array of codepoints for Font"""
+    """Measure string size for an existing array of codepoints for Font."""
     var result = raw.MeasureTextCodepoints(public_types._to_raw_font(font), codepoints.unsafe_ptr().bitcast[c_int]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(codepoints)), c_float(font_size), c_float(spacing))
     return public_types._from_raw_vector2(result)
 
 @always_inline
 def get_glyph_index(font: Font, codepoint: Int) -> Int:
-    """Get glyph index position in font for a codepoint (unicode character), fallback to '?' if not found"""
+    """Get glyph index position in font for a codepoint (unicode character), fallback to '?' if not found."""
     var result = raw.GetGlyphIndex(public_types._to_raw_font(font), c_int(codepoint))
     return Int(result)
 
 @always_inline
 def get_glyph_info(font: Font, codepoint: Int) -> GlyphInfo:
-    """Get glyph font info data for a codepoint (unicode character), fallback to '?' if not found"""
+    """Get glyph font info data for a codepoint (unicode character), fallback to '?' if not found."""
     var result = raw.GetGlyphInfo(public_types._to_raw_font(font), c_int(codepoint))
     return public_types._from_raw_glyph_info(result)
 
 @always_inline
 def get_glyph_atlas_rec(font: Font, codepoint: Int) -> Rectangle:
-    """Get glyph rectangle in font atlas for a codepoint (unicode character), fallback to '?' if not found"""
+    """Get glyph rectangle in font atlas for a codepoint (unicode character), fallback to '?' if not found."""
     var result = raw.GetGlyphAtlasRec(public_types._to_raw_font(font), c_int(codepoint))
     return public_types._from_raw_rectangle(result)
 
 @always_inline
 def load_utf8(codepoints: Span[Int32, _]) -> OwnedUTF8:
-    """Load UTF-8 text encoded from codepoints array"""
+    """Load UTF-8 text encoded from codepoints array."""
     var _owned = raw.LoadUTF8(codepoints.unsafe_ptr().bitcast[c_int]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(codepoints)))
     return OwnedUTF8(_owned)
 
 @always_inline
 def unload_utf8(text: UnsafePointer[c_char, MutAnyOrigin]):
-    """Unload UTF-8 text encoded from codepoints array"""
+    """Unload UTF-8 text encoded from codepoints array."""
     raw.UnloadUTF8(text)
 
 @always_inline
 def load_codepoints(text: String) -> OwnedCodepoints:
-    """Load all codepoints from a UTF-8 text string, codepoints count returned by parameter"""
+    """Load all codepoints from a UTF-8 text string, codepoints count returned by parameter."""
     var count: c_int = 0
     var _owned = raw.LoadCodepoints(CStringSlice(unsafe_from_ptr=text.unsafe_ptr().bitcast[c_char]()), UnsafePointer(to=count))
     return OwnedCodepoints(_owned, Int(count))
 
 @always_inline
 def unload_codepoints():
-    """Unload codepoints data from memory"""
+    """Unload codepoints data from memory."""
     var count: c_int = 0
     raw.UnloadCodepoints(UnsafePointer(to=count))
 
 @always_inline
 def get_codepoint_count(text: String) -> Int:
-    """Get total number of codepoints in a UTF-8 encoded string"""
+    """Get total number of codepoints in a UTF-8 encoded string."""
     var result = raw.GetCodepointCount(CStringSlice(unsafe_from_ptr=text.unsafe_ptr().bitcast[c_char]()))
     return Int(result)
 
 @always_inline
 def get_codepoint(text: String) -> Int:
-    """Get next codepoint in a UTF-8 encoded string, 0x3f('?') is returned on failure"""
+    """Get next codepoint in a UTF-8 encoded string, 0x3f('?') is returned on failure."""
     var count: c_int = 0
     var result = raw.GetCodepoint(CStringSlice(unsafe_from_ptr=text.unsafe_ptr().bitcast[c_char]()), UnsafePointer(to=count))
     return Int(result)
 
 @always_inline
 def get_codepoint_next(text: String) -> Int:
-    """Get next codepoint in a UTF-8 encoded string, 0x3f('?') is returned on failure"""
+    """Get next codepoint in a UTF-8 encoded string, 0x3f('?') is returned on failure."""
     var count: c_int = 0
     var result = raw.GetCodepointNext(CStringSlice(unsafe_from_ptr=text.unsafe_ptr().bitcast[c_char]()), UnsafePointer(to=count))
     return Int(result)
 
 @always_inline
 def get_codepoint_previous(text: String) -> Int:
-    """Get previous codepoint in a UTF-8 encoded string, 0x3f('?') is returned on failure"""
+    """Get previous codepoint in a UTF-8 encoded string, 0x3f('?') is returned on failure."""
     var count: c_int = 0
     var result = raw.GetCodepointPrevious(CStringSlice(unsafe_from_ptr=text.unsafe_ptr().bitcast[c_char]()), UnsafePointer(to=count))
     return Int(result)
 
 @always_inline
 def codepoint_to_utf8(codepoint: Int) -> String:
-    """Encode one codepoint into UTF-8 byte array (array length returned as parameter)"""
+    """Encode one codepoint into UTF-8 byte array (array length returned as parameter)."""
     var count: c_int = 0
     var result = raw.CodepointToUTF8(c_int(codepoint), UnsafePointer(to=count))
     return String(CStringSlice(unsafe_from_ptr=result))
 
 @always_inline
 def load_text_lines(text: String) -> OwnedTextLines:
-    """Load text as separate lines ('\n')"""
+    """Load text as separate lines ('\n')."""
     var count: c_int = 0
     var _owned = raw.LoadTextLines(CStringSlice(unsafe_from_ptr=text.unsafe_ptr().bitcast[c_char]()), UnsafePointer(to=count))
     return OwnedTextLines(_owned, Int(count))
 
 @always_inline
 def unload_text_lines(text: UnsafePointer[c_char, MutAnyOrigin], line_count: Int):
-    """Unload text lines"""
+    """Unload text lines."""
     raw.UnloadTextLines(text, c_int(line_count))
 
 @always_inline
 def text_copy(dst: UnsafePointer[c_char, MutAnyOrigin], src: String) -> Int:
-    """Copy one string to another, returns bytes copied"""
+    """Copy one string to another, returns bytes copied."""
     var result = raw.TextCopy(dst, CStringSlice(unsafe_from_ptr=src.unsafe_ptr().bitcast[c_char]()))
     return Int(result)
 
 @always_inline
 def text_is_equal(text1: String, text2: String) -> Bool:
-    """Check if two text string are equal"""
+    """Check if two text string are equal."""
     var result = raw.TextIsEqual(CStringSlice(unsafe_from_ptr=text1.unsafe_ptr().bitcast[c_char]()), CStringSlice(unsafe_from_ptr=text2.unsafe_ptr().bitcast[c_char]()))
     return result
 
 @always_inline
 def text_length(text: String) -> UInt:
-    """Get text length, checks for '\0' ending"""
+    """Get text length, checks for '\0' ending."""
     var result = raw.TextLength(CStringSlice(unsafe_from_ptr=text.unsafe_ptr().bitcast[c_char]()))
     return UInt(result)
 
 @always_inline
 def text_subtext(text: String, position: Int, length: Int) -> String:
-    """Get a piece of a text string"""
+    """Get a piece of a text string."""
     var result = raw.TextSubtext(CStringSlice(unsafe_from_ptr=text.unsafe_ptr().bitcast[c_char]()), c_int(position), c_int(length))
     return String(CStringSlice(unsafe_from_ptr=result))
 
 @always_inline
 def text_remove_spaces(text: String) -> String:
-    """Remove text spaces, concat words"""
+    """Remove text spaces, concat words."""
     var result = raw.TextRemoveSpaces(CStringSlice(unsafe_from_ptr=text.unsafe_ptr().bitcast[c_char]()))
     return String(CStringSlice(unsafe_from_ptr=result))
 
 @always_inline
 def get_text_between(text: String, begin: String, end: String) -> UnsafePointer[c_char, MutAnyOrigin]:
-    """Get text between two strings"""
+    """Get text between two strings."""
     var result = raw.GetTextBetween(CStringSlice(unsafe_from_ptr=text.unsafe_ptr().bitcast[c_char]()), CStringSlice(unsafe_from_ptr=begin.unsafe_ptr().bitcast[c_char]()), CStringSlice(unsafe_from_ptr=end.unsafe_ptr().bitcast[c_char]()))
     return result
 
 @always_inline
 def text_replace(text: String, search: String, replacement: String) -> UnsafePointer[c_char, MutAnyOrigin]:
-    """Replace text string with new string"""
+    """Replace text string with new string."""
     var result = raw.TextReplace(CStringSlice(unsafe_from_ptr=text.unsafe_ptr().bitcast[c_char]()), CStringSlice(unsafe_from_ptr=search.unsafe_ptr().bitcast[c_char]()), CStringSlice(unsafe_from_ptr=replacement.unsafe_ptr().bitcast[c_char]()))
     return result
 
 @always_inline
 def text_replace_alloc(text: String, search: String, replacement: String) -> OwnedTextReplaceAlloc:
-    """Replace text string with new string, memory must be MemFree()"""
+    """Replace text string with new string, memory must be MemFree()."""
     var _owned = raw.TextReplaceAlloc(CStringSlice(unsafe_from_ptr=text.unsafe_ptr().bitcast[c_char]()), CStringSlice(unsafe_from_ptr=search.unsafe_ptr().bitcast[c_char]()), CStringSlice(unsafe_from_ptr=replacement.unsafe_ptr().bitcast[c_char]()))
     return OwnedTextReplaceAlloc(_owned)
 
 @always_inline
 def text_replace_between(text: String, begin: String, end: String, replacement: String) -> UnsafePointer[c_char, MutAnyOrigin]:
-    """Replace text between two specific strings"""
+    """Replace text between two specific strings."""
     var result = raw.TextReplaceBetween(CStringSlice(unsafe_from_ptr=text.unsafe_ptr().bitcast[c_char]()), CStringSlice(unsafe_from_ptr=begin.unsafe_ptr().bitcast[c_char]()), CStringSlice(unsafe_from_ptr=end.unsafe_ptr().bitcast[c_char]()), CStringSlice(unsafe_from_ptr=replacement.unsafe_ptr().bitcast[c_char]()))
     return result
 
 @always_inline
 def text_replace_between_alloc(text: String, begin: String, end: String, replacement: String) -> OwnedTextReplaceBetweenAlloc:
-    """Replace text between two specific strings, memory must be MemFree()"""
+    """Replace text between two specific strings, memory must be MemFree()."""
     var _owned = raw.TextReplaceBetweenAlloc(CStringSlice(unsafe_from_ptr=text.unsafe_ptr().bitcast[c_char]()), CStringSlice(unsafe_from_ptr=begin.unsafe_ptr().bitcast[c_char]()), CStringSlice(unsafe_from_ptr=end.unsafe_ptr().bitcast[c_char]()), CStringSlice(unsafe_from_ptr=replacement.unsafe_ptr().bitcast[c_char]()))
     return OwnedTextReplaceBetweenAlloc(_owned)
 
 @always_inline
 def text_insert(text: String, insert: String, position: Int) -> UnsafePointer[c_char, MutAnyOrigin]:
-    """Insert text in a defined byte position"""
+    """Insert text in a defined byte position."""
     var result = raw.TextInsert(CStringSlice(unsafe_from_ptr=text.unsafe_ptr().bitcast[c_char]()), CStringSlice(unsafe_from_ptr=insert.unsafe_ptr().bitcast[c_char]()), c_int(position))
     return result
 
 @always_inline
 def text_insert_alloc(text: String, insert: String, position: Int) -> OwnedTextInsertAlloc:
-    """Insert text in a defined byte position, memory must be MemFree()"""
+    """Insert text in a defined byte position, memory must be MemFree()."""
     var _owned = raw.TextInsertAlloc(CStringSlice(unsafe_from_ptr=text.unsafe_ptr().bitcast[c_char]()), CStringSlice(unsafe_from_ptr=insert.unsafe_ptr().bitcast[c_char]()), c_int(position))
     return OwnedTextInsertAlloc(_owned)
 
 @always_inline
 def text_join(text_list: UnsafePointer[c_char, MutAnyOrigin], count: Int, delimiter: String) -> UnsafePointer[c_char, MutAnyOrigin]:
-    """Join text strings with delimiter"""
+    """Join text strings with delimiter."""
     var result = raw.TextJoin(text_list, c_int(count), CStringSlice(unsafe_from_ptr=delimiter.unsafe_ptr().bitcast[c_char]()))
     return result
 
 @always_inline
 def text_split(text: String, delimiter: Int8) -> UnsafePointer[c_char, MutAnyOrigin]:
-    """Split text into multiple strings, using MAX_TEXTSPLIT_COUNT static strings"""
+    """Split text into multiple strings, using MAX_TEXTSPLIT_COUNT static strings."""
     var count: c_int = 0
     var result = raw.TextSplit(CStringSlice(unsafe_from_ptr=text.unsafe_ptr().bitcast[c_char]()), c_char(delimiter), UnsafePointer(to=count))
     return result
 
 @always_inline
 def text_append(text: UnsafePointer[c_char, MutAnyOrigin], append: String):
-    """Append text at specific position and move cursor"""
+    """Append text at specific position and move cursor."""
     var count: c_int = 0
     raw.TextAppend(text, CStringSlice(unsafe_from_ptr=append.unsafe_ptr().bitcast[c_char]()), UnsafePointer(to=count))
 
 @always_inline
 def text_find_index(text: String, search: String) -> Int:
-    """Find first text occurrence within a string, -1 if not found"""
+    """Find first text occurrence within a string, -1 if not found."""
     var result = raw.TextFindIndex(CStringSlice(unsafe_from_ptr=text.unsafe_ptr().bitcast[c_char]()), CStringSlice(unsafe_from_ptr=search.unsafe_ptr().bitcast[c_char]()))
     return Int(result)
 
 @always_inline
 def text_to_upper(text: String) -> UnsafePointer[c_char, MutAnyOrigin]:
-    """Get upper case version of provided string"""
+    """Get upper case version of provided string."""
     var result = raw.TextToUpper(CStringSlice(unsafe_from_ptr=text.unsafe_ptr().bitcast[c_char]()))
     return result
 
 @always_inline
 def text_to_lower(text: String) -> UnsafePointer[c_char, MutAnyOrigin]:
-    """Get lower case version of provided string"""
+    """Get lower case version of provided string."""
     var result = raw.TextToLower(CStringSlice(unsafe_from_ptr=text.unsafe_ptr().bitcast[c_char]()))
     return result
 
 @always_inline
 def text_to_pascal(text: String) -> UnsafePointer[c_char, MutAnyOrigin]:
-    """Get Pascal case notation version of provided string"""
+    """Get Pascal case notation version of provided string."""
     var result = raw.TextToPascal(CStringSlice(unsafe_from_ptr=text.unsafe_ptr().bitcast[c_char]()))
     return result
 
 @always_inline
 def text_to_snake(text: String) -> UnsafePointer[c_char, MutAnyOrigin]:
-    """Get Snake case notation version of provided string"""
+    """Get Snake case notation version of provided string."""
     var result = raw.TextToSnake(CStringSlice(unsafe_from_ptr=text.unsafe_ptr().bitcast[c_char]()))
     return result
 
 @always_inline
 def text_to_camel(text: String) -> UnsafePointer[c_char, MutAnyOrigin]:
-    """Get Camel case notation version of provided string"""
+    """Get Camel case notation version of provided string."""
     var result = raw.TextToCamel(CStringSlice(unsafe_from_ptr=text.unsafe_ptr().bitcast[c_char]()))
     return result
 
 @always_inline
 def text_to_integer(text: String) -> Int:
-    """Get integer value from text"""
+    """Get integer value from text."""
     var result = raw.TextToInteger(CStringSlice(unsafe_from_ptr=text.unsafe_ptr().bitcast[c_char]()))
     return Int(result)
 
 @always_inline
 def text_to_float(text: String) -> Float32:
-    """Get float value from text"""
+    """Get float value from text."""
     var result = raw.TextToFloat(CStringSlice(unsafe_from_ptr=text.unsafe_ptr().bitcast[c_char]()))
     return Float32(result)
 
 @always_inline
 def draw_line_3d(start_pos: Vector3, end_pos: Vector3, color: Color):
-    """Draw a line in 3D world space"""
+    """Draw a line in 3D world space."""
     raw.DrawLine3D(public_types._to_raw_vector3(start_pos), public_types._to_raw_vector3(end_pos), public_types._to_raw_color(color))
 
 @always_inline
 def draw_point_3d(position: Vector3, color: Color):
-    """Draw a point in 3D space, actually a small line"""
+    """Draw a point in 3D space, actually a small line."""
     raw.DrawPoint3D(public_types._to_raw_vector3(position), public_types._to_raw_color(color))
 
 @always_inline
 def draw_circle_3d(center: Vector3, radius: Float32, rotation_axis: Vector3, rotation_angle: Float32, color: Color):
-    """Draw a circle in 3D world space"""
+    """Draw a circle in 3D world space."""
     raw.DrawCircle3D(public_types._to_raw_vector3(center), c_float(radius), public_types._to_raw_vector3(rotation_axis), c_float(rotation_angle), public_types._to_raw_color(color))
 
 @always_inline
 def draw_triangle_3d(v1: Vector3, v2: Vector3, v3: Vector3, color: Color):
-    """Draw a color-filled triangle (vertex in counter-clockwise order!)"""
+    """Draw a color-filled triangle (vertex in counter-clockwise order!)."""
     raw.DrawTriangle3D(public_types._to_raw_vector3(v1), public_types._to_raw_vector3(v2), public_types._to_raw_vector3(v3), public_types._to_raw_color(color))
 
 @always_inline
 def draw_triangle_strip_3d(points: Span[Vector3, _], color: Color):
-    """Draw a triangle strip defined by points"""
+    """Draw a triangle strip defined by points."""
     raw.DrawTriangleStrip3D(points.unsafe_ptr().bitcast[raw_types.Vector3]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(points)), public_types._to_raw_color(color))
 
 @always_inline
 def draw_cube(position: Vector3, width: Float32, height: Float32, length: Float32, color: Color):
-    """Draw cube"""
+    """Draw cube."""
     raw.DrawCube(public_types._to_raw_vector3(position), c_float(width), c_float(height), c_float(length), public_types._to_raw_color(color))
 
 @always_inline
 def draw_cube_v(position: Vector3, size: Vector3, color: Color):
-    """Draw cube (Vector version)"""
+    """Draw cube (Vector version)."""
     raw.DrawCubeV(public_types._to_raw_vector3(position), public_types._to_raw_vector3(size), public_types._to_raw_color(color))
 
 @always_inline
 def draw_cube_wires(position: Vector3, width: Float32, height: Float32, length: Float32, color: Color):
-    """Draw cube wires"""
+    """Draw cube wires."""
     raw.DrawCubeWires(public_types._to_raw_vector3(position), c_float(width), c_float(height), c_float(length), public_types._to_raw_color(color))
 
 @always_inline
 def draw_cube_wires_v(position: Vector3, size: Vector3, color: Color):
-    """Draw cube wires (Vector version)"""
+    """Draw cube wires (Vector version)."""
     raw.DrawCubeWiresV(public_types._to_raw_vector3(position), public_types._to_raw_vector3(size), public_types._to_raw_color(color))
 
 @always_inline
 def draw_sphere(center_pos: Vector3, radius: Float32, color: Color):
-    """Draw sphere"""
+    """Draw sphere."""
     raw.DrawSphere(public_types._to_raw_vector3(center_pos), c_float(radius), public_types._to_raw_color(color))
 
 @always_inline
 def draw_sphere_ex(center_pos: Vector3, radius: Float32, rings: Int, slices: Int, color: Color):
-    """Draw sphere with extended parameters"""
+    """Draw sphere with extended parameters."""
     raw.DrawSphereEx(public_types._to_raw_vector3(center_pos), c_float(radius), c_int(rings), c_int(slices), public_types._to_raw_color(color))
 
 @always_inline
 def draw_sphere_wires(center_pos: Vector3, radius: Float32, rings: Int, slices: Int, color: Color):
-    """Draw sphere wires"""
+    """Draw sphere wires."""
     raw.DrawSphereWires(public_types._to_raw_vector3(center_pos), c_float(radius), c_int(rings), c_int(slices), public_types._to_raw_color(color))
 
 @always_inline
 def draw_cylinder(position: Vector3, radius_top: Float32, radius_bottom: Float32, height: Float32, slices: Int, color: Color):
-    """Draw a cylinder/cone"""
+    """Draw a cylinder/cone."""
     raw.DrawCylinder(public_types._to_raw_vector3(position), c_float(radius_top), c_float(radius_bottom), c_float(height), c_int(slices), public_types._to_raw_color(color))
 
 @always_inline
 def draw_cylinder_ex(start_pos: Vector3, end_pos: Vector3, start_radius: Float32, end_radius: Float32, sides: Int, color: Color):
-    """Draw a cylinder with base at startPos and top at endPos"""
+    """Draw a cylinder with base at startPos and top at endPos."""
     raw.DrawCylinderEx(public_types._to_raw_vector3(start_pos), public_types._to_raw_vector3(end_pos), c_float(start_radius), c_float(end_radius), c_int(sides), public_types._to_raw_color(color))
 
 @always_inline
 def draw_cylinder_wires(position: Vector3, radius_top: Float32, radius_bottom: Float32, height: Float32, slices: Int, color: Color):
-    """Draw a cylinder/cone wires"""
+    """Draw a cylinder/cone wires."""
     raw.DrawCylinderWires(public_types._to_raw_vector3(position), c_float(radius_top), c_float(radius_bottom), c_float(height), c_int(slices), public_types._to_raw_color(color))
 
 @always_inline
 def draw_cylinder_wires_ex(start_pos: Vector3, end_pos: Vector3, start_radius: Float32, end_radius: Float32, sides: Int, color: Color):
-    """Draw a cylinder wires with base at startPos and top at endPos"""
+    """Draw a cylinder wires with base at startPos and top at endPos."""
     raw.DrawCylinderWiresEx(public_types._to_raw_vector3(start_pos), public_types._to_raw_vector3(end_pos), c_float(start_radius), c_float(end_radius), c_int(sides), public_types._to_raw_color(color))
 
 @always_inline
 def draw_capsule(start_pos: Vector3, end_pos: Vector3, radius: Float32, slices: Int, rings: Int, color: Color):
-    """Draw a capsule with the center of its sphere caps at startPos and endPos"""
+    """Draw a capsule with the center of its sphere caps at startPos and endPos."""
     raw.DrawCapsule(public_types._to_raw_vector3(start_pos), public_types._to_raw_vector3(end_pos), c_float(radius), c_int(slices), c_int(rings), public_types._to_raw_color(color))
 
 @always_inline
 def draw_capsule_wires(start_pos: Vector3, end_pos: Vector3, radius: Float32, slices: Int, rings: Int, color: Color):
-    """Draw capsule wireframe with the center of its sphere caps at startPos and endPos"""
+    """Draw capsule wireframe with the center of its sphere caps at startPos and endPos."""
     raw.DrawCapsuleWires(public_types._to_raw_vector3(start_pos), public_types._to_raw_vector3(end_pos), c_float(radius), c_int(slices), c_int(rings), public_types._to_raw_color(color))
 
 @always_inline
 def draw_plane(center_pos: Vector3, size: Vector2, color: Color):
-    """Draw a plane XZ"""
+    """Draw a plane XZ."""
     raw.DrawPlane(public_types._to_raw_vector3(center_pos), public_types._to_raw_vector2(size), public_types._to_raw_color(color))
 
 @always_inline
 def draw_ray(ray: Ray, color: Color):
-    """Draw a ray line"""
+    """Draw a ray line."""
     raw.DrawRay(public_types._to_raw_ray(ray), public_types._to_raw_color(color))
 
 @always_inline
 def draw_grid(slices: Int, spacing: Float32):
-    """Draw a grid (centered at (0, 0, 0))"""
+    """Draw a grid (centered at (0, 0, 0))."""
     raw.DrawGrid(c_int(slices), c_float(spacing))
 
 @always_inline
 def load_model(file_name: String) -> Model:
-    """Load model from files (meshes and materials)"""
+    """Load model from files (meshes and materials)."""
     var result = raw.LoadModel(CStringSlice(unsafe_from_ptr=file_name.unsafe_ptr().bitcast[c_char]()))
     return public_types._from_raw_model(result)
 
 @always_inline
 def load_model_from_mesh(mesh: Mesh) -> Model:
-    """Load model from generated mesh (default material)"""
+    """Load model from generated mesh (default material)."""
     var result = raw.LoadModelFromMesh(public_types._to_raw_mesh(mesh))
     return public_types._from_raw_model(result)
 
 @always_inline
 def is_model_valid(model: Model) -> Bool:
-    """Check if a model is valid (loaded in GPU, VAO/VBOs)"""
+    """Check if a model is valid (loaded in GPU, VAO/VBOs)."""
     var result = raw.IsModelValid(public_types._to_raw_model(model))
     return result
 
 @always_inline
 def unload_model(model: Model):
-    """Unload model (including meshes) from memory (RAM and/or VRAM)"""
+    """Unload model (including meshes) from memory (RAM and/or VRAM)."""
     raw.UnloadModel(public_types._to_raw_model(model))
 
 @always_inline
 def get_model_bounding_box(model: Model) -> BoundingBox:
-    """Compute model bounding box limits (considers all meshes)"""
+    """Compute model bounding box limits (considers all meshes)."""
     var result = raw.GetModelBoundingBox(public_types._to_raw_model(model))
     return public_types._from_raw_bounding_box(result)
 
 @always_inline
 def draw_model(model: Model, position: Vector3, scale: Float32, tint: Color):
-    """Draw a model (with texture if set)"""
+    """Draw a model (with texture if set)."""
     raw.DrawModel(public_types._to_raw_model(model), public_types._to_raw_vector3(position), c_float(scale), public_types._to_raw_color(tint))
 
 @always_inline
 def draw_model_ex(model: Model, position: Vector3, rotation_axis: Vector3, rotation_angle: Float32, scale: Vector3, tint: Color):
-    """Draw a model with extended parameters"""
+    """Draw a model with extended parameters."""
     raw.DrawModelEx(public_types._to_raw_model(model), public_types._to_raw_vector3(position), public_types._to_raw_vector3(rotation_axis), c_float(rotation_angle), public_types._to_raw_vector3(scale), public_types._to_raw_color(tint))
 
 @always_inline
 def draw_model_wires(model: Model, position: Vector3, scale: Float32, tint: Color):
-    """Draw a model wires (with texture if set)"""
+    """Draw a model wires (with texture if set)."""
     raw.DrawModelWires(public_types._to_raw_model(model), public_types._to_raw_vector3(position), c_float(scale), public_types._to_raw_color(tint))
 
 @always_inline
 def draw_model_wires_ex(model: Model, position: Vector3, rotation_axis: Vector3, rotation_angle: Float32, scale: Vector3, tint: Color):
-    """Draw a model wires (with texture if set) with extended parameters"""
+    """Draw a model wires (with texture if set) with extended parameters."""
     raw.DrawModelWiresEx(public_types._to_raw_model(model), public_types._to_raw_vector3(position), public_types._to_raw_vector3(rotation_axis), c_float(rotation_angle), public_types._to_raw_vector3(scale), public_types._to_raw_color(tint))
 
 @always_inline
 def draw_bounding_box(box: BoundingBox, color: Color):
-    """Draw bounding box (wires)"""
+    """Draw bounding box (wires)."""
     raw.DrawBoundingBox(public_types._to_raw_bounding_box(box), public_types._to_raw_color(color))
 
 @always_inline
 def draw_billboard(camera: Camera, texture: Texture2D, position: Vector3, scale: Float32, tint: Color):
-    """Draw a billboard texture"""
+    """Draw a billboard texture."""
     raw.DrawBillboard(public_types._to_raw_camera(camera), public_types._to_raw_texture_2d(texture), public_types._to_raw_vector3(position), c_float(scale), public_types._to_raw_color(tint))
 
 @always_inline
 def draw_billboard_rec(camera: Camera, texture: Texture2D, source: Rectangle, position: Vector3, size: Vector2, tint: Color):
-    """Draw a billboard texture defined by source"""
+    """Draw a billboard texture defined by source."""
     raw.DrawBillboardRec(public_types._to_raw_camera(camera), public_types._to_raw_texture_2d(texture), public_types._to_raw_rectangle(source), public_types._to_raw_vector3(position), public_types._to_raw_vector2(size), public_types._to_raw_color(tint))
 
 @always_inline
 def draw_billboard_pro(camera: Camera, texture: Texture2D, source: Rectangle, position: Vector3, up: Vector3, size: Vector2, origin: Vector2, rotation: Float32, tint: Color):
-    """Draw a billboard texture defined by source and rotation"""
+    """Draw a billboard texture defined by source and rotation."""
     raw.DrawBillboardPro(public_types._to_raw_camera(camera), public_types._to_raw_texture_2d(texture), public_types._to_raw_rectangle(source), public_types._to_raw_vector3(position), public_types._to_raw_vector3(up), public_types._to_raw_vector2(size), public_types._to_raw_vector2(origin), c_float(rotation), public_types._to_raw_color(tint))
 
 @always_inline
 def upload_mesh(mut mesh: Mesh, dynamic: Bool):
-    """Upload mesh vertex data in GPU and provide VAO/VBO ids"""
+    """Upload mesh vertex data in GPU and provide VAO/VBO ids."""
     raw.UploadMesh(UnsafePointer(to=mesh).bitcast[raw_types.Mesh]().unsafe_mut_cast[True]().as_any_origin(), dynamic)
 
 @always_inline
 def update_mesh_buffer(mesh: Mesh, index: Int, data: UnsafePointer[NoneType, MutAnyOrigin], data_size: Int, offset: Int):
-    """Update mesh vertex data in GPU for a specific buffer index"""
+    """Update mesh vertex data in GPU for a specific buffer index."""
     raw.UpdateMeshBuffer(public_types._to_raw_mesh(mesh), c_int(index), data, c_int(data_size), c_int(offset))
 
 @always_inline
 def unload_mesh(mesh: Mesh):
-    """Unload mesh data from CPU and GPU"""
+    """Unload mesh data from CPU and GPU."""
     raw.UnloadMesh(public_types._to_raw_mesh(mesh))
 
 @always_inline
 def draw_mesh(mesh: Mesh, material: Material, transform: Matrix):
-    """Draw a 3d mesh with material and transform"""
+    """Draw a 3d mesh with material and transform."""
     raw.DrawMesh(public_types._to_raw_mesh(mesh), public_types._to_raw_material(material), public_types._to_raw_matrix(transform))
 
 @always_inline
 def draw_mesh_instanced(mesh: Mesh, material: Material, ref transforms: Matrix, instances: Int):
-    """Draw multiple mesh instances with material and different transforms"""
+    """Draw multiple mesh instances with material and different transforms."""
     raw.DrawMeshInstanced(public_types._to_raw_mesh(mesh), public_types._to_raw_material(material), UnsafePointer(to=transforms).bitcast[raw_types.Matrix]().unsafe_mut_cast[True]().as_any_origin(), c_int(instances))
 
 @always_inline
 def get_mesh_bounding_box(mesh: Mesh) -> BoundingBox:
-    """Compute mesh bounding box limits"""
+    """Compute mesh bounding box limits."""
     var result = raw.GetMeshBoundingBox(public_types._to_raw_mesh(mesh))
     return public_types._from_raw_bounding_box(result)
 
 @always_inline
 def gen_mesh_tangents(mut mesh: Mesh):
-    """Compute mesh tangents"""
+    """Compute mesh tangents."""
     raw.GenMeshTangents(UnsafePointer(to=mesh).bitcast[raw_types.Mesh]().unsafe_mut_cast[True]().as_any_origin())
 
 @always_inline
 def export_mesh(mesh: Mesh, file_name: String) -> Bool:
-    """Export mesh data to file, returns true on success"""
+    """Export mesh data to file, returns true on success."""
     var result = raw.ExportMesh(public_types._to_raw_mesh(mesh), CStringSlice(unsafe_from_ptr=file_name.unsafe_ptr().bitcast[c_char]()))
     return result
 
 @always_inline
 def export_mesh_as_code(mesh: Mesh, file_name: String) -> Bool:
-    """Export mesh as code file (.h) defining multiple arrays of vertex attributes"""
+    """Export mesh as code file (.h) defining multiple arrays of vertex attributes."""
     var result = raw.ExportMeshAsCode(public_types._to_raw_mesh(mesh), CStringSlice(unsafe_from_ptr=file_name.unsafe_ptr().bitcast[c_char]()))
     return result
 
 @always_inline
 def gen_mesh_poly(sides: Int, radius: Float32) -> Mesh:
-    """Generate polygonal mesh"""
+    """Generate polygonal mesh."""
     var result = raw.GenMeshPoly(c_int(sides), c_float(radius))
     return public_types._from_raw_mesh(result)
 
 @always_inline
 def gen_mesh_plane(width: Float32, length: Float32, res_x: Int, res_z: Int) -> Mesh:
-    """Generate plane mesh (with subdivisions)"""
+    """Generate plane mesh (with subdivisions)."""
     var result = raw.GenMeshPlane(c_float(width), c_float(length), c_int(res_x), c_int(res_z))
     return public_types._from_raw_mesh(result)
 
 @always_inline
 def gen_mesh_cube(width: Float32, height: Float32, length: Float32) -> Mesh:
-    """Generate cuboid mesh"""
+    """Generate cuboid mesh."""
     var result = raw.GenMeshCube(c_float(width), c_float(height), c_float(length))
     return public_types._from_raw_mesh(result)
 
 @always_inline
 def gen_mesh_sphere(radius: Float32, rings: Int, slices: Int) -> Mesh:
-    """Generate sphere mesh (standard sphere)"""
+    """Generate sphere mesh (standard sphere)."""
     var result = raw.GenMeshSphere(c_float(radius), c_int(rings), c_int(slices))
     return public_types._from_raw_mesh(result)
 
 @always_inline
 def gen_mesh_hemi_sphere(radius: Float32, rings: Int, slices: Int) -> Mesh:
-    """Generate half-sphere mesh (no bottom cap)"""
+    """Generate half-sphere mesh (no bottom cap)."""
     var result = raw.GenMeshHemiSphere(c_float(radius), c_int(rings), c_int(slices))
     return public_types._from_raw_mesh(result)
 
 @always_inline
 def gen_mesh_cylinder(radius: Float32, height: Float32, slices: Int) -> Mesh:
-    """Generate cylinder mesh"""
+    """Generate cylinder mesh."""
     var result = raw.GenMeshCylinder(c_float(radius), c_float(height), c_int(slices))
     return public_types._from_raw_mesh(result)
 
 @always_inline
 def gen_mesh_cone(radius: Float32, height: Float32, slices: Int) -> Mesh:
-    """Generate cone/pyramid mesh"""
+    """Generate cone/pyramid mesh."""
     var result = raw.GenMeshCone(c_float(radius), c_float(height), c_int(slices))
     return public_types._from_raw_mesh(result)
 
 @always_inline
 def gen_mesh_torus(radius: Float32, size: Float32, rad_seg: Int, sides: Int) -> Mesh:
-    """Generate torus mesh"""
+    """Generate torus mesh."""
     var result = raw.GenMeshTorus(c_float(radius), c_float(size), c_int(rad_seg), c_int(sides))
     return public_types._from_raw_mesh(result)
 
 @always_inline
 def gen_mesh_knot(radius: Float32, size: Float32, rad_seg: Int, sides: Int) -> Mesh:
-    """Generate trefoil knot mesh"""
+    """Generate trefoil knot mesh."""
     var result = raw.GenMeshKnot(c_float(radius), c_float(size), c_int(rad_seg), c_int(sides))
     return public_types._from_raw_mesh(result)
 
 @always_inline
 def gen_mesh_heightmap(heightmap: Image, size: Vector3) -> Mesh:
-    """Generate heightmap mesh from image data"""
+    """Generate heightmap mesh from image data."""
     var result = raw.GenMeshHeightmap(public_types._to_raw_image(heightmap), public_types._to_raw_vector3(size))
     return public_types._from_raw_mesh(result)
 
 @always_inline
 def gen_mesh_cubicmap(cubicmap: Image, cube_size: Vector3) -> Mesh:
-    """Generate cubes-based map mesh from image data"""
+    """Generate cubes-based map mesh from image data."""
     var result = raw.GenMeshCubicmap(public_types._to_raw_image(cubicmap), public_types._to_raw_vector3(cube_size))
     return public_types._from_raw_mesh(result)
 
 @always_inline
 def load_materials(file_name: String) -> UnsafePointer[Material, MutAnyOrigin]:
-    """Load materials from model file"""
+    """Load materials from model file."""
     var count: c_int = 0
     var result = raw.LoadMaterials(CStringSlice(unsafe_from_ptr=file_name.unsafe_ptr().bitcast[c_char]()), UnsafePointer(to=count))
     return result.bitcast[Material]()
 
 @always_inline
 def load_material_default() -> Material:
-    """Load default material (Supports: DIFFUSE, SPECULAR, NORMAL maps)"""
+    """Load default material (Supports: DIFFUSE, SPECULAR, NORMAL maps)."""
     var result = raw.LoadMaterialDefault()
     return public_types._from_raw_material(result)
 
 @always_inline
 def is_material_valid(material: Material) -> Bool:
-    """Check if a material is valid (shader assigned, map textures loaded in GPU)"""
+    """Check if a material is valid (shader assigned, map textures loaded in GPU)."""
     var result = raw.IsMaterialValid(public_types._to_raw_material(material))
     return result
 
 @always_inline
 def unload_material(material: Material):
-    """Unload material from GPU memory (VRAM)"""
+    """Unload material from GPU memory (VRAM)."""
     raw.UnloadMaterial(public_types._to_raw_material(material))
 
 @always_inline
 def set_material_texture(mut material: Material, map_type: Int, texture: Texture2D):
-    """Set texture for a material map type (MATERIAL_MAP_DIFFUSE, MATERIAL_MAP_SPECULAR...)"""
+    """Set texture for a material map type (MATERIAL_MAP_DIFFUSE, MATERIAL_MAP_SPECULAR...)."""
     raw.SetMaterialTexture(UnsafePointer(to=material).bitcast[raw_types.Material]().unsafe_mut_cast[True]().as_any_origin(), c_int(map_type), public_types._to_raw_texture_2d(texture))
 
 @always_inline
 def set_model_mesh_material(mut model: Model, mesh_id: Int, material_id: Int):
-    """Set material for a mesh"""
+    """Set material for a mesh."""
     raw.SetModelMeshMaterial(UnsafePointer(to=model).bitcast[raw_types.Model]().unsafe_mut_cast[True]().as_any_origin(), c_int(mesh_id), c_int(material_id))
 
 @always_inline
 def load_model_animations(file_name: String) -> OwnedModelAnimations:
-    """Load model animations from file"""
+    """Load model animations from file."""
     var count: c_int = 0
     var _owned = raw.LoadModelAnimations(CStringSlice(unsafe_from_ptr=file_name.unsafe_ptr().bitcast[c_char]()), UnsafePointer(to=count))
     return OwnedModelAnimations(_owned, Int(count))
 
 @always_inline
 def update_model_animation(model: Model, anim: ModelAnimation, frame: Float32):
-    """Update model animation pose (vertex buffers and bone matrices)"""
+    """Update model animation pose (vertex buffers and bone matrices)."""
     raw.UpdateModelAnimation(public_types._to_raw_model(model), public_types._to_raw_model_animation(anim), c_float(frame))
 
 @always_inline
 def update_model_animation_ex(model: Model, anim_a: ModelAnimation, frame_a: Float32, anim_b: ModelAnimation, frame_b: Float32, blend: Float32):
-    """Update model animation pose, blending two animations"""
+    """Update model animation pose, blending two animations."""
     raw.UpdateModelAnimationEx(public_types._to_raw_model(model), public_types._to_raw_model_animation(anim_a), c_float(frame_a), public_types._to_raw_model_animation(anim_b), c_float(frame_b), c_float(blend))
 
 @always_inline
 def unload_model_animations(animations: Span[ModelAnimation, _]):
-    """Unload animation array data"""
+    """Unload animation array data."""
     raw.UnloadModelAnimations(animations.unsafe_ptr().bitcast[raw_types.ModelAnimation]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(animations)))
 
 @always_inline
 def is_model_animation_valid(model: Model, anim: ModelAnimation) -> Bool:
-    """Check model animation skeleton match"""
+    """Check model animation skeleton match."""
     var result = raw.IsModelAnimationValid(public_types._to_raw_model(model), public_types._to_raw_model_animation(anim))
     return result
 
 @always_inline
 def check_collision_spheres(center1: Vector3, radius1: Float32, center2: Vector3, radius2: Float32) -> Bool:
-    """Check collision between two spheres"""
+    """Check collision between two spheres."""
     var result = raw.CheckCollisionSpheres(public_types._to_raw_vector3(center1), c_float(radius1), public_types._to_raw_vector3(center2), c_float(radius2))
     return result
 
 @always_inline
 def check_collision_boxes(box1: BoundingBox, box2: BoundingBox) -> Bool:
-    """Check collision between two bounding boxes"""
+    """Check collision between two bounding boxes."""
     var result = raw.CheckCollisionBoxes(public_types._to_raw_bounding_box(box1), public_types._to_raw_bounding_box(box2))
     return result
 
 @always_inline
 def check_collision_box_sphere(box: BoundingBox, center: Vector3, radius: Float32) -> Bool:
-    """Check collision between box and sphere"""
+    """Check collision between box and sphere."""
     var result = raw.CheckCollisionBoxSphere(public_types._to_raw_bounding_box(box), public_types._to_raw_vector3(center), c_float(radius))
     return result
 
 @always_inline
 def get_ray_collision_sphere(ray: Ray, center: Vector3, radius: Float32) -> RayCollision:
-    """Get collision info between ray and sphere"""
+    """Get collision info between ray and sphere."""
     var result = raw.GetRayCollisionSphere(public_types._to_raw_ray(ray), public_types._to_raw_vector3(center), c_float(radius))
     return public_types._from_raw_ray_collision(result)
 
 @always_inline
 def get_ray_collision_box(ray: Ray, box: BoundingBox) -> RayCollision:
-    """Get collision info between ray and box"""
+    """Get collision info between ray and box."""
     var result = raw.GetRayCollisionBox(public_types._to_raw_ray(ray), public_types._to_raw_bounding_box(box))
     return public_types._from_raw_ray_collision(result)
 
 @always_inline
 def get_ray_collision_mesh(ray: Ray, mesh: Mesh, transform: Matrix) -> RayCollision:
-    """Get collision info between ray and mesh"""
+    """Get collision info between ray and mesh."""
     var result = raw.GetRayCollisionMesh(public_types._to_raw_ray(ray), public_types._to_raw_mesh(mesh), public_types._to_raw_matrix(transform))
     return public_types._from_raw_ray_collision(result)
 
 @always_inline
 def get_ray_collision_triangle(ray: Ray, p1: Vector3, p2: Vector3, p3: Vector3) -> RayCollision:
-    """Get collision info between ray and triangle"""
+    """Get collision info between ray and triangle."""
     var result = raw.GetRayCollisionTriangle(public_types._to_raw_ray(ray), public_types._to_raw_vector3(p1), public_types._to_raw_vector3(p2), public_types._to_raw_vector3(p3))
     return public_types._from_raw_ray_collision(result)
 
 @always_inline
 def get_ray_collision_quad(ray: Ray, p1: Vector3, p2: Vector3, p3: Vector3, p4: Vector3) -> RayCollision:
-    """Get collision info between ray and quad"""
+    """Get collision info between ray and quad."""
     var result = raw.GetRayCollisionQuad(public_types._to_raw_ray(ray), public_types._to_raw_vector3(p1), public_types._to_raw_vector3(p2), public_types._to_raw_vector3(p3), public_types._to_raw_vector3(p4))
     return public_types._from_raw_ray_collision(result)
 
 @always_inline
 def init_audio_device():
-    """Initialize audio device and context"""
+    """Initialize audio device and context."""
     raw.InitAudioDevice()
 
 @always_inline
 def close_audio_device():
-    """Close the audio device and context"""
+    """Close the audio device and context."""
     raw.CloseAudioDevice()
 
 @always_inline
 def is_audio_device_ready() -> Bool:
-    """Check if audio device has been initialized successfully"""
+    """Check if audio device has been initialized successfully."""
     var result = raw.IsAudioDeviceReady()
     return result
 
 @always_inline
 def set_master_volume(volume: Float32):
-    """Set master volume (listener)"""
+    """Set master volume (listener)."""
     raw.SetMasterVolume(c_float(volume))
 
 @always_inline
 def get_master_volume() -> Float32:
-    """Get master volume (listener)"""
+    """Get master volume (listener)."""
     var result = raw.GetMasterVolume()
     return Float32(result)
 
 @always_inline
 def load_wave(file_name: String) -> Wave:
-    """Load wave data from file"""
+    """Load wave data from file."""
     var result = raw.LoadWave(CStringSlice(unsafe_from_ptr=file_name.unsafe_ptr().bitcast[c_char]()))
     return public_types._from_raw_wave(result)
 
 @always_inline
 def load_wave_from_memory(file_type: String, file_data: Span[UInt8, _]) -> Wave:
-    """Load wave from memory buffer, fileType refers to extension: i.e. '.wav'"""
+    """Load wave from memory buffer, fileType refers to extension: i.e. '.wav'."""
     var result = raw.LoadWaveFromMemory(CStringSlice(unsafe_from_ptr=file_type.unsafe_ptr().bitcast[c_char]()), file_data.unsafe_ptr().bitcast[c_uchar]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(file_data)))
     return public_types._from_raw_wave(result)
 
 @always_inline
 def is_wave_valid(wave: Wave) -> Bool:
-    """Checks if wave data is valid (data loaded and parameters)"""
+    """Checks if wave data is valid (data loaded and parameters)."""
     var result = raw.IsWaveValid(public_types._to_raw_wave(wave))
     return result
 
 @always_inline
 def load_sound(file_name: String) -> Sound:
-    """Load sound from file"""
+    """Load sound from file."""
     var result = raw.LoadSound(CStringSlice(unsafe_from_ptr=file_name.unsafe_ptr().bitcast[c_char]()))
     return public_types._from_raw_sound(result)
 
 @always_inline
 def load_sound_from_wave(wave: Wave) -> Sound:
-    """Load sound from wave data"""
+    """Load sound from wave data."""
     var result = raw.LoadSoundFromWave(public_types._to_raw_wave(wave))
     return public_types._from_raw_sound(result)
 
 @always_inline
 def load_sound_alias(source: Sound) -> Sound:
-    """Create a new sound that shares the same sample data as the source sound, does not own the sound data"""
+    """Create a new sound that shares the same sample data as the source sound, does not own the sound data."""
     var result = raw.LoadSoundAlias(public_types._to_raw_sound(source))
     return public_types._from_raw_sound(result)
 
 @always_inline
 def is_sound_valid(sound: Sound) -> Bool:
-    """Checks if a sound is valid (data loaded and buffers initialized)"""
+    """Checks if a sound is valid (data loaded and buffers initialized)."""
     var result = raw.IsSoundValid(public_types._to_raw_sound(sound))
     return result
 
 @always_inline
 def update_sound(sound: Sound, data: UnsafePointer[NoneType, MutAnyOrigin], sample_count: Int):
-    """Update sound buffer with new data (default data format: 32 bit float, stereo)"""
+    """Update sound buffer with new data (default data format: 32 bit float, stereo)."""
     raw.UpdateSound(public_types._to_raw_sound(sound), data, c_int(sample_count))
 
 @always_inline
 def unload_wave(wave: Wave):
-    """Unload wave data"""
+    """Unload wave data."""
     raw.UnloadWave(public_types._to_raw_wave(wave))
 
 @always_inline
 def unload_sound(sound: Sound):
-    """Unload sound"""
+    """Unload sound."""
     raw.UnloadSound(public_types._to_raw_sound(sound))
 
 @always_inline
 def unload_sound_alias(alias_: Sound):
-    """Unload a sound alias (does not deallocate sample data)"""
+    """Unload a sound alias (does not deallocate sample data)."""
     raw.UnloadSoundAlias(public_types._to_raw_sound(alias_))
 
 @always_inline
 def export_wave(wave: Wave, file_name: String) -> Bool:
-    """Export wave data to file, returns true on success"""
+    """Export wave data to file, returns true on success."""
     var result = raw.ExportWave(public_types._to_raw_wave(wave), CStringSlice(unsafe_from_ptr=file_name.unsafe_ptr().bitcast[c_char]()))
     return result
 
 @always_inline
 def export_wave_as_code(wave: Wave, file_name: String) -> Bool:
-    """Export wave sample data to code (.h), returns true on success"""
+    """Export wave sample data to code (.h), returns true on success."""
     var result = raw.ExportWaveAsCode(public_types._to_raw_wave(wave), CStringSlice(unsafe_from_ptr=file_name.unsafe_ptr().bitcast[c_char]()))
     return result
 
 @always_inline
 def play_sound(sound: Sound):
-    """Play a sound"""
+    """Play a sound."""
     raw.PlaySound(public_types._to_raw_sound(sound))
 
 @always_inline
 def stop_sound(sound: Sound):
-    """Stop playing a sound"""
+    """Stop playing a sound."""
     raw.StopSound(public_types._to_raw_sound(sound))
 
 @always_inline
 def pause_sound(sound: Sound):
-    """Pause a sound"""
+    """Pause a sound."""
     raw.PauseSound(public_types._to_raw_sound(sound))
 
 @always_inline
 def resume_sound(sound: Sound):
-    """Resume a paused sound"""
+    """Resume a paused sound."""
     raw.ResumeSound(public_types._to_raw_sound(sound))
 
 @always_inline
 def is_sound_playing(sound: Sound) -> Bool:
-    """Check if a sound is currently playing"""
+    """Check if a sound is currently playing."""
     var result = raw.IsSoundPlaying(public_types._to_raw_sound(sound))
     return result
 
 @always_inline
 def set_sound_volume(sound: Sound, volume: Float32):
-    """Set volume for a sound (1.0 is max level)"""
+    """Set volume for a sound (1.0 is max level)."""
     raw.SetSoundVolume(public_types._to_raw_sound(sound), c_float(volume))
 
 @always_inline
 def set_sound_pitch(sound: Sound, pitch: Float32):
-    """Set pitch for a sound (1.0 is base level)"""
+    """Set pitch for a sound (1.0 is base level)."""
     raw.SetSoundPitch(public_types._to_raw_sound(sound), c_float(pitch))
 
 @always_inline
 def set_sound_pan(sound: Sound, pan: Float32):
-    """Set pan for a sound (-1.0 left, 0.0 center, 1.0 right)"""
+    """Set pan for a sound (-1.0 left, 0.0 center, 1.0 right)."""
     raw.SetSoundPan(public_types._to_raw_sound(sound), c_float(pan))
 
 @always_inline
 def wave_copy(wave: Wave) -> Wave:
-    """Copy a wave to a new wave"""
+    """Copy a wave to a new wave."""
     var result = raw.WaveCopy(public_types._to_raw_wave(wave))
     return public_types._from_raw_wave(result)
 
 @always_inline
 def wave_crop(mut wave: Wave, init_frame: Int, final_frame: Int):
-    """Crop a wave to defined frames range"""
+    """Crop a wave to defined frames range."""
     raw.WaveCrop(UnsafePointer(to=wave).bitcast[raw_types.Wave]().unsafe_mut_cast[True]().as_any_origin(), c_int(init_frame), c_int(final_frame))
 
 @always_inline
 def wave_format(mut wave: Wave, sample_rate: Int, sample_size: Int, channels: Int):
-    """Convert wave data to desired format"""
+    """Convert wave data to desired format."""
     raw.WaveFormat(UnsafePointer(to=wave).bitcast[raw_types.Wave]().unsafe_mut_cast[True]().as_any_origin(), c_int(sample_rate), c_int(sample_size), c_int(channels))
 
 @always_inline
 def load_wave_samples(wave: Wave) -> OwnedWaveSamples:
-    """Load samples data from wave as a 32bit float data array"""
+    """Load samples data from wave as a 32bit float data array."""
     var _owned = raw.LoadWaveSamples(public_types._to_raw_wave(wave))
     return OwnedWaveSamples(_owned)
 
 @always_inline
 def unload_wave_samples(samples: UnsafePointer[c_float, MutAnyOrigin]):
-    """Unload samples data loaded with LoadWaveSamples()"""
+    """Unload samples data loaded with LoadWaveSamples()."""
     raw.UnloadWaveSamples(samples)
 
 @always_inline
 def load_music_stream(file_name: String) -> Music:
-    """Load music stream from file"""
+    """Load music stream from file."""
     var result = raw.LoadMusicStream(CStringSlice(unsafe_from_ptr=file_name.unsafe_ptr().bitcast[c_char]()))
     return public_types._from_raw_music(result)
 
 @always_inline
 def load_music_stream_from_memory(file_type: String, data: Span[UInt8, _]) -> Music:
-    """Load music stream from data"""
+    """Load music stream from data."""
     var result = raw.LoadMusicStreamFromMemory(CStringSlice(unsafe_from_ptr=file_type.unsafe_ptr().bitcast[c_char]()), data.unsafe_ptr().bitcast[c_uchar]().unsafe_mut_cast[True]().as_any_origin(), c_int(len(data)))
     return public_types._from_raw_music(result)
 
 @always_inline
 def is_music_valid(music: Music) -> Bool:
-    """Checks if a music stream is valid (context and buffers initialized)"""
+    """Checks if a music stream is valid (context and buffers initialized)."""
     var result = raw.IsMusicValid(public_types._to_raw_music(music))
     return result
 
 @always_inline
 def unload_music_stream(music: Music):
-    """Unload music stream"""
+    """Unload music stream."""
     raw.UnloadMusicStream(public_types._to_raw_music(music))
 
 @always_inline
 def play_music_stream(music: Music):
-    """Start music playing"""
+    """Start music playing."""
     raw.PlayMusicStream(public_types._to_raw_music(music))
 
 @always_inline
 def is_music_stream_playing(music: Music) -> Bool:
-    """Check if music is playing"""
+    """Check if music is playing."""
     var result = raw.IsMusicStreamPlaying(public_types._to_raw_music(music))
     return result
 
 @always_inline
 def update_music_stream(music: Music):
-    """Updates buffers for music streaming"""
+    """Updates buffers for music streaming."""
     raw.UpdateMusicStream(public_types._to_raw_music(music))
 
 @always_inline
 def stop_music_stream(music: Music):
-    """Stop music playing"""
+    """Stop music playing."""
     raw.StopMusicStream(public_types._to_raw_music(music))
 
 @always_inline
 def pause_music_stream(music: Music):
-    """Pause music playing"""
+    """Pause music playing."""
     raw.PauseMusicStream(public_types._to_raw_music(music))
 
 @always_inline
 def resume_music_stream(music: Music):
-    """Resume playing paused music"""
+    """Resume playing paused music."""
     raw.ResumeMusicStream(public_types._to_raw_music(music))
 
 @always_inline
 def seek_music_stream(music: Music, position: Float32):
-    """Seek music to a position (in seconds)"""
+    """Seek music to a position (in seconds)."""
     raw.SeekMusicStream(public_types._to_raw_music(music), c_float(position))
 
 @always_inline
 def set_music_volume(music: Music, volume: Float32):
-    """Set volume for music (1.0 is max level)"""
+    """Set volume for music (1.0 is max level)."""
     raw.SetMusicVolume(public_types._to_raw_music(music), c_float(volume))
 
 @always_inline
 def set_music_pitch(music: Music, pitch: Float32):
-    """Set pitch for a music (1.0 is base level)"""
+    """Set pitch for a music (1.0 is base level)."""
     raw.SetMusicPitch(public_types._to_raw_music(music), c_float(pitch))
 
 @always_inline
 def set_music_pan(music: Music, pan: Float32):
-    """Set pan for a music (-1.0 left, 0.0 center, 1.0 right)"""
+    """Set pan for a music (-1.0 left, 0.0 center, 1.0 right)."""
     raw.SetMusicPan(public_types._to_raw_music(music), c_float(pan))
 
 @always_inline
 def get_music_time_length(music: Music) -> Float32:
-    """Get music time length (in seconds)"""
+    """Get music time length (in seconds)."""
     var result = raw.GetMusicTimeLength(public_types._to_raw_music(music))
     return Float32(result)
 
 @always_inline
 def get_music_time_played(music: Music) -> Float32:
-    """Get current music time played (in seconds)"""
+    """Get current music time played (in seconds)."""
     var result = raw.GetMusicTimePlayed(public_types._to_raw_music(music))
     return Float32(result)
 
 @always_inline
 def load_audio_stream(sample_rate: UInt, sample_size: UInt, channels: UInt) -> AudioStream:
-    """Load audio stream (to stream raw audio pcm data)"""
+    """Load audio stream (to stream raw audio pcm data)."""
     var result = raw.LoadAudioStream(c_uint(sample_rate), c_uint(sample_size), c_uint(channels))
     return public_types._from_raw_audio_stream(result)
 
 @always_inline
 def is_audio_stream_valid(stream: AudioStream) -> Bool:
-    """Checks if an audio stream is valid (buffers initialized)"""
+    """Checks if an audio stream is valid (buffers initialized)."""
     var result = raw.IsAudioStreamValid(public_types._to_raw_audio_stream(stream))
     return result
 
 @always_inline
 def unload_audio_stream(stream: AudioStream):
-    """Unload audio stream and free memory"""
+    """Unload audio stream and free memory."""
     raw.UnloadAudioStream(public_types._to_raw_audio_stream(stream))
 
 @always_inline
 def update_audio_stream(stream: AudioStream, data: UnsafePointer[NoneType, MutAnyOrigin], frame_count: Int):
-    """Update audio stream buffers with data"""
+    """Update audio stream buffers with data."""
     raw.UpdateAudioStream(public_types._to_raw_audio_stream(stream), data, c_int(frame_count))
 
 @always_inline
 def is_audio_stream_processed(stream: AudioStream) -> Bool:
-    """Check if any audio stream buffers requires refill"""
+    """Check if any audio stream buffers requires refill."""
     var result = raw.IsAudioStreamProcessed(public_types._to_raw_audio_stream(stream))
     return result
 
 @always_inline
 def play_audio_stream(stream: AudioStream):
-    """Play audio stream"""
+    """Play audio stream."""
     raw.PlayAudioStream(public_types._to_raw_audio_stream(stream))
 
 @always_inline
 def pause_audio_stream(stream: AudioStream):
-    """Pause audio stream"""
+    """Pause audio stream."""
     raw.PauseAudioStream(public_types._to_raw_audio_stream(stream))
 
 @always_inline
 def resume_audio_stream(stream: AudioStream):
-    """Resume audio stream"""
+    """Resume audio stream."""
     raw.ResumeAudioStream(public_types._to_raw_audio_stream(stream))
 
 @always_inline
 def is_audio_stream_playing(stream: AudioStream) -> Bool:
-    """Check if audio stream is playing"""
+    """Check if audio stream is playing."""
     var result = raw.IsAudioStreamPlaying(public_types._to_raw_audio_stream(stream))
     return result
 
 @always_inline
 def stop_audio_stream(stream: AudioStream):
-    """Stop audio stream"""
+    """Stop audio stream."""
     raw.StopAudioStream(public_types._to_raw_audio_stream(stream))
 
 @always_inline
 def set_audio_stream_volume(stream: AudioStream, volume: Float32):
-    """Set volume for audio stream (1.0 is max level)"""
+    """Set volume for audio stream (1.0 is max level)."""
     raw.SetAudioStreamVolume(public_types._to_raw_audio_stream(stream), c_float(volume))
 
 @always_inline
 def set_audio_stream_pitch(stream: AudioStream, pitch: Float32):
-    """Set pitch for audio stream (1.0 is base level)"""
+    """Set pitch for audio stream (1.0 is base level)."""
     raw.SetAudioStreamPitch(public_types._to_raw_audio_stream(stream), c_float(pitch))
 
 @always_inline
 def set_audio_stream_pan(stream: AudioStream, pan: Float32):
-    """Set pan for audio stream (-1.0 to 1.0 range, 0.0 is centered)"""
+    """Set pan for audio stream (-1.0 to 1.0 range, 0.0 is centered)."""
     raw.SetAudioStreamPan(public_types._to_raw_audio_stream(stream), c_float(pan))
 
 @always_inline
 def set_audio_stream_buffer_size_default(size: Int):
-    """Default size for new audio streams"""
+    """Default size for new audio streams."""
     raw.SetAudioStreamBufferSizeDefault(c_int(size))
 
 @always_inline
 def set_audio_stream_callback(stream: AudioStream, callback: raw_types.AudioCallback):
-    """Audio thread callback to request new data"""
+    """Audio thread callback to request new data."""
     raw.SetAudioStreamCallback(public_types._to_raw_audio_stream(stream), callback)
 
 @always_inline
 def attach_audio_stream_processor(stream: AudioStream, processor: raw_types.AudioCallback):
-    """Attach audio stream processor to stream, receives frames x 2 samples as 'float' (stereo)"""
+    """Attach audio stream processor to stream, receives frames x 2 samples as 'float' (stereo)."""
     raw.AttachAudioStreamProcessor(public_types._to_raw_audio_stream(stream), processor)
 
 @always_inline
 def detach_audio_stream_processor(stream: AudioStream, processor: raw_types.AudioCallback):
-    """Detach audio stream processor from stream"""
+    """Detach audio stream processor from stream."""
     raw.DetachAudioStreamProcessor(public_types._to_raw_audio_stream(stream), processor)
 
 @always_inline
 def attach_audio_mixed_processor(processor: raw_types.AudioCallback):
-    """Attach audio stream processor to the entire audio pipeline, receives frames x 2 samples as 'float' (stereo)"""
+    """Attach audio stream processor to the entire audio pipeline, receives frames x 2 samples as 'float' (stereo)."""
     raw.AttachAudioMixedProcessor(processor)
 
 @always_inline
 def detach_audio_mixed_processor(processor: raw_types.AudioCallback):
-    """Detach audio stream processor from the entire audio pipeline"""
+    """Detach audio stream processor from the entire audio pipeline."""
     raw.DetachAudioMixedProcessor(processor)
 
