@@ -3701,7 +3701,7 @@ static void WriteMojoDocstring(FILE *outFile, const char *comment, int indentLev
 
     for (int i = 0; i < indentLevel; i++)
         fputc(' ', outFile);
-    fprintf(outFile, "\"\"\"%s\"\"\"\n", sanitized);
+    fprintf(outFile, "\"\"\"%s.\"\"\"\n", sanitized);
 }
 
 static const char *EscapeMojoKeyword(const char *name, char *buffer, int bufferSize)
