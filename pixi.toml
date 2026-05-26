@@ -22,11 +22,11 @@ channels = [
 ]
 
 [package.host-dependencies]
-max = "*"
+max = "26.3.*"
 mojo-raylib-shim = { path = "./shim" }
 
 [package.run-dependencies]
-max = "*"
+max = "26.3.*"
 mojo-raylib-shim = { path = "./shim" }
 
 # Codegen / dev workflow tasks live in a separate `codegen` feature so they
