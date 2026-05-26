@@ -467,7 +467,7 @@ def SetTraceLogLevel(logLevel: c_int):
     """Set the current threshold (minimum) log level"""
     external_call["SetTraceLogLevel", NoneType](logLevel)
 
-def SetTraceLogCallback(callback: TraceLogCallback):
+def SetTraceLogCallback(callback: UnsafePointer[NoneType, MutAnyOrigin]):
     """Set custom trace log"""
     external_call["SetTraceLogCallback", NoneType](callback)
 
@@ -511,19 +511,19 @@ def SaveFileText(fileName: CStringSlice, text: CStringSlice) -> Bool:
     """Save text data to file (write), string must be '\0' terminated, returns true on success"""
     return external_call["SaveFileText", Bool](fileName, text)
 
-def SetLoadFileDataCallback(callback: LoadFileDataCallback):
+def SetLoadFileDataCallback(callback: UnsafePointer[NoneType, MutAnyOrigin]):
     """Set custom file binary data loader"""
     external_call["SetLoadFileDataCallback", NoneType](callback)
 
-def SetSaveFileDataCallback(callback: SaveFileDataCallback):
+def SetSaveFileDataCallback(callback: UnsafePointer[NoneType, MutAnyOrigin]):
     """Set custom file binary data saver"""
     external_call["SetSaveFileDataCallback", NoneType](callback)
 
-def SetLoadFileTextCallback(callback: LoadFileTextCallback):
+def SetLoadFileTextCallback(callback: UnsafePointer[NoneType, MutAnyOrigin]):
     """Set custom file text data loader"""
     external_call["SetLoadFileTextCallback", NoneType](callback)
 
-def SetSaveFileTextCallback(callback: SaveFileTextCallback):
+def SetSaveFileTextCallback(callback: UnsafePointer[NoneType, MutAnyOrigin]):
     """Set custom file text data saver"""
     external_call["SetSaveFileTextCallback", NoneType](callback)
 
@@ -2607,23 +2607,23 @@ def SetAudioStreamBufferSizeDefault(size: c_int):
     """Default size for new audio streams"""
     external_call["SetAudioStreamBufferSizeDefault", NoneType](size)
 
-def SetAudioStreamCallback(stream: AudioStream, callback: AudioCallback):
+def SetAudioStreamCallback(stream: AudioStream, callback: UnsafePointer[NoneType, MutAnyOrigin]):
     """Audio thread callback to request new data"""
     external_call["mojo_raylib_SetAudioStreamCallback", NoneType](UnsafePointer(to=stream), callback)
 
-def AttachAudioStreamProcessor(stream: AudioStream, processor: AudioCallback):
+def AttachAudioStreamProcessor(stream: AudioStream, processor: UnsafePointer[NoneType, MutAnyOrigin]):
     """Attach audio stream processor to stream, receives frames x 2 samples as 'float' (stereo)"""
     external_call["mojo_raylib_AttachAudioStreamProcessor", NoneType](UnsafePointer(to=stream), processor)
 
-def DetachAudioStreamProcessor(stream: AudioStream, processor: AudioCallback):
+def DetachAudioStreamProcessor(stream: AudioStream, processor: UnsafePointer[NoneType, MutAnyOrigin]):
     """Detach audio stream processor from stream"""
     external_call["mojo_raylib_DetachAudioStreamProcessor", NoneType](UnsafePointer(to=stream), processor)
 
-def AttachAudioMixedProcessor(processor: AudioCallback):
+def AttachAudioMixedProcessor(processor: UnsafePointer[NoneType, MutAnyOrigin]):
     """Attach audio stream processor to the entire audio pipeline, receives frames x 2 samples as 'float' (stereo)"""
     external_call["AttachAudioMixedProcessor", NoneType](processor)
 
-def DetachAudioMixedProcessor(processor: AudioCallback):
+def DetachAudioMixedProcessor(processor: UnsafePointer[NoneType, MutAnyOrigin]):
     """Detach audio stream processor from the entire audio pipeline"""
     external_call["DetachAudioMixedProcessor", NoneType](processor)
 
@@ -2635,6 +2635,6 @@ def TextFormatText(text: UnsafePointer[c_char, MutAnyOrigin]) -> UnsafePointer[c
     return external_call["mojo_raylib_TextFormatLiteral", UnsafePointer[c_char, MutAnyOrigin]](text)
 
 comptime TraceLogCallbackSimple = fn(log_level: c_int, text: UnsafePointer[c_char, MutAnyOrigin]) -> NoneType
-def SetTraceLogCallbackSimple(callback: TraceLogCallbackSimple):
+def SetTraceLogCallbackSimple(callback: UnsafePointer[NoneType, MutAnyOrigin]):
     external_call["mojo_raylib_SetTraceLogCallback", NoneType](callback)
 

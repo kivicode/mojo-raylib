@@ -720,11 +720,6 @@ def set_trace_log_level(log_level: Int):
     raw.SetTraceLogLevel(c_int(log_level))
 
 @always_inline
-def set_trace_log_callback(callback: raw_types.TraceLogCallback):
-    """Set custom trace log"""
-    raw.SetTraceLogCallback(callback)
-
-@always_inline
 def mem_alloc(size: UInt) -> UnsafePointer[NoneType, MutAnyOrigin]:
     """Internal memory allocator"""
     var result = raw.MemAlloc(c_uint(size))
@@ -781,26 +776,6 @@ def save_file_text(file_name: String, text: String) -> Bool:
     """Save text data to file (write), string must be '\0' terminated, returns true on success"""
     var result = raw.SaveFileText(CStringSlice(unsafe_from_ptr=file_name.unsafe_ptr().bitcast[c_char]()), CStringSlice(unsafe_from_ptr=text.unsafe_ptr().bitcast[c_char]()))
     return result
-
-@always_inline
-def set_load_file_data_callback(callback: raw_types.LoadFileDataCallback):
-    """Set custom file binary data loader"""
-    raw.SetLoadFileDataCallback(callback)
-
-@always_inline
-def set_save_file_data_callback(callback: raw_types.SaveFileDataCallback):
-    """Set custom file binary data saver"""
-    raw.SetSaveFileDataCallback(callback)
-
-@always_inline
-def set_load_file_text_callback(callback: raw_types.LoadFileTextCallback):
-    """Set custom file text data loader"""
-    raw.SetLoadFileTextCallback(callback)
-
-@always_inline
-def set_save_file_text_callback(callback: raw_types.SaveFileTextCallback):
-    """Set custom file text data saver"""
-    raw.SetSaveFileTextCallback(callback)
 
 @always_inline
 def file_rename(file_name: String, file_rename: String) -> Int:
@@ -3423,29 +3398,4 @@ def set_audio_stream_pan(stream: AudioStream, pan: Float32):
 def set_audio_stream_buffer_size_default(size: Int):
     """Default size for new audio streams"""
     raw.SetAudioStreamBufferSizeDefault(c_int(size))
-
-@always_inline
-def set_audio_stream_callback(stream: AudioStream, callback: raw_types.AudioCallback):
-    """Audio thread callback to request new data"""
-    raw.SetAudioStreamCallback(public_types._to_raw_audio_stream(stream), callback)
-
-@always_inline
-def attach_audio_stream_processor(stream: AudioStream, processor: raw_types.AudioCallback):
-    """Attach audio stream processor to stream, receives frames x 2 samples as 'float' (stereo)"""
-    raw.AttachAudioStreamProcessor(public_types._to_raw_audio_stream(stream), processor)
-
-@always_inline
-def detach_audio_stream_processor(stream: AudioStream, processor: raw_types.AudioCallback):
-    """Detach audio stream processor from stream"""
-    raw.DetachAudioStreamProcessor(public_types._to_raw_audio_stream(stream), processor)
-
-@always_inline
-def attach_audio_mixed_processor(processor: raw_types.AudioCallback):
-    """Attach audio stream processor to the entire audio pipeline, receives frames x 2 samples as 'float' (stereo)"""
-    raw.AttachAudioMixedProcessor(processor)
-
-@always_inline
-def detach_audio_mixed_processor(processor: raw_types.AudioCallback):
-    """Detach audio stream processor from the entire audio pipeline"""
-    raw.DetachAudioMixedProcessor(processor)
 

@@ -231,6 +231,7 @@ static bool IsRaymathApi(void);
 static bool IsKnownStructOrAlias(const char *typeName);
 static bool IsVoidType(const char *typeName);
 static bool IsUnsupportedFunction(const FunctionInfo *func);
+static bool FunctionHasCallbackParam(const FunctionInfo *func);
 static bool IsMutablePointerType(const char *typeName);
 static bool IsIntegralCountType(const char *typeName);
 static bool IsCountLikeName(const char *name);
@@ -2220,7 +2221,7 @@ static void ExportMojoRawModule(const char *rootDir, const char *moduleName, con
         fprintf(outFile, "def TextFormatText(text: UnsafePointer[c_char, MutAnyOrigin]) -> UnsafePointer[c_char, MutAnyOrigin]:\n");
         fprintf(outFile, "    return external_call[\"mojo_raylib_TextFormatLiteral\", UnsafePointer[c_char, MutAnyOrigin]](text)\n\n");
         fprintf(outFile, "comptime TraceLogCallbackSimple = fn(log_level: c_int, text: UnsafePointer[c_char, MutAnyOrigin]) -> NoneType\n");
-        fprintf(outFile, "def SetTraceLogCallbackSimple(callback: TraceLogCallbackSimple):\n");
+        fprintf(outFile, "def SetTraceLogCallbackSimple(callback: UnsafePointer[NoneType, MutAnyOrigin]):\n");
         fprintf(outFile, "    external_call[\"mojo_raylib_SetTraceLogCallback\", NoneType](callback)\n\n");
     }
 
@@ -2356,6 +2357,8 @@ static void ExportMojoSafe(const char *rootDir)
         int outCountParam = -1;
 
         if (IsUnsupportedFunction(&funcs[i]))
+            continue;
+        if (FunctionHasCallbackParam(&funcs[i]))
             continue;
 
         GetMojoPublicType(funcs[i].retType, true, false, returnType, sizeof(returnType));
@@ -2501,6 +2504,8 @@ static void ExportMojoRaymathSafe(const char *rootDir)
         char publicFuncName[128] = {0};
 
         if (IsUnsupportedFunction(&funcs[i]))
+            continue;
+        if (FunctionHasCallbackParam(&funcs[i]))
             continue;
 
         GetMojoPublicType(funcs[i].retType, true, false, returnType, sizeof(returnType));
@@ -2976,6 +2981,27 @@ static bool IsKnownCallback(const char *typeName)
     return false;
 }
 
+// Mojo 0.26 can't pass a function through external_call (it doesn't conform to
+// AnyType, and a function value isn't addressable). Callback-taking functions
+// therefore live only in the raw layer (as opaque pointers); the safe layer
+// skips them so it never exposes a raw pointer for a callback.
+static bool FunctionHasCallbackParam(const FunctionInfo *func)
+{
+    for (int p = 0; p < func->paramCount; p++)
+    {
+        char base[128] = {0};
+        bool isConst = false;
+        int ptrCount = 0;
+        if (GetPointerBaseType(func->paramType[p], base, sizeof(base), &isConst, &ptrCount))
+        {
+            if (IsKnownCallback(base)) return true;
+        }
+        else if (IsKnownCallback(func->paramType[p]))
+            return true;
+    }
+    return false;
+}
+
 static bool IsVoidType(const char *typeName)
 {
     char trimmed[128] = {0};
@@ -3165,6 +3191,14 @@ static void GetMojoType(const char *cType, bool forReturnType, bool forCallbackP
         snprintf(outType, outTypeSize, "UnsafePointer[NoneType, MutAnyOrigin]");
         return;
     }
+    else if (IsKnownCallback(baseType))
+    {
+        // Callbacks cross FFI as opaque function pointers: Mojo can't pass a
+        // function value to external_call (it doesn't conform to AnyType), so
+        // the binding takes a raw pointer that the user supplies.
+        CopyText(outType, "UnsafePointer[NoneType, MutAnyOrigin]", outTypeSize);
+        return;
+    }
     else if (IsTextEqual(baseType, "char", 5))
         CopyText(scalarType, "c_char", sizeof(scalarType));
     else if (IsTextEqual(baseType, "unsigned char", 14))
@@ -3285,7 +3319,7 @@ static void GetMojoPublicType(const char *cType, bool forReturnType, bool forCal
     else if (IsTextEqual(baseType, "bool", 5))
         CopyText(scalarType, "Bool", sizeof(scalarType));
     else if (IsKnownCallback(baseType))
-        snprintf(scalarType, sizeof(scalarType), "raw_types.%s", baseType);
+        CopyText(scalarType, "UnsafePointer[NoneType, MutAnyOrigin]", sizeof(scalarType));
     else
         CopyText(scalarType, baseType, sizeof(scalarType));
 
