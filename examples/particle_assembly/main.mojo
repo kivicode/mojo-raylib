@@ -21,6 +21,7 @@ comptime RL_GRID = 160 # downscaled grid
 comptime RL_SCALE = Float32(2.3) # px/sample
 comptime RL_X = 560 # placement
 comptime RL_Y = 70
+
 # Mojo wordmark (left): canvas, font size, placement
 comptime MJ_W = 420
 comptime MJ_H = 170
@@ -54,28 +55,36 @@ def main():
 
     var rimg = load_image("resources/raylib_logo.png")
     image_resize(rimg, RL_GRID, RL_GRID)
+
     for y in range(0, RL_GRID, SAMPLE_STEP):
         for x in range(0, RL_GRID, SAMPLE_STEP):
             var c = get_image_color(rimg, x, y)
+
             if Int(c.a) < 16:
                 continue
+
             if Int(c.r) > 235 and Int(c.g) > 235 and Int(c.b) > 235:
-                continue  # near-white background
+                continue
+
             thx.append(Float32(RL_X) + Float32(x) * RL_SCALE)
             thy.append(Float32(RL_Y) + Float32(y) * RL_SCALE)
             cols.append(c)
+
     unload_image(rimg)
 
     var mimg = gen_image_color(MJ_W, MJ_H, Color(0, 0, 0, 0))
     image_draw_text(mimg, "Mojo", 8, 16, MJ_FONT, MOJO_ORANGE)
+
     for y in range(0, MJ_H, SAMPLE_STEP):
         for x in range(0, MJ_W, SAMPLE_STEP):
             var c = get_image_color(mimg, x, y)
             if Int(c.a) < 50:
                 continue
+
             thx.append(Float32(MJ_X) + Float32(x))
             thy.append(Float32(MJ_Y) + Float32(y))
             cols.append(c)
+
     unload_image(mimg)
 
     # hand the targets to the pure-Mojo simulation
@@ -114,10 +123,12 @@ def main():
         var mvx = (mx - pmx) / dt
         var mvy = (my - pmy) / dt
         var mv2 = mvx * mvx + mvy * mvy
+
         if mv2 > Float32(2500.0) * Float32(2500.0):
             var ms = Float32(2500.0) / sqrt(mv2)
             mvx *= ms
             mvy *= ms
+
         pmx = mx
         pmy = my
 
@@ -140,8 +151,10 @@ def main():
 
         draw_text("speed", 20, SLIDER_Y - 8, 16, TITLE)
         draw_rectangle(SLIDER_X, SLIDER_Y - 2, SLIDER_W, 4, TRACK)
+
         var t_now = (speed - SPEED_MIN) / (SPEED_MAX - SPEED_MIN)
         var handle_x = Float32(SLIDER_X) + t_now * Float32(SLIDER_W)
+        
         draw_circle_v(Vector2(handle_x, Float32(SLIDER_Y)), Float32(8.0), MOJO_ORANGE)
 
         draw_text("mojo-raylib  -  particle assembly", 20, 16, 20, TITLE)
