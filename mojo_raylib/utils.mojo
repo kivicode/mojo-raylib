@@ -16,13 +16,13 @@ from std.memory.unsafe_pointer import UnsafePointer
 
 
 @always_inline
-fn void_ref[T: AnyType](mut value: T) -> UnsafePointer[NoneType, MutAnyOrigin]:
+def void_ref[T: AnyType](mut value: T) -> UnsafePointer[NoneType, MutAnyOrigin]:
     """Take an opaque mutable byte pointer to `value`."""
     return UnsafePointer(to=value).bitcast[NoneType]().unsafe_mut_cast[True]().as_any_origin()
 
 
 @always_inline
-fn void_ref_array[T: AnyType, //, origin: Origin[mut=True]](
+def void_ref_array[T: AnyType, //, origin: Origin[mut=True]](
     ptr: UnsafePointer[T, origin],
 ) -> UnsafePointer[NoneType, MutAnyOrigin]:
     """Reinterpret a typed buffer pointer as `void *` for a raylib FFI call."""

@@ -9,7 +9,7 @@ from std.memory import stack_allocation
 from std.collections import InlineArray
 
 
-comptime TraceLogCallbackSimple = fn(log_level: c_int, text: UnsafePointer[c_char, MutAnyOrigin]) -> NoneType
+comptime TraceLogCallbackSimple = def(log_level: c_int, text: UnsafePointer[c_char, MutAnyOrigin]) -> NoneType
 
 def Clamp(value: c_float, min: c_float, max: c_float) -> c_float:
     return external_call["mojo_raymath_Clamp", c_float](value, min, max)

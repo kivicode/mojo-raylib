@@ -1812,7 +1812,7 @@ static void ExportMojoTypes(const char *rootDir)
 
         if (comment[0] != '\0')
             fprintf(outFile, "# %s\n", comment);
-        fprintf(outFile, "comptime %s = fn(", callbacks[i].name);
+        fprintf(outFile, "comptime %s = def(", callbacks[i].name);
         WriteMojoSignatureParams(outFile, &callbacks[i], true);
         fprintf(outFile, ") -> %s\n\n", returnType);
     }
@@ -2126,7 +2126,7 @@ static void ExportMojoRawModule(const char *rootDir, const char *moduleName, con
 
     if (IsRaymathApi())
     {
-        fprintf(outFile, "comptime TraceLogCallbackSimple = fn(log_level: c_int, text: UnsafePointer[c_char, MutAnyOrigin]) -> NoneType\n\n");
+        fprintf(outFile, "comptime TraceLogCallbackSimple = def(log_level: c_int, text: UnsafePointer[c_char, MutAnyOrigin]) -> NoneType\n\n");
     }
 
     for (int i = 0; i < funcCount; i++)
@@ -2220,7 +2220,7 @@ static void ExportMojoRawModule(const char *rootDir, const char *moduleName, con
         fprintf(outFile, "    external_call[\"mojo_raylib_TraceLogLiteral\", NoneType](log_level, text)\n\n");
         fprintf(outFile, "def TextFormatText(text: UnsafePointer[c_char, MutAnyOrigin]) -> UnsafePointer[c_char, MutAnyOrigin]:\n");
         fprintf(outFile, "    return external_call[\"mojo_raylib_TextFormatLiteral\", UnsafePointer[c_char, MutAnyOrigin]](text)\n\n");
-        fprintf(outFile, "comptime TraceLogCallbackSimple = fn(log_level: c_int, text: UnsafePointer[c_char, MutAnyOrigin]) -> NoneType\n");
+        fprintf(outFile, "comptime TraceLogCallbackSimple = def(log_level: c_int, text: UnsafePointer[c_char, MutAnyOrigin]) -> NoneType\n");
         fprintf(outFile, "def SetTraceLogCallbackSimple(callback: UnsafePointer[NoneType, MutAnyOrigin]):\n");
         fprintf(outFile, "    external_call[\"mojo_raylib_SetTraceLogCallback\", NoneType](callback)\n\n");
     }
@@ -3735,7 +3735,7 @@ static void WriteMojoDocstring(FILE *outFile, const char *comment, int indentLev
 
     for (int i = 0; i < indentLevel; i++)
         fputc(' ', outFile);
-    fprintf(outFile, "\"\"\"%s\"\"\"\n", sanitized);
+    fprintf(outFile, "\"\"\"%s.\"\"\"\n", sanitized);
 }
 
 static const char *EscapeMojoKeyword(const char *name, char *buffer, int bufferSize)
