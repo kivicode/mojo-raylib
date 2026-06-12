@@ -23,6 +23,15 @@ requirements:
     - ${{ compiler('c') }}
     - cmake
     - ninja
-  host: []
+  host:
+    - if: linux
+      then:
+        - xorg-xorgproto
+        - xorg-libx11
+        - xorg-libxrandr
+        - xorg-libxinerama
+        - xorg-libxcursor
+        - xorg-libxi
+        - libgl-devel
   run_exports:
     - ${{ pin_subpackage('mojo-raylib-shim', upper_bound='x.x') }}
