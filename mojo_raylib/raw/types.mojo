@@ -1210,21 +1210,21 @@ comptime NPATCH_THREE_PATCH_VERTICAL = 1
 comptime NPATCH_THREE_PATCH_HORIZONTAL = 2
 
 # Logging: Redirect trace log messages
-comptime TraceLogCallback = fn(logLevel: c_int, text: UnsafePointer[c_char, MutAnyOrigin], args: UnsafePointer[NoneType, MutAnyOrigin]) -> NoneType
+comptime TraceLogCallback = def(logLevel: c_int, text: UnsafePointer[c_char, MutAnyOrigin], args: UnsafePointer[NoneType, MutAnyOrigin]) -> NoneType
 
 # FileIO: Load binary data
-comptime LoadFileDataCallback = fn(fileName: UnsafePointer[c_char, MutAnyOrigin], dataSize: UnsafePointer[c_int, MutAnyOrigin]) -> UnsafePointer[c_uchar, MutAnyOrigin]
+comptime LoadFileDataCallback = def(fileName: UnsafePointer[c_char, MutAnyOrigin], dataSize: UnsafePointer[c_int, MutAnyOrigin]) -> UnsafePointer[c_uchar, MutAnyOrigin]
 
 # FileIO: Save binary data
-comptime SaveFileDataCallback = fn(fileName: UnsafePointer[c_char, MutAnyOrigin], data: UnsafePointer[NoneType, MutAnyOrigin], dataSize: c_int) -> Bool
+comptime SaveFileDataCallback = def(fileName: UnsafePointer[c_char, MutAnyOrigin], data: UnsafePointer[NoneType, MutAnyOrigin], dataSize: c_int) -> Bool
 
 # FileIO: Load text data
-comptime LoadFileTextCallback = fn(fileName: UnsafePointer[c_char, MutAnyOrigin]) -> UnsafePointer[c_char, MutAnyOrigin]
+comptime LoadFileTextCallback = def(fileName: UnsafePointer[c_char, MutAnyOrigin]) -> UnsafePointer[c_char, MutAnyOrigin]
 
 # FileIO: Save text data
-comptime SaveFileTextCallback = fn(fileName: UnsafePointer[c_char, MutAnyOrigin], text: UnsafePointer[c_char, MutAnyOrigin]) -> Bool
+comptime SaveFileTextCallback = def(fileName: UnsafePointer[c_char, MutAnyOrigin], text: UnsafePointer[c_char, MutAnyOrigin]) -> Bool
 
-comptime AudioCallback = fn(bufferData: UnsafePointer[NoneType, MutAnyOrigin], frames: c_uint) -> NoneType
+comptime AudioCallback = def(bufferData: UnsafePointer[NoneType, MutAnyOrigin], frames: c_uint) -> NoneType
 
 comptime RAYLIB_VERSION_MAJOR = 6
 comptime RAYLIB_VERSION_MINOR = 0
