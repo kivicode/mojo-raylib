@@ -1,9 +1,6 @@
 [workspace]
 authors = ["KiviCode <kivicode@yandex.com>"]
-channels = [
-    "https://conda.modular.com/max",
-    "https://prefix.dev/conda-forge",
-]
+channels = ["https://conda.modular.com/max", "https://prefix.dev/conda-forge"]
 name = "mojo-raylib"
 platforms = ["osx-arm64", "linux-64"]
 version = "0.1.0"
@@ -15,18 +12,18 @@ version = "0.1.0"
 
 [package.build.backend]
 name = "pixi-build-mojo"
-version = "0.*"
+version = ">=0.1.13,<0.1.14.20260610"
 channels = [
     "https://prefix.dev/pixi-build-backends",
     "https://prefix.dev/conda-forge",
 ]
 
 [package.host-dependencies]
-max = "26.3.*"
+mojo = ">=1.0.0b1"
 mojo-raylib-shim = { path = "./shim" }
 
 [package.run-dependencies]
-max = "26.3.*"
+mojo = ">=1.0.0b1"
 mojo-raylib-shim = { path = "./shim" }
 
 # Codegen / dev workflow tasks live in a separate `codegen` feature so they
