@@ -32,5 +32,6 @@ requirements:
         - xorg-libxinerama
         - xorg-libxcursor
         - xorg-libxi
+        - libgl-devel
   run_exports:
     - ${{ pin_subpackage('mojo-raylib-shim', upper_bound='x.x') }}
