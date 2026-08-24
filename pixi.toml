@@ -12,7 +12,7 @@ version = "0.1.0"
 
 [package.build.backend]
 name = "pixi-build-mojo"
-version = ">=0.1.13,<0.1.14.20260610"
+version = "0.*"
 channels = [
     "https://prefix.dev/pixi-build-backends",
     "https://prefix.dev/conda-forge",
