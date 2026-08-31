@@ -7,7 +7,7 @@ import mojo_raylib.types as public_types
 import mojo_raylib.raw.types as raw_types
 import mojo_raylib.raw.raymath as raw
 from std.ffi import c_int, c_uint, c_float
-from std.memory import Span
+from std.collections import Span
 
 @always_inline
 def clamp(value: Float32, min: Float32, max: Float32) -> Float32:
@@ -359,7 +359,7 @@ def vector3_reject(v1: Vector3, v2: Vector3) -> Vector3:
 
 @always_inline
 def vector3_ortho_normalize(mut v1: Vector3, mut v2: Vector3):
-    raw.Vector3OrthoNormalize(UnsafePointer(to=v1).bitcast[raw_types.Vector3]().unsafe_mut_cast[True]().as_any_origin(), UnsafePointer(to=v2).bitcast[raw_types.Vector3]().unsafe_mut_cast[True]().as_any_origin())
+    raw.Vector3OrthoNormalize(Pointer(to=v1).unsafe_bitcast[raw_types.Vector3]().unsafe_mut_cast[True]().unsafe_origin_cast[MutUntrackedOrigin](), Pointer(to=v2).unsafe_bitcast[raw_types.Vector3]().unsafe_mut_cast[True]().unsafe_origin_cast[MutUntrackedOrigin]())
 
 @always_inline
 def vector3_transform(v: Vector3, mat: Matrix) -> Vector3:
@@ -842,8 +842,8 @@ def quaternion_from_axis_angle(axis: Vector3, angle: Float32) -> Quaternion:
     return public_types._from_raw_quaternion(result)
 
 @always_inline
-def quaternion_to_axis_angle(q: Quaternion, mut out_axis: Vector3, out_angle: UnsafePointer[c_float, MutAnyOrigin]):
-    raw.QuaternionToAxisAngle(public_types._to_raw_quaternion(q), UnsafePointer(to=out_axis).bitcast[raw_types.Vector3]().unsafe_mut_cast[True]().as_any_origin(), out_angle)
+def quaternion_to_axis_angle(q: Quaternion, mut out_axis: Vector3, out_angle: Pointer[c_float, MutUntrackedOrigin]):
+    raw.QuaternionToAxisAngle(public_types._to_raw_quaternion(q), Pointer(to=out_axis).unsafe_bitcast[raw_types.Vector3]().unsafe_mut_cast[True]().unsafe_origin_cast[MutUntrackedOrigin](), out_angle)
 
 @always_inline
 def quaternion_from_euler(pitch: Float32, yaw: Float32, roll: Float32) -> Quaternion:
@@ -877,5 +877,5 @@ def matrix_compose(translation: Vector3, rotation: Quaternion, scale: Vector3) -
 
 @always_inline
 def matrix_decompose(mat: Matrix, mut translation: Vector3, mut rotation: Quaternion, mut scale: Vector3):
-    raw.MatrixDecompose(public_types._to_raw_matrix(mat), UnsafePointer(to=translation).bitcast[raw_types.Vector3]().unsafe_mut_cast[True]().as_any_origin(), UnsafePointer(to=rotation).bitcast[raw_types.Vector4]().unsafe_mut_cast[True]().as_any_origin(), UnsafePointer(to=scale).bitcast[raw_types.Vector3]().unsafe_mut_cast[True]().as_any_origin())
+    raw.MatrixDecompose(public_types._to_raw_matrix(mat), Pointer(to=translation).unsafe_bitcast[raw_types.Vector3]().unsafe_mut_cast[True]().unsafe_origin_cast[MutUntrackedOrigin](), Pointer(to=rotation).unsafe_bitcast[raw_types.Vector4]().unsafe_mut_cast[True]().unsafe_origin_cast[MutUntrackedOrigin](), Pointer(to=scale).unsafe_bitcast[raw_types.Vector3]().unsafe_mut_cast[True]().unsafe_origin_cast[MutUntrackedOrigin]())
 
