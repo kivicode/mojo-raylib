@@ -18,5 +18,6 @@ cp "$ROOT_DIR"/native/mojo_raylib_shim.c "$TMP_DIR/native/mojo_raylib_shim.c"
 
 bash "$ROOT_DIR/scripts/generate-bindings.sh"
 
-diff -ru "$TMP_DIR/mojo_raylib" "$ROOT_DIR/mojo_raylib"
+# callbacks.mojo / utils.mojo are hand-written, not emitted by rlparser.
+diff -ru -x callbacks.mojo -x utils.mojo "$TMP_DIR/mojo_raylib" "$ROOT_DIR/mojo_raylib"
 diff -ru "$TMP_DIR/native" "$ROOT_DIR/native"
