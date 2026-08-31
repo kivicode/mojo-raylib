@@ -1,5 +1,4 @@
-from collections import List
-from math import sqrt
+from std.math import sqrt
 from mojo_raylib import *
 from physics import ParticleSystem, EFFECT_R
 

@@ -13,7 +13,6 @@
 
 from mojo_raylib import set_trace_log_callback, init_audio_device, close_audio_device
 from std.ffi import c_int, c_char, CStringSlice
-from std.memory.unsafe_pointer import UnsafePointer
 
 # raylib TraceLogLevel values.
 comptime LOG_WARNING = 4
@@ -21,7 +20,7 @@ comptime LOG_ERROR = 5
 
 
 # raylib (via the shim) calls this for every log message. Must be `abi("C")`.
-def on_trace_log(level: c_int, text: UnsafePointer[c_char, MutAnyOrigin]) abi("C"):
+def on_trace_log(level: c_int, text: Pointer[c_char, MutUntrackedOrigin]) abi("C"):
     var message = String(CStringSlice(unsafe_from_ptr=text))
     var label: String
     if level == LOG_WARNING:
