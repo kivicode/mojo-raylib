@@ -1,4 +1,4 @@
-"""raylib [shaders] example - game of life (Mojo port).
+"""Raylib [shaders] example - game of life (Mojo port).
 
 Two render textures ping-pong through a fragment shader that computes one
 Conway step per frame. Controls:

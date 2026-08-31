@@ -1,4 +1,4 @@
-"""raylib [textures] example - sprite animation (Mojo port).
+"""Raylib [textures] example - sprite animation (Mojo port).
 
 Loads a 6-frame spritesheet (scarfy.png), advances the sub-rectangle each
 tick, and draws the current frame. Use Left/Right to change playback speed.

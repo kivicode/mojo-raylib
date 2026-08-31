@@ -1867,9 +1867,9 @@ static void ExportMojoPublicTypes(const char *rootDir)
 
     WriteGeneratedHeader(outFile, "Public Mojo value types", inFileName);
     fprintf(outFile, "import mojo_raylib.raw.types as raw_types\n");
+    fprintf(outFile, "import mojo_raylib.types as public_types\n");
     fprintf(outFile, "from std.ffi import c_char, c_uchar, c_short, c_ushort, c_int, c_uint, c_long, c_ulong, c_float, c_double\n");
     fprintf(outFile, "from std.collections import InlineArray\n");
-    fprintf(outFile, "from std.memory.unsafe_pointer import UnsafePointer\n\n");
 
     // Forward-declared opaque types — same stubs as raw/types.mojo for layout parity.
     fprintf(outFile, "@fieldwise_init\nstruct rAudioBuffer(TrivialRegisterPassable):\n    var _opaque: c_int\n\n");
@@ -2126,7 +2126,7 @@ static void ExportMojoRawModule(const char *rootDir, const char *moduleName, con
 
     if (IsRaymathApi())
     {
-        fprintf(outFile, "comptime TraceLogCallbackSimple = def(log_level: c_int, text: UnsafePointer[c_char, MutAnyOrigin]) -> NoneType\n\n");
+        fprintf(outFile, "comptime TraceLogCallbackSimple = def(log_level: c_int, text: Pointer[c_char, MutUntrackedOrigin]) -> NoneType\n\n");
     }
 
     for (int i = 0; i < funcCount; i++)
@@ -2175,7 +2175,7 @@ static void ExportMojoRawModule(const char *rootDir, const char *moduleName, con
                 if (j > 0)
                     fprintf(outFile, ", ");
                 if (IsStructByValueParam(funcs[i].paramType[j]))
-                    fprintf(outFile, "UnsafePointer(to=%s)", pname);
+                    fprintf(outFile, "Pointer(to=%s)", pname);
                 else
                     fprintf(outFile, "%s", pname);
             }
@@ -2201,7 +2201,7 @@ static void ExportMojoRawModule(const char *rootDir, const char *moduleName, con
                 if (j > 0)
                     fprintf(outFile, ", ");
                 if (IsStructByValueParam(funcs[i].paramType[j]))
-                    fprintf(outFile, "UnsafePointer(to=%s)", pname);
+                    fprintf(outFile, "Pointer(to=%s)", pname);
                 else
                     fprintf(outFile, "%s", pname);
             }
@@ -2216,12 +2216,12 @@ static void ExportMojoRawModule(const char *rootDir, const char *moduleName, con
     if (!IsRaymathApi())
     {
         fprintf(outFile, "# Shim-backed helpers for unsupported varargs and callback adaptation.\n");
-        fprintf(outFile, "def TraceLogText(log_level: c_int, text: UnsafePointer[c_char, MutAnyOrigin]):\n");
+        fprintf(outFile, "def TraceLogText(log_level: c_int, text: Pointer[c_char, MutUntrackedOrigin]):\n");
         fprintf(outFile, "    external_call[\"mojo_raylib_TraceLogLiteral\", NoneType](log_level, text)\n\n");
-        fprintf(outFile, "def TextFormatText(text: UnsafePointer[c_char, MutAnyOrigin]) -> UnsafePointer[c_char, MutAnyOrigin]:\n");
-        fprintf(outFile, "    return external_call[\"mojo_raylib_TextFormatLiteral\", UnsafePointer[c_char, MutAnyOrigin]](text)\n\n");
-        fprintf(outFile, "comptime TraceLogCallbackSimple = def(log_level: c_int, text: UnsafePointer[c_char, MutAnyOrigin]) -> NoneType\n");
-        fprintf(outFile, "def SetTraceLogCallbackSimple(callback: UnsafePointer[NoneType, MutAnyOrigin]):\n");
+        fprintf(outFile, "def TextFormatText(text: Pointer[c_char, MutUntrackedOrigin]) -> Pointer[c_char, MutUntrackedOrigin]:\n");
+        fprintf(outFile, "    return external_call[\"mojo_raylib_TextFormatLiteral\", Pointer[c_char, MutUntrackedOrigin]](text)\n\n");
+        fprintf(outFile, "comptime TraceLogCallbackSimple = def(log_level: c_int, text: Pointer[c_char, MutUntrackedOrigin]) -> NoneType\n");
+        fprintf(outFile, "def SetTraceLogCallbackSimple(callback: Pointer[NoneType, MutUntrackedOrigin]):\n");
         fprintf(outFile, "    external_call[\"mojo_raylib_SetTraceLogCallback\", NoneType](callback)\n\n");
     }
 
@@ -2259,8 +2259,7 @@ static void ExportMojoSafe(const char *rootDir)
     fprintf(outFile, "import mojo_raylib.raw.types as raw_types\n");
     fprintf(outFile, "import mojo_raylib.raw.raylib as raw\n");
     fprintf(outFile, "from std.ffi import CStringSlice, c_char, c_uchar, c_int, c_uint, c_float\n");
-    fprintf(outFile, "from std.memory import Span\n");
-    fprintf(outFile, "from std.memory.unsafe_pointer import UnsafePointer\n\n");
+    fprintf(outFile, "from std.collections import Span\n");
 
     for (int i = 0; i < funcCount; i++)
     {
@@ -2294,7 +2293,7 @@ static void ExportMojoSafe(const char *rootDir)
                 IsKnownStructOrAlias(retBaseType))
             {
                 snprintf(ownedDataType, sizeof(ownedDataType),
-                    "UnsafePointer[raw_types.%s, MutAnyOrigin]", retBaseType);
+                    "Pointer[raw_types.%s, MutUntrackedOrigin]", retBaseType);
             }
             else
             {
@@ -2316,7 +2315,7 @@ static void ExportMojoSafe(const char *rootDir)
         fprintf(outFile, "    var data: %s\n", ownedDataType);
         if (hasOutCount)
             fprintf(outFile, "    var count: Int\n");
-        fprintf(outFile, "    def __del__(deinit self):\n");
+        fprintf(outFile, "    def __deinit__(deinit self):\n");
         if (releaseMode == 1)
         {
             // Some Unload* helpers want (data, count); detect by inspecting the
@@ -2341,8 +2340,8 @@ static void ExportMojoSafe(const char *rootDir)
                 fprintf(outFile, "        raw.%s(self.data)\n\n", releaseName);
         }
         else
-            // MemFree expects UnsafePointer[NoneType, MutAnyOrigin]; bitcast to be sure.
-            fprintf(outFile, "        raw.%s(self.data.bitcast[NoneType]())\n\n", releaseName);
+            // MemFree expects Pointer[NoneType, MutUntrackedOrigin]; bitcast to be sure.
+            fprintf(outFile, "        raw.%s(self.data.unsafe_bitcast[NoneType]())\n\n", releaseName);
     }
 
     for (int i = 0; i < funcCount; i++)
@@ -2446,7 +2445,7 @@ static void ExportMojoSafe(const char *rootDir)
                 fprintf(outFile, ", ");
             ToSnakeCase(funcs[i].paramName[p], publicParamName, sizeof(publicParamName));
             if (p == outCountParam)
-                fprintf(outFile, "UnsafePointer(to=count)");
+                fprintf(outFile, "Pointer(to=count).unsafe_origin_cast[MutUntrackedOrigin]()");
             else if (GetSpanCompanionIndex(&funcs[i], p, &spanCountIndex))
                 WriteSpanPointerToRawExpr(outFile, funcs[i].paramType[p], publicParamName);
             else if ((p > 0) && GetSpanCompanionIndex(&funcs[i], p - 1, &previousSpanCountIndex) && (previousSpanCountIndex == p))
@@ -2496,7 +2495,7 @@ static void ExportMojoRaymathSafe(const char *rootDir)
     fprintf(outFile, "import mojo_raylib.raw.types as raw_types\n");
     fprintf(outFile, "import mojo_raylib.raw.raymath as raw\n");
     fprintf(outFile, "from std.ffi import c_int, c_uint, c_float\n");
-    fprintf(outFile, "from std.memory import Span\n\n");
+    fprintf(outFile, "from std.collections import Span\n\n");
 
     for (int i = 0; i < funcCount; i++)
     {
@@ -3189,7 +3188,7 @@ static void GetMojoType(const char *cType, bool forReturnType, bool forCallbackP
             return;
         }
 
-        snprintf(outType, outTypeSize, "UnsafePointer[NoneType, MutAnyOrigin]");
+        snprintf(outType, outTypeSize, "Pointer[NoneType, MutUntrackedOrigin]");
         return;
     }
     else if (IsKnownCallback(baseType))
@@ -3197,7 +3196,7 @@ static void GetMojoType(const char *cType, bool forReturnType, bool forCallbackP
         // Callbacks cross FFI as opaque function pointers: Mojo can't pass a
         // function value to external_call (it doesn't conform to AnyType), so
         // the binding takes a raw pointer that the user supplies.
-        CopyText(outType, "UnsafePointer[NoneType, MutAnyOrigin]", outTypeSize);
+        CopyText(outType, "Pointer[NoneType, MutUntrackedOrigin]", outTypeSize);
         return;
     }
     else if (IsTextEqual(baseType, "char", 5))
@@ -3223,7 +3222,7 @@ static void GetMojoType(const char *cType, bool forReturnType, bool forCallbackP
     else if (IsTextEqual(baseType, "bool", 5))
         CopyText(scalarType, "Bool", sizeof(scalarType));
     else if (IsTextEqual(baseType, "va_list", 8))
-        CopyText(scalarType, "UnsafePointer[NoneType, MutAnyOrigin]", sizeof(scalarType));
+        CopyText(scalarType, "Pointer[NoneType, MutUntrackedOrigin]", sizeof(scalarType));
     else if (IsKnownStructOrAlias(baseType))
         CopyText(scalarType, baseType, sizeof(scalarType));
     else
@@ -3237,7 +3236,7 @@ static void GetMojoType(const char *cType, bool forReturnType, bool forCallbackP
 
     if (forCallbackParam && IsTextEqual(scalarType, "c_char", 7))
     {
-        snprintf(outType, outTypeSize, "UnsafePointer[c_char, MutAnyOrigin]");
+        snprintf(outType, outTypeSize, "Pointer[c_char, MutUntrackedOrigin]");
         return;
     }
 
@@ -3249,11 +3248,11 @@ static void GetMojoType(const char *cType, bool forReturnType, bool forCallbackP
 
     if (!forReturnType && IsTextEqual(scalarType, "c_char", 7))
     {
-        snprintf(outType, outTypeSize, "UnsafePointer[c_char, MutAnyOrigin]");
+        snprintf(outType, outTypeSize, "Pointer[c_char, MutUntrackedOrigin]");
         return;
     }
 
-    snprintf(outType, outTypeSize, "UnsafePointer[%s, MutAnyOrigin]", scalarType);
+    snprintf(outType, outTypeSize, "Pointer[%s, MutUntrackedOrigin]", scalarType);
 }
 
 static void GetMojoPublicType(const char *cType, bool forReturnType, bool forCallbackParam, char *outType, int outTypeSize)
@@ -3320,7 +3319,7 @@ static void GetMojoPublicType(const char *cType, bool forReturnType, bool forCal
     else if (IsTextEqual(baseType, "bool", 5))
         CopyText(scalarType, "Bool", sizeof(scalarType));
     else if (IsKnownCallback(baseType))
-        CopyText(scalarType, "UnsafePointer[NoneType, MutAnyOrigin]", sizeof(scalarType));
+        CopyText(scalarType, "Pointer[NoneType, MutUntrackedOrigin]", sizeof(scalarType));
     else
         CopyText(scalarType, baseType, sizeof(scalarType));
 
@@ -3661,7 +3660,7 @@ static void GetMojoAliasTarget(const AliasInfo *alias, char *outType, int outTyp
     if (alias->name[0] == '*')
     {
         CopyTrimmed(pointedName, alias->type, sizeof(pointedName));
-        snprintf(outType, outTypeSize, "UnsafePointer[%s, MutAnyOrigin]", pointedName);
+        snprintf(outType, outTypeSize, "Pointer[%s, MutUntrackedOrigin]", pointedName);
         return;
     }
 
@@ -3716,7 +3715,6 @@ static void WriteGeneratedHeader(FILE *outFile, const char *title, const char *s
 static void WriteMojoCommonImports(FILE *outFile)
 {
     fprintf(outFile, "from std.ffi import CStringSlice, c_char, c_uchar, c_short, c_ushort, c_int, c_uint, c_long, c_ulong, c_float, c_double, external_call\n");
-    fprintf(outFile, "from std.memory.unsafe_pointer import UnsafePointer\n");
     fprintf(outFile, "from std.memory import stack_allocation\n");
     fprintf(outFile, "from std.collections import InlineArray\n\n");
 }
@@ -3832,7 +3830,7 @@ static void WritePublicToRawArgEx(FILE *outFile, const char *cType, const char *
         CopyTrimmed(trimmedBase, strippedBase, sizeof(trimmedBase));
 
         if (isConst && IsTextEqual(baseType, "char *", 7))
-            fprintf(outFile, "CStringSlice(unsafe_from_ptr=%s.unsafe_ptr().bitcast[c_char]())", expr);
+            fprintf(outFile, "CStringSlice(unsafe_from_ptr=%s.unsafe_ptr().unsafe_bitcast[c_char]())", expr);
         else if (IsKnownStructOrAlias(trimmedBase))
         {
             char target[128] = {0};
@@ -3842,11 +3840,11 @@ static void WritePublicToRawArgEx(FILE *outFile, const char *cType, const char *
                 ResolveStructOrAliasName(trimmedBase, target, sizeof(target));
             if (exprIsPointer)
                 fprintf(outFile,
-                    "%s.bitcast[raw_types.%s]().unsafe_mut_cast[True]().as_any_origin()",
+                    "%s.unsafe_bitcast[raw_types.%s]().unsafe_mut_cast[True]().unsafe_origin_cast[MutUntrackedOrigin]()",
                     expr, target);
             else
                 fprintf(outFile,
-                    "UnsafePointer(to=%s).bitcast[raw_types.%s]().unsafe_mut_cast[True]().as_any_origin()",
+                    "Pointer(to=%s).unsafe_bitcast[raw_types.%s]().unsafe_mut_cast[True]().unsafe_origin_cast[MutUntrackedOrigin]()",
                     expr, target);
         }
         else
@@ -3933,7 +3931,7 @@ static void WriteRawToPublicExprEx(FILE *outFile, const char *cType, const char 
                 CopyText(target, trimmedBase, sizeof(target));
             else
                 CopyText(target, trimmedBase, sizeof(target));
-            fprintf(outFile, "%s.bitcast[%s]()", expr, target);
+            fprintf(outFile, "%s.unsafe_bitcast[%s]()", expr, target);
         }
         else
             fprintf(outFile, "%s", expr);
@@ -3982,7 +3980,7 @@ static void WritePublicTypeToRawExpr(FILE *outFile, const char *typeName, const 
         // pointee from the public struct to the raw_types-qualified one.
         char target[128] = {0};
         ResolveStructOrAliasName(trimmed, target, sizeof(target));
-        fprintf(outFile, "%s.bitcast[raw_types.%s]()", expr, target);
+        fprintf(outFile, "%s.unsafe_bitcast[raw_types.%s]()", expr, target);
         return;
     }
     // Struct-field conversion: expr is already a Mojo pointer/value matching
@@ -4001,7 +3999,7 @@ static void WriteRawTypeToPublicExpr(FILE *outFile, const char *typeName, const 
     {
         char target[128] = {0};
         ResolveStructOrAliasName(trimmed, target, sizeof(target));
-        fprintf(outFile, "%s.bitcast[%s]()", expr, target);
+        fprintf(outFile, "%s.unsafe_bitcast[%s]()", expr, target);
         return;
     }
     char resolvedName[128] = {0};
@@ -4014,7 +4012,7 @@ static void WriteSpanPointerToRawExpr(FILE *outFile, const char *pointerType, co
     char baseType[128] = {0};
     bool isConst = false;
     int pointerCount = 0;
-    const char *originSuffix = ".unsafe_mut_cast[True]().as_any_origin()";
+    const char *originSuffix = ".unsafe_mut_cast[True]().unsafe_origin_cast[MutUntrackedOrigin]()";
     (void)isConst;
 
     if (!GetPointerBaseType(pointerType, baseType, sizeof(baseType), &isConst, &pointerCount))
@@ -4024,32 +4022,32 @@ static void WriteSpanPointerToRawExpr(FILE *outFile, const char *pointerType, co
     }
 
     // Recompute origin suffix now that isConst is known.
-    originSuffix = ".unsafe_mut_cast[True]().as_any_origin()";
+    originSuffix = ".unsafe_mut_cast[True]().unsafe_origin_cast[MutUntrackedOrigin]()";
 
     if (IsKnownStructOrAlias(baseType))
     {
         char resolvedName[128] = {0};
         ResolveStructOrAliasName(baseType, resolvedName, sizeof(resolvedName));
-        fprintf(outFile, "%s.unsafe_ptr().bitcast[raw_types.%s]()%s", expr, resolvedName, originSuffix);
+        fprintf(outFile, "%s.unsafe_ptr().unsafe_bitcast[raw_types.%s]()%s", expr, resolvedName, originSuffix);
         return;
     }
 
     if (IsTextEqual(baseType, "int", 4))
-        fprintf(outFile, "%s.unsafe_ptr().bitcast[c_int]()%s", expr, originSuffix);
+        fprintf(outFile, "%s.unsafe_ptr().unsafe_bitcast[c_int]()%s", expr, originSuffix);
     else if (IsTextEqual(baseType, "unsigned int", 13))
-        fprintf(outFile, "%s.unsafe_ptr().bitcast[c_uint]()%s", expr, originSuffix);
+        fprintf(outFile, "%s.unsafe_ptr().unsafe_bitcast[c_uint]()%s", expr, originSuffix);
     else if (IsTextEqual(baseType, "short", 6))
-        fprintf(outFile, "%s.unsafe_ptr().bitcast[c_short]()%s", expr, originSuffix);
+        fprintf(outFile, "%s.unsafe_ptr().unsafe_bitcast[c_short]()%s", expr, originSuffix);
     else if (IsTextEqual(baseType, "unsigned short", 15))
-        fprintf(outFile, "%s.unsafe_ptr().bitcast[c_ushort]()%s", expr, originSuffix);
+        fprintf(outFile, "%s.unsafe_ptr().unsafe_bitcast[c_ushort]()%s", expr, originSuffix);
     else if (IsTextEqual(baseType, "char", 5))
-        fprintf(outFile, "%s.unsafe_ptr().bitcast[c_char]()%s", expr, originSuffix);
+        fprintf(outFile, "%s.unsafe_ptr().unsafe_bitcast[c_char]()%s", expr, originSuffix);
     else if (IsTextEqual(baseType, "unsigned char", 14))
-        fprintf(outFile, "%s.unsafe_ptr().bitcast[c_uchar]()%s", expr, originSuffix);
+        fprintf(outFile, "%s.unsafe_ptr().unsafe_bitcast[c_uchar]()%s", expr, originSuffix);
     else if (IsTextEqual(baseType, "float", 6))
-        fprintf(outFile, "%s.unsafe_ptr().bitcast[c_float]()%s", expr, originSuffix);
+        fprintf(outFile, "%s.unsafe_ptr().unsafe_bitcast[c_float]()%s", expr, originSuffix);
     else if (IsTextEqual(baseType, "double", 7))
-        fprintf(outFile, "%s.unsafe_ptr().bitcast[c_double]()%s", expr, originSuffix);
+        fprintf(outFile, "%s.unsafe_ptr().unsafe_bitcast[c_double]()%s", expr, originSuffix);
     else
         fprintf(outFile, "%s.unsafe_ptr()%s", expr, originSuffix);
 }

@@ -3,10 +3,9 @@
 # Source: src/raylib.h
 
 import mojo_raylib.raw.types as raw_types
+import mojo_raylib.types as public_types
 from std.ffi import c_char, c_uchar, c_short, c_ushort, c_int, c_uint, c_long, c_ulong, c_float, c_double
 from std.collections import InlineArray
-from std.memory.unsafe_pointer import UnsafePointer
-
 @fieldwise_init
 struct rAudioBuffer(TrivialRegisterPassable):
     var _opaque: c_int
@@ -74,7 +73,7 @@ def _to_raw_float16(value: float16) -> raw_types.float16:
 def _from_raw_float16(value: raw_types.float16) -> float16:
     return float16.from_raw(value)
 
-comptime ModelAnimPose = UnsafePointer[Transform, MutAnyOrigin]
+comptime ModelAnimPose = Pointer[Transform, MutUntrackedOrigin]
 
 # Vector2, 2 components
 struct Vector2(TrivialRegisterPassable):
@@ -310,7 +309,7 @@ def _from_raw_rectangle(value: raw_types.Rectangle) -> Rectangle:
 # Image, pixel data stored in CPU memory (RAM)
 struct Image(TrivialRegisterPassable):
     # Image raw data
-    var data: UnsafePointer[NoneType, MutAnyOrigin]
+    var data: Pointer[NoneType, MutUntrackedOrigin]
     # Image base width
     var width: Int32
     # Image base height
@@ -320,7 +319,7 @@ struct Image(TrivialRegisterPassable):
     # Data format (PixelFormat type)
     var format: Int32
 
-    def __init__(out self, data: UnsafePointer[NoneType, MutAnyOrigin], width: Int32, height: Int32, mipmaps: Int32, format: Int32):
+    def __init__(out self, data: Pointer[NoneType, MutUntrackedOrigin], width: Int32, height: Int32, mipmaps: Int32, format: Int32):
         self.data = data
         self.width = width
         self.height = height
@@ -500,11 +499,11 @@ struct Font(TrivialRegisterPassable):
     # Texture atlas containing the glyphs
     var texture: Texture2D
     # Rectangles in texture for the glyphs
-    var recs: UnsafePointer[Rectangle, MutAnyOrigin]
+    var recs: Pointer[Rectangle, MutUntrackedOrigin]
     # Glyphs info data
-    var glyphs: UnsafePointer[GlyphInfo, MutAnyOrigin]
+    var glyphs: Pointer[GlyphInfo, MutUntrackedOrigin]
 
-    def __init__(out self, baseSize: Int32, glyphCount: Int32, glyphPadding: Int32, texture: Texture2D, recs: UnsafePointer[Rectangle, MutAnyOrigin], glyphs: UnsafePointer[GlyphInfo, MutAnyOrigin]):
+    def __init__(out self, baseSize: Int32, glyphCount: Int32, glyphPadding: Int32, texture: Texture2D, recs: Pointer[Rectangle, MutUntrackedOrigin], glyphs: Pointer[GlyphInfo, MutUntrackedOrigin]):
         self.baseSize = baseSize
         self.glyphCount = glyphCount
         self.glyphPadding = glyphPadding
@@ -515,11 +514,11 @@ struct Font(TrivialRegisterPassable):
     @always_inline
     @staticmethod
     def from_raw(value: raw_types.Font) -> Self:
-        return Font(Int32(value.baseSize), Int32(value.glyphCount), Int32(value.glyphPadding), public_types._from_raw_texture(value.texture), value.recs.bitcast[Rectangle](), value.glyphs.bitcast[GlyphInfo]())
+        return Font(Int32(value.baseSize), Int32(value.glyphCount), Int32(value.glyphPadding), public_types._from_raw_texture(value.texture), value.recs.unsafe_bitcast[Rectangle](), value.glyphs.unsafe_bitcast[GlyphInfo]())
 
     @always_inline
     def to_raw(self) -> raw_types.Font:
-        return raw_types.Font(c_int(self.baseSize), c_int(self.glyphCount), c_int(self.glyphPadding), public_types._to_raw_texture_2d(self.texture), self.recs.bitcast[raw_types.Rectangle]().unsafe_mut_cast[True]().as_any_origin(), self.glyphs.bitcast[raw_types.GlyphInfo]().unsafe_mut_cast[True]().as_any_origin())
+        return raw_types.Font(c_int(self.baseSize), c_int(self.glyphCount), c_int(self.glyphPadding), public_types._to_raw_texture_2d(self.texture), self.recs.unsafe_bitcast[raw_types.Rectangle]().unsafe_mut_cast[True]().unsafe_origin_cast[MutUntrackedOrigin](), self.glyphs.unsafe_bitcast[raw_types.GlyphInfo]().unsafe_mut_cast[True]().unsafe_origin_cast[MutUntrackedOrigin]())
 
 @always_inline
 def _to_raw_font(value: Font) -> raw_types.Font:
@@ -607,35 +606,35 @@ struct Mesh(TrivialRegisterPassable):
     # Number of triangles stored (indexed or not)
     var triangleCount: Int32
     # Vertex position (XYZ - 3 components per vertex) (shader-location = 0)
-    var vertices: UnsafePointer[c_float, MutAnyOrigin]
+    var vertices: Pointer[c_float, MutUntrackedOrigin]
     # Vertex texture coordinates (UV - 2 components per vertex) (shader-location = 1)
-    var texcoords: UnsafePointer[c_float, MutAnyOrigin]
+    var texcoords: Pointer[c_float, MutUntrackedOrigin]
     # Vertex texture second coordinates (UV - 2 components per vertex) (shader-location = 5)
-    var texcoords2: UnsafePointer[c_float, MutAnyOrigin]
+    var texcoords2: Pointer[c_float, MutUntrackedOrigin]
     # Vertex normals (XYZ - 3 components per vertex) (shader-location = 2)
-    var normals: UnsafePointer[c_float, MutAnyOrigin]
+    var normals: Pointer[c_float, MutUntrackedOrigin]
     # Vertex tangents (XYZW - 4 components per vertex) (shader-location = 4)
-    var tangents: UnsafePointer[c_float, MutAnyOrigin]
+    var tangents: Pointer[c_float, MutUntrackedOrigin]
     # Vertex colors (RGBA - 4 components per vertex) (shader-location = 3)
-    var colors: UnsafePointer[c_uchar, MutAnyOrigin]
+    var colors: Pointer[c_uchar, MutUntrackedOrigin]
     # Vertex indices (in case vertex data comes indexed)
-    var indices: UnsafePointer[c_ushort, MutAnyOrigin]
+    var indices: Pointer[c_ushort, MutUntrackedOrigin]
     # Number of bones (MAX: 256 bones)
     var boneCount: Int32
     # Vertex bone indices, up to 4 bones influence by vertex (skinning) (shader-location = 6)
-    var boneIndices: UnsafePointer[c_uchar, MutAnyOrigin]
+    var boneIndices: Pointer[c_uchar, MutUntrackedOrigin]
     # Vertex bone weight, up to 4 bones influence by vertex (skinning) (shader-location = 7)
-    var boneWeights: UnsafePointer[c_float, MutAnyOrigin]
+    var boneWeights: Pointer[c_float, MutUntrackedOrigin]
     # Animated vertex positions (after bones transformations)
-    var animVertices: UnsafePointer[c_float, MutAnyOrigin]
+    var animVertices: Pointer[c_float, MutUntrackedOrigin]
     # Animated normals (after bones transformations)
-    var animNormals: UnsafePointer[c_float, MutAnyOrigin]
+    var animNormals: Pointer[c_float, MutUntrackedOrigin]
     # OpenGL Vertex Array Object id
     var vaoId: UInt32
     # OpenGL Vertex Buffer Objects id (default vertex data)
-    var vboId: UnsafePointer[c_uint, MutAnyOrigin]
+    var vboId: Pointer[c_uint, MutUntrackedOrigin]
 
-    def __init__(out self, vertexCount: Int32, triangleCount: Int32, vertices: UnsafePointer[c_float, MutAnyOrigin], texcoords: UnsafePointer[c_float, MutAnyOrigin], texcoords2: UnsafePointer[c_float, MutAnyOrigin], normals: UnsafePointer[c_float, MutAnyOrigin], tangents: UnsafePointer[c_float, MutAnyOrigin], colors: UnsafePointer[c_uchar, MutAnyOrigin], indices: UnsafePointer[c_ushort, MutAnyOrigin], boneCount: Int32, boneIndices: UnsafePointer[c_uchar, MutAnyOrigin], boneWeights: UnsafePointer[c_float, MutAnyOrigin], animVertices: UnsafePointer[c_float, MutAnyOrigin], animNormals: UnsafePointer[c_float, MutAnyOrigin], vaoId: UInt32, vboId: UnsafePointer[c_uint, MutAnyOrigin]):
+    def __init__(out self, vertexCount: Int32, triangleCount: Int32, vertices: Pointer[c_float, MutUntrackedOrigin], texcoords: Pointer[c_float, MutUntrackedOrigin], texcoords2: Pointer[c_float, MutUntrackedOrigin], normals: Pointer[c_float, MutUntrackedOrigin], tangents: Pointer[c_float, MutUntrackedOrigin], colors: Pointer[c_uchar, MutUntrackedOrigin], indices: Pointer[c_ushort, MutUntrackedOrigin], boneCount: Int32, boneIndices: Pointer[c_uchar, MutUntrackedOrigin], boneWeights: Pointer[c_float, MutUntrackedOrigin], animVertices: Pointer[c_float, MutUntrackedOrigin], animNormals: Pointer[c_float, MutUntrackedOrigin], vaoId: UInt32, vboId: Pointer[c_uint, MutUntrackedOrigin]):
         self.vertexCount = vertexCount
         self.triangleCount = triangleCount
         self.vertices = vertices
@@ -675,9 +674,9 @@ struct Shader(TrivialRegisterPassable):
     # Shader program id
     var id: UInt32
     # Shader locations array (RL_MAX_SHADER_LOCATIONS)
-    var locs: UnsafePointer[c_int, MutAnyOrigin]
+    var locs: Pointer[c_int, MutUntrackedOrigin]
 
-    def __init__(out self, id: UInt32, locs: UnsafePointer[c_int, MutAnyOrigin]):
+    def __init__(out self, id: UInt32, locs: Pointer[c_int, MutUntrackedOrigin]):
         self.id = id
         self.locs = locs
 
@@ -734,11 +733,11 @@ struct Material(TrivialRegisterPassable):
     # Material shader
     var shader: Shader
     # Material maps array (MAX_MATERIAL_MAPS)
-    var maps: UnsafePointer[MaterialMap, MutAnyOrigin]
+    var maps: Pointer[MaterialMap, MutUntrackedOrigin]
     # Material generic parameters (if required)
     var params: SIMD[DType.float32, 4]
 
-    def __init__(out self, shader: Shader, maps: UnsafePointer[MaterialMap, MutAnyOrigin], params: SIMD[DType.float32, 4]):
+    def __init__(out self, shader: Shader, maps: Pointer[MaterialMap, MutUntrackedOrigin], params: SIMD[DType.float32, 4]):
         self.shader = shader
         self.maps = maps
         self.params = params
@@ -746,11 +745,11 @@ struct Material(TrivialRegisterPassable):
     @always_inline
     @staticmethod
     def from_raw(value: raw_types.Material) -> Self:
-        return Material(public_types._from_raw_shader(value.shader), value.maps.bitcast[MaterialMap](), value.params)
+        return Material(public_types._from_raw_shader(value.shader), value.maps.unsafe_bitcast[MaterialMap](), value.params)
 
     @always_inline
     def to_raw(self) -> raw_types.Material:
-        return raw_types.Material(public_types._to_raw_shader(self.shader), self.maps.bitcast[raw_types.MaterialMap]().unsafe_mut_cast[True]().as_any_origin(), self.params)
+        return raw_types.Material(public_types._to_raw_shader(self.shader), self.maps.unsafe_bitcast[raw_types.MaterialMap]().unsafe_mut_cast[True]().unsafe_origin_cast[MutUntrackedOrigin](), self.params)
 
 @always_inline
 def _to_raw_material(value: Material) -> raw_types.Material:
@@ -824,11 +823,11 @@ struct ModelSkeleton(TrivialRegisterPassable):
     # Number of bones
     var boneCount: Int32
     # Bones information (skeleton)
-    var bones: UnsafePointer[BoneInfo, MutAnyOrigin]
+    var bones: Pointer[BoneInfo, MutUntrackedOrigin]
     # Bones base transformation (Transform[])
     var bindPose: ModelAnimPose
 
-    def __init__(out self, boneCount: Int32, bones: UnsafePointer[BoneInfo, MutAnyOrigin], bindPose: ModelAnimPose):
+    def __init__(out self, boneCount: Int32, bones: Pointer[BoneInfo, MutUntrackedOrigin], bindPose: ModelAnimPose):
         self.boneCount = boneCount
         self.bones = bones
         self.bindPose = bindPose
@@ -836,11 +835,11 @@ struct ModelSkeleton(TrivialRegisterPassable):
     @always_inline
     @staticmethod
     def from_raw(value: raw_types.ModelSkeleton) -> Self:
-        return ModelSkeleton(Int32(value.boneCount), value.bones.bitcast[BoneInfo](), value.bindPose.bitcast[Transform]())
+        return ModelSkeleton(Int32(value.boneCount), value.bones.unsafe_bitcast[BoneInfo](), value.bindPose.unsafe_bitcast[Transform]())
 
     @always_inline
     def to_raw(self) -> raw_types.ModelSkeleton:
-        return raw_types.ModelSkeleton(c_int(self.boneCount), self.bones.bitcast[raw_types.BoneInfo]().unsafe_mut_cast[True]().as_any_origin(), self.bindPose.bitcast[raw_types.Transform]())
+        return raw_types.ModelSkeleton(c_int(self.boneCount), self.bones.unsafe_bitcast[raw_types.BoneInfo]().unsafe_mut_cast[True]().unsafe_origin_cast[MutUntrackedOrigin](), self.bindPose.unsafe_bitcast[raw_types.Transform]())
 
 @always_inline
 def _to_raw_model_skeleton(value: ModelSkeleton) -> raw_types.ModelSkeleton:
@@ -859,19 +858,19 @@ struct Model(TrivialRegisterPassable):
     # Number of materials
     var materialCount: Int32
     # Meshes array
-    var meshes: UnsafePointer[Mesh, MutAnyOrigin]
+    var meshes: Pointer[Mesh, MutUntrackedOrigin]
     # Materials array
-    var materials: UnsafePointer[Material, MutAnyOrigin]
+    var materials: Pointer[Material, MutUntrackedOrigin]
     # Mesh material number
-    var meshMaterial: UnsafePointer[c_int, MutAnyOrigin]
+    var meshMaterial: Pointer[c_int, MutUntrackedOrigin]
     # Skeleton for animation
     var skeleton: ModelSkeleton
     # Current animation pose (Transform[])
     var currentPose: ModelAnimPose
     # Bones animated transformation matrices
-    var boneMatrices: UnsafePointer[Matrix, MutAnyOrigin]
+    var boneMatrices: Pointer[Matrix, MutUntrackedOrigin]
 
-    def __init__(out self, transform: Matrix, meshCount: Int32, materialCount: Int32, meshes: UnsafePointer[Mesh, MutAnyOrigin], materials: UnsafePointer[Material, MutAnyOrigin], meshMaterial: UnsafePointer[c_int, MutAnyOrigin], skeleton: ModelSkeleton, currentPose: ModelAnimPose, boneMatrices: UnsafePointer[Matrix, MutAnyOrigin]):
+    def __init__(out self, transform: Matrix, meshCount: Int32, materialCount: Int32, meshes: Pointer[Mesh, MutUntrackedOrigin], materials: Pointer[Material, MutUntrackedOrigin], meshMaterial: Pointer[c_int, MutUntrackedOrigin], skeleton: ModelSkeleton, currentPose: ModelAnimPose, boneMatrices: Pointer[Matrix, MutUntrackedOrigin]):
         self.transform = transform
         self.meshCount = meshCount
         self.materialCount = materialCount
@@ -885,11 +884,11 @@ struct Model(TrivialRegisterPassable):
     @always_inline
     @staticmethod
     def from_raw(value: raw_types.Model) -> Self:
-        return Model(public_types._from_raw_matrix(value.transform), Int32(value.meshCount), Int32(value.materialCount), value.meshes.bitcast[Mesh](), value.materials.bitcast[Material](), value.meshMaterial, public_types._from_raw_model_skeleton(value.skeleton), value.currentPose.bitcast[Transform](), value.boneMatrices.bitcast[Matrix]())
+        return Model(public_types._from_raw_matrix(value.transform), Int32(value.meshCount), Int32(value.materialCount), value.meshes.unsafe_bitcast[Mesh](), value.materials.unsafe_bitcast[Material](), value.meshMaterial, public_types._from_raw_model_skeleton(value.skeleton), value.currentPose.unsafe_bitcast[Transform](), value.boneMatrices.unsafe_bitcast[Matrix]())
 
     @always_inline
     def to_raw(self) -> raw_types.Model:
-        return raw_types.Model(public_types._to_raw_matrix(self.transform), c_int(self.meshCount), c_int(self.materialCount), self.meshes.bitcast[raw_types.Mesh]().unsafe_mut_cast[True]().as_any_origin(), self.materials.bitcast[raw_types.Material]().unsafe_mut_cast[True]().as_any_origin(), self.meshMaterial, public_types._to_raw_model_skeleton(self.skeleton), self.currentPose.bitcast[raw_types.Transform](), self.boneMatrices.bitcast[raw_types.Matrix]().unsafe_mut_cast[True]().as_any_origin())
+        return raw_types.Model(public_types._to_raw_matrix(self.transform), c_int(self.meshCount), c_int(self.materialCount), self.meshes.unsafe_bitcast[raw_types.Mesh]().unsafe_mut_cast[True]().unsafe_origin_cast[MutUntrackedOrigin](), self.materials.unsafe_bitcast[raw_types.Material]().unsafe_mut_cast[True]().unsafe_origin_cast[MutUntrackedOrigin](), self.meshMaterial, public_types._to_raw_model_skeleton(self.skeleton), self.currentPose.unsafe_bitcast[raw_types.Transform](), self.boneMatrices.unsafe_bitcast[raw_types.Matrix]().unsafe_mut_cast[True]().unsafe_origin_cast[MutUntrackedOrigin]())
 
 @always_inline
 def _to_raw_model(value: Model) -> raw_types.Model:
@@ -908,9 +907,9 @@ struct ModelAnimation(TrivialRegisterPassable):
     # Number of animation key frames
     var keyframeCount: Int32
     # Animation sequence keyframe poses [keyframe][pose]
-    var keyframePoses: UnsafePointer[ModelAnimPose, MutAnyOrigin]
+    var keyframePoses: Pointer[ModelAnimPose, MutUntrackedOrigin]
 
-    def __init__(out self, name: SIMD[DType.int8, 32], boneCount: Int32, keyframeCount: Int32, keyframePoses: UnsafePointer[ModelAnimPose, MutAnyOrigin]):
+    def __init__(out self, name: SIMD[DType.int8, 32], boneCount: Int32, keyframeCount: Int32, keyframePoses: Pointer[ModelAnimPose, MutUntrackedOrigin]):
         self.name = name
         self.boneCount = boneCount
         self.keyframeCount = keyframeCount
@@ -919,11 +918,11 @@ struct ModelAnimation(TrivialRegisterPassable):
     @always_inline
     @staticmethod
     def from_raw(value: raw_types.ModelAnimation) -> Self:
-        return ModelAnimation(value.name, Int32(value.boneCount), Int32(value.keyframeCount), value.keyframePoses.bitcast[ModelAnimPose]())
+        return ModelAnimation(value.name, Int32(value.boneCount), Int32(value.keyframeCount), value.keyframePoses.unsafe_bitcast[ModelAnimPose]())
 
     @always_inline
     def to_raw(self) -> raw_types.ModelAnimation:
-        return raw_types.ModelAnimation(self.name, c_int(self.boneCount), c_int(self.keyframeCount), self.keyframePoses.bitcast[raw_types.ModelAnimPose]().unsafe_mut_cast[True]().as_any_origin())
+        return raw_types.ModelAnimation(self.name, c_int(self.boneCount), c_int(self.keyframeCount), self.keyframePoses.unsafe_bitcast[raw_types.ModelAnimPose]().unsafe_mut_cast[True]().unsafe_origin_cast[MutUntrackedOrigin]())
 
 @always_inline
 def _to_raw_model_animation(value: ModelAnimation) -> raw_types.ModelAnimation:
@@ -1034,9 +1033,9 @@ struct Wave(TrivialRegisterPassable):
     # Number of channels (1-mono, 2-stereo, ...)
     var channels: UInt32
     # Buffer data pointer
-    var data: UnsafePointer[NoneType, MutAnyOrigin]
+    var data: Pointer[NoneType, MutUntrackedOrigin]
 
-    def __init__(out self, frameCount: UInt32, sampleRate: UInt32, sampleSize: UInt32, channels: UInt32, data: UnsafePointer[NoneType, MutAnyOrigin]):
+    def __init__(out self, frameCount: UInt32, sampleRate: UInt32, sampleSize: UInt32, channels: UInt32, data: Pointer[NoneType, MutUntrackedOrigin]):
         self.frameCount = frameCount
         self.sampleRate = sampleRate
         self.sampleSize = sampleSize
@@ -1063,9 +1062,9 @@ def _from_raw_wave(value: raw_types.Wave) -> Wave:
 # AudioStream, custom audio stream
 struct AudioStream(TrivialRegisterPassable):
     # Pointer to internal data used by the audio system
-    var buffer: UnsafePointer[rAudioBuffer, MutAnyOrigin]
+    var buffer: Pointer[rAudioBuffer, MutUntrackedOrigin]
     # Pointer to internal data processor, useful for audio effects
-    var processor: UnsafePointer[rAudioProcessor, MutAnyOrigin]
+    var processor: Pointer[rAudioProcessor, MutUntrackedOrigin]
     # Frequency (samples per second)
     var sampleRate: UInt32
     # Bit depth (bits per sample): 8, 16, 32 (24 not supported)
@@ -1073,7 +1072,7 @@ struct AudioStream(TrivialRegisterPassable):
     # Number of channels (1-mono, 2-stereo, ...)
     var channels: UInt32
 
-    def __init__(out self, buffer: UnsafePointer[rAudioBuffer, MutAnyOrigin], processor: UnsafePointer[rAudioProcessor, MutAnyOrigin], sampleRate: UInt32, sampleSize: UInt32, channels: UInt32):
+    def __init__(out self, buffer: Pointer[rAudioBuffer, MutUntrackedOrigin], processor: Pointer[rAudioProcessor, MutUntrackedOrigin], sampleRate: UInt32, sampleSize: UInt32, channels: UInt32):
         self.buffer = buffer
         self.processor = processor
         self.sampleRate = sampleRate
@@ -1083,11 +1082,11 @@ struct AudioStream(TrivialRegisterPassable):
     @always_inline
     @staticmethod
     def from_raw(value: raw_types.AudioStream) -> Self:
-        return AudioStream(value.buffer.bitcast[rAudioBuffer](), value.processor.bitcast[rAudioProcessor](), UInt32(value.sampleRate), UInt32(value.sampleSize), UInt32(value.channels))
+        return AudioStream(value.buffer.unsafe_bitcast[rAudioBuffer](), value.processor.unsafe_bitcast[rAudioProcessor](), UInt32(value.sampleRate), UInt32(value.sampleSize), UInt32(value.channels))
 
     @always_inline
     def to_raw(self) -> raw_types.AudioStream:
-        return raw_types.AudioStream(self.buffer.bitcast[raw_types.rAudioBuffer]().unsafe_mut_cast[True]().as_any_origin(), self.processor.bitcast[raw_types.rAudioProcessor]().unsafe_mut_cast[True]().as_any_origin(), c_uint(self.sampleRate), c_uint(self.sampleSize), c_uint(self.channels))
+        return raw_types.AudioStream(self.buffer.unsafe_bitcast[raw_types.rAudioBuffer]().unsafe_mut_cast[True]().unsafe_origin_cast[MutUntrackedOrigin](), self.processor.unsafe_bitcast[raw_types.rAudioProcessor]().unsafe_mut_cast[True]().unsafe_origin_cast[MutUntrackedOrigin](), c_uint(self.sampleRate), c_uint(self.sampleSize), c_uint(self.channels))
 
 @always_inline
 def _to_raw_audio_stream(value: AudioStream) -> raw_types.AudioStream:
@@ -1136,9 +1135,9 @@ struct Music(TrivialRegisterPassable):
     # Type of music context (audio filetype)
     var ctxType: Int32
     # Audio context data, depends on type
-    var ctxData: UnsafePointer[NoneType, MutAnyOrigin]
+    var ctxData: Pointer[NoneType, MutUntrackedOrigin]
 
-    def __init__(out self, stream: AudioStream, frameCount: UInt32, looping: Bool, ctxType: Int32, ctxData: UnsafePointer[NoneType, MutAnyOrigin]):
+    def __init__(out self, stream: AudioStream, frameCount: UInt32, looping: Bool, ctxType: Int32, ctxData: Pointer[NoneType, MutUntrackedOrigin]):
         self.stream = stream
         self.frameCount = frameCount
         self.looping = looping
@@ -1266,9 +1265,9 @@ struct FilePathList(TrivialRegisterPassable):
     # Filepaths entries count
     var count: UInt32
     # Filepaths entries
-    var paths: UnsafePointer[c_char, MutAnyOrigin]
+    var paths: Pointer[c_char, MutUntrackedOrigin]
 
-    def __init__(out self, count: UInt32, paths: UnsafePointer[c_char, MutAnyOrigin]):
+    def __init__(out self, count: UInt32, paths: Pointer[c_char, MutUntrackedOrigin]):
         self.count = count
         self.paths = paths
 
@@ -1327,9 +1326,9 @@ struct AutomationEventList(TrivialRegisterPassable):
     # Events entries count
     var count: UInt32
     # Events entries
-    var events: UnsafePointer[AutomationEvent, MutAnyOrigin]
+    var events: Pointer[AutomationEvent, MutUntrackedOrigin]
 
-    def __init__(out self, capacity: UInt32, count: UInt32, events: UnsafePointer[AutomationEvent, MutAnyOrigin]):
+    def __init__(out self, capacity: UInt32, count: UInt32, events: Pointer[AutomationEvent, MutUntrackedOrigin]):
         self.capacity = capacity
         self.count = count
         self.events = events
@@ -1337,11 +1336,11 @@ struct AutomationEventList(TrivialRegisterPassable):
     @always_inline
     @staticmethod
     def from_raw(value: raw_types.AutomationEventList) -> Self:
-        return AutomationEventList(UInt32(value.capacity), UInt32(value.count), value.events.bitcast[AutomationEvent]())
+        return AutomationEventList(UInt32(value.capacity), UInt32(value.count), value.events.unsafe_bitcast[AutomationEvent]())
 
     @always_inline
     def to_raw(self) -> raw_types.AutomationEventList:
-        return raw_types.AutomationEventList(c_uint(self.capacity), c_uint(self.count), self.events.bitcast[raw_types.AutomationEvent]().unsafe_mut_cast[True]().as_any_origin())
+        return raw_types.AutomationEventList(c_uint(self.capacity), c_uint(self.count), self.events.unsafe_bitcast[raw_types.AutomationEvent]().unsafe_mut_cast[True]().unsafe_origin_cast[MutUntrackedOrigin]())
 
 @always_inline
 def _to_raw_automation_event_list(value: AutomationEventList) -> raw_types.AutomationEventList:

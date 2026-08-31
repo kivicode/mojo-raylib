@@ -1,15 +1,13 @@
 """Particle physics for the assembly demo - pure Mojo, no raylib.
 
 Positions/velocities live in flat Float32 buffers; each frame `step` runs a
-SIMD kernel (W lanes) spread across cores with `parallelize`. The renderer
+SIMD kernel (W lanes) over CHUNKS work chunks. The renderer
 (main.mojo) only reads positions back out to draw them - this module never
 touches raylib, so the compute and the rendering can be shown off separately.
 """
 
-from collections import List
-from math import sqrt
-from algorithm import parallelize
-from random import random_float64
+from std.math import sqrt
+from std.random import random_float64
 
 # --- kernel shape ---
 comptime W = 4       # SIMD lanes (128-bit NEON / Float32)
@@ -28,7 +26,7 @@ comptime TURB = Float32(95.0)           # turbulence on displaced particles
 comptime TURB_FADE = Float32(60.0)      # distance over which turbulence fades in
 
 
-fn frand(lo: Float32, hi: Float32) -> Float32:
+def frand(lo: Float32, hi: Float32) -> Float32:
     """Uniform random Float32 in [lo, hi)."""
     return lo + (hi - lo) * Float32(random_float64())
 
@@ -50,7 +48,7 @@ struct ParticleSystem:
     var sw: Float32
     var sh: Float32
 
-    fn __init__(out self, hx: List[Float32], hy: List[Float32],
+    def __init__(out self, hx: List[Float32], hy: List[Float32],
                 screen_w: Float32, screen_h: Float32):
         self.n = len(hx)
         self.num_groups = (self.n + W - 1) // W
@@ -80,16 +78,16 @@ struct ParticleSystem:
             self.hxs.append(Float32(-100000.0))
             self.hys.append(Float32(-100000.0))
 
-    fn count(self) -> Int:
+    def count(self) -> Int:
         return self.n
 
-    fn pos_x(self, i: Int) -> Float32:
+    def pos_x(self, i: Int) -> Float32:
         return self.xs[i]
 
-    fn pos_y(self, i: Int) -> Float32:
+    def pos_y(self, i: Int) -> Float32:
         return self.ys[i]
 
-    fn reset(mut self):
+    def reset(mut self):
         """Re-scatter every particle so the swarm re-assembles."""
         for i in range(self.n):
             self.xs[i] = frand(Float32(0), self.sw)
@@ -97,7 +95,7 @@ struct ParticleSystem:
             self.vxs[i] = Float32(0)
             self.vys[i] = Float32(0)
 
-    fn step(mut self, dt: Float32, mx: Float32, my: Float32,
+    def step(mut self, dt: Float32, mx: Float32, my: Float32,
             mvx: Float32, mvy: Float32, dragging: Bool, speed: Float32):
         """Advance the whole system one frame (SIMD kernel across cores)."""
         var xp = self.xs.unsafe_ptr()
@@ -114,12 +112,11 @@ struct ParticleSystem:
         var strength = REPEL_HOVER
         if dragging:
             strength = REPEL_DRAG
-
-        @parameter
-        fn kern(c: Int):
+        # NOTE: `parallelize` was removed from the stdlib in Mojo 1.0, so the
+        # chunks run serially for now; the SIMD kernel below is unchanged.
+        for c in range(CHUNKS):
             var lane = SIMD[DType.uint32, W](0)
-            @parameter
-            for j in range(W):
+            comptime for j in range(W):
                 lane[j] = UInt32(j)
             var mxv = SIMD[DType.float32, W](mx)
             var myv = SIMD[DType.float32, W](my)
@@ -128,12 +125,12 @@ struct ParticleSystem:
             var g1 = min(g0 + per, num_groups)
             for g in range(g0, g1):
                 var base = g * W
-                var x = xp.load[width=W](base)
-                var y = yp.load[width=W](base)
-                var vx = vxp.load[width=W](base)
-                var vy = vyp.load[width=W](base)
-                var hx = hxp.load[width=W](base)
-                var hy = hyp.load[width=W](base)
+                var x = xp.unsafe_load[width=W](base)
+                var y = yp.unsafe_load[width=W](base)
+                var vx = vxp.unsafe_load[width=W](base)
+                var vy = vyp.unsafe_load[width=W](base)
+                var hx = hxp.unsafe_load[width=W](base)
+                var hy = hyp.unsafe_load[width=W](base)
 
                 # spring toward home
                 var ehx = hx - x
@@ -184,10 +181,9 @@ struct ParticleSystem:
                 vx *= scale
                 vy *= scale
 
-                xp.store(base, x + vx * dt)
-                yp.store(base, y + vy * dt)
-                vxp.store(base, vx)
-                vyp.store(base, vy)
+                xp.unsafe_store(base, x + vx * dt)
+                yp.unsafe_store(base, y + vy * dt)
+                vxp.unsafe_store(base, vx)
+                vyp.unsafe_store(base, vy)
 
-        parallelize[kern](CHUNKS)
         self.frame += UInt32(1)

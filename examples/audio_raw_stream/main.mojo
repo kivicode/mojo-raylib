@@ -1,4 +1,4 @@
-"""raylib [audio] example - raw stream (Mojo port).
+"""Raylib [audio] example - raw stream (Mojo port).
 
 Synthesises a sine wave on the fly and pushes it into a raylib audio stream
 each time the device asks for more samples. Up/Down change frequency,
@@ -7,7 +7,6 @@ underneath.
 """
 
 from std.math import sin
-from std.memory.unsafe_pointer import UnsafePointer
 from std.memory import stack_allocation
 
 from mojo_raylib import (
@@ -57,7 +56,7 @@ def main():
 
     var buffer = stack_allocation[BUFFER_SIZE, Float32]()
     for i in range(BUFFER_SIZE):
-        buffer[i] = 0.0
+        buffer[unsafe_offset=i] = 0.0
 
     set_target_fps(30)
 
@@ -84,7 +83,7 @@ def main():
         if is_audio_stream_processed(stream):
             for i in range(BUFFER_SIZE):
                 var wavelength = SAMPLE_RATE // sine_freq
-                buffer[i] = Float32(sin(2.0 * Float64(PI) * Float64(sine_index) / Float64(wavelength)))
+                buffer[unsafe_offset=i] = Float32(sin(2.0 * Float64(PI) * Float64(sine_index) / Float64(wavelength)))
                 sine_index += 1
                 if sine_index >= wavelength:
                     sine_freq = new_sine_freq

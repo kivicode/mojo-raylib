@@ -3,7 +3,6 @@
 # Source: src/raylib.h
 
 from std.ffi import CStringSlice, c_char, c_uchar, c_short, c_ushort, c_int, c_uint, c_long, c_ulong, c_float, c_double, external_call
-from std.memory.unsafe_pointer import UnsafePointer
 from std.memory import stack_allocation
 from std.collections import InlineArray
 
@@ -58,7 +57,7 @@ comptime RenderTexture2D = RenderTexture
 comptime Camera = Camera3D
 
 # Anim pose, an array of Transform[]
-comptime ModelAnimPose = UnsafePointer[Transform, MutAnyOrigin]
+comptime ModelAnimPose = Pointer[Transform, MutUntrackedOrigin]
 
 # Vector2, 2 components
 @fieldwise_init
@@ -154,7 +153,7 @@ struct Rectangle(TrivialRegisterPassable):
 @fieldwise_init
 struct Image(TrivialRegisterPassable):
     # Image raw data
-    var data: UnsafePointer[NoneType, MutAnyOrigin]
+    var data: Pointer[NoneType, MutUntrackedOrigin]
     # Image base width
     var width: c_int
     # Image base height
@@ -230,9 +229,9 @@ struct Font(TrivialRegisterPassable):
     # Texture atlas containing the glyphs
     var texture: Texture2D
     # Rectangles in texture for the glyphs
-    var recs: UnsafePointer[Rectangle, MutAnyOrigin]
+    var recs: Pointer[Rectangle, MutUntrackedOrigin]
     # Glyphs info data
-    var glyphs: UnsafePointer[GlyphInfo, MutAnyOrigin]
+    var glyphs: Pointer[GlyphInfo, MutUntrackedOrigin]
 
 # Camera, defines position/orientation in 3d space
 @fieldwise_init
@@ -268,33 +267,33 @@ struct Mesh(TrivialRegisterPassable):
     # Number of triangles stored (indexed or not)
     var triangleCount: c_int
     # Vertex position (XYZ - 3 components per vertex) (shader-location = 0)
-    var vertices: UnsafePointer[c_float, MutAnyOrigin]
+    var vertices: Pointer[c_float, MutUntrackedOrigin]
     # Vertex texture coordinates (UV - 2 components per vertex) (shader-location = 1)
-    var texcoords: UnsafePointer[c_float, MutAnyOrigin]
+    var texcoords: Pointer[c_float, MutUntrackedOrigin]
     # Vertex texture second coordinates (UV - 2 components per vertex) (shader-location = 5)
-    var texcoords2: UnsafePointer[c_float, MutAnyOrigin]
+    var texcoords2: Pointer[c_float, MutUntrackedOrigin]
     # Vertex normals (XYZ - 3 components per vertex) (shader-location = 2)
-    var normals: UnsafePointer[c_float, MutAnyOrigin]
+    var normals: Pointer[c_float, MutUntrackedOrigin]
     # Vertex tangents (XYZW - 4 components per vertex) (shader-location = 4)
-    var tangents: UnsafePointer[c_float, MutAnyOrigin]
+    var tangents: Pointer[c_float, MutUntrackedOrigin]
     # Vertex colors (RGBA - 4 components per vertex) (shader-location = 3)
-    var colors: UnsafePointer[c_uchar, MutAnyOrigin]
+    var colors: Pointer[c_uchar, MutUntrackedOrigin]
     # Vertex indices (in case vertex data comes indexed)
-    var indices: UnsafePointer[c_ushort, MutAnyOrigin]
+    var indices: Pointer[c_ushort, MutUntrackedOrigin]
     # Number of bones (MAX: 256 bones)
     var boneCount: c_int
     # Vertex bone indices, up to 4 bones influence by vertex (skinning) (shader-location = 6)
-    var boneIndices: UnsafePointer[c_uchar, MutAnyOrigin]
+    var boneIndices: Pointer[c_uchar, MutUntrackedOrigin]
     # Vertex bone weight, up to 4 bones influence by vertex (skinning) (shader-location = 7)
-    var boneWeights: UnsafePointer[c_float, MutAnyOrigin]
+    var boneWeights: Pointer[c_float, MutUntrackedOrigin]
     # Animated vertex positions (after bones transformations)
-    var animVertices: UnsafePointer[c_float, MutAnyOrigin]
+    var animVertices: Pointer[c_float, MutUntrackedOrigin]
     # Animated normals (after bones transformations)
-    var animNormals: UnsafePointer[c_float, MutAnyOrigin]
+    var animNormals: Pointer[c_float, MutUntrackedOrigin]
     # OpenGL Vertex Array Object id
     var vaoId: c_uint
     # OpenGL Vertex Buffer Objects id (default vertex data)
-    var vboId: UnsafePointer[c_uint, MutAnyOrigin]
+    var vboId: Pointer[c_uint, MutUntrackedOrigin]
 
 # Shader
 @fieldwise_init
@@ -302,7 +301,7 @@ struct Shader(TrivialRegisterPassable):
     # Shader program id
     var id: c_uint
     # Shader locations array (RL_MAX_SHADER_LOCATIONS)
-    var locs: UnsafePointer[c_int, MutAnyOrigin]
+    var locs: Pointer[c_int, MutUntrackedOrigin]
 
 # MaterialMap
 @fieldwise_init
@@ -320,7 +319,7 @@ struct Material(TrivialRegisterPassable):
     # Material shader
     var shader: Shader
     # Material maps array (MAX_MATERIAL_MAPS)
-    var maps: UnsafePointer[MaterialMap, MutAnyOrigin]
+    var maps: Pointer[MaterialMap, MutUntrackedOrigin]
     # Material generic parameters (if required)
     var params: SIMD[DType.float32, 4]
 
@@ -348,7 +347,7 @@ struct ModelSkeleton(TrivialRegisterPassable):
     # Number of bones
     var boneCount: c_int
     # Bones information (skeleton)
-    var bones: UnsafePointer[BoneInfo, MutAnyOrigin]
+    var bones: Pointer[BoneInfo, MutUntrackedOrigin]
     # Bones base transformation (Transform[])
     var bindPose: ModelAnimPose
 
@@ -362,17 +361,17 @@ struct Model(TrivialRegisterPassable):
     # Number of materials
     var materialCount: c_int
     # Meshes array
-    var meshes: UnsafePointer[Mesh, MutAnyOrigin]
+    var meshes: Pointer[Mesh, MutUntrackedOrigin]
     # Materials array
-    var materials: UnsafePointer[Material, MutAnyOrigin]
+    var materials: Pointer[Material, MutUntrackedOrigin]
     # Mesh material number
-    var meshMaterial: UnsafePointer[c_int, MutAnyOrigin]
+    var meshMaterial: Pointer[c_int, MutUntrackedOrigin]
     # Skeleton for animation
     var skeleton: ModelSkeleton
     # Current animation pose (Transform[])
     var currentPose: ModelAnimPose
     # Bones animated transformation matrices
-    var boneMatrices: UnsafePointer[Matrix, MutAnyOrigin]
+    var boneMatrices: Pointer[Matrix, MutUntrackedOrigin]
 
 # ModelAnimation, contains a full animation sequence
 @fieldwise_init
@@ -384,7 +383,7 @@ struct ModelAnimation(TrivialRegisterPassable):
     # Number of animation key frames
     var keyframeCount: c_int
     # Animation sequence keyframe poses [keyframe][pose]
-    var keyframePoses: UnsafePointer[ModelAnimPose, MutAnyOrigin]
+    var keyframePoses: Pointer[ModelAnimPose, MutUntrackedOrigin]
 
 # Ray, ray for raycasting
 @fieldwise_init
@@ -426,15 +425,15 @@ struct Wave(TrivialRegisterPassable):
     # Number of channels (1-mono, 2-stereo, ...)
     var channels: c_uint
     # Buffer data pointer
-    var data: UnsafePointer[NoneType, MutAnyOrigin]
+    var data: Pointer[NoneType, MutUntrackedOrigin]
 
 # AudioStream, custom audio stream
 @fieldwise_init
 struct AudioStream(TrivialRegisterPassable):
     # Pointer to internal data used by the audio system
-    var buffer: UnsafePointer[rAudioBuffer, MutAnyOrigin]
+    var buffer: Pointer[rAudioBuffer, MutUntrackedOrigin]
     # Pointer to internal data processor, useful for audio effects
-    var processor: UnsafePointer[rAudioProcessor, MutAnyOrigin]
+    var processor: Pointer[rAudioProcessor, MutUntrackedOrigin]
     # Frequency (samples per second)
     var sampleRate: c_uint
     # Bit depth (bits per sample): 8, 16, 32 (24 not supported)
@@ -462,7 +461,7 @@ struct Music(TrivialRegisterPassable):
     # Type of music context (audio filetype)
     var ctxType: c_int
     # Audio context data, depends on type
-    var ctxData: UnsafePointer[NoneType, MutAnyOrigin]
+    var ctxData: Pointer[NoneType, MutUntrackedOrigin]
 
 # VrDeviceInfo, Head-Mounted-Display device parameters
 @fieldwise_init
@@ -514,7 +513,7 @@ struct FilePathList(TrivialRegisterPassable):
     # Filepaths entries count
     var count: c_uint
     # Filepaths entries
-    var paths: UnsafePointer[c_char, MutAnyOrigin]
+    var paths: Pointer[c_char, MutUntrackedOrigin]
 
 # Automation event
 @fieldwise_init
@@ -534,7 +533,7 @@ struct AutomationEventList(TrivialRegisterPassable):
     # Events entries count
     var count: c_uint
     # Events entries
-    var events: UnsafePointer[AutomationEvent, MutAnyOrigin]
+    var events: Pointer[AutomationEvent, MutUntrackedOrigin]
 
 # System/Window config flags
 comptime ConfigFlags = c_int
@@ -1210,21 +1209,21 @@ comptime NPATCH_THREE_PATCH_VERTICAL = 1
 comptime NPATCH_THREE_PATCH_HORIZONTAL = 2
 
 # Logging: Redirect trace log messages
-comptime TraceLogCallback = def(logLevel: c_int, text: UnsafePointer[c_char, MutAnyOrigin], args: UnsafePointer[NoneType, MutAnyOrigin]) -> NoneType
+comptime TraceLogCallback = def(logLevel: c_int, text: Pointer[c_char, MutUntrackedOrigin], args: Pointer[NoneType, MutUntrackedOrigin]) -> NoneType
 
 # FileIO: Load binary data
-comptime LoadFileDataCallback = def(fileName: UnsafePointer[c_char, MutAnyOrigin], dataSize: UnsafePointer[c_int, MutAnyOrigin]) -> UnsafePointer[c_uchar, MutAnyOrigin]
+comptime LoadFileDataCallback = def(fileName: Pointer[c_char, MutUntrackedOrigin], dataSize: Pointer[c_int, MutUntrackedOrigin]) -> Pointer[c_uchar, MutUntrackedOrigin]
 
 # FileIO: Save binary data
-comptime SaveFileDataCallback = def(fileName: UnsafePointer[c_char, MutAnyOrigin], data: UnsafePointer[NoneType, MutAnyOrigin], dataSize: c_int) -> Bool
+comptime SaveFileDataCallback = def(fileName: Pointer[c_char, MutUntrackedOrigin], data: Pointer[NoneType, MutUntrackedOrigin], dataSize: c_int) -> Bool
 
 # FileIO: Load text data
-comptime LoadFileTextCallback = def(fileName: UnsafePointer[c_char, MutAnyOrigin]) -> UnsafePointer[c_char, MutAnyOrigin]
+comptime LoadFileTextCallback = def(fileName: Pointer[c_char, MutUntrackedOrigin]) -> Pointer[c_char, MutUntrackedOrigin]
 
 # FileIO: Save text data
-comptime SaveFileTextCallback = def(fileName: UnsafePointer[c_char, MutAnyOrigin], text: UnsafePointer[c_char, MutAnyOrigin]) -> Bool
+comptime SaveFileTextCallback = def(fileName: Pointer[c_char, MutUntrackedOrigin], text: Pointer[c_char, MutUntrackedOrigin]) -> Bool
 
-comptime AudioCallback = def(bufferData: UnsafePointer[NoneType, MutAnyOrigin], frames: c_uint) -> NoneType
+comptime AudioCallback = def(bufferData: Pointer[NoneType, MutUntrackedOrigin], frames: c_uint) -> NoneType
 
 comptime RAYLIB_VERSION_MAJOR = 6
 comptime RAYLIB_VERSION_MINOR = 0
