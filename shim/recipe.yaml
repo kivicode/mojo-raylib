@@ -1,6 +1,6 @@
 package:
   name: mojo-raylib-shim
-  version: 0.1.0
+  version: 0.1.1
 
 # Stage only what the shim needs. Staging the whole repo makes pixi re-copy
 # 1500+ files on every run; this version stays under ~1300 (raylib alone).

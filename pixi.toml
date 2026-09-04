@@ -3,7 +3,7 @@ authors = ["KiviCode <kivicode@yandex.com>"]
 channels = ["https://conda.modular.com/max", "https://prefix.dev/conda-forge"]
 name = "mojo-raylib"
 platforms = ["osx-arm64", "linux-64"]
-version = "0.2.0"
+version = "0.2.1"
 preview = ["pixi-build"]
 
 [package]
